@@ -1,0 +1,134 @@
+body, div, p, span, ul, h1, table, thead, tbody, th, td {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: verdana;
+	background-color: #d3d3d3;
+}
+
+div#container {
+	margin: auto;
+	padding: 50px;
+	width: 832px;
+}
+
+div#data {
+	clear: both;
+	border: 1pt solid #b0b0b0;
+	text-align: center;
+	overflow: hidden;
+}
+
+div.subcontainer {
+	padding: 15px;
+	border: 1pt solid #b0b0b0;
+	border-radius: 5px;
+	background-color: #ffffff;
+	text-align: left;
+}
+
+div.notice {
+	padding: 5px;
+	font-size: 10px;
+	color: #888888;
+	text-align: center;
+}
+
+div.spacer {
+	height: 30px;
+}
+
+h1 {
+	margin: 20px;
+	text-align: center;
+}
+
+p.noinfo {
+	padding-top: 30px;
+	height: 310px;
+	text-align: center;
+	color: #888888;
+	background-color: #d3d3d3;
+}
+
+ul {
+	margin: 10px;
+	margin-left: 40px;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+a:visited {
+	color: inherit;
+	text-decoration: none;
+}
+
+a:hover {
+	color: inherit;
+	text-decoration: underline;
+}
+
+span.left {
+	padding: 3px;
+	padding-left: 6px;
+	float: left;
+	text-align: left;
+	font-weight: bold;
+	width: 85px;
+}
+
+span.right {
+	padding: 3px;
+	padding-right: 6px;
+	float: right;
+	text-align: right;
+	font-weight: bold;
+	width: 42px;
+}
+
+table {
+	font-size: 12px;
+	border-collapse: collapse;
+}
+
+thead {
+	height: 30px;
+}
+
+tbody {
+	display: block;
+	height: 310px;
+	width: 100%;
+	overflow: auto;
+}
+
+thead tr {
+	display: block;
+}
+
+th {
+	padding: 8px;
+	background-color: #c3d9ff;
+	width: 20%;
+}
+
+td {
+	padding: 8px;
+	border-bottom: 1px solid #c3d9ff;
+	width: 20%;
+}
+
+table#stations thead th, table#stations tbody td {
+	height: 14px;
+	width: 282px;
+}
+
+table#stations thead th + th, table#stations tbody td + td {
+	height: 14px;
+	width: 109px;
+}
