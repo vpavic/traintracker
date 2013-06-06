@@ -68,7 +68,7 @@
 			</ul>
 		</div>
 		<div class="notice">
-			<p>Izvor podataka: <a href="http://www.slo-zeleznice.si/" target="_blank">Slovenske železnice d.o.o.</a> i <a href="http://www.hznet.hr/HZPutnickiprijevoz" target="_blank">HŽ Putnički prijevoz d.o.o.</a></p>
+			<p>Izvor podataka: <a href="http://www.slo-zeleznice.si/" target="_blank">Slovenske železnice d.o.o.</a> i <a href="http://www.hzpp.hr/" target="_blank">HŽ Putnički prijevoz d.o.o.</a></p>
 			<p>Obrada i prikaz podataka: hocuinternet.com</p>
 			<p>IC 211 uživo! | <?php echo safe_mailto('vedran@hocuinternet.com', 'Kontakt'); ?></p>
 		</div>
