@@ -19,7 +19,7 @@
 		$('#data').html('<p class="noinfo"><img src="resources/images/ajax-loader.gif" alt="indicator"/></p>');
 		$('#timestamp').html('--:--');
 
-		$.getJSON("stations/211?callback=?", function(data) {
+		$.getJSON("stations/211", function(data) {
 			if (!$.isEmptyObject(data.stations)) {
 				var table = $('<table id="stations"/>');
 				var thead = $('<thead/>');
