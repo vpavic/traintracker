@@ -6,8 +6,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="shortcut icon" href="../resources/favicon.ico">
 	<link rel="stylesheet" href="../resources/jquery/jquery.mobile-1.3.1.min.css">
-	<script type="text/javascript" src="../resources/jquery/jquery-1.9.1.min.js"></script>
-	<script type="text/javascript" src="../resources/jquery/jquery.mobile-1.3.1.min.js"></script>
 </head>
 <body>
 	<div data-role="page" class="type-interior">
@@ -52,5 +50,7 @@
 			<p><a href="#" data-role="button" data-rel="back" data-icon="arrow-l">Povratak na pretragu</a></p>
 		</div>
 	</div>
+	<script type="text/javascript" src="../resources/jquery/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="../resources/jquery/jquery.mobile-1.3.1.min.js"></script>
 </body>
 </html>
