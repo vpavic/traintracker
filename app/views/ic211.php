@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>IC 211 uživo!</title>
 	<meta charset="utf-8">
-	<link rel="shortcut icon" href="resources/favicon.ico">
-	<link rel="stylesheet" type="text/css" href="resources/styles/ic211-style.css">
+	<title>IC 211 uživo!</title>
+	<link rel="stylesheet" type="text/css" href="http://static.hocuinternet.com/voznired/ic211-style.css">
 	<!--[if IE]>
-	<link rel="stylesheet" type="text/css" href="resources/styles/ic211-style-ie.css">
+	<link rel="stylesheet" type="text/css" href="http://static.hocuinternet.com/voznired/ic211-style-ie.css">
 	<![endif]-->
 </head>
 <body>
@@ -24,7 +23,7 @@
 		<div class="subcontainer">
 			<p>Dodatak:</p>
 			<ul>
-				<li><a href="resources/images/railroads_in_croatia.gif">Karta željezničkih pruga u Hrvatskoj</a></li>
+				<li><a href="http://static.hocuinternet.com/voznired/railroads_in_croatia.gif">Karta željezničkih pruga u Hrvatskoj</a></li>
 			</ul>
 		</div>
 		<div class="notice">
@@ -33,7 +32,7 @@
 			<p>IC 211 uživo! | <?php echo safe_mailto('vedran@hocuinternet.com', 'Kontakt'); ?></p>
 		</div>
 	</div>
-	<script type="text/javascript" src="resources/jquery/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="http://static.hocuinternet.com/jquery/jquery-1.10.2.min.js"></script>
 	<script type="text/javascript">
 		//<![CDATA[
 		$(document).ready(function() {
@@ -41,7 +40,7 @@
 		});
 
 		function loadStations() {
-			$('#data').html('<p class="noinfo"><img src="resources/images/ajax-loader.gif" alt="indicator"/></p>');
+			$('#data').html('<p class="noinfo"><img src="http://static.hocuinternet.com/voznired/ajax-loader.gif" alt="indicator"/></p>');
 			$('#timestamp').html('--:--');
 
 			$.getJSON("stations/211", function(data) {
