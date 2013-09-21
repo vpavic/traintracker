@@ -21,9 +21,11 @@
 		</div>
 		<div class="spacer"></div>
 		<div class="subcontainer">
-			<p>Dodatak:</p>
+			<p>Korisno:</p>
 			<ul>
-				<li><a href="http://static.hocuinternet.com/voznired/railroads_in_croatia.gif">Karta željezničkih pruga u Hrvatskoj</a></li>
+				<li><a href="http://voznired.hocuinternet.com/mobile" target="_blank">Vozni red uživo!</a></li>
+				<li><a href="http://www.hzinfra.hr/radovi-na-pruzi02" target="_blank">HŽ Infrastruktura - Radovi na pruzi</a></li>
+				<li><a href="http://hr.wikipedia.org/wiki/%C5%BDeljezni%C4%8Dke_pruge_u_Hrvatskoj" target="_blank">Željezničke pruge u Hrvatskoj</a></li>
 			</ul>
 		</div>
 		<div class="notice">
