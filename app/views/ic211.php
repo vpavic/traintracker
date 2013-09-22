@@ -3,9 +3,9 @@
 <head>
 	<meta charset="utf-8">
 	<title>IC 211 uživo!</title>
-	<link rel="stylesheet" type="text/css" href="http://static.hocuinternet.com/voznired/ic211-style.css">
+	<link rel="stylesheet" type="text/css" href="/resources/ic211-style.css">
 	<!--[if IE]>
-	<link rel="stylesheet" type="text/css" href="http://static.hocuinternet.com/voznired/ic211-style-ie.css">
+	<link rel="stylesheet" type="text/css" href="/resources/ic211-style-ie.css">
 	<![endif]-->
 </head>
 <body>
@@ -34,7 +34,7 @@
 			<p>IC 211 uživo! | <?php echo safe_mailto('vedran@hocuinternet.com', 'Kontakt'); ?></p>
 		</div>
 	</div>
-	<script type="text/javascript" src="http://static.hocuinternet.com/jquery/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 	<script type="text/javascript">
 		//<![CDATA[
 		$(document).ready(function() {
@@ -42,7 +42,7 @@
 		});
 
 		function loadStations() {
-			$('#data').html('<p class="noinfo"><img src="http://static.hocuinternet.com/voznired/ajax-loader.gif" alt="indicator"/></p>');
+			$('#data').html('<p class="noinfo"><img src="/resources/ajax-loader.gif" alt="indicator"/></p>');
 			$('#timestamp').html('--:--');
 
 			$.getJSON("stations/211", function(data) {
