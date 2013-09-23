@@ -3,9 +3,9 @@
 <head>
 	<meta charset="utf-8">
 	<title>IC 211 uživo!</title>
-	<link rel="stylesheet" type="text/css" href="/resources/ic211-style.css">
+	<link rel="stylesheet" href="/resources/ic211-style.css">
 	<!--[if IE]>
-	<link rel="stylesheet" type="text/css" href="/resources/ic211-style-ie.css">
+	<link rel="stylesheet" href="/resources/ic211-style-ie.css">
 	<![endif]-->
 </head>
 <body>
@@ -34,8 +34,8 @@
 			<p>IC 211 uživo! | <?php echo safe_mailto('vedran@hocuinternet.com', 'Kontakt'); ?></p>
 		</div>
 	</div>
-	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-	<script type="text/javascript">
+	<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script>
 		//<![CDATA[
 		$(document).ready(function() {
 			loadStations();
