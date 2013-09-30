@@ -63,7 +63,7 @@ class CroHtmlStationsFetcher extends AbstractHtmlStationsFetcher
 			'SCREEN' => "2",
 			'LANG' => "HR"
 		);
-		$uri = "http://vred.hznet.hr/hzinfo/Default.asp?" . http_build_query($params);
+		$uri = "http://vred.hzinfra.hr/hzinfo/Default.asp?" . http_build_query($params);
 		$context = stream_context_create(array(
 			'http' => array(
 				'method' => "GET",
@@ -91,7 +91,7 @@ class CroHtmlStationsFetcher extends AbstractHtmlStationsFetcher
 
 	protected function parseNoOfWagons($input)
 	{
-        // TODO
+		// TODO
 		return 'n/a';
 	}
 
@@ -172,7 +172,7 @@ class SloHtmlStationsFetcher extends AbstractHtmlStationsFetcher
 
 	protected function parseNoOfWagons($input)
 	{
-        // TODO
+		// TODO
 		return 'n/a';
 	}
 
