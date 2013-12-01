@@ -10,6 +10,7 @@
 	<div data-role="page" class="type-interior">
 		<div data-role="header">
 			<h1>Vozni red uživo!</h1>
+			<a href="<?php echo site_url('/mobile'); ?>" data-role="button" data-icon="home" data-iconpos="notext" data-theme="c" data-inline="true" class="ui-btn-right">Početna</a>
 		</div>
 		<div data-role="content">
 			<?php if (isset($current_station)): ?>
@@ -46,7 +47,6 @@
 					<p>Podaci o kretanju vlaka br. <?php echo $train_no; ?> trenutno nisu dostupni!</p>
 				</div>
 			<?php endif; ?>
-			<p><a href="#" data-role="button" data-rel="back" data-icon="arrow-l">Povratak na pretragu</a></p>
 		</div>
 	</div>
 	<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>

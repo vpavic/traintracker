@@ -6,6 +6,8 @@ class Mobile extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->library('stationsFetcher');
+		$this->load->helper('url');
+		date_default_timezone_set('Europe/Zagreb');
 	}
 
 	public function index()
