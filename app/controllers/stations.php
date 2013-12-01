@@ -6,6 +6,7 @@ class Stations extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->library('stationsFetcher');
+		date_default_timezone_set('Europe/Zagreb');
 	}
 
 	public function _remap($method)
