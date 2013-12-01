@@ -15,7 +15,7 @@
 			<form action="mobile/stations" method="get">
 				<fieldset>
 					<div data-role="fieldcontain">
-						<input type="number" name="train_no" maxlength=4 placeholder="unesite broj vlaka..."/>
+						<input type="number" name="train_no" maxlength=4 placeholder="unesite broj vlaka..." autocomplete="off"/>
 					</div>
 					<button type="submit">Traži!</button>
 				</fieldset>
