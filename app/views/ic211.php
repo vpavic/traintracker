@@ -3,9 +3,9 @@
 <head>
 	<meta charset="utf-8">
 	<title>IC 211 uživo!</title>
-	<link rel="stylesheet" href="/resources/ic211-style.css">
+	<link rel="stylesheet" href="<?php echo base_url('/resources/ic211-style.css'); ?>">
 	<!--[if IE]>
-	<link rel="stylesheet" href="/resources/ic211-style-ie.css">
+	<link rel="stylesheet" href="<?php echo base_url('/resources/ic211-style-ie.css'); ?>">
 	<![endif]-->
 </head>
 <body>
@@ -42,10 +42,10 @@
 		});
 
 		function loadStations() {
-			$('#data').html('<p class="noinfo"><img src="/resources/ajax-loader.gif" alt="indicator"/></p>');
+			$('#data').html('<p class="noinfo"><img src="<?php echo base_url('/resources/ajax-loader.gif'); ?>" alt="indicator"/></p>');
 			$('#timestamp').html('--:--');
 
-			$.getJSON("stations/211", function(data) {
+			$.getJSON("<?php echo site_url('stations/211'); ?>", function(data) {
 				if (!$.isEmptyObject(data.stations)) {
 					var table = $('<table id="stations"/>');
 					var thead = $('<thead/>');
