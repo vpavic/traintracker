@@ -12,17 +12,18 @@
 			<h1>Vozni red uživo!</h1>
 		</div>
 		<div data-role="content">
-			<form action="mobile/stations" method="get">
-				<fieldset>
-					<div data-role="fieldcontain">
-						<input type="number" name="train_no" maxlength=4 placeholder="unesite broj vlaka..." autocomplete="off"/>
-					</div>
-					<button type="submit">Traži!</button>
-				</fieldset>
+			<form method="get">
+				<input type="number" maxlength=4 placeholder="Broj vlaka" autocomplete="off"/>
+				<button type="submit">Traži!</button>
 			</form>
 		</div>
 	</div>
 	<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
 	<script src="//code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
+	<script>
+		$('input').change(function() {
+			$('form').attr('action', 'mobile/stations/' + $(this).val());
+		});
+	</script>
 </body>
 </html>

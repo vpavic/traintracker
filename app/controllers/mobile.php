@@ -15,9 +15,8 @@ class Mobile extends CI_Controller {
 		$this->load->view('mobile_home');
 	}
 
-	public function stations()
+	public function stations($train_no)
 	{
-		$train_no = intval($this->input->get('train_no'));
 		$train_data = $this->stationsfetcher->getStations($train_no);
 
 		if (!empty($train_data['stations']))
