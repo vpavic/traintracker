@@ -12,6 +12,13 @@ class Mobile extends CI_Controller {
 
 	public function index()
 	{
+		$train_no = $this->input->get('train_no');
+
+		if (!empty($train_no))
+		{
+			redirect('/mobile/stations/' . $train_no);
+		}
+
 		$this->load->view('mobile_home');
 	}
 
