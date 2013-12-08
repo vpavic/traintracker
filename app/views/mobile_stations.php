@@ -11,7 +11,7 @@
 		<div data-role="header">
 			<a href="<?php echo site_url('/mobile'); ?>" data-role="button" data-icon="home" data-iconpos="notext" data-theme="c" data-inline="true">Početna</a>
 			<h1>Vozni red uživo!</h1>
-			<a href="<?php echo current_url(); ?>" data-role="button" data-icon="refresh" data-iconpos="notext" data-theme="c" data-inline="true" rel="external">Osvježi</a>
+			<a href="<?php echo current_url(); ?>" data-role="button" data-icon="refresh" data-iconpos="notext" data-theme="c" data-inline="true" data-ajax="false">Osvježi</a>
 		</div>
 		<div data-role="content">
 			<?php if (isset($current_station)): ?>
