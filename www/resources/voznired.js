@@ -20,15 +20,23 @@ $(function() {
 	});
 
 	$('body').on('click', '.removeTrain', function() {
+		var trainNo = $(this).attr('train-no');
+
+		if (!trainNo) {
+			return;
+		}
+
 		var myTrains = loadMyTrainsCookie();
 
-		var index = myTrains.indexOf($(this).attr('train-no'));
+		var index = myTrains.indexOf(trainNo);
 
 		if (index > -1) {
 			myTrains.splice(index);
 		}
 
 		saveMyTrainsCookie(myTrains);
+
+		$('#removeTrain' + trainNo + 'Popup').popup('open');
 	});
 
 	$('body').on('submit', 'form', function() {

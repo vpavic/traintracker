@@ -28,6 +28,11 @@
 						</li>
 					<?php endforeach; ?>
 				</ul>
+				<?php foreach ($my_trains as $train): ?>
+					<div data-role="popup" data-overlay-theme="a" class="ui-content" id="removeTrain<?php echo $train; ?>Popup">
+						<p>Vlak <?php echo $train; ?> je uklonjen iz mojih vlakova</p>
+					</div>
+				<?php endforeach; ?>
 			<?php endif; ?>
 		</div>
 	</div>
