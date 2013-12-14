@@ -1,6 +1,6 @@
 $(function() {
 	$('body').on('click', '.saveTrain', function() {
-		var trainNo = loadTrainNo();
+		var trainNo = $(this).attr('train-no');
 
 		if (!trainNo) {
 			return;
@@ -30,7 +30,7 @@ $(function() {
 
 		var index = myTrains.indexOf(trainNo);
 
-		if (index > -1) {
+		if (index != -1) {
 			myTrains.splice(index);
 		}
 
@@ -39,18 +39,6 @@ $(function() {
 		$('#removeTrain' + trainNo + 'Popup').popup('open');
 	});
 
-	$('body').on('submit', 'form', function() {
-		saveTrainNo($('input').val());
-	});
-
-	function saveTrainNo(trainNo) {
-		localStorage.setItem('trainNo', trainNo);
-	}
-
-	function loadTrainNo() {
-		return localStorage.getItem('trainNo');
-	}
-
 	function saveMyTrainsCookie(myTrains) {
 		$.cookie('my_trains', JSON.stringify(myTrains), { expires: 365, path: '/' });
 	}
@@ -58,11 +46,10 @@ $(function() {
 	function loadMyTrainsCookie() {
 		var myTrains = $.cookie('my_trains');
 
-		if (myTrains) {
-			return JSON.parse(myTrains);
-		}
-		else {
+		if (!myTrains) {
 			return [];
 		}
+
+		return JSON.parse(myTrains);
 	}
 })

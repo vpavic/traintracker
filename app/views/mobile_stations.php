@@ -45,9 +45,9 @@
 						<?php endforeach; ?>
 					</ul>
 				</div>
-				<button class="saveTrain">Dodaj u moje vlakove</button>
+				<button class="saveTrain" train-no="<?php echo $train_no; ?>">Dodaj u moje vlakove</button>
 				<div data-role="popup" data-overlay-theme="a" class="ui-content" id="saveTrain<?php echo $train_no; ?>Popup">
-					<p>Vlak <?php echo $train_no; ?> dodan u moje vlakove</p>
+					<p>Vlak <?php echo $train_no; ?> je dodan u moje vlakove</p>
 				</div>
 			<?php else: ?>
 				<div class="ui-body ui-body-d ui-corner-all">
@@ -61,11 +61,6 @@
 	<script src="//code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
 	<script src="<?php echo base_url('/resources/jquery.cookie.js'); ?>"></script>
 	<script src="<?php echo base_url('/resources/voznired.js'); ?>"></script>
-	<script>
-		$(function() {
-			saveTrainNo(<?php echo $train_no; ?>);
-		})
-	</script>
 </body>
 </html>
 <?php endif; ?>
