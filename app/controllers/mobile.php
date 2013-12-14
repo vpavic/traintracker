@@ -19,21 +19,30 @@ class Mobile extends CI_Controller {
 			redirect('/mobile/stations/' . $train_no);
 		}
 
-		$this->load->view('mobile_home');
+		$data['is_ajax_request'] = $this->input->is_ajax_request();
+
+		$my_trains = json_decode($this->input->cookie('my_trains', true));
+
+		if (!empty($my_trains))
+		{
+			sort($my_trains);
+			$data['my_trains'] = $my_trains;
+		}
+
+		$this->load->view('mobile_home', $data);
 	}
 
 	public function stations($train_no)
 	{
 		$train_data = $this->stationsfetcher->getStations($train_no);
 
+		$data['is_ajax_request'] = $this->input->is_ajax_request();
+		$data['train_no'] = $train_no;
+
 		if (!empty($train_data['stations']))
 		{
 			$data['all_stations'] = $train_data['stations'];
 			$data['current_station'] = end($train_data['stations']);
-		}
-		else
-		{
-			$data['train_no'] = $train_no;
 		}
 
 		$this->output->set_header('Cache-Control: no-cache, must-revalidate');
