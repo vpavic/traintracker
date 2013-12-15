@@ -12,31 +12,13 @@ class Mobile extends CI_Controller {
 
 	public function index()
 	{
-		$train_no = $this->input->get('train_no');
-
-		if (!empty($train_no))
-		{
-			redirect('/mobile/stations/' . $train_no);
-		}
-
-		$data['is_ajax_request'] = $this->input->is_ajax_request();
-
-		$my_trains = json_decode($this->input->cookie('my_trains', true));
-
-		if (!empty($my_trains))
-		{
-			sort($my_trains);
-			$data['my_trains'] = $my_trains;
-		}
-
-		$this->load->view('mobile_home', $data);
+		$this->load->view('mobile_home');
 	}
 
 	public function stations($train_no)
 	{
 		$train_data = $this->stationsfetcher->getStations($train_no);
 
-		$data['is_ajax_request'] = $this->input->is_ajax_request();
 		$data['train_no'] = $train_no;
 
 		if (!empty($train_data['stations']))

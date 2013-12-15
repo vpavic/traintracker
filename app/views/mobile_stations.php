@@ -1,4 +1,3 @@
-<?php if (!$is_ajax_request): ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,9 +5,12 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Vozni red uživo!</title>
 	<link rel="stylesheet" href="//code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css">
+	<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="//code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
+	<script src="<?php echo base_url('/resources/jquery.cookie.js'); ?>"></script>
+	<script src="<?php echo base_url('/resources/voznired.js'); ?>"></script>
 </head>
 <body>
-<?php endif; ?>
 	<div data-role="page">
 		<div data-role="header">
 			<a href="<?php echo site_url('/mobile'); ?>" data-role="button" data-icon="home" data-iconpos="notext" data-theme="c" data-inline="true">Početna</a>
@@ -45,7 +47,7 @@
 						<?php endforeach; ?>
 					</ul>
 				</div>
-				<button class="saveTrain" train-no="<?php echo $train_no; ?>">Dodaj u moje vlakove</button>
+				<button class="saveTrain" data-train-no="<?php echo $train_no; ?>">Dodaj u moje vlakove</button>
 				<div data-role="popup" data-overlay-theme="a" class="ui-content" id="saveTrain<?php echo $train_no; ?>Popup">
 					<p>Vlak <?php echo $train_no; ?> je dodan u moje vlakove</p>
 				</div>
@@ -56,11 +58,5 @@
 			<?php endif; ?>
 		</div>
 	</div>
-<?php if (!$is_ajax_request): ?>
-	<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
-	<script src="//code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
-	<script src="<?php echo base_url('/resources/jquery.cookie.js'); ?>"></script>
-	<script src="<?php echo base_url('/resources/voznired.js'); ?>"></script>
 </body>
 </html>
-<?php endif; ?>
