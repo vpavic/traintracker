@@ -4,7 +4,7 @@ class StationsFetcher
 {
 	public function getStations($trainNo)
 	{
-		if ($trainNo === 211 || $trainNo === 415)
+		if ($trainNo == 211 || $trainNo == 415)
 		{
 			$fetchers = array(new CroHtmlStationsFetcher(), new SloHtmlStationsFetcher());
 		}
