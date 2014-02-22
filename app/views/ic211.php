@@ -34,7 +34,7 @@
 			<p>IC 211 uživo! | <?php echo safe_mailto('vedran@hocuinternet.com', 'Kontakt'); ?></p>
 		</div>
 	</div>
-	<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 	<script>
 		//<![CDATA[
 		$(document).ready(function() {
