@@ -54,14 +54,20 @@ class CroHtmlStationsFetcher extends AbstractHtmlStationsFetcher
 {
 	protected function fetchHtml($trainNo)
 	{
+//		$params = array(
+//			'VL' => $trainNo,
+//			'D1' => date('ymd'),
+//			'D2' => date('ymd'),
+//			'Category' => "hzinfo",
+//			'Service' => "PKVL",
+//			'SCREEN' => "2",
+//			'LANG' => "HR"
+//		);
 		$params = array(
 			'VL' => $trainNo,
-			'D1' => date('ymd'),
-			'D2' => date('ymd'),
-			'Category' => "hzinfo",
-			'Service' => "PKVL",
-			'SCREEN' => "2",
-			'LANG' => "HR"
+			'Category' => "korisnici",
+			'Service' => "Pkvl",
+			'SCREEN' => "2"
 		);
 		$uri = "http://vred.hzinfra.hr/hzinfo/Default.asp?" . http_build_query($params);
 		$context = stream_context_create(array(
