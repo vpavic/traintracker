@@ -8,6 +8,10 @@ class StationsFetcher
 		{
 			$fetchers = array(new CroHtmlStationsFetcher(), new SloHtmlStationsFetcher());
 		}
+		elseif ($trainNo == 158)
+		{
+			$fetchers = array(new SloHtmlStationsFetcher(), new CroHtmlStationsFetcher());
+		}
 		else
 		{
 			$fetchers = array(new CroHtmlStationsFetcher());
