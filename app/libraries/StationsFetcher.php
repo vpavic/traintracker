@@ -54,20 +54,17 @@ class CroHtmlStationsFetcher extends AbstractHtmlStationsFetcher
 {
 	protected function fetchHtml($trainNo)
 	{
-//		$params = array(
-//			'VL' => $trainNo,
+		$params = array(
+			'VL' => $trainNo,
 //			'D1' => date('ymd'),
 //			'D2' => date('ymd'),
 //			'Category' => "hzinfo",
-//			'Service' => "PKVL",
-//			'SCREEN' => "2",
-//			'LANG' => "HR"
-//		);
-		$params = array(
-			'VL' => $trainNo,
 			'Category' => "korisnici",
+//			'Service' => "PKVL",
 			'Service' => "Pkvl",
-			'SCREEN' => "2"
+			'SCREEN' => "2",
+//			'LANG' => "HR"
+			'ot' => ""
 		);
 		$uri = "http://vred.hzinfra.hr/hzinfo/Default.asp?" . http_build_query($params);
 		$context = stream_context_create(array(
@@ -77,20 +74,20 @@ class CroHtmlStationsFetcher extends AbstractHtmlStationsFetcher
 			)
 		));
 
-		$html = file_get_contents($uri, false, $context);
-
-		$input = new DOMDocument();
-		$input->preserveWhiteSpace = false;
-		@$input->loadHTML($html);
-
-		$link = $input->getElementsByTagName('a')->item(0);
-
-		if (empty($link))
-		{
-			return null;
-		}
-
-		$uri = $link->getAttribute('href');
+//		$html = file_get_contents($uri, false, $context);
+//
+//		$input = new DOMDocument();
+//		$input->preserveWhiteSpace = false;
+//		@$input->loadHTML($html);
+//
+//		$link = $input->getElementsByTagName('a')->item(0);
+//
+//		if (empty($link))
+//		{
+//			return null;
+//		}
+//
+//		$uri = $link->getAttribute('href');
 
 		return file_get_contents($uri, false, $context);
 	}
