@@ -33,15 +33,28 @@ class StationsFetcher
 
 abstract class AbstractHtmlStationsFetcher
 {
-	abstract protected function fetchHtml($trainNo);
+	abstract protected function prepareUrl($trainNo);
 
 	abstract protected function parseStations($input);
 
 	abstract protected function parseNoOfWagons($input);
 
+	protected function getHtml($url)
+	{
+		$context = stream_context_create(array(
+			'http' => array(
+				'method' => "GET",
+				'timeout' => 10
+			)
+		));
+
+		return file_get_contents($url, false, $context);
+	}
+
 	public function getStations($trainNo)
 	{
-		$html = $this->fetchHtml($trainNo);
+		$url = $this->prepareUrl($trainNo);
+		$html = self::getHtml($url);
 
 		$input = new DOMDocument();
 		$input->preserveWhiteSpace = false;
@@ -56,7 +69,7 @@ abstract class AbstractHtmlStationsFetcher
 
 class CroHtmlStationsFetcher extends AbstractHtmlStationsFetcher
 {
-	protected function fetchHtml($trainNo)
+	protected function prepareUrl($trainNo)
 	{
 		$params = array(
 			'VL' => $trainNo,
@@ -68,14 +81,7 @@ class CroHtmlStationsFetcher extends AbstractHtmlStationsFetcher
 			'LANG' => "HR"
 		);
 		$uri = "http://vred.hzinfra.hr/hzinfo/Default.asp?" . http_build_query($params);
-		$context = stream_context_create(array(
-			'http' => array(
-				'method' => "GET",
-				'timeout' => 10
-			)
-		));
-
-		$html = file_get_contents($uri, false, $context);
+		$html = self::getHtml($uri);
 
 		$input = new DOMDocument();
 		$input->preserveWhiteSpace = false;
@@ -88,9 +94,7 @@ class CroHtmlStationsFetcher extends AbstractHtmlStationsFetcher
 			return null;
 		}
 
-		$uri = $link->getAttribute('href');
-
-		return file_get_contents($uri, false, $context);
+		return $link->getAttribute('href');
 	}
 
 	protected function parseNoOfWagons($input)
@@ -156,22 +160,15 @@ class CroHtmlStationsFetcher extends AbstractHtmlStationsFetcher
 
 class SloHtmlStationsFetcher extends AbstractHtmlStationsFetcher
 {
-	protected function fetchHtml($trainNo)
+	protected function prepareUrl($trainNo)
 	{
 		$params = array(
 			'Category' => "E-zeleznice",
 			'Service' => "w_zamude_web_2_1",
 			'vlak' => str_pad($trainNo, 5, " ", STR_PAD_LEFT)
 		);
-		$uri = "http://ice.slo-zeleznice.si/CIDirect/default.asp?" . http_build_query($params);
-		$context = stream_context_create(array(
-			'http' => array(
-				'method' => "GET",
-				'timeout' => 10
-			)
-		));
 
-		return file_get_contents($uri, false, $context);
+		return "http://ice.slo-zeleznice.si/CIDirect/default.asp?" . http_build_query($params);
 	}
 
 	protected function parseNoOfWagons($input)
