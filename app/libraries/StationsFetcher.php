@@ -2,15 +2,18 @@
 
 class StationsFetcher
 {
+	private static $croSloTrains = array(158, 210, 212, 414, 498);
+	private static $sloCroTrains = array(159, 211, 213, 415, 499);
+
 	public function getStations($trainNo)
 	{
-		if ($trainNo == 211 || $trainNo == 415)
-		{
-			$fetchers = array(new CroHtmlStationsFetcher(), new SloHtmlStationsFetcher());
-		}
-		elseif ($trainNo == 158)
+		if (in_array($trainNo, self::$croSloTrains))
 		{
 			$fetchers = array(new SloHtmlStationsFetcher(), new CroHtmlStationsFetcher());
+		}
+		elseif (in_array($trainNo, self::$sloCroTrains))
+		{
+			$fetchers = array(new CroHtmlStationsFetcher(), new SloHtmlStationsFetcher());
 		}
 		else
 		{
