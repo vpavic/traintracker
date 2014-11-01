@@ -4,9 +4,9 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Vozni red uživo!</title>
-	<link rel="stylesheet" href="//code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.css">
+	<link rel="stylesheet" href="//code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
 	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-	<script src="//code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.js"></script>
+	<script src="//code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 	<script src="<?php echo base_url('/resources/jquery.cookie.js'); ?>"></script>
 	<script src="<?php echo base_url('/resources/voznired.js'); ?>"></script>
 </head>
