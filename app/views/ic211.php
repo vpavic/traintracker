@@ -56,7 +56,15 @@
 					thead.append('<tr><th>Kolodvor</th><th>Dolazak</th><th>Kašnjenje</th><th>Odlazak</th><th>Kašnjenje</th></tr>');
 
 					$.each(data.stations, function(i, station) {
-						tbody.append('<tr><td align="left">' + station.name + '</td><td align="center">' + station.arrival_time + '</td><td align="center">' + station.arrival_delay + '</td><td align="center">' + station.departure_time + '</td><td align="center">' + station.departure_delay + '</td></tr>');
+						var tr = $('<tr/>');
+
+						tr.append('<td align="left">' + station.name + '</td>');
+						tr.append(station.arrival_time ? '<td align="center">' + station.arrival_time + '</td>' : '<td/>');
+						tr.append(station.arrival_delay ? '<td align="center">' + station.arrival_delay + '</td>' : '<td/>');
+						tr.append(station.departure_time ? '<td align="center">' + station.departure_time + '</td>' : '<td/>');
+						tr.append(station.departure_delay ? '<td align="center">' + station.departure_delay + '</td>' : '<td/>');
+
+						tbody.append(tr);
 					});
 
 					$('#data').html(table);

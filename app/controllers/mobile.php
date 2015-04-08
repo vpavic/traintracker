@@ -17,14 +17,14 @@ class Mobile extends CI_Controller {
 
 	public function stations($train_no)
 	{
-		$train_data = $this->stationsfetcher->getStations($train_no);
+		$stations = $this->stationsfetcher->getStations($train_no);
 
 		$data['train_no'] = $train_no;
 
-		if (!empty($train_data['stations']))
+		if (!empty($stations))
 		{
-			$data['all_stations'] = $train_data['stations'];
-			$data['current_station'] = end($train_data['stations']);
+			$data['all_stations'] = $stations;
+			$data['current_station'] = end($stations);
 		}
 
 		$this->output->set_header('Cache-Control: no-cache, must-revalidate');

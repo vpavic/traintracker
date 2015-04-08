@@ -2,16 +2,16 @@
 
 class StationsFetcher
 {
-	private static $croSloTrains = array(158, 210, 212, 414, 498);
-	private static $sloCroTrains = array(159, 211, 213, 415, 499);
+	private static $eastToWestTrains = array(158, 210, 212, 414, 498);
+	private static $westToEastTrains = array(159, 211, 213, 415, 499);
 
 	public function getStations($trainNo)
 	{
-		if (in_array($trainNo, self::$croSloTrains))
+		if (in_array($trainNo, self::$eastToWestTrains))
 		{
 			$fetchers = array(new SloHtmlStationsFetcher(), new CroHtmlStationsFetcher());
 		}
-		elseif (in_array($trainNo, self::$sloCroTrains))
+		elseif (in_array($trainNo, self::$westToEastTrains))
 		{
 			$fetchers = array(new CroHtmlStationsFetcher(), new SloHtmlStationsFetcher());
 		}
@@ -22,15 +22,15 @@ class StationsFetcher
 
 		foreach ($fetchers as $fetcher)
 		{
-			$data = $fetcher->getStations($trainNo);
+			$stations = $fetcher->getStations($trainNo);
 
-			if (!empty($data['stations']))
+			if (!empty($stations))
 			{
 				break;
 			}
 		}
 
-		return $data;
+		return isset($stations) ? $stations : array();
 	}
 }
 
@@ -40,33 +40,12 @@ abstract class AbstractHtmlStationsFetcher
 
 	abstract protected function parseStations($input);
 
-	abstract protected function parseNoOfWagons($input);
-
-	protected function getHtml($url)
-	{
-		$context = stream_context_create(array(
-			'http' => array(
-				'method' => "GET",
-				'timeout' => 10
-			)
-		));
-
-		return file_get_contents($url, false, $context);
-	}
-
 	public function getStations($trainNo)
 	{
 		$url = $this->prepareUrl($trainNo);
-		$html = self::getHtml($url);
+		$html = file_get_contents($url);
 
-		$input = new DOMDocument();
-		$input->preserveWhiteSpace = false;
-		@$input->loadHTML($html);
-
-		return array(
-			'no_of_wagons' => $this->parseNoOfWagons($input),
-			'stations' => $this->parseStations($input)
-		);
+		return $this->parseStations($html);
 	}
 }
 
@@ -77,84 +56,69 @@ class CroHtmlStationsFetcher extends AbstractHtmlStationsFetcher
 		$params = array(
 			'VL' => $trainNo,
 			'D1' => date('ymd'),
-			'D2' => date('ymd'),
-			'Category' => "hzinfo",
-			'Service' => "PKVL",
-			'SCREEN' => "2",
-			'LANG' => "HR"
+			'Category' => 'korisnici',
+			'Service' => 'Pkvl',
+			'SCREEN' => '2'
 		);
-		$uri = "http://vred.hzinfra.hr/hzinfo/Default.asp?" . http_build_query($params);
-		$html = self::getHtml($uri);
 
-		$input = new DOMDocument();
-		$input->preserveWhiteSpace = false;
-		@$input->loadHTML($html);
-
-		$link = $input->getElementsByTagName('a')->item(0);
-
-		if (empty($link))
-		{
-			return null;
-		}
-
-		return $link->getAttribute('href');
-	}
-
-	protected function parseNoOfWagons($input)
-	{
-		// TODO
-		return 'n/a';
+		return 'http://vred.hzinfra.hr/hzinfo/Default.asp?' . http_build_query($params);
 	}
 
 	protected function parseStations($input)
 	{
-		$table = $input->getElementsByTagName('table')->item(1);
-		$rows = ($table != null) ? $table->getElementsByTagName('tr') : array();
+		$regex = '#<TD ALIGN=left BGCOLOR=.{7}><FONT FACE="Arial" SIZE=3>(?P<name>.*?)</TD>\r\n' .
+				'<TD ALIGN=CENTER BGCOLOR=.{7}><FONT FACE="Arial" SIZE=3>(?P<direction>.*?)</TD>\r\n' .
+				'<TD ALIGN=CENTER BGCOLOR=.{7}><FONT FACE="Arial" SIZE=3>.*?</TD>\r\n' .
+				'<TD ALIGN=CENTER BGCOLOR=.{7}><FONT FACE="Arial" SIZE=3>(?P<time>.*?)</TD>\r\n' .
+				'<TD ALIGN=CENTER BGCOLOR=.{7}><FONT FACE="Arial" SIZE=3>(?P<delay>.*?)</TD>#';
+
+		preg_match_all($regex, $input, $matches);
 
 		$stations = array();
 
-		foreach ($rows as $row)
+		for ($i = 0; $i < count($matches['name']); $i++)
 		{
-			$cols = $row->getElementsByTagName('td');
+			$name = iconv('Windows-1250', 'UTF-8', trim($matches['name'][$i]));
+			$direction = trim($matches['direction'][$i]);
+			$time = trim($matches['time'][$i]);
+			$delay = trim($matches['delay'][$i]);
 
-			if ($cols->length === 5)
+			if ($direction == 'Dolazak')
 			{
-				$name = trim($cols->item(0)->nodeValue);
-				$direction = trim($cols->item(1)->nodeValue);
-				$time = trim($cols->item(3)->nodeValue);
-				$delay = trim($cols->item(4)->nodeValue);
+				$station = array(
+					'name' => $name,
+					'arrival_time' => $time
+				);
 
-				if ($direction === "Dolazak")
+				if ($delay != '<BR>')
 				{
-					$station = array(
-						'name' => $name,
-						'arrival_time' => $time,
-						'arrival_delay' => ($delay == "") ? "-" : $delay,
-						'departure_time' => "",
-						'departure_delay' => ""
-					);
+					$station['arrival_delay'] = intval($delay);
+				}
+			}
+			else
+			{
+				$prev_station = end($stations);
+
+				if ($prev_station !== false && $prev_station['name'] == $name)
+				{
+					$station = array_pop($stations);
 				}
 				else
 				{
-					$prev_station = end($stations);
-
-					if ($prev_station !== false && $prev_station['name'] === $name)
-					{
-						$station = array_pop($stations);
-					}
-					else
-					{
-						$station = array(
-							'name' => $name,
-							'arrival_time' => "",
-							'arrival_delay' => ""
-						);
-					}
-					$station['departure_time'] = $time;
-					$station['departure_delay'] = ($delay == "") ? "-" : $delay;
+					$station = array(
+						'name' => $name
+					);
 				}
-				array_push($stations, $station);
+
+				$station['departure_time'] = $time;
+
+				if ($delay != '<BR>')
+				{
+					$station['departure_delay'] = intval($delay);
+				}
 			}
+
+			array_push($stations, $station);
 		}
 
 		return $stations;
@@ -166,66 +130,69 @@ class SloHtmlStationsFetcher extends AbstractHtmlStationsFetcher
 	protected function prepareUrl($trainNo)
 	{
 		$params = array(
-			'Category' => "E-zeleznice",
-			'Service' => "w_zamude_web_2_1",
-			'vlak' => str_pad($trainNo, 5, " ", STR_PAD_LEFT)
+			'Category' => 'E-zeleznice',
+			'Service' => 'w_zamude_web_2_1',
+			'vlak' => str_pad($trainNo, 5, ' ', STR_PAD_LEFT)
 		);
 
-		return "http://ice.slo-zeleznice.si/CIDirect/default.asp?" . http_build_query($params);
-	}
-
-	protected function parseNoOfWagons($input)
-	{
-		// TODO
-		return 'n/a';
+		return 'http://ice.slo-zeleznice.si/CIDirect/default.asp?' . http_build_query($params);
 	}
 
 	protected function parseStations($input)
 	{
-		$table = $input->getElementsByTagName('table')->item(0);
-		$rows = ($table != null) ? $table->getElementsByTagName('tr') : array();
+		$regex = '#<tbody>\r\n' .
+				'  <tr>\r\n' .
+				'    <td>(?P<name>.*?)</td>\r\n' .
+				'    <td>.*?</td>\r\n' .
+				'    <td>(?P<arrival_time>.*?)</td>\r\n' .
+				'    <td>(?P<arrival_delay>.*?)</td>\r\n' .
+				'    <td>.*?</td>\r\n' .
+				'    <td>(?P<departure_time>.*?)</td>\r\n' .
+				'    <td>(?P<departure_delay>.*?)</td>\r\n' .
+				'  </tr>#';
+
+		preg_match_all($regex, $input, $matches);
 
 		$stations = array();
 
-		foreach ($rows as $row)
+		for ($i = 0; $i < count($matches['name']); $i++)
 		{
-			$cols = $row->getElementsByTagName('td');
+			$name = iconv('Windows-1250', 'UTF-8', trim($matches['name'][$i]));
+			$arrival_time = trim($matches['arrival_time'][$i]);
+			$arrival_delay = trim($matches['arrival_delay'][$i]);
+			$departure_time = trim($matches['departure_time'][$i]);
+			$departure_delay = trim($matches['departure_delay'][$i]);
 
-			if ($cols->length === 7)
+			$arrival_available = ($arrival_time != '.') && ($arrival_time != null);
+			$departure_available = ($departure_time != '.') && ($departure_time != null);
+
+			if ($arrival_available || $departure_available)
 			{
-				$name = trim($cols->item(0)->nodeValue);
-				$arrival_time = trim($cols->item(2)->nodeValue);
-				$arrival_delay = trim($cols->item(3)->nodeValue);
-				$departure_time = trim($cols->item(5)->nodeValue);
-				$departure_delay = trim($cols->item(6)->nodeValue);
+				$station = array(
+					'name' => $name
+				);
 
-				$arrival_available = ($arrival_time !== ".") && ($arrival_time != null);
-				$departure_available = ($departure_time !== ".") && ($departure_time != null);
-
-				if ($arrival_available || $departure_available)
+				if ($arrival_available)
 				{
-					$station = array(
-						'name' => $name,
-						'arrival_time' => "",
-						'arrival_delay' => "",
-						'departure_time' => "",
-						'departure_delay' => ""
-					);
+					$station['arrival_time'] = $arrival_time;
 
-					if ($arrival_available)
+					if ($arrival_delay != 'R')
 					{
-						$station['arrival_time'] = $arrival_time;
-						$station['arrival_delay'] = ($arrival_delay == "R") ? "-" : $arrival_delay;
+						$station['arrival_delay'] = intval($arrival_delay);
 					}
-
-					if ($departure_available)
-					{
-						$station['departure_time'] = $departure_time;
-						$station['departure_delay'] = ($departure_delay == "R") ? "-" : $departure_delay;
-					}
-
-					array_push($stations, $station);
 				}
+
+				if ($departure_available)
+				{
+					$station['departure_time'] = $departure_time;
+
+					if ($departure_delay != 'R')
+					{
+						$station['departure_delay'] = intval($departure_delay);
+					}
+				}
+
+				array_push($stations, $station);
 			}
 		}
 
