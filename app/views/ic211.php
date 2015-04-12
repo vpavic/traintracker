@@ -59,10 +59,10 @@
 						var tr = $('<tr/>');
 
 						tr.append('<td align="left">' + station.name + '</td>');
-						tr.append(station.arrival_time ? '<td align="center">' + station.arrival_time + '</td>' : '<td/>');
-						tr.append(station.arrival_delay ? '<td align="center">' + station.arrival_delay + '</td>' : '<td/>');
-						tr.append(station.departure_time ? '<td align="center">' + station.departure_time + '</td>' : '<td/>');
-						tr.append(station.departure_delay ? '<td align="center">' + station.departure_delay + '</td>' : '<td/>');
+						tr.append(station.arrivalTime ? '<td align="center">' + station.arrivalTime + '</td>' : '<td/>');
+						tr.append(station.arrivalDelay ? '<td align="center">' + station.arrivalDelay + '</td>' : '<td/>');
+						tr.append(station.departureTime ? '<td align="center">' + station.departureTime + '</td>' : '<td/>');
+						tr.append(station.departureDelay ? '<td align="center">' + station.departureDelay + '</td>' : '<td/>');
 
 						tbody.append(tr);
 					});
@@ -75,7 +75,7 @@
 					$('#data').html('<p class="noinfo">Ne postoji podatak o kretanju vlaka.</p>');
 				}
 
-				$('#timestamp').html(data.generated_time);
+				$('#timestamp').html(data.generatedTime);
 			});
 
 			setTimeout(loadStations, 180000);

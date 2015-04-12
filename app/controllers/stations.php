@@ -26,7 +26,7 @@ class Stations extends CI_Controller {
 	private function _stations($trainNo)
 	{
 		$data = array(
-			'generated_time' => date('H:i'),
+			'generatedTime' => date('H:i'),
 			'stations' => $this->stationsfetcher->getStations($trainNo)
 		);
 

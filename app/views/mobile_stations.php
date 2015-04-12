@@ -23,11 +23,11 @@
 					<li data-role="list-divider">Trenutna pozicija vlaka</li>
 					<li>
 						<h3><?php echo $current_station['name']; ?></h3>
-						<?php if (isset($current_station['arrival_time'])): ?>
-							<p>Dolazak: <strong><?php echo $current_station['arrival_time']; ?></strong> Kašnjenje: <strong><?php echo isset($current_station['arrival_delay']) ? $current_station['arrival_delay'] : '-'; ?></strong></p>
+						<?php if (isset($current_station['arrivalTime'])): ?>
+							<p>Dolazak: <strong><?php echo $current_station['arrivalTime']; ?></strong> Kašnjenje: <strong><?php echo isset($current_station['arrivalDelay']) ? $current_station['arrivalDelay'] : '-'; ?></strong></p>
 						<?php endif; ?>
-						<?php if (isset($current_station['departure_time'])): ?>
-							<p>Odlazak: <strong><?php echo $current_station['departure_time']; ?></strong> Kašnjenje: <strong><?php echo isset($current_station['departure_delay']) ? $current_station['departure_delay'] : '-'; ?></strong></p>
+						<?php if (isset($current_station['departureTime'])): ?>
+							<p>Odlazak: <strong><?php echo $current_station['departureTime']; ?></strong> Kašnjenje: <strong><?php echo isset($current_station['departureDelay']) ? $current_station['departureDelay'] : '-'; ?></strong></p>
 						<?php endif; ?>
 					</li>
 				</ul>
@@ -37,11 +37,11 @@
 						<?php foreach ($all_stations as $station): ?>
 							<li>
 								<h3><?php echo $station['name']; ?></h3>
-								<?php if (isset($station['arrival_time'])): ?>
-									<p>Dolazak: <strong><?php echo $station['arrival_time']; ?></strong> Kašnjenje: <strong><?php echo isset($station['arrival_delay']) ? $station['arrival_delay'] : '-'; ?></strong></p>
+								<?php if (isset($station['arrivalTime'])): ?>
+									<p>Dolazak: <strong><?php echo $station['arrivalTime']; ?></strong> Kašnjenje: <strong><?php echo isset($station['arrivalDelay']) ? $station['arrivalDelay'] : '-'; ?></strong></p>
 								<?php endif; ?>
-								<?php if (isset($station['departure_time'])): ?>
-									<p>Odlazak: <strong><?php echo $station['departure_time']; ?></strong> Kašnjenje: <strong><?php echo isset($station['departure_delay']) ? $station['departure_delay'] : '-'; ?></strong></p>
+								<?php if (isset($station['departureTime'])): ?>
+									<p>Odlazak: <strong><?php echo $station['departureTime']; ?></strong> Kašnjenje: <strong><?php echo isset($station['departureDelay']) ? $station['departureDelay'] : '-'; ?></strong></p>
 								<?php endif; ?>
 							</li>
 						<?php endforeach; ?>

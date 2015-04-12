@@ -87,12 +87,12 @@ class CroHtmlStationsFetcher extends AbstractHtmlStationsFetcher
 			{
 				$station = array(
 					'name' => $name,
-					'arrival_time' => $time
+					'arrivalTime' => $time
 				);
 
 				if ($delay != '<BR>')
 				{
-					$station['arrival_delay'] = intval($delay);
+					$station['arrivalDelay'] = intval($delay);
 				}
 			}
 			else
@@ -110,11 +110,11 @@ class CroHtmlStationsFetcher extends AbstractHtmlStationsFetcher
 					);
 				}
 
-				$station['departure_time'] = $time;
+				$station['departureTime'] = $time;
 
 				if ($delay != '<BR>')
 				{
-					$station['departure_delay'] = intval($delay);
+					$station['departureDelay'] = intval($delay);
 				}
 			}
 
@@ -174,21 +174,21 @@ class SloHtmlStationsFetcher extends AbstractHtmlStationsFetcher
 
 				if ($arrival_available)
 				{
-					$station['arrival_time'] = $arrival_time;
+					$station['arrivalTime'] = $arrival_time;
 
 					if ($arrival_delay != 'R')
 					{
-						$station['arrival_delay'] = intval($arrival_delay);
+						$station['arrivalDelay'] = intval($arrival_delay);
 					}
 				}
 
 				if ($departure_available)
 				{
-					$station['departure_time'] = $departure_time;
+					$station['departureTime'] = $departure_time;
 
 					if ($departure_delay != 'R')
 					{
-						$station['departure_delay'] = intval($departure_delay);
+						$station['departureDelay'] = intval($departure_delay);
 					}
 				}
 
