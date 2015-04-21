@@ -43,7 +43,7 @@
 
 		function loadStations() {
 			$('#data').html('<p class="noinfo"><img src="<?php echo base_url('/resources/ajax-loader.gif'); ?>" alt="indicator"/></p>');
-			$('#timestamp').html('--:--');
+			$('#timestamp').html('--:--:--');
 
 			$.getJSON("<?php echo site_url('stations/211'); ?>", function(data) {
 				if (!$.isEmptyObject(data.stations)) {

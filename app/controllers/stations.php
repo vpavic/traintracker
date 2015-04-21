@@ -25,9 +25,11 @@ class Stations extends CI_Controller {
 
 	private function _stations($trainNo)
 	{
+		$stations = $this->stationsfetcher->getStations($trainNo);
+
 		$data = array(
-			'generatedTime' => date('H:i'),
-			'stations' => $this->stationsfetcher->getStations($trainNo)
+			'generatedTime' => date('H:i:s'),
+			'stations' => $stations
 		);
 
 		$json = json_encode($data);
