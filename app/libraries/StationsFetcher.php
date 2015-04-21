@@ -9,15 +9,15 @@ class StationsFetcher
 	{
 		if (in_array($trainNo, self::$eastToWestTrains))
 		{
-			$fetchers = array(new SloHtmlStationsFetcher(), new CroHtmlStationsFetcher());
+			$fetchers = array(new SiStationsFetcherDelegate(), new HrStationsFetcherDelegate());
 		}
 		elseif (in_array($trainNo, self::$westToEastTrains))
 		{
-			$fetchers = array(new CroHtmlStationsFetcher(), new SloHtmlStationsFetcher());
+			$fetchers = array(new HrStationsFetcherDelegate(), new SiStationsFetcherDelegate());
 		}
 		else
 		{
-			$fetchers = array(new CroHtmlStationsFetcher());
+			$fetchers = array(new HrStationsFetcherDelegate());
 		}
 
 		foreach ($fetchers as $fetcher)
@@ -34,24 +34,20 @@ class StationsFetcher
 	}
 }
 
-abstract class AbstractHtmlStationsFetcher
+class StationsFetcherUtils
 {
-	abstract protected function prepareUrl($trainNo);
-
-	abstract protected function parseStations($input);
-
-	public function getStations($trainNo)
+	public static function getMatcher($url, $pattern)
 	{
-		$url = $this->prepareUrl($trainNo);
 		$html = file_get_contents($url);
+		preg_match_all($pattern, $html, $matches, PREG_SET_ORDER);
 
-		return $this->parseStations($html);
+		return $matches;
 	}
 }
 
-class CroHtmlStationsFetcher extends AbstractHtmlStationsFetcher
+class HrStationsFetcherDelegate
 {
-	protected function prepareUrl($trainNo)
+	public function getStations($trainNo)
 	{
 		$params = array(
 			'VL' => $trainNo,
@@ -61,27 +57,24 @@ class CroHtmlStationsFetcher extends AbstractHtmlStationsFetcher
 			'SCREEN' => '2'
 		);
 
-		return 'http://vred.hzinfra.hr/hzinfo/Default.asp?' . http_build_query($params);
-	}
+		$url = 'http://vred.hzinfra.hr/hzinfo/Default.asp?' . http_build_query($params);
 
-	protected function parseStations($input)
-	{
-		$regex = '#<TD ALIGN=left BGCOLOR=.{7}><FONT FACE="Arial" SIZE=3>(?P<name>.*?)</TD>\r\n' .
-				'<TD ALIGN=CENTER BGCOLOR=.{7}><FONT FACE="Arial" SIZE=3>(?P<direction>.*?)</TD>\r\n' .
-				'<TD ALIGN=CENTER BGCOLOR=.{7}><FONT FACE="Arial" SIZE=3>.*?</TD>\r\n' .
-				'<TD ALIGN=CENTER BGCOLOR=.{7}><FONT FACE="Arial" SIZE=3>(?P<time>.*?)</TD>\r\n' .
-				'<TD ALIGN=CENTER BGCOLOR=.{7}><FONT FACE="Arial" SIZE=3>(?P<delay>.*?)</TD>#';
+		$pattern = '#<TD ALIGN=left BGCOLOR=.{7}><FONT FACE="Arial" SIZE=3>(?P<name>.*?)</TD>\r\n' .
+			'<TD ALIGN=CENTER BGCOLOR=.{7}><FONT FACE="Arial" SIZE=3>(?P<direction>.*?)</TD>\r\n' .
+			'<TD ALIGN=CENTER BGCOLOR=.{7}><FONT FACE="Arial" SIZE=3>.*?</TD>\r\n' .
+			'<TD ALIGN=CENTER BGCOLOR=.{7}><FONT FACE="Arial" SIZE=3>(?P<time>.*?)</TD>\r\n' .
+			'<TD ALIGN=CENTER BGCOLOR=.{7}><FONT FACE="Arial" SIZE=3>(?P<delay>.*?)</TD>#';
 
-		preg_match_all($regex, $input, $matches);
+		$matches = StationsFetcherUtils::getMatcher($url, $pattern);
 
 		$stations = array();
 
-		for ($i = 0; $i < count($matches['name']); $i++)
+		foreach ($matches as $match)
 		{
-			$name = iconv('Windows-1250', 'UTF-8', trim($matches['name'][$i]));
-			$direction = trim($matches['direction'][$i]);
-			$time = trim($matches['time'][$i]);
-			$delay = trim($matches['delay'][$i]);
+			$name = iconv('Windows-1250', 'UTF-8', trim($match['name']));
+			$direction = trim($match['direction']);
+			$time = trim($match['time']);
+			$delay = trim($match['delay']);
 
 			if ($direction == 'Dolazak')
 			{
@@ -125,9 +118,9 @@ class CroHtmlStationsFetcher extends AbstractHtmlStationsFetcher
 	}
 }
 
-class SloHtmlStationsFetcher extends AbstractHtmlStationsFetcher
+class SiStationsFetcherDelegate
 {
-	protected function prepareUrl($trainNo)
+	public function getStations($trainNo)
 	{
 		$params = array(
 			'Category' => 'E-zeleznice',
@@ -135,33 +128,30 @@ class SloHtmlStationsFetcher extends AbstractHtmlStationsFetcher
 			'vlak' => str_pad($trainNo, 5, ' ', STR_PAD_LEFT)
 		);
 
-		return 'http://ice.slo-zeleznice.si/CIDirect/default.asp?' . http_build_query($params);
-	}
+		$url = 'http://ice.slo-zeleznice.si/CIDirect/default.asp?' . http_build_query($params);
 
-	protected function parseStations($input)
-	{
-		$regex = '#<tbody>\r\n' .
-				'  <tr>\r\n' .
-				'    <td>(?P<name>.*?)</td>\r\n' .
-				'    <td>.*?</td>\r\n' .
-				'    <td>(?P<arrival_time>.*?)</td>\r\n' .
-				'    <td>(?P<arrival_delay>.*?)</td>\r\n' .
-				'    <td>.*?</td>\r\n' .
-				'    <td>(?P<departure_time>.*?)</td>\r\n' .
-				'    <td>(?P<departure_delay>.*?)</td>\r\n' .
-				'  </tr>#';
+		$pattern = '#<tbody>\r\n' .
+			'  <tr>\r\n' .
+			'    <td>(?P<name>.*?)</td>\r\n' .
+			'    <td>.*?</td>\r\n' .
+			'    <td>(?P<arrival_time>.*?)</td>\r\n' .
+			'    <td>(?P<arrival_delay>.*?)</td>\r\n' .
+			'    <td>.*?</td>\r\n' .
+			'    <td>(?P<departure_time>.*?)</td>\r\n' .
+			'    <td>(?P<departure_delay>.*?)</td>\r\n' .
+			'  </tr>#';
 
-		preg_match_all($regex, $input, $matches);
+		$matches = StationsFetcherUtils::getMatcher($url, $pattern);
 
 		$stations = array();
 
-		for ($i = 0; $i < count($matches['name']); $i++)
+		foreach ($matches as $match)
 		{
-			$name = iconv('Windows-1250', 'UTF-8', trim($matches['name'][$i]));
-			$arrival_time = trim($matches['arrival_time'][$i]);
-			$arrival_delay = trim($matches['arrival_delay'][$i]);
-			$departure_time = trim($matches['departure_time'][$i]);
-			$departure_delay = trim($matches['departure_delay'][$i]);
+			$name = iconv('Windows-1250', 'UTF-8', trim($match['name']));
+			$arrival_time = trim($match['arrival_time']);
+			$arrival_delay = trim($match['arrival_delay']);
+			$departure_time = trim($match['departure_time']);
+			$departure_delay = trim($match['departure_delay']);
 
 			$arrival_available = ($arrival_time != '.') && ($arrival_time != null);
 			$departure_available = ($departure_time != '.') && ($departure_time != null);
