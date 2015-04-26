@@ -32,19 +32,19 @@ class Stations extends CI_Controller {
 			'stations' => $stations
 		);
 
-		$json = json_encode($data);
+		$json = json_encode($data, JSON_UNESCAPED_UNICODE);
 
 		$this->output->set_header('Cache-Control: no-cache, must-revalidate');
 		$this->output->set_header('Pragma: no-cache');
 
 		if ($this->input->get('callback'))
 		{
-			$this->output->set_content_type('application/javascript');
+			$this->output->set_content_type('application/javascript;charset=UTF-8');
 			$this->output->set_output("{$this->input->get('callback')}($json)");
 		}
 		else
 		{
-			$this->output->set_content_type('application/json');
+			$this->output->set_content_type('application/json;charset=UTF-8');
 			$this->output->set_output($json);
 		}
 	}
