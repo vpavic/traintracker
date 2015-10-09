@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class StationsFetcher
 {
@@ -7,47 +7,36 @@ class StationsFetcher
 
 	public function getStations($trainNo)
 	{
-		if (in_array($trainNo, self::$eastToWestTrains))
-		{
-			$fetchers = array(new SiStationsFetcherDelegate(), new HrStationsFetcherDelegate());
-		}
-		elseif (in_array($trainNo, self::$westToEastTrains))
-		{
-			$fetchers = array(new HrStationsFetcherDelegate(), new SiStationsFetcherDelegate());
-		}
-		else
-		{
-			$fetchers = array(new HrStationsFetcherDelegate());
-		}
+		if (in_array($trainNo, self::$eastToWestTrains)) {
+			$stations = self::getSiStations($trainNo);
 
-		foreach ($fetchers as $fetcher)
-		{
-			$stations = $fetcher->getStations($trainNo);
-
-			if (!empty($stations))
-			{
-				break;
+			if (empty($stations)) {
+				$stations = self::getHrStations($trainNo);
 			}
+		}
+		elseif (in_array($trainNo, self::$westToEastTrains)) {
+			$stations = self::getHrStations($trainNo);
+
+			if (empty($stations)) {
+				$stations = self::getSiStations($trainNo);
+			}
+		}
+		else {
+			$stations = self::getHrStations($trainNo);
 		}
 
 		return isset($stations) ? $stations : array();
 	}
-}
 
-class StationsFetcherUtils
-{
-	public static function getMatcher($url, $pattern)
+	private static function getMatcher($url, $pattern)
 	{
 		$html = file_get_contents($url);
 		preg_match_all($pattern, $html, $matches, PREG_SET_ORDER);
 
 		return $matches;
 	}
-}
 
-class HrStationsFetcherDelegate
-{
-	public function getStations($trainNo)
+	private function getHrStations($trainNo)
 	{
 		$params = array(
 			'VL' => $trainNo,
@@ -65,39 +54,33 @@ class HrStationsFetcherDelegate
 			'<TD ALIGN=CENTER BGCOLOR=.{7}><FONT FACE="Arial" SIZE=3>(?P<time>.*?)</TD>\r\n' .
 			'<TD ALIGN=CENTER BGCOLOR=.{7}><FONT FACE="Arial" SIZE=3>(?P<delay>.*?)</TD>#';
 
-		$matches = StationsFetcherUtils::getMatcher($url, $pattern);
+		$matches = self::getMatcher($url, $pattern);
 
 		$stations = array();
 
-		foreach ($matches as $match)
-		{
+		foreach ($matches as $match) {
 			$name = iconv('Windows-1250', 'UTF-8', trim($match['name']));
 			$direction = trim($match['direction']);
 			$time = trim($match['time']);
 			$delay = trim($match['delay']);
 
-			if ($direction == 'Dolazak')
-			{
+			if ($direction == 'Dolazak') {
 				$station = array(
 					'name' => $name,
 					'arrivalTime' => $time
 				);
 
-				if ($delay != '<BR>')
-				{
+				if ($delay != '<BR>') {
 					$station['arrivalDelay'] = intval($delay);
 				}
 			}
-			else
-			{
+			else {
 				$prev_station = end($stations);
 
-				if ($prev_station !== false && $prev_station['name'] == $name)
-				{
+				if ($prev_station !== false && $prev_station['name'] == $name) {
 					$station = array_pop($stations);
 				}
-				else
-				{
+				else {
 					$station = array(
 						'name' => $name
 					);
@@ -105,8 +88,7 @@ class HrStationsFetcherDelegate
 
 				$station['departureTime'] = $time;
 
-				if ($delay != '<BR>')
-				{
+				if ($delay != '<BR>') {
 					$station['departureDelay'] = intval($delay);
 				}
 			}
@@ -116,11 +98,8 @@ class HrStationsFetcherDelegate
 
 		return $stations;
 	}
-}
 
-class SiStationsFetcherDelegate
-{
-	public function getStations($trainNo)
+	private function getSiStations($trainNo)
 	{
 		$params = array(
 			'Category' => 'E-zeleznice',
@@ -141,12 +120,11 @@ class SiStationsFetcherDelegate
 			'    <td>(?P<departure_delay>.*?)</td>\r\n' .
 			'  </tr>#';
 
-		$matches = StationsFetcherUtils::getMatcher($url, $pattern);
+		$matches = self::getMatcher($url, $pattern);
 
 		$stations = array();
 
-		foreach ($matches as $match)
-		{
+		foreach ($matches as $match) {
 			$name = iconv('Windows-1250', 'UTF-8', trim($match['name']));
 			$arrival_time = trim($match['arrival_time']);
 			$arrival_delay = trim($match['arrival_delay']);
@@ -156,28 +134,23 @@ class SiStationsFetcherDelegate
 			$arrival_available = ($arrival_time != '.') && ($arrival_time != null);
 			$departure_available = ($departure_time != '.') && ($departure_time != null);
 
-			if ($arrival_available || $departure_available)
-			{
+			if ($arrival_available || $departure_available) {
 				$station = array(
 					'name' => $name
 				);
 
-				if ($arrival_available)
-				{
+				if ($arrival_available) {
 					$station['arrivalTime'] = $arrival_time;
 
-					if ($arrival_delay != 'R')
-					{
+					if ($arrival_delay != 'R') {
 						$station['arrivalDelay'] = intval($arrival_delay);
 					}
 				}
 
-				if ($departure_available)
-				{
+				if ($departure_available) {
 					$station['departureTime'] = $departure_time;
 
-					if ($departure_delay != 'R')
-					{
+					if ($departure_delay != 'R') {
 						$station['departureDelay'] = intval($departure_delay);
 					}
 				}
@@ -189,5 +162,3 @@ class SiStationsFetcherDelegate
 		return $stations;
 	}
 }
-
-/* End of file StationsFetcher.php */
