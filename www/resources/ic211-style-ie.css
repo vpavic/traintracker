@@ -1,9 +1,0 @@
-div#data {
-	overflow: auto;
-	height: 340px;
-}
-
-tbody {
-	height: auto;
-	overflow: visible;
-}
