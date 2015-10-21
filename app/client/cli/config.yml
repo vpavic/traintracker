@@ -1,0 +1,9 @@
+# configuration file for stations.py script
+#
+# valid keys are:
+#   url
+#
+# example:
+#   url: http://localhost/voznired/index.php/stations/{}
+
+url: http://voznired.hocuinternet.com/stations/{}
