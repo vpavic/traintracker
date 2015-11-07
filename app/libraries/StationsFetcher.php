@@ -43,8 +43,7 @@ class StationsFetcher
 			'D1' => date('ymd'),
 			'Category' => 'korisnici',
 			'Service' => 'Pkvl',
-			'SCREEN' => '2',
-			'ot' => '1'
+			'SCREEN' => '2'
 		);
 
 		$url = 'http://vred.hzinfra.hr/hzinfo/Default.asp?' . http_build_query($params);
