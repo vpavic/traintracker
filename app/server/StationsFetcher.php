@@ -46,7 +46,7 @@ class StationsFetcher
 			'SCREEN' => '2'
 		);
 
-		$url = 'http://vred.hzinfra.hr/hzinfo/Default.asp?' . http_build_query($params);
+		$url = 'http://najava.hzinfra.hr/hzinfo/Default.asp?' . http_build_query($params);
 
 		$pattern = '#<TD ALIGN=left BGCOLOR=.{7}><FONT FACE="Arial" SIZE=3>(?P<name>.*?)</TD>\r\n' .
 			'<TD ALIGN=CENTER BGCOLOR=.{7}><FONT FACE="Arial" SIZE=3>(?P<direction>.*?)</TD>\r\n' .
