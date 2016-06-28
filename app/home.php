@@ -32,15 +32,15 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">Vozni red uživo!</a>
+				<a class="navbar-brand" href="<?php echo strtok($_SERVER['REQUEST_URI'], '?'); ?>">Vozni red uživo!</a>
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Korisno <span class="caret"></span></a>
 						<ul class="dropdown-menu">
-							<li><a href="http://www.hzinfra.hr/radovi-na-pruzi02" target="_blank">HŽ Infrastruktura - Radovi na pruzi</a></li>
-							<li><a href="http://hr.wikipedia.org/wiki/%C5%BDeljezni%C4%8Dke_pruge_u_Hrvatskoj" target="_blank">Željezničke pruge u Hrvatskoj</a></li>
+							<li><a href="http://www.hzinfra.hr/radovi-na-pruzi02" target="_blank">HŽ - Radovi na pruzi</a></li>
+							<li><a href="http://hr.wikipedia.org/wiki/%C5%BDeljezni%C4%8Dke_pruge_u_Hrvatskoj" target="_blank">Željezničke pruge u RH</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -66,60 +66,23 @@
 		</div>
 	</div>
 
-	<div id="data" class="container">
-	</div>
+	<div class="container" id="data"></div>
 
 	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/js/ie10-viewport-bug-workaround.js"></script>
 	<script>
+		var input = $('#trainNo');
+		input.focus();
+
 		$('#search').submit(function(event) {
 			event.preventDefault();
-			var trainNo = $('#trainNo').val();
-			loadStations(trainNo);
-		});
+			var trainNo = input.val();
 
-		function loadStations(trainNo) {
-			$.getJSON('stations/' + trainNo, function(data) {
-				if (!$.isEmptyObject(data.stations)) {
-					var table = $('<table class="table"/>');
-					var thead = $('<thead/>');
-					var tbody = $('<tbody/>');
-					var tr;
-
-					table.append(thead);
-					table.append(tbody);
-
-					tr = $('<tr/>');
-
-					tr.append('<th>Kolodvor</th>');
-					tr.append('<th class="text-center">Dolazak</th>');
-					tr.append('<th class="text-center">Kašnjenje</th>');
-					tr.append('<th class="text-center">Odlazak</th>');
-					tr.append('<th class="text-center">Kašnjenje</th>');
-
-					thead.append(tr);
-
-					$.each(data.stations, function(i, station) {
-						tr = $('<tr/>');
-
-						tr.append('<td>' + station.name + '</td>');
-						tr.append(station.arrivalTime ? '<td class="text-center">' + station.arrivalTime + '</td>' : '<td/>');
-						tr.append(station.arrivalDelay ? '<td class="text-center">' + station.arrivalDelay + '</td>' : '<td/>');
-						tr.append(station.departureTime ? '<td class="text-center">' + station.departureTime + '</td>' : '<td/>');
-						tr.append(station.departureDelay ? '<td class="text-center">' + station.departureDelay + '</td>' : '<td/>');
-
-						tbody.append(tr);
-					});
-
-					var dataDiv = $('#data');
-					dataDiv.html(table);
-				}
-				else {
-					$('#data').html('<div class="alert alert-warning" role="alert">Ne postoji podatak o kretanju vlaka.</div>');
-				}
+			$('#data').load('trains/' + trainNo, function() {
+				input.select();
 			});
-		}
+		});
 	</script>
 </body>
 </html>
