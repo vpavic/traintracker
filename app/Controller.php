@@ -19,16 +19,27 @@ class Controller
 	public function train($trainNo)
 	{
 		$stations = $this->stationsFetcher->getStations($trainNo);
+		$currentStation = end($stations);
 
 		header('Cache-Control: no-cache, must-revalidate');
 		header('Pragma: no-cache');
 
 		if (strpos(strtolower($_SERVER['HTTP_ACCEPT']), 'text/html') !== false ) {
+			if (!empty($currentStation['departureTime']) && !empty($currentStation['departureDelay'])) {
+				$delay = $currentStation['departureDelay'];
+			}
+			elseif (!empty($currentStation['arrivalDelay'])) {
+				$delay = $currentStation['arrivalDelay'];
+			}
+			else {
+				$delay = 0;
+			}
 			require_once 'train.php';
 		}
 		else {
 			$data = array(
 				'generatedTime' => date('H:i:s'),
+				'currentStation' => $currentStation,
 				'stations' => $stations
 			);
 
