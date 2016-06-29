@@ -23,6 +23,7 @@
 			</tr>
 		</table>
 	</div>
+
 	<div class="panel panel-default">
 		<div class="panel-heading" role="tab" id="headingStations">
 			<h3 class="panel-title">

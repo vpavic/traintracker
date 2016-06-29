@@ -50,10 +50,7 @@
 
 	<div class="container">
 		<div class="jumbotron">
-			<div class="starter-template">
-				<p class="lead">Pregled kretanja vlaka</p>
-			</div>
-
+			<h3>Pretraga po broju vlaka</h3>
 			<form class="form-inline" id="search">
 				<div class="form-group">
 					<label class="sr-only" for="trainNo">Broj vlaka</label>
