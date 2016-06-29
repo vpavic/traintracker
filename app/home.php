@@ -79,7 +79,7 @@
 			event.preventDefault();
 			var trainNo = input.val();
 
-			$('#data').load('trains/' + trainNo, function() {
+			$('#data').load(trainNo, function() {
 				input.select();
 			});
 		});
