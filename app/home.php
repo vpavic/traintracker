@@ -68,16 +68,22 @@
 	<script src="https://cdn.jsdelivr.net/jquery/1.12.4/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/pace/1.0.2/pace.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/mousetrap/1.6.0/mousetrap.min.js"></script>
 	<script>
+		var form = $('#search')
 		var input = $('#trainNo');
 		input.focus();
 
-		$('#search').submit(function(event) {
+		Mousetrap.bind('/', function(e) { input.select(); });
+		Mousetrap.bind('e', function(e) { $('#stations').collapse('toggle'); });
+		Mousetrap.bind('r', function(e) { form.submit(); });
+
+		form.submit(function(event) {
 			event.preventDefault();
 			var trainNo = input.val();
 
 			$('#data').load(trainNo, function() {
-				input.select();
+				input.blur();
 			});
 		});
 	</script>
