@@ -37,8 +37,10 @@
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
 					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Korisno <span class="caret"></span></a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pomoć <span class="caret"></span></a>
 						<ul class="dropdown-menu">
+							<li><a href="#" data-toggle="modal" data-target="#shortcuts">Prečaci</a></li>
+							<li class="dropdown-header">Korisni linkovi</li>
 							<li><a href="http://www.hzinfra.hr/radovi-na-pruzi02" target="_blank">HŽ - Radovi na pruzi</a></li>
 							<li><a href="http://hr.wikipedia.org/wiki/%C5%BDeljezni%C4%8Dke_pruge_u_Hrvatskoj" target="_blank">Željezničke pruge u RH</a></li>
 						</ul>
@@ -65,6 +67,35 @@
 
 	<div class="container" id="data"></div>
 
+	<div class="modal fade" id="shortcuts" tabindex="-1" role="dialog" aria-labelledby="headerShortcuts">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="headerShortcuts">Prečaci</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-1 text-center"><strong>/</strong></div>
+						<div class="col-md-8">Fokusiraj polje za pretragu</div>
+					</div>
+					<div class="row">
+						<div class="col-md-1 text-center"><strong>e</strong></div>
+						<div class="col-md-8">Prikaži/sakrij potpuni pregled kretanja vlaka</div>
+					</div>
+					<div class="row">
+						<div class="col-md-1 text-center"><strong>r</strong></div>
+						<div class="col-md-8">Osvježi trenutnu pretragu</div>
+					</div>
+					<div class="row">
+						<div class="col-md-1 text-center"><strong>?</strong></div>
+						<div class="col-md-8">Prikaži prečace</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<script src="https://cdn.jsdelivr.net/jquery/1.12.4/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/pace/1.0.2/pace.min.js"></script>
@@ -77,6 +108,7 @@
 		Mousetrap.bind('/', function(e) { input.select(); });
 		Mousetrap.bind('e', function(e) { $('#stations').collapse('toggle'); });
 		Mousetrap.bind('r', function(e) { form.submit(); });
+		Mousetrap.bind('?', function(e) { $('#shortcuts').modal('show'); });
 
 		form.submit(function(event) {
 			event.preventDefault();
