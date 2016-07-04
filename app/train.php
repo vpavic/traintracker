@@ -6,22 +6,24 @@
 				Trenutna pozicija vlaka
 			</h3>
 		</div>
-		<table class="table">
-			<tr>
-				<th>Kolodvor</th>
-				<th class="text-center">Dolazak</th>
-				<th class="text-center">Kašnjenje</th>
-				<th class="text-center">Odlazak</th>
-				<th class="text-center">Kašnjenje</th>
-			</tr>
-			<tr>
-				<td><?php echo $currentStation['name'] ?></td>
-				<td class="text-center"><?php echo !empty($currentStation['arrivalTime']) ? $currentStation['arrivalTime'] : ''; ?></td>
-				<td class="text-center"><?php echo !empty($currentStation['arrivalDelay']) ? $currentStation['arrivalDelay'] : ''; ?></td>
-				<td class="text-center"><?php echo !empty($currentStation['departureTime']) ? $currentStation['departureTime'] : ''; ?></td>
-				<td class="text-center"><?php echo !empty($currentStation['departureDelay']) ? $currentStation['departureDelay'] : ''; ?></td>
-			</tr>
-		</table>
+		<div class="table-responsive">
+			<table class="table">
+				<tr>
+					<th>Kolodvor</th>
+					<th class="text-center">Dolazak</th>
+					<th class="text-center">Kašnjenje</th>
+					<th class="text-center">Odlazak</th>
+					<th class="text-center">Kašnjenje</th>
+				</tr>
+				<tr>
+					<td><?php echo $currentStation['name'] ?></td>
+					<td class="text-center"><?php echo !empty($currentStation['arrivalTime']) ? $currentStation['arrivalTime'] : ''; ?></td>
+					<td class="text-center"><?php echo !empty($currentStation['arrivalDelay']) ? $currentStation['arrivalDelay'] : ''; ?></td>
+					<td class="text-center"><?php echo !empty($currentStation['departureTime']) ? $currentStation['departureTime'] : ''; ?></td>
+					<td class="text-center"><?php echo !empty($currentStation['departureDelay']) ? $currentStation['departureDelay'] : ''; ?></td>
+				</tr>
+			</table>
+		</div>
 	</div>
 
 	<div class="panel panel-default">
@@ -34,24 +36,26 @@
 			</h3>
 		</div>
 		<div id="stations" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingStations">
-			<table class="table">
-				<tr>
-					<th>Kolodvor</th>
-					<th class="text-center">Dolazak</th>
-					<th class="text-center">Kašnjenje</th>
-					<th class="text-center">Odlazak</th>
-					<th class="text-center">Kašnjenje</th>
-				</tr>
-				<?php foreach ($stations as $station): ?>
+			<div class="table-responsive">
+				<table class="table">
 					<tr>
-						<td><?php echo $station['name'] ?></td>
-						<td class="text-center"><?php echo !empty($station['arrivalTime']) ? $station['arrivalTime'] : ''; ?></td>
-						<td class="text-center"><?php echo !empty($station['arrivalDelay']) ? $station['arrivalDelay'] : ''; ?></td>
-						<td class="text-center"><?php echo !empty($station['departureTime']) ? $station['departureTime'] : ''; ?></td>
-						<td class="text-center"><?php echo !empty($station['departureDelay']) ? $station['departureDelay'] : ''; ?></td>
+						<th>Kolodvor</th>
+						<th class="text-center">Dolazak</th>
+						<th class="text-center">Kašnjenje</th>
+						<th class="text-center">Odlazak</th>
+						<th class="text-center">Kašnjenje</th>
 					</tr>
-				<?php endforeach; ?>
-			</table>
+					<?php foreach ($stations as $station): ?>
+						<tr>
+							<td><?php echo $station['name'] ?></td>
+							<td class="text-center"><?php echo !empty($station['arrivalTime']) ? $station['arrivalTime'] : ''; ?></td>
+							<td class="text-center"><?php echo !empty($station['arrivalDelay']) ? $station['arrivalDelay'] : ''; ?></td>
+							<td class="text-center"><?php echo !empty($station['departureTime']) ? $station['departureTime'] : ''; ?></td>
+							<td class="text-center"><?php echo !empty($station['departureDelay']) ? $station['departureDelay'] : ''; ?></td>
+						</tr>
+					<?php endforeach; ?>
+				</table>
+			</div>
 		</div>
 	</div>
 <?php else: ?>
