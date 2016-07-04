@@ -24,7 +24,6 @@
 				</tr>
 			</table>
 		</div>
-		<div class="panel-footer"><small>Generirano u <?php echo date('H:i:s'); ?>.</small></div>
 	</div>
 
 	<div class="panel panel-default">
@@ -59,6 +58,8 @@
 			</div>
 		</div>
 	</div>
+
+	<p class="text-center text-muted"><small>Generirano u <?php echo date('H:i:s'); ?>.</small></p>
 <?php else: ?>
 	<div class="alert alert-warning" role="alert">Ne postoji podatak o kretanju vlaka <?php echo $trainNo; ?>.</div>
 <?php endif; ?>
