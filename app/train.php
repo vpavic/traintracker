@@ -24,6 +24,7 @@
 				</tr>
 			</table>
 		</div>
+		<div class="panel-footer"><small>Generirano u <?php echo date('H:i:s'); ?>.</small></div>
 	</div>
 
 	<div class="panel panel-default">
