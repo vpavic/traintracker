@@ -128,9 +128,11 @@
 			event.preventDefault();
 			var trainNo = input.val();
 
-			$('#data').load(trainNo, function() {
-				input.blur();
-			});
+			if (trainNo.length != 0) {
+				$('#data').load(trainNo, function() {
+					input.blur();
+				});
+			}
 		});
 	</script>
 </body>
