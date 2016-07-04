@@ -60,7 +60,7 @@
 						<input type="number" class="form-control" id="trainNo" name="trainNo" placeholder="Broj vlaka">
 					</div>
 				</div>
-				<button type="submit" class="btn btn-primary">Traži!</button>
+				<button type="submit" class="btn btn-primary" id="searchSubmit" disabled>Traži!</button>
 			</form>
 		</div>
 	</div>
@@ -103,12 +103,26 @@
 	<script>
 		var form = $('#search')
 		var input = $('#trainNo');
+		var submit = $('#searchSubmit');
+
 		input.focus();
 
 		Mousetrap.bind('/', function(e) { input.select(); });
 		Mousetrap.bind('e', function(e) { $('#stations').collapse('toggle'); });
 		Mousetrap.bind('r', function(e) { form.submit(); });
 		Mousetrap.bind('?', function(e) { $('#shortcuts').modal('show'); });
+
+		input.keyup(function() {
+			var disabled = submit.is(':disabled');
+			var empty = $(this).val().length == 0;
+
+			if (!disabled && empty) {
+				submit.attr('disabled', 'disabled');
+			}
+			else if (disabled && !empty) {
+				submit.removeAttr('disabled');
+			}
+		});
 
 		form.submit(function(event) {
 			event.preventDefault();
