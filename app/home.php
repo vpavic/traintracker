@@ -76,19 +76,19 @@
 				</div>
 				<div class="modal-body">
 					<div class="row">
-						<div class="col-md-1 text-center"><strong>/</strong></div>
+						<div class="col-md-2 text-center"><strong>/</strong> ili <strong>s</strong></div>
 						<div class="col-md-8">Fokusiraj polje za pretragu</div>
 					</div>
 					<div class="row">
-						<div class="col-md-1 text-center"><strong>e</strong></div>
+						<div class="col-md-2 text-center"><strong>e</strong></div>
 						<div class="col-md-8">Prikaži/sakrij potpuni pregled kretanja vlaka</div>
 					</div>
 					<div class="row">
-						<div class="col-md-1 text-center"><strong>r</strong></div>
+						<div class="col-md-2 text-center"><strong>r</strong></div>
 						<div class="col-md-8">Osvježi trenutnu pretragu</div>
 					</div>
 					<div class="row">
-						<div class="col-md-1 text-center"><strong>?</strong></div>
+						<div class="col-md-2 text-center"><strong>?</strong></div>
 						<div class="col-md-8">Prikaži prečace</div>
 					</div>
 				</div>
@@ -101,16 +101,17 @@
 	<script src="https://cdn.jsdelivr.net/pace/1.0.2/pace.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/mousetrap/1.6.0/mousetrap.min.js"></script>
 	<script>
-		var form = $('#search')
 		var input = $('#trainNo');
 		var submit = $('#searchSubmit');
+		var form = $('#search')
 
 		focusInput();
 
 		Mousetrap.bind('/', focusInput);
-		Mousetrap.bind('e', function(e) { $('#stations').collapse('toggle'); });
-		Mousetrap.bind('r', function(e) { form.submit(); });
-		Mousetrap.bind('?', function(e) { $('#shortcuts').modal('show'); });
+		Mousetrap.bind('s', focusInput);
+		Mousetrap.bind('e', toggleDetails);
+		Mousetrap.bind('r', submitSearch);
+		Mousetrap.bind('?', displayShortcuts);
 
 		input.keyup(function() {
 			var disabled = submit.is(':disabled');
@@ -137,6 +138,18 @@
 
 		function focusInput() {
 			input.focus();
+		}
+
+		function toggleDetails() {
+			$('#stations').collapse('toggle');
+		}
+
+		function submitSearch() {
+			form.submit();
+		}
+
+		function displayShortcuts() {
+			$('#shortcuts').modal('show');
 		}
 	</script>
 </body>
