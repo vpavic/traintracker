@@ -105,9 +105,9 @@
 		var input = $('#trainNo');
 		var submit = $('#searchSubmit');
 
-		input.focus();
+		focusInput();
 
-		Mousetrap.bind('/', function(e) { input.select(); });
+		Mousetrap.bind('/', focusInput);
 		Mousetrap.bind('e', function(e) { $('#stations').collapse('toggle'); });
 		Mousetrap.bind('r', function(e) { form.submit(); });
 		Mousetrap.bind('?', function(e) { $('#shortcuts').modal('show'); });
@@ -134,6 +134,10 @@
 				});
 			}
 		});
+
+		function focusInput() {
+			input.focus();
+		}
 	</script>
 </body>
 </html>
