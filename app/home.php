@@ -100,6 +100,7 @@
 	<script src="https://cdn.jsdelivr.net/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/pace/1.0.2/pace.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/mousetrap/1.6.0/mousetrap.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/mousetrap/1.6.0/plugins/global-bind/mousetrap-global-bind.min.js"></script>
 	<script>
 		var input = $('#trainNo');
 		var submit = $('#searchSubmit');
@@ -112,6 +113,7 @@
 		Mousetrap.bind('e', toggleDetails);
 		Mousetrap.bind('r', submitSearch);
 		Mousetrap.bind('?', displayShortcuts);
+		Mousetrap.bindGlobal('esc', blurInput);
 
 		input.keyup(function() {
 			var disabled = submit.is(':disabled');
@@ -138,6 +140,10 @@
 
 		function focusInput() {
 			input.focus();
+		}
+
+		function blurInput() {
+			input.blur();
 		}
 
 		function toggleDetails() {
