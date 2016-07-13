@@ -65,6 +65,18 @@
 		</div>
 	</div>
 
+	<div class="container hidden">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">
+					<span class="glyphicon glyphicon-list"></span>
+					Moji vlakovi
+				</h3>
+			</div>
+			<div class="list-group" id="my-trains"></div>
+		</div>
+	</div>
+
 	<div class="container" id="data"></div>
 
 	<div class="modal fade" id="shortcuts" tabindex="-1" role="dialog" aria-labelledby="headerShortcuts">
