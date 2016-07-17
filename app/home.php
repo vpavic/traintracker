@@ -65,7 +65,7 @@
 		</div>
 	</div>
 
-	<div class="container hidden">
+	<div class="container collapse" id="my-trains">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">
@@ -73,7 +73,7 @@
 					Moji vlakovi
 				</h3>
 			</div>
-			<div class="list-group" id="my-trains"></div>
+			<div class="list-group"></div>
 		</div>
 	</div>
 
@@ -120,6 +120,7 @@
 		var form = $('#search')
 
 		focusInput();
+		generateMyTrainsList();
 
 		Mousetrap.bind({
 			'/': focusInput,
@@ -150,6 +151,9 @@
 			if (trainNo.length != 0) {
 				$('#data').load(trainNo, function() {
 					input.blur();
+					if (!containsTrain(trainNo)) {
+						$('#train-panel-title').append('<span class="glyphicon glyphicon-star pull-right"></span>');
+					}
 				});
 			}
 		});
@@ -172,6 +176,64 @@
 
 		function displayShortcuts() {
 			$('#shortcuts').modal('show');
+		}
+
+		function saveMyTrains(myTrains) {
+			localStorage.setItem('my_trains', JSON.stringify(myTrains));
+		}
+
+		function loadMyTrains() {
+			return JSON.parse(localStorage.getItem('my_trains')) || [];
+		}
+
+		function addTrain(trainNo) {
+			var myTrains = loadMyTrains();
+
+			if (myTrains.indexOf(trainNo) != -1) {
+				return;
+			}
+
+			myTrains.push(trainNo);
+			saveMyTrains(myTrains);
+		}
+
+		function removeTrain(trainNo) {
+			var myTrains = loadMyTrains();
+			var index = myTrains.indexOf(trainNo);
+
+			if (index == -1) {
+				return;
+			}
+
+			myTrains.splice(index);
+			saveMyTrains(myTrains);
+		}
+
+		function containsTrain(trainNo) {
+			var myTrains = loadMyTrains();
+			return myTrains.indexOf(trainNo) != -1;
+		}
+
+		function generateMyTrainsList() {
+			var container = $('#my-trains');
+			var list = container.find('div.list-group');
+
+			container.hide();
+			list.empty();
+
+			var myTrains = loadMyTrains();
+
+			if (myTrains.length > 0) {
+				myTrains.sort(function(a, b) {
+					return a - b;
+				});
+
+				myTrains.forEach(function(train) {
+					list.append($('<a class="btn btn-default" href="#" role="button">' + train + '</a>'));
+				});
+
+				container.show();
+			}
 		}
 	</script>
 </body>

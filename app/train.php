@@ -1,7 +1,7 @@
 <?php if (!empty($stations)): ?>
 	<div class="panel panel-<?php if ($delay < 1) echo 'success'; elseif ($delay < 20) echo 'warning'; else echo 'danger'; ?>">
 		<div class="panel-heading">
-			<h3 class="panel-title">
+			<h3 class="panel-title" id="train-panel-title">
 				<span class="glyphicon glyphicon-info-sign"></span>
 				Trenutna pozicija vlaka
 			</h3>
