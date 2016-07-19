@@ -65,15 +65,18 @@
 		</div>
 	</div>
 
-	<div class="container collapse" id="my-trains">
-		<div class="panel panel-default">
+	<div class="container">
+		<div class="panel panel-default" id="my-trains">
 			<div class="panel-heading">
 				<h3 class="panel-title">
 					<span class="glyphicon glyphicon-list"></span>
 					Moji vlakovi
 				</h3>
 			</div>
-			<div class="list-group"></div>
+			<div class="panel-body collapse">
+				<p class="text-center text-muted">Nemate spremljenih vlakova</p>
+			</div>
+			<ul class="list-group"></ul>
 		</div>
 	</div>
 
@@ -151,8 +154,20 @@
 			if (trainNo.length != 0) {
 				$('#data').load(trainNo, function() {
 					input.blur();
-					if (!containsTrain(trainNo)) {
-						$('#train-panel-title').append('<span class="glyphicon glyphicon-star pull-right"></span>');
+
+					if (containsTrain(trainNo)) {
+						// TODO
+					}
+					else {
+						var link = $('#add-my-train');
+						link.append('<span class="glyphicon glyphicon-star"></span>');
+
+						link.click(function(event) {
+							var trainNo = String($(this).data('train-no'));
+							event.preventDefault();
+							addTrain(trainNo);
+							generateMyTrainsList();
+						});
 					}
 				});
 			}
@@ -215,10 +230,11 @@
 		}
 
 		function generateMyTrainsList() {
-			var container = $('#my-trains');
-			var list = container.find('div.list-group');
+			var panel = $('#my-trains');
+			var body = panel.find('div.panel-body');
+			var list = panel.find('ul.list-group');
 
-			container.hide();
+			body.hide();
 			list.empty();
 
 			var myTrains = loadMyTrains();
@@ -229,10 +245,32 @@
 				});
 
 				myTrains.forEach(function(train) {
-					list.append($('<a class="btn btn-default" href="#" role="button">' + train + '</a>'));
+					list.append(
+						'<li class="list-group-item">' +
+						'<a href="#" class="fetch-my-train" data-train-no="' + train + '">' + train + '</a>' +
+						'<a href="#" class="remove-my-train pull-right" data-train-no="' + train + '">' +
+						'<span class="glyphicon glyphicon-remove"></span>' +
+						'</a>' +
+						'</li>');
 				});
 
-				container.show();
+				$('.fetch-my-train').click(function(event) {
+					var trainNo = String($(this).data('train-no'));
+					event.preventDefault();
+					input.val(trainNo);
+					input.keyup();
+					form.submit();
+				});
+
+				$('.remove-my-train').click(function(event) {
+					var trainNo = String($(this).data('train-no'));
+					event.preventDefault();
+					removeTrain(trainNo);
+					generateMyTrainsList();
+				});
+			}
+			else {
+				body.show();
 			}
 		}
 	</script>
