@@ -4,7 +4,9 @@
 			<h3 class="panel-title">
 				<span class="glyphicon glyphicon-info-sign"></span>
 				Trenutna pozicija vlaka
-				<a href="#" class="pull-right" id="add-my-train" data-train-no="<?php echo $trainNo; ?>"></a>
+				<a href="#" class="pull-right" id="star" data-train-no="<?php echo $trainNo; ?>">
+					<span class="glyphicon"></span>
+				</a>
 			</h3>
 		</div>
 		<div class="table-responsive">

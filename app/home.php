@@ -154,21 +154,30 @@
 			if (trainNo.length != 0) {
 				$('#data').load(trainNo, function() {
 					input.blur();
+					var link = $('#star');
 
 					if (containsTrain(trainNo)) {
-						// TODO
+						star(link);
 					}
 					else {
-						var link = $('#add-my-train');
-						link.append('<span class="glyphicon glyphicon-star"></span>');
-
-						link.click(function(event) {
-							var trainNo = String($(this).data('train-no'));
-							event.preventDefault();
-							addTrain(trainNo);
-							generateMyTrainsList();
-						});
+						unstar(link);
 					}
+
+					link.click(function(event) {
+						event.preventDefault();
+						var trainNo = String($(this).data('train-no'));
+
+						if (containsTrain(trainNo)) {
+							removeTrain(trainNo);
+							unstar(link);
+						}
+						else {
+							addTrain(trainNo);
+							star(link);
+						}
+
+						generateMyTrainsList();
+					});
 				});
 			}
 		});
@@ -248,7 +257,7 @@
 					list.append(
 						'<li class="list-group-item">' +
 						'<a href="#" class="fetch-my-train" data-train-no="' + train + '">' + train + '</a>' +
-						'<a href="#" class="remove-my-train pull-right" data-train-no="' + train + '">' +
+						'<a href="#" class="remove-my-train pull-right" title="Ukloni iz mojih vlakova" data-train-no="' + train + '">' +
 						'<span class="glyphicon glyphicon-remove"></span>' +
 						'</a>' +
 						'</li>');
@@ -266,12 +275,27 @@
 					var trainNo = String($(this).data('train-no'));
 					event.preventDefault();
 					removeTrain(trainNo);
+					unstar($('#star'));
 					generateMyTrainsList();
 				});
 			}
 			else {
 				body.show();
 			}
+		}
+
+		function star(link) {
+			link.attr('title', 'Ukloni iz mojih vlakova')
+				.find('span.glyphicon')
+				.removeClass('glyphicon-star-empty')
+				.addClass('glyphicon-star');
+		}
+
+		function unstar(link) {
+			link.attr('title', 'Dodaj u moje vlakove')
+				.find('span.glyphicon')
+				.removeClass('glyphicon-star')
+				.addClass('glyphicon-star-empty');
 		}
 	</script>
 </body>
