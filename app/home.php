@@ -55,12 +55,12 @@
 			<h3>Pretraga po broju vlaka</h3>
 			<form class="form-inline" id="search">
 				<div class="form-group">
-					<label class="sr-only" for="trainNo">Broj vlaka</label>
+					<label class="sr-only" for="train-no">Broj vlaka</label>
 					<div class="input-group">
-						<input type="number" class="form-control" id="trainNo" name="trainNo" placeholder="Broj vlaka">
+						<input type="number" class="form-control" id="train-no" name="train-no" placeholder="Broj vlaka">
 					</div>
 				</div>
-				<button type="submit" class="btn btn-primary" id="searchSubmit" disabled>Traži!</button>
+				<button type="submit" class="btn btn-primary" id="search-submit" disabled>Traži!</button>
 			</form>
 		</div>
 	</div>
@@ -82,12 +82,12 @@
 
 	<div class="container" id="data"></div>
 
-	<div class="modal fade" id="shortcuts" tabindex="-1" role="dialog" aria-labelledby="headerShortcuts">
+	<div class="modal fade" id="shortcuts" tabindex="-1" role="dialog" aria-labelledby="header-shortcuts">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="headerShortcuts">Prečaci</h4>
+					<h4 class="modal-title" id="header-shortcuts">Prečaci</h4>
 				</div>
 				<div class="modal-body">
 					<div class="row">

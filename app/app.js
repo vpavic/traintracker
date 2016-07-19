@@ -1,6 +1,9 @@
-var input = $('#trainNo');
-var submit = $('#searchSubmit');
-var form = $('#search')
+var input = $('#train-no');
+var submit = $('#search-submit');
+var form = $('#search');
+var panel = $('#my-trains');
+var data = $('#data');
+var starLink;
 
 focusInput();
 generateMyTrainsList();
@@ -32,28 +35,28 @@ form.submit(function(event) {
 	var trainNo = input.val();
 
 	if (trainNo.length != 0) {
-		$('#data').load(trainNo, function() {
+		data.load(trainNo, function() {
 			input.blur();
-			var link = $('#star');
+			starLink = $('#star');
 
 			if (containsTrain(trainNo)) {
-				star(link);
+				star(starLink);
 			}
 			else {
-				unstar(link);
+				unstar(starLink);
 			}
 
-			link.click(function(event) {
+			starLink.click(function(event) {
 				event.preventDefault();
-				var trainNo = String($(this).data('train-no'));
+				var trainNo = $(this).attr('data-train-no');
 
 				if (containsTrain(trainNo)) {
 					removeTrain(trainNo);
-					unstar(link);
+					unstar(starLink);
 				}
 				else {
 					addTrain(trainNo);
-					star(link);
+					star(starLink);
 				}
 
 				generateMyTrainsList();
@@ -119,7 +122,6 @@ function containsTrain(trainNo) {
 }
 
 function generateMyTrainsList() {
-	var panel = $('#my-trains');
 	var body = panel.find('div.panel-body');
 	var list = panel.find('ul.list-group');
 
@@ -144,7 +146,7 @@ function generateMyTrainsList() {
 		});
 
 		$('.fetch-my-train').click(function(event) {
-			var trainNo = String($(this).data('train-no'));
+			var trainNo = $(this).attr('data-train-no');
 			event.preventDefault();
 			input.val(trainNo);
 			input.keyup();
@@ -152,10 +154,12 @@ function generateMyTrainsList() {
 		});
 
 		$('.remove-my-train').click(function(event) {
-			var trainNo = String($(this).data('train-no'));
+			var trainNo = $(this).attr('data-train-no');
 			event.preventDefault();
 			removeTrain(trainNo);
-			unstar($('#star'));
+			if (trainNo == starLink.attr('data-train-no')) {
+				unstar(starLink);
+			}
 			generateMyTrainsList();
 		});
 	}
