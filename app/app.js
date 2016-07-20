@@ -1,8 +1,9 @@
-var input = $('#train-no');
-var submit = $('#search-submit');
-var form = $('#search');
-var panel = $('#my-trains');
-var data = $('#data');
+var form = $('#search-form');
+var input = $('#train-no-input');
+var button = $('#submit-button');
+var panel = $('#starred-trains-panel');
+var list = $('#starred-trains-list');
+var data = $('#train-data');
 var starLink;
 
 focusInput();
@@ -19,14 +20,14 @@ Mousetrap.bind({
 Mousetrap.bindGlobal('esc', blurInput);
 
 input.keyup(function() {
-	var disabled = submit.is(':disabled');
+	var disabled = button.is(':disabled');
 	var empty = $(this).val().length == 0;
 
 	if (!disabled && empty) {
-		submit.attr('disabled', 'disabled');
+		button.attr('disabled', 'disabled');
 	}
 	else if (disabled && !empty) {
-		submit.removeAttr('disabled');
+		button.removeAttr('disabled');
 	}
 });
 
@@ -40,10 +41,10 @@ form.submit(function(event) {
 			starLink = $('#star');
 
 			if (containsTrain(trainNo)) {
-				star(starLink);
+				prepareUnstarred(starLink);
 			}
 			else {
-				unstar(starLink);
+				prepareStarred(starLink);
 			}
 
 			starLink.click(function(event) {
@@ -52,11 +53,11 @@ form.submit(function(event) {
 
 				if (containsTrain(trainNo)) {
 					removeTrain(trainNo);
-					unstar(starLink);
+					prepareStarred(starLink);
 				}
 				else {
 					addTrain(trainNo);
-					star(starLink);
+					prepareUnstarred(starLink);
 				}
 
 				generateMyTrainsList();
@@ -122,10 +123,7 @@ function containsTrain(trainNo) {
 }
 
 function generateMyTrainsList() {
-	var body = panel.find('div.panel-body');
-	var list = panel.find('ul.list-group');
-
-	body.hide();
+	panel.hide();
 	list.empty();
 
 	var myTrains = loadMyTrains();
@@ -158,24 +156,24 @@ function generateMyTrainsList() {
 			event.preventDefault();
 			removeTrain(trainNo);
 			if (trainNo == starLink.attr('data-train-no')) {
-				unstar(starLink);
+				prepareStarred(starLink);
 			}
 			generateMyTrainsList();
 		});
 	}
 	else {
-		body.show();
+		panel.show();
 	}
 }
 
-function star(link) {
+function prepareUnstarred(link) {
 	link.attr('title', 'Ukloni iz mojih vlakova')
 		.find('span.glyphicon')
 		.removeClass('glyphicon-star-empty')
 		.addClass('glyphicon-star');
 }
 
-function unstar(link) {
+function prepareStarred(link) {
 	link.attr('title', 'Dodaj u moje vlakove')
 		.find('span.glyphicon')
 		.removeClass('glyphicon-star')

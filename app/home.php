@@ -53,34 +53,34 @@
 	<div class="container">
 		<div class="jumbotron">
 			<h3>Pretraga po broju vlaka</h3>
-			<form class="form-inline" id="search">
+			<form class="form-inline" id="search-form">
 				<div class="form-group">
-					<label class="sr-only" for="train-no">Broj vlaka</label>
+					<label class="sr-only" for="train-no-input">Broj vlaka</label>
 					<div class="input-group">
-						<input type="number" class="form-control" id="train-no" name="train-no" placeholder="Broj vlaka">
+						<input type="number" class="form-control" id="train-no-input" placeholder="Broj vlaka">
 					</div>
 				</div>
-				<button type="submit" class="btn btn-primary" id="search-submit" disabled>Traži!</button>
+				<button type="submit" class="btn btn-primary" id="submit-button" disabled>Traži!</button>
 			</form>
 		</div>
 	</div>
 
 	<div class="container">
-		<div class="panel panel-default" id="my-trains">
+		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">
 					<span class="glyphicon glyphicon-list"></span>
 					Moji vlakovi
 				</h3>
 			</div>
-			<div class="panel-body collapse">
+			<div class="panel-body collapse" id="starred-trains-panel">
 				<p class="text-center text-muted">Nemate spremljenih vlakova</p>
 			</div>
-			<ul class="list-group"></ul>
+			<ul class="list-group" id="starred-trains-list"></ul>
 		</div>
 	</div>
 
-	<div class="container" id="data"></div>
+	<div class="container" id="train-data"></div>
 
 	<div class="modal fade" id="shortcuts" tabindex="-1" role="dialog" aria-labelledby="header-shortcuts">
 		<div class="modal-dialog" role="document">
