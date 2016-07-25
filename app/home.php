@@ -67,16 +67,20 @@
 
 	<div class="container">
 		<div class="panel panel-default">
-			<div class="panel-heading">
+			<div class="panel-heading" role="tab" id="starred-trains-heading">
 				<h3 class="panel-title">
-					<span class="glyphicon glyphicon-list"></span>
-					Moji vlakovi
+					<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+					<a role="button" data-toggle="collapse" data-parent="#accordion" href="#starred-trains" aria-expanded="false" aria-controls="starred-trains">
+						Moji vlakovi
+					</a>
 				</h3>
 			</div>
-			<div class="panel-body collapse" id="starred-trains-panel">
-				<p class="text-center text-muted">Nemate spremljenih vlakova</p>
+			<div id="starred-trains" class="panel-collapse collapse" role="tabpanel" aria-labelledby="starred-trains-heading">
+				<div class="panel-body collapse" id="starred-trains-panel">
+					<p class="text-center text-muted">Nemate spremljenih vlakova</p>
+				</div>
+				<ul class="list-group" id="starred-trains-list"></ul>
 			</div>
-			<ul class="list-group" id="starred-trains-list"></ul>
 		</div>
 	</div>
 
