@@ -30,7 +30,7 @@
 	</div>
 
 	<div class="panel panel-default">
-		<div class="panel-heading" role="tab" id="headingStations">
+		<div class="panel-heading" role="tab" id="stations-heading">
 			<h3 class="panel-title">
 				<span class="glyphicon glyphicon-collapse-down" aria-hidden="true"></span>
 				<a role="button" data-toggle="collapse" data-parent="#accordion" href="#stations" aria-expanded="false" aria-controls="stations">
@@ -38,7 +38,7 @@
 				</a>
 			</h3>
 		</div>
-		<div id="stations" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingStations">
+		<div id="stations" class="panel-collapse collapse" role="tabpanel" aria-labelledby="stations-heading">
 			<div class="table-responsive">
 				<table class="table">
 					<tr>
