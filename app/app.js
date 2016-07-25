@@ -1,6 +1,7 @@
 var form = $('#search-form');
 var input = $('#train-no-input');
 var button = $('#submit-button');
+var starred = $('#starred-trains');
 var panel = $('#starred-trains-panel');
 var list = $('#starred-trains-list');
 var data = $('#train-data');
@@ -11,8 +12,8 @@ generateMyTrainsList();
 
 Mousetrap.bind({
 	'/': focusInput,
-	's': focusInput,
-	'e': toggleDetails,
+	's': toggleStarred,
+	'h': toggleDetails,
 	'r': submitSearch,
 	'?': displayShortcuts
 });
@@ -72,6 +73,10 @@ function focusInput() {
 
 function blurInput() {
 	input.blur();
+}
+
+function toggleStarred() {
+	starred.collapse('toggle');
 }
 
 function toggleDetails() {

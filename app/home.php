@@ -95,11 +95,15 @@
 				</div>
 				<div class="modal-body">
 					<div class="row">
-						<div class="col-md-2 text-center"><strong>/</strong> ili <strong>s</strong></div>
+						<div class="col-md-2 text-center"><strong>/</strong></div>
 						<div class="col-md-8">Fokusiraj polje za pretragu</div>
 					</div>
 					<div class="row">
-						<div class="col-md-2 text-center"><strong>e</strong></div>
+						<div class="col-md-2 text-center"><strong>s</strong></div>
+						<div class="col-md-8">Prikaži/sakrij moje vlakove</div>
+					</div>
+					<div class="row">
+						<div class="col-md-2 text-center"><strong>h</strong></div>
 						<div class="col-md-8">Prikaži/sakrij potpuni pregled kretanja vlaka</div>
 					</div>
 					<div class="row">
