@@ -2,7 +2,11 @@
 
 define('BASEPATH', true);
 
-require_once 'lib/Controller.php';
+if (file_exists('lib')) {
+	set_include_path('lib');
+}
+
+require_once 'Controller.php';
 
 if ($_SERVER['REQUEST_METHOD'] != 'GET') {
 	http_response_code(405);
