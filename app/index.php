@@ -2,7 +2,7 @@
 
 define('BASEPATH', true);
 
-require_once 'Controller.php';
+require_once 'lib/Controller.php';
 
 if ($_SERVER['REQUEST_METHOD'] != 'GET') {
 	http_response_code(405);
