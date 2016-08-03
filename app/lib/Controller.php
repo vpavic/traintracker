@@ -19,7 +19,7 @@ class Controller
 	public function train($trainNo)
 	{
 		$stations = $this->stationsFetcher->getStations($trainNo);
-		$currentStation = end($stations);
+		$currentStation = empty($stations) ? null : end($stations);
 
 		header('Cache-Control: no-cache, must-revalidate');
 		header('Pragma: no-cache');
