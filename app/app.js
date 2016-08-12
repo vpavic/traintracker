@@ -37,7 +37,7 @@ form.submit(function(event) {
 	var trainNo = input.val();
 
 	if (trainNo.length != 0) {
-		data.load(trainNo, function() {
+		data.load('hr/' + trainNo, function() {
 			input.blur();
 			starLink = $('#star');
 

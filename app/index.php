@@ -21,12 +21,13 @@ switch ($page) {
 		$controller->home();
 		break;
 	case 'train':
+		$country = $_GET['country'];
 		$trainNo = $_GET['train-no'];
-		if (empty($trainNo)) {
+		if (empty($country) || empty($trainNo)) {
 			http_response_code(400);
 			die;
 		}
-		$controller->train($trainNo);
+		$controller->train($country, $trainNo);
 		break;
 	default:
 		http_response_code(404);

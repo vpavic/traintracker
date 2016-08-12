@@ -2,27 +2,15 @@
 
 class StationsFetcher
 {
-	private static $eastToWestTrains = array(158, 210, 212, 414, 498);
-	private static $westToEastTrains = array(159, 211, 213, 415, 499);
-
-	public function getStations($trainNo)
+	public function getStations($country, $trainNo)
 	{
-		if (in_array($trainNo, self::$eastToWestTrains)) {
-			$stations = self::getSiStations($trainNo);
-
-			if (empty($stations)) {
+		switch ($country) {
+			case 'hr':
 				$stations = self::getHrStations($trainNo);
-			}
-		}
-		elseif (in_array($trainNo, self::$westToEastTrains)) {
-			$stations = self::getHrStations($trainNo);
-
-			if (empty($stations)) {
+				break;
+			case 'si':
 				$stations = self::getSiStations($trainNo);
-			}
-		}
-		else {
-			$stations = self::getHrStations($trainNo);
+				break;
 		}
 
 		return isset($stations) ? $stations : array();

@@ -16,9 +16,9 @@ class Controller
 		require_once 'home.php';
 	}
 
-	public function train($trainNo)
+	public function train($country, $trainNo)
 	{
-		$stations = $this->stationsFetcher->getStations($trainNo);
+		$stations = $this->stationsFetcher->getStations($country, $trainNo);
 		$currentStation = empty($stations) ? null : end($stations);
 
 		header('Cache-Control: no-cache, must-revalidate');
