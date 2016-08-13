@@ -1,0 +1,6 @@
+---
+applications:
+- name: traintracker
+  path: ./app/
+  memory: 64M
+  disk_quota: 256M
