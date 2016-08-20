@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8"/>
+
+	<title>Voyage</title>
+</head>
+<body>
+	<div class="container" th:fragment="fragment" th:remove="tag">
+		<div class="panel" th:class="${delay lt 1}? 'panel panel-success' : (${delay lt 20}? 'panel panel-warning' : 'panel panel-danger')">
+			<div class="panel-heading">
+				<h3 class="panel-title">
+					<span class="glyphicon glyphicon-info-sign"></span>
+					Trenutna pozicija vlaka
+					<a href="#" class="pull-right" id="star" th:attr="data-train-no=${train}">
+						<span class="glyphicon"></span>
+					</a>
+				</h3>
+			</div>
+			<div class="table-responsive">
+				<table class="table">
+					<tr>
+						<th>Kolodvor</th>
+						<th class="text-center">Dolazak</th>
+						<th class="text-center">Kašnjenje</th>
+						<th class="text-center">Odlazak</th>
+						<th class="text-center">Kašnjenje</th>
+					</tr>
+					<tr>
+						<td th:text="${currentStation.name}">Name</td>
+						<td class="text-center" th:text="${currentStation.arrivalTime}">Arrival Time</td>
+						<td class="text-center" th:text="${currentStation.arrivalDelay}">Arrival Delay</td>
+						<td class="text-center" th:text="${currentStation.departureTime}">Departure Time</td>
+						<td class="text-center" th:text="${currentStation.departureDelay}">DepartureDelay</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading" role="tab" id="stations-heading">
+				<h3 class="panel-title">
+					<span class="glyphicon glyphicon-collapse-down" aria-hidden="true"></span>
+					<a role="button" data-toggle="collapse" data-parent="#accordion" href="#stations" aria-expanded="false" aria-controls="stations">
+						Potpuni pregled kretanja vlaka
+					</a>
+				</h3>
+			</div>
+			<div id="stations" class="panel-collapse collapse" role="tabpanel" aria-labelledby="stations-heading">
+				<div class="table-responsive">
+					<table class="table">
+						<tr>
+							<th>Kolodvor</th>
+							<th class="text-center">Dolazak</th>
+							<th class="text-center">Kašnjenje</th>
+							<th class="text-center">Odlazak</th>
+							<th class="text-center">Kašnjenje</th>
+						</tr>
+						<tr th:each="station : ${stations}">
+							<td th:text="${station.name}">Name</td>
+							<td class="text-center" th:text="${station.arrivalTime}">Arrival Time</td>
+							<td class="text-center" th:text="${station.arrivalDelay}">Arrival Delay</td>
+							<td class="text-center" th:text="${station.departureTime}">Departure Time</td>
+							<td class="text-center" th:text="${station.departureDelay}">DepartureDelay</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<p class="text-center text-muted"><small>Generirano u <span th:text="${generatedTime}">00:00:00</span>.</small></p>
+	</div>
+</body>
+</html>

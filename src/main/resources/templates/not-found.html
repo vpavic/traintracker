@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8"/>
+
+	<title>Not found</title>
+</head>
+<body>
+	<div class="container" th:fragment="fragment" th:remove="tag">
+		<div class="alert alert-warning" role="alert">Ne postoji podatak o kretanju vlaka <span th:text="${train}">000</span>.</div>
+
+		<p class="text-center text-muted"><small>Generirano u <span th:text="${generatedTime}">00:00:00</span>.</small></p>
+	</div>
+</body>
+</html>

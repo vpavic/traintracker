@@ -1,24 +1,25 @@
 <!DOCTYPE html>
-<html lang="hr">
+<html lang="hr" xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-	<link rel="icon" href="favicon.ico">
+	<link rel="icon" href="/favicon.ico" th:href="@{/favicon.ico}"/>
 
 	<title>Vozni red uživo!</title>
 
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/bootstrap/3.3.6/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/pace/1.0.2/themes/blue/pace-theme-flash.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/bootstrap/3.3.6/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/pace/1.0.2/themes/blue/pace-theme-flash.css"/>
 
 	<style>
 		body { padding-top: 70px; }
 	</style>
 
 	<!--[if lt IE 9]>
-		<script src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
 </head>
 
@@ -32,7 +33,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="<?php echo strtok($_SERVER['REQUEST_URI'], '?'); ?>">Vozni red uživo!</a>
+				<a class="navbar-brand" href="/" th:href="@{/}">Vozni red uživo!</a>
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
@@ -57,10 +58,10 @@
 				<div class="form-group">
 					<label class="sr-only" for="train-no-input">Broj vlaka</label>
 					<div class="input-group">
-						<input type="number" class="form-control" id="train-no-input" placeholder="Broj vlaka">
+						<input type="number" class="form-control" id="train-no-input" placeholder="Broj vlaka" th:value="${train}"/>
 					</div>
 				</div>
-				<button type="submit" class="btn btn-primary" id="submit-button" disabled>Traži!</button>
+				<button type="submit" class="btn btn-primary" id="submit-button" disabled="disabled">Traži!</button>
 			</form>
 		</div>
 	</div>
@@ -125,6 +126,6 @@
 	<script src="https://cdn.jsdelivr.net/mousetrap/1.6.0/mousetrap.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/mousetrap/1.6.0/plugins/global-bind/mousetrap-global-bind.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/mousetrap/1.6.0/plugins/bind-dictionary/mousetrap-bind-dictionary.min.js"></script>
-	<script src="app.js"></script>
+	<script src="/app.js"></script>
 </body>
 </html>

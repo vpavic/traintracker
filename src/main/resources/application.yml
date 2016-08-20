@@ -1,0 +1,10 @@
+spring:
+  cache:
+    cache-names: voyages
+    caffeine:
+      spec: maximumSize=100,expireAfterAccess=60s
+
+  jackson:
+    default-property-inclusion: non_empty
+    serialization:
+      write_dates_as_timestamps: false
