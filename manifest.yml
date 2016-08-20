@@ -1,6 +1,6 @@
 ---
 applications:
 - name: traintracker
-  path: ./app/
+  path: build/libs/traintracker.jar
   memory: 64M
   disk_quota: 256M
