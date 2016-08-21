@@ -26,14 +26,12 @@ repositories {
 }
 
 dependencies {
-	compile 'org.springframework.boot:spring-boot-starter-web'
-	compile 'org.springframework.boot:spring-boot-starter-security'
 	compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	compile 'org.springframework.boot:spring-boot-starter-security'
+	compile 'org.springframework.boot:spring-boot-starter-cache'
 	compile 'org.springframework.boot:spring-boot-starter-actuator'
 
 	compile 'org.springframework.boot:spring-boot-devtools'
-
-	compile 'org.springframework:spring-context-support'
 
 	compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 	compile 'com.github.ben-manes.caffeine:caffeine'
@@ -44,6 +42,5 @@ dependencies {
 }
 
 springBoot {
-	backupSource = false
 	excludeDevtools = true
 }
