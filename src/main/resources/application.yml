@@ -8,3 +8,8 @@ spring:
     default-property-inclusion: non_empty
     serialization:
       write_dates_as_timestamps: false
+
+security:
+  basic:
+    enabled: false
+    realm: TrainTracker
