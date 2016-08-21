@@ -31,16 +31,14 @@ public class WebController {
 		List<Station> stations = voyageService.getStations(country, train);
 		model.addAttribute("train", train);
 		model.addAttribute("generatedTime", LocalTime.now().truncatedTo(ChronoUnit.SECONDS));
-		if (!stations.isEmpty()) {
-			Station currentStation = Iterables.getLast(stations);
-			model.addAttribute("currentStation", currentStation);
-			model.addAttribute("delay", calculateDelay(currentStation));
-			model.addAttribute("stations", stations);
-			return "voyage :: fragment";
-		}
-		else {
+		if (stations.isEmpty()) {
 			return "not-found :: fragment";
 		}
+		Station currentStation = Iterables.getLast(stations);
+		model.addAttribute("currentStation", currentStation);
+		model.addAttribute("delay", calculateDelay(currentStation));
+		model.addAttribute("stations", stations);
+		return "voyage :: fragment";
 	}
 
 	private int calculateDelay(Station station) {
@@ -50,9 +48,7 @@ public class WebController {
 		else if (station.getArrivalDelay() != null) {
 			return station.getArrivalDelay();
 		}
-		else {
-			return 0;
-		}
+		return 0;
 	}
 
 }

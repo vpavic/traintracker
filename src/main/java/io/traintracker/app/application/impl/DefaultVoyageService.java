@@ -34,11 +34,11 @@ public class DefaultVoyageService implements VoyageService {
 	}
 
 	private String getKey(String name) {
-		int index = name.toLowerCase().indexOf("voyagefetcher");
+		int index = name.indexOf("VoyageFetcher");
 		if (index > 0) {
 			return name.substring(0, index);
 		}
-		return name;
+		return name.toLowerCase();
 	}
 
 }
