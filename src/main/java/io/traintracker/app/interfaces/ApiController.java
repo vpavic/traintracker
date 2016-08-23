@@ -1,13 +1,7 @@
 package io.traintracker.app.interfaces;
 
-import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
-import java.util.Collection;
-import java.util.List;
-
-import com.google.common.collect.Iterables;
-import io.traintracker.app.domain.Station;
 import io.traintracker.app.application.VoyageService;
+import io.traintracker.app.domain.Voyage;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,42 +25,23 @@ public class ApiController {
 	@GetMapping
 	public Voyage voyage(@PathVariable String country, @PathVariable String train)
 			throws Exception {
-		List<Station> stations = voyageService.getStations(country, train);
-		return new Voyage(stations);
+		Voyage voyage = voyageService.getVoyage(country, train);
+		if (voyage == null) {
+			throw new VoyageNotFoundException();
+		}
+		return voyage;
+	}
+
+	@ExceptionHandler(VoyageNotFoundException.class)
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public void notFound() {
+
 	}
 
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public Error error(Exception e) {
 		return new Error(e.getMessage());
-	}
-
-	static class Voyage {
-
-		private Station currentStation;
-
-		private LocalTime generatedTime;
-
-		private List<Station> stations;
-
-		Voyage(List<Station> stations) {
-			this.currentStation = Iterables.getLast(stations);
-			this.generatedTime = LocalTime.now().truncatedTo(ChronoUnit.SECONDS);
-			this.stations = stations;
-		}
-
-		public Station getCurrentStation() {
-			return this.currentStation;
-		}
-
-		public LocalTime getGeneratedTime() {
-			return this.generatedTime;
-		}
-
-		public Collection<Station> getStations() {
-			return this.stations;
-		}
-
 	}
 
 	static class Error {

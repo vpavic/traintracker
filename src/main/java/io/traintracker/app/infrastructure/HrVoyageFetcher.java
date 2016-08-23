@@ -6,13 +6,12 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Deque;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import io.traintracker.app.domain.Station;
+import io.traintracker.app.domain.Voyage;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.springframework.stereotype.Component;
@@ -35,7 +34,7 @@ public class HrVoyageFetcher extends AbstractVoyageFetcher {
 	}
 
 	@Override
-	public List<Station> getStations(String train) throws Exception {
+	public Voyage getVoyage(String train) throws Exception {
 		URI uri = new URIBuilder("http://najava.hzinfra.hr/hzinfo/Default.asp")
 				.addParameter("VL", train)
 				.addParameter("D1", LocalDate.now().format(FORMATTER))
@@ -80,7 +79,7 @@ public class HrVoyageFetcher extends AbstractVoyageFetcher {
 			stations.add(station);
 		}
 
-		return new ArrayList<>(stations);
+		return stations.isEmpty() ? null : new Voyage(stations);
 	}
 
 }

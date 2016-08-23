@@ -1,11 +1,9 @@
 package io.traintracker.app.application;
 
-import java.util.List;
-
-import io.traintracker.app.domain.Station;
+import io.traintracker.app.domain.Voyage;
 
 public interface VoyageService {
 
-	List<Station> getStations(String country, String train) throws Exception;
+	Voyage getVoyage(String country, String train) throws Exception;
 
 }

@@ -1,12 +1,10 @@
 package io.traintracker.app.application.impl;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import io.traintracker.app.domain.Station;
 import io.traintracker.app.application.VoyageService;
+import io.traintracker.app.domain.Voyage;
 import io.traintracker.app.domain.VoyageFetcher;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
@@ -25,12 +23,12 @@ public class DefaultVoyageService implements VoyageService {
 
 	@Override
 	@Cacheable(cacheNames = "voyages")
-	public List<Station> getStations(String country, String train) throws Exception {
+	public Voyage getVoyage(String country, String train) throws Exception {
 		VoyageFetcher fetcher = this.fetchers.get(country);
 		if (fetcher == null) {
-			return Collections.emptyList();
+			return null;
 		}
-		return fetcher.getStations(train);
+		return fetcher.getVoyage(train);
 	}
 
 	private String getKey(String name) {

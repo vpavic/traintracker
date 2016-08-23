@@ -28,11 +28,11 @@
 						<th class="text-center">Kašnjenje</th>
 					</tr>
 					<tr>
-						<td th:text="${currentStation.name}">Name</td>
-						<td class="text-center" th:text="${currentStation.arrivalTime}">Arrival Time</td>
-						<td class="text-center" th:text="${currentStation.arrivalDelay}">Arrival Delay</td>
-						<td class="text-center" th:text="${currentStation.departureTime}">Departure Time</td>
-						<td class="text-center" th:text="${currentStation.departureDelay}">DepartureDelay</td>
+						<td th:text="${voyage.currentStation.name}">Name</td>
+						<td class="text-center" th:text="${voyage.currentStation.arrivalTime}">Arrival Time</td>
+						<td class="text-center" th:text="${voyage.currentStation.arrivalDelay}">Arrival Delay</td>
+						<td class="text-center" th:text="${voyage.currentStation.departureTime}">Departure Time</td>
+						<td class="text-center" th:text="${voyage.currentStation.departureDelay}">DepartureDelay</td>
 					</tr>
 				</table>
 			</div>
@@ -57,7 +57,7 @@
 							<th class="text-center">Odlazak</th>
 							<th class="text-center">Kašnjenje</th>
 						</tr>
-						<tr th:each="station : ${stations}">
+						<tr th:each="station : ${voyage.stations}">
 							<td th:text="${station.name}">Name</td>
 							<td class="text-center" th:text="${station.arrivalTime}">Arrival Time</td>
 							<td class="text-center" th:text="${station.arrivalDelay}">Arrival Delay</td>

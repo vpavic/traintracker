@@ -2,11 +2,10 @@ package io.traintracker.app.interfaces;
 
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 
-import com.google.common.collect.Iterables;
-import io.traintracker.app.domain.Station;
 import io.traintracker.app.application.VoyageService;
+import io.traintracker.app.domain.Station;
+import io.traintracker.app.domain.Voyage;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,16 +27,14 @@ public class WebController {
 	@GetMapping
 	public String voyage(@PathVariable String country, @PathVariable String train, Model model)
 			throws Exception {
-		List<Station> stations = voyageService.getStations(country, train);
+		Voyage voyage = voyageService.getVoyage(country, train);
 		model.addAttribute("train", train);
 		model.addAttribute("generatedTime", LocalTime.now().truncatedTo(ChronoUnit.SECONDS));
-		if (stations.isEmpty()) {
+		if (voyage == null) {
 			return "not-found :: fragment";
 		}
-		Station currentStation = Iterables.getLast(stations);
-		model.addAttribute("currentStation", currentStation);
-		model.addAttribute("delay", calculateDelay(currentStation));
-		model.addAttribute("stations", stations);
+		model.addAttribute("delay", calculateDelay(voyage.getCurrentStation()));
+		model.addAttribute("voyage", voyage);
 		return "voyage :: fragment";
 	}
 

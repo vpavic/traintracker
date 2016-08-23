@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 
 import com.google.common.base.Strings;
 import io.traintracker.app.domain.Station;
+import io.traintracker.app.domain.Voyage;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.springframework.stereotype.Component;
@@ -35,7 +36,7 @@ public class SiVoyageFetcher extends AbstractVoyageFetcher {
 	}
 
 	@Override
-	public List<Station> getStations(String train) throws Exception {
+	public Voyage getVoyage(String train) throws Exception {
 		URI uri = new URIBuilder("http://ice.slo-zeleznice.si/CIDirect/default.asp")
 				.addParameter("Category", "E-zeleznice")
 				.addParameter("Service", "w_zamude_web_2_1")
@@ -72,7 +73,7 @@ public class SiVoyageFetcher extends AbstractVoyageFetcher {
 			stations.add(station);
 		}
 
-		return stations;
+		return stations.isEmpty() ? null : new Voyage(stations);
 	}
 
 }
