@@ -8,7 +8,7 @@
 </head>
 <body>
 	<div class="container" th:fragment="fragment" th:remove="tag">
-		<div class="panel" th:class="${delay lt 1}? 'panel panel-success' : (${delay lt 20}? 'panel panel-warning' : 'panel panel-danger')">
+		<div class="panel" th:class="'panel ' + (${delay != null}? (${delay lt 1}? 'panel-success' : (${delay lt 20}? 'panel-warning' : 'panel-danger')) : 'panel-info')">
 			<div class="panel-heading">
 				<h3 class="panel-title">
 					<span class="glyphicon glyphicon-info-sign"></span>
@@ -19,7 +19,7 @@
 				</h3>
 			</div>
 			<div class="table-responsive">
-				<table class="table">
+				<table class="table table-hover">
 					<tr>
 						<th>Kolodvor</th>
 						<th class="text-center">Dolazak</th>
@@ -27,12 +27,12 @@
 						<th class="text-center">Odlazak</th>
 						<th class="text-center">Kašnjenje</th>
 					</tr>
-					<tr>
-						<td th:text="${voyage.currentStation.name}">Name</td>
-						<td class="text-center" th:text="${voyage.currentStation.arrivalTime}">Arrival Time</td>
-						<td class="text-center" th:text="${voyage.currentStation.arrivalDelay}">Arrival Delay</td>
-						<td class="text-center" th:text="${voyage.currentStation.departureTime}">Departure Time</td>
-						<td class="text-center" th:text="${voyage.currentStation.departureDelay}">DepartureDelay</td>
+					<tr th:object="${voyage.currentStation}">
+						<td th:text="*{name}">Name</td>
+						<td class="text-center" th:text="*{arrivalTime}">Arrival Time</td>
+						<td class="text-center" th:text="*{arrivalDelay > 0}? *{arrivalDelay} : ''">Arrival Delay</td>
+						<td class="text-center" th:text="*{departureTime}">Departure Time</td>
+						<td class="text-center" th:text="*{departureDelay > 0}? *{departureDelay} : ''">DepartureDelay</td>
 					</tr>
 				</table>
 			</div>
@@ -49,7 +49,7 @@
 			</div>
 			<div id="stations" class="panel-collapse collapse" role="tabpanel" aria-labelledby="stations-heading">
 				<div class="table-responsive">
-					<table class="table">
+					<table class="table table-hover">
 						<tr>
 							<th>Kolodvor</th>
 							<th class="text-center">Dolazak</th>
@@ -60,9 +60,9 @@
 						<tr th:each="station : ${voyage.stations}">
 							<td th:text="${station.name}">Name</td>
 							<td class="text-center" th:text="${station.arrivalTime}">Arrival Time</td>
-							<td class="text-center" th:text="${station.arrivalDelay}">Arrival Delay</td>
+							<td class="text-center" th:text="${station.arrivalDelay > 0}? ${station.arrivalDelay} :''">Arrival Delay</td>
 							<td class="text-center" th:text="${station.departureTime}">Departure Time</td>
-							<td class="text-center" th:text="${station.departureDelay}">DepartureDelay</td>
+							<td class="text-center" th:text="${station.departureDelay > 0}? ${station.departureDelay} : ''">DepartureDelay</td>
 						</tr>
 					</table>
 				</div>

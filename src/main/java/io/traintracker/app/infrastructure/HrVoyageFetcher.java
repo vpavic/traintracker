@@ -58,9 +58,7 @@ public class HrVoyageFetcher extends AbstractVoyageFetcher {
 			if (direction.equals("Dolazak")) {
 				station = new Station(name);
 				station.setArrivalTime(LocalTime.parse(time));
-				if (!delay.equals("<BR>")) {
-					station.setArrivalDelay(Integer.parseInt(delay));
-				}
+				station.setArrivalDelay(delay.equals("<BR>") ? 0 : Integer.parseInt(delay));
 			}
 			else {
 				if (!stations.isEmpty() && stations.peekLast().getName().equals(name)) {
@@ -71,9 +69,7 @@ public class HrVoyageFetcher extends AbstractVoyageFetcher {
 				}
 
 				station.setDepartureTime(LocalTime.parse(time));
-				if (!delay.equals("<BR>")) {
-					station.setDepartureDelay(Integer.parseInt(delay));
-				}
+				station.setDepartureDelay(delay.equals("<BR>") ? 0 : Integer.parseInt(delay));
 			}
 
 			stations.add(station);

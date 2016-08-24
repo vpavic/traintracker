@@ -38,14 +38,11 @@ public class WebController {
 		return "voyage :: fragment";
 	}
 
-	private int calculateDelay(Station station) {
-		if (station.getDepartureTime() != null && station.getDepartureDelay() != null) {
+	private Integer calculateDelay(Station station) {
+		if (station.getDepartureDelay() != null) {
 			return station.getDepartureDelay();
 		}
-		else if (station.getArrivalDelay() != null) {
-			return station.getArrivalDelay();
-		}
-		return 0;
+		return station.getArrivalDelay();
 	}
 
 }
