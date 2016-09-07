@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="hr" xmlns="http://www.w3.org/1999/xhtml"
-		xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
 <head>
 	<meta charset="utf-8"/>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -8,7 +8,7 @@
 
 	<link rel="icon" href="/favicon.ico" th:href="@{/favicon.ico}"/>
 
-	<title>Vozni red uživo!</title>
+	<title th:text="#{app.title}">TrainTracker</title>
 
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/bootstrap/3.3.6/css/bootstrap.min.css"/>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/pace/1.0.2/themes/blue/pace-theme-flash.css"/>
@@ -28,19 +28,19 @@
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-					<span class="sr-only">Toggle navigation</span>
+					<span class="sr-only" th:text="#{navbar.toggleNavigation}">Toggle navigation</span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="/" th:href="@{/}">Vozni red uživo!</a>
+				<a class="navbar-brand" href="/" th:href="@{/}" th:text="#{navbar.title}">TrainTracker</a>
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
 					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pomoć <span class="caret"></span></a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span th:text="#{navbar.help}" th:remove="tag">Help</span> <span class="caret"></span></a>
 						<ul class="dropdown-menu">
-							<li><a href="#" data-toggle="modal" data-target="#shortcuts">Prečaci</a></li>
+							<li><a href="#" data-toggle="modal" data-target="#shortcuts" th:text="#{navbar.shortcuts}">Shortcuts</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -50,15 +50,15 @@
 
 	<div class="container">
 		<div class="jumbotron">
-			<h3>Pretraga po broju vlaka</h3>
+			<h3 th:text="#{search.title}">Search by train number</h3>
 			<form class="form-inline" id="search-form">
 				<div class="form-group">
-					<label class="sr-only" for="train-no-input">Broj vlaka</label>
+					<label class="sr-only" for="train-no-input" th:text="#{search.trainNo}">Train number</label>
 					<div class="input-group">
-						<input type="number" class="form-control" id="train-no-input" placeholder="Broj vlaka" th:value="${train}"/>
+						<input type="number" class="form-control" id="train-no-input" placeholder="Train number" th:placeholder="#{search.trainNo}" th:value="${train}"/>
 					</div>
 				</div>
-				<button type="submit" class="btn btn-primary" id="submit-button" disabled="disabled">Traži!</button>
+				<button type="submit" class="btn btn-primary" id="submit-button" disabled="disabled" th:text="#{search.submit}">Search</button>
 			</form>
 		</div>
 	</div>
@@ -68,14 +68,14 @@
 			<div class="panel-heading" role="tab" id="starred-trains-heading">
 				<h3 class="panel-title">
 					<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-					<a role="button" data-toggle="collapse" data-parent="#accordion" href="#starred-trains" aria-expanded="false" aria-controls="starred-trains">
-						Moji vlakovi
+					<a role="button" data-toggle="collapse" data-parent="#accordion" href="#starred-trains" aria-expanded="false" aria-controls="starred-trains" th:text="#{saved.title}">
+						Saved trains
 					</a>
 				</h3>
 			</div>
 			<div id="starred-trains" class="panel-collapse collapse" role="tabpanel" aria-labelledby="starred-trains-heading">
 				<div class="panel-body collapse" id="starred-trains-panel">
-					<p class="text-center text-muted">Nemate spremljenih vlakova</p>
+					<p class="text-center text-muted" th:text="#{saved.empty}">No saved trains</p>
 				</div>
 				<ul class="list-group" id="starred-trains-list"></ul>
 			</div>
@@ -89,28 +89,28 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="header-shortcuts">Prečaci</h4>
+					<h4 class="modal-title" id="header-shortcuts" th:text="#{shortcuts.title}">Shortcuts</h4>
 				</div>
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-md-2 text-center"><strong>/</strong></div>
-						<div class="col-md-8">Fokusiraj polje za pretragu</div>
+						<div class="col-md-8" th:text="#{shortcuts.focusSearch}">Focus search input</div>
 					</div>
 					<div class="row">
 						<div class="col-md-2 text-center"><strong>s</strong></div>
-						<div class="col-md-8">Prikaži/sakrij moje vlakove</div>
+						<div class="col-md-8" th:text="#{shortcuts.toggleSaved}">Show/hide saved trains</div>
 					</div>
 					<div class="row">
 						<div class="col-md-2 text-center"><strong>h</strong></div>
-						<div class="col-md-8">Prikaži/sakrij potpuni pregled kretanja vlaka</div>
+						<div class="col-md-8" th:text="#{shortcuts.toggleHistory}">Show/hide full voyage history</div>
 					</div>
 					<div class="row">
 						<div class="col-md-2 text-center"><strong>r</strong></div>
-						<div class="col-md-8">Osvježi trenutnu pretragu</div>
+						<div class="col-md-8" th:text="#{shortcuts.refresh}">Refresh current search</div>
 					</div>
 					<div class="row">
 						<div class="col-md-2 text-center"><strong>?</strong></div>
-						<div class="col-md-8">Prikaži prečace</div>
+						<div class="col-md-8" th:text="#{shortcuts.show}">Show shortcuts</div>
 					</div>
 				</div>
 			</div>

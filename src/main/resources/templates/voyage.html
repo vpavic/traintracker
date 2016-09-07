@@ -12,7 +12,7 @@
 			<div class="panel-heading">
 				<h3 class="panel-title">
 					<span class="glyphicon glyphicon-info-sign"></span>
-					Trenutna pozicija vlaka
+					<span th:text="#{voyage.current.title}" th:remove="tag">Current train position</span>
 					<a href="#" class="pull-right" id="star" th:attr="data-train-no=${train}">
 						<span class="glyphicon"></span>
 					</a>
@@ -21,18 +21,18 @@
 			<div class="table-responsive">
 				<table class="table table-hover">
 					<tr>
-						<th>Kolodvor</th>
-						<th class="text-center">Dolazak</th>
-						<th class="text-center">Kašnjenje</th>
-						<th class="text-center">Odlazak</th>
-						<th class="text-center">Kašnjenje</th>
+						<th th:text="#{voyage.table.station}">Station</th>
+						<th class="text-center" th:text="#{voyage.table.arrival}">Arrival</th>
+						<th class="text-center" th:text="#{voyage.table.delay}">Delay</th>
+						<th class="text-center" th:text="#{voyage.table.departure}">Departure</th>
+						<th class="text-center" th:text="#{voyage.table.delay}">Delay</th>
 					</tr>
 					<tr th:object="${voyage.currentStation}">
 						<td th:text="*{name}">Name</td>
-						<td class="text-center" th:text="*{arrivalTime}">Arrival Time</td>
-						<td class="text-center" th:text="*{arrivalDelay > 0}? *{arrivalDelay} : ''">Arrival Delay</td>
-						<td class="text-center" th:text="*{departureTime}">Departure Time</td>
-						<td class="text-center" th:text="*{departureDelay > 0}? *{departureDelay} : ''">DepartureDelay</td>
+						<td class="text-center" th:text="*{arrivalTime}">00:00</td>
+						<td class="text-center" th:text="*{arrivalDelay > 0}? *{arrivalDelay} : ''"></td>
+						<td class="text-center" th:text="*{departureTime}">00:00</td>
+						<td class="text-center" th:text="*{departureDelay > 0}? *{departureDelay} : ''"></td>
 					</tr>
 				</table>
 			</div>
@@ -43,7 +43,7 @@
 				<h3 class="panel-title">
 					<span class="glyphicon glyphicon-collapse-down" aria-hidden="true"></span>
 					<a role="button" data-toggle="collapse" data-parent="#accordion" href="#stations" aria-expanded="false" aria-controls="stations">
-						Potpuni pregled kretanja vlaka
+						<span th:text="#{voyage.history.title}" th:remove="tag">Full voyage history</span>
 					</a>
 				</h3>
 			</div>
@@ -51,25 +51,25 @@
 				<div class="table-responsive">
 					<table class="table table-hover">
 						<tr>
-							<th>Kolodvor</th>
-							<th class="text-center">Dolazak</th>
-							<th class="text-center">Kašnjenje</th>
-							<th class="text-center">Odlazak</th>
-							<th class="text-center">Kašnjenje</th>
+							<th th:text="#{voyage.table.station}">Station</th>
+							<th class="text-center" th:text="#{voyage.table.arrival}">Arrival</th>
+							<th class="text-center" th:text="#{voyage.table.delay}">Delay</th>
+							<th class="text-center" th:text="#{voyage.table.departure}">Departure</th>
+							<th class="text-center" th:text="#{voyage.table.delay}">Delay</th>
 						</tr>
 						<tr th:each="station : ${voyage.stations}">
 							<td th:text="${station.name}">Name</td>
-							<td class="text-center" th:text="${station.arrivalTime}">Arrival Time</td>
-							<td class="text-center" th:text="${station.arrivalDelay > 0}? ${station.arrivalDelay} :''">Arrival Delay</td>
-							<td class="text-center" th:text="${station.departureTime}">Departure Time</td>
-							<td class="text-center" th:text="${station.departureDelay > 0}? ${station.departureDelay} : ''">DepartureDelay</td>
+							<td class="text-center" th:text="${station.arrivalTime}">00:00</td>
+							<td class="text-center" th:text="${station.arrivalDelay > 0}? ${station.arrivalDelay} :''"></td>
+							<td class="text-center" th:text="${station.departureTime}">00:00</td>
+							<td class="text-center" th:text="${station.departureDelay > 0}? ${station.departureDelay} : ''"></td>
 						</tr>
 					</table>
 				</div>
 			</div>
 		</div>
 
-		<p class="text-center text-muted"><small>Generirano u <span th:text="${generatedTime}">00:00:00</span>.</small></p>
+		<p class="text-center text-muted"><small th:text="#{voyage.generated(${generatedTime})}">Generated on 00:00:00.</small></p>
 	</div>
 </body>
 </html>
