@@ -12,6 +12,7 @@
 
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/bootstrap/3.3.6/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/pace/1.0.2/themes/blue/pace-theme-flash.css" th:href="@{/webjars/pace/themes/blue/pace-theme-flash.css}"/>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/flag-icon-css/0.7.1/css/flag-icon.min.css" th:href="@{/webjars/flag-icon-css/css/flag-icon.min.css}"/>
 
 	<style>
 		body { padding-top: 70px; }
@@ -37,6 +38,13 @@
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span th:text="#{navbar.language}" th:remove="tag">Language</span> <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="#" th:href="@{/(locale=en)}"><span class="flag-icon flag-icon-gb"></span> English</a></li>
+							<li><a href="#" th:href="@{/(locale=hr)}"><span class="flag-icon flag-icon-hr"></span> Hrvatski</a></li>
+						</ul>
+					</li>
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span th:text="#{navbar.help}" th:remove="tag">Help</span> <span class="caret"></span></a>
 						<ul class="dropdown-menu">
