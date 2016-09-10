@@ -142,7 +142,7 @@ function generateMyTrainsList() {
 			list.append(
 				'<li class="list-group-item">' +
 				'<a href="#" class="fetch-my-train" data-train-no="' + train + '">' + train + '</a>' +
-				'<a href="#" class="remove-my-train pull-right" title="Remove from saved trains" data-train-no="' + train + '">' +
+				'<a href="#" class="remove-my-train pull-right" title="' + savedRemoveMessage + '" data-train-no="' + train + '">' +
 				'<span class="glyphicon glyphicon-remove"></span>' +
 				'</a>' +
 				'</li>');
@@ -172,14 +172,14 @@ function generateMyTrainsList() {
 }
 
 function prepareUnstarred(link) {
-	link.attr('title', 'Remove from saved trains')
+	link.attr('title', savedRemoveMessage)
 		.find('span.glyphicon')
 		.removeClass('glyphicon-star-empty')
 		.addClass('glyphicon-star');
 }
 
 function prepareStarred(link) {
-	link.attr('title', 'Add to saved trains')
+	link.attr('title', savedAddMessage)
 		.find('span.glyphicon')
 		.removeClass('glyphicon-star')
 		.addClass('glyphicon-star-empty');

@@ -123,6 +123,10 @@
 	<script src="https://cdn.jsdelivr.net/mousetrap/1.6.0/mousetrap.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/mousetrap/1.6.0/plugins/global-bind/mousetrap-global-bind.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/mousetrap/1.6.0/plugins/bind-dictionary/mousetrap-bind-dictionary.min.js"></script>
+	<script th:inline="javascript">
+		var savedAddMessage = /*[[#{saved.add}]]*/ 'Add to saved trains';
+		var savedRemoveMessage = /*[[#{saved.remove}]]*/ 'Remove from saved trains';
+	</script>
 	<script src="/app.js"></script>
 </body>
 </html>
