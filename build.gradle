@@ -38,6 +38,12 @@ dependencies {
 	compile 'com.google.guava:guava:19.0'
 	compile 'org.apache.httpcomponents:httpclient'
 
+	compile 'org.webjars:bootstrap:3.3.7-1'
+	compile 'org.webjars:jquery:1.12.4'
+	compile 'org.webjars:mousetrap:1.5.3-1'
+	compile 'org.webjars:pace:1.0.2'
+	compile 'org.webjars:webjars-locator'
+
 	testCompile 'org.springframework.boot:spring-boot-starter-test'
 }
 

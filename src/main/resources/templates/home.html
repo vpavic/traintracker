@@ -10,8 +10,8 @@
 
 	<title th:text="#{app.title}">TrainTracker</title>
 
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/bootstrap/3.3.6/css/bootstrap.min.css"/>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/pace/1.0.2/themes/blue/pace-theme-flash.css"/>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/bootstrap/3.3.6/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/pace/1.0.2/themes/blue/pace-theme-flash.css" th:href="@{/webjars/pace/themes/blue/pace-theme-flash.css}"/>
 
 	<style>
 		body { padding-top: 70px; }
@@ -117,12 +117,12 @@
 		</div>
 	</div>
 
-	<script src="https://cdn.jsdelivr.net/jquery/1.12.4/jquery.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/pace/1.0.2/pace.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/mousetrap/1.6.0/mousetrap.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/mousetrap/1.6.0/plugins/global-bind/mousetrap-global-bind.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/mousetrap/1.6.0/plugins/bind-dictionary/mousetrap-bind-dictionary.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/jquery/1.12.4/jquery.min.js" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script src="https://cdn.jsdelivr.net/bootstrap/3.3.6/js/bootstrap.min.js" th:src="@{/webjars/bootstrap/bootstrap.min.js}"></script>
+	<script src="https://cdn.jsdelivr.net/pace/1.0.2/pace.min.js" th:src="@{/webjars/pace/pace.min.js}"></script>
+	<script src="https://cdn.jsdelivr.net/mousetrap/1.5.3/mousetrap.min.js" th:src="@{/webjars/mousetrap/mousetrap.min.js}"></script>
+	<script src="https://cdn.jsdelivr.net/mousetrap/1.5.3/plugins/global-bind/mousetrap-global-bind.min.js" th:src="@{/webjars/mousetrap/mousetrap-global-bind.min.js}"></script>
+	<script src="https://cdn.jsdelivr.net/mousetrap/1.5.3/plugins/bind-dictionary/mousetrap-bind-dictionary.min.js" th:src="@{/webjars/mousetrap/mousetrap-bind-dictionary.min.js}"></script>
 	<script th:inline="javascript">
 		var savedAddMessage = /*[[#{saved.add}]]*/ 'Add to saved trains';
 		var savedRemoveMessage = /*[[#{saved.remove}]]*/ 'Remove from saved trains';
