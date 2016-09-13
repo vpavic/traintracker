@@ -27,7 +27,7 @@ public class WebController {
 	@GetMapping
 	public String voyage(@PathVariable String country, @PathVariable String train, Model model)
 			throws Exception {
-		Voyage voyage = voyageService.getVoyage(country, train);
+		Voyage voyage = this.voyageService.getVoyage(country, train);
 		model.addAttribute("train", train);
 		model.addAttribute("generatedTime", LocalTime.now().truncatedTo(ChronoUnit.SECONDS));
 		if (voyage == null) {

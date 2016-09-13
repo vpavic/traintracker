@@ -25,7 +25,7 @@ public class ApiController {
 	@GetMapping
 	public Voyage voyage(@PathVariable String country, @PathVariable String train)
 			throws Exception {
-		Voyage voyage = voyageService.getVoyage(country, train);
+		Voyage voyage = this.voyageService.getVoyage(country, train);
 		if (voyage == null) {
 			throw new VoyageNotFoundException();
 		}
@@ -35,7 +35,6 @@ public class ApiController {
 	@ExceptionHandler(VoyageNotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	public void notFound() {
-
 	}
 
 	@ExceptionHandler(Exception.class)
