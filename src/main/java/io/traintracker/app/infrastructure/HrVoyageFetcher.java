@@ -4,6 +4,7 @@ import java.net.URI;
 import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -29,6 +30,8 @@ public class HrVoyageFetcher extends AbstractVoyageFetcher {
 			"<TD ALIGN=CENTER BGCOLOR=.{7}><FONT FACE=\"Arial\" SIZE=3>(?<time>.*?)</TD>\r\n" +
 			"<TD ALIGN=CENTER BGCOLOR=.{7}><FONT FACE=\"Arial\" SIZE=3>(?<delay>.*?)</TD>");
 
+	private static final ZoneId ZONE_ID = ZoneId.of("Europe/Zagreb");
+
 	public HrVoyageFetcher(CloseableHttpClient httpClient) {
 		super(httpClient);
 	}
@@ -37,7 +40,7 @@ public class HrVoyageFetcher extends AbstractVoyageFetcher {
 	public Voyage getVoyage(String train) throws Exception {
 		URI uri = new URIBuilder("http://najava.hzinfra.hr/hzinfo/Default.asp")
 				.addParameter("VL", train)
-				.addParameter("D1", LocalDate.now().format(FORMATTER))
+				.addParameter("D1", LocalDate.now(ZONE_ID).format(FORMATTER))
 				.addParameter("Category", "korisnici")
 				.addParameter("Service", "Pkvl")
 				.addParameter("SCREEN", "2")
