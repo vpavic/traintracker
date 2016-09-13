@@ -8,21 +8,19 @@ import java.util.List;
 
 import com.google.common.collect.Iterables;
 
-import static java.util.Objects.requireNonNull;
-
 public class Voyage {
 
 	private Station currentStation;
 	private List<Station> stations;
 	private LocalTime generatedTime;
 
-	public Voyage(Collection<Station> stations, LocalTime generatedTime) {
+	public Voyage(Collection<Station> stations) {
 		if (stations == null || stations.isEmpty()) {
 			throw new IllegalArgumentException("Stations must not be empty");
 		}
 		this.currentStation = Iterables.getLast(stations);
 		this.stations = Collections.unmodifiableList(new ArrayList<>(stations));
-		this.generatedTime = requireNonNull(generatedTime);
+		this.generatedTime = LocalTime.now();
 	}
 
 	public Station getCurrentStation() {

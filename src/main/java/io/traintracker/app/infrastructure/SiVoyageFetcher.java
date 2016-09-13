@@ -3,7 +3,6 @@ package io.traintracker.app.infrastructure;
 import java.net.URI;
 import java.nio.charset.Charset;
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -31,8 +30,6 @@ public class SiVoyageFetcher extends AbstractVoyageFetcher {
 			"    <td>(?<departureTime>.*?)</td>\r\n" +
 			"    <td>(?<departureDelay>.*?)</td>\r\n" +
 			"  </tr>");
-
-	private static final ZoneId ZONE_ID = ZoneId.of("Europe/Ljubljana");
 
 	public SiVoyageFetcher(CloseableHttpClient httpClient) {
 		super(httpClient);
@@ -76,7 +73,7 @@ public class SiVoyageFetcher extends AbstractVoyageFetcher {
 			stations.add(station);
 		}
 
-		return stations.isEmpty() ? null : new Voyage(stations, LocalTime.now(ZONE_ID));
+		return stations.isEmpty() ? null : new Voyage(stations);
 	}
 
 }
