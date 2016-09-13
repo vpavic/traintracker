@@ -4,6 +4,7 @@ import java.net.URI;
 import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -28,6 +29,8 @@ public class HrVoyageFetcher extends AbstractVoyageFetcher {
 			"<TD ALIGN=CENTER BGCOLOR=.{7}><FONT FACE=\"Arial\" SIZE=3>.*?</TD>\r\n" +
 			"<TD ALIGN=CENTER BGCOLOR=.{7}><FONT FACE=\"Arial\" SIZE=3>(?<time>.*?)</TD>\r\n" +
 			"<TD ALIGN=CENTER BGCOLOR=.{7}><FONT FACE=\"Arial\" SIZE=3>(?<delay>.*?)</TD>");
+
+	private static final ZoneId ZONE_ID = ZoneId.of("Europe/Zagreb");
 
 	public HrVoyageFetcher(CloseableHttpClient httpClient) {
 		super(httpClient);
@@ -75,7 +78,7 @@ public class HrVoyageFetcher extends AbstractVoyageFetcher {
 			stations.add(station);
 		}
 
-		return stations.isEmpty() ? null : new Voyage(stations);
+		return stations.isEmpty() ? null : new Voyage(stations, LocalTime.now(ZONE_ID));
 	}
 
 }
