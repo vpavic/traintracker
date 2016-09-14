@@ -1,8 +1,5 @@
 package io.traintracker.app.interfaces;
 
-import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
-
 import io.traintracker.app.application.VoyageService;
 import io.traintracker.app.domain.Station;
 import io.traintracker.app.domain.Voyage;
@@ -29,7 +26,6 @@ public class WebController {
 			throws Exception {
 		Voyage voyage = this.voyageService.getVoyage(country, train);
 		model.addAttribute("train", train);
-		model.addAttribute("generatedTime", LocalTime.now().truncatedTo(ChronoUnit.SECONDS));
 		if (voyage == null) {
 			return "not-found :: fragment";
 		}

@@ -10,7 +10,7 @@
 	<div class="container" th:fragment="fragment" th:remove="tag">
 		<div class="alert alert-warning" role="alert" th:text="#{voyage.notFound(${train})}">No voyage information available for train 000.</div>
 
-		<p class="text-center text-muted"><small th:text="#{voyage.generated(${generatedTime})}">Generated on 00:00:00.</small></p>
+		<p class="text-center text-muted"><small id="generated-time"></small></p>
 	</div>
 </body>
 </html>

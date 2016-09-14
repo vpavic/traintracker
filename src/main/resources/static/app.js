@@ -38,6 +38,8 @@ form.submit(function(event) {
 
 	if (trainNo.length != 0) {
 		data.load('hr/' + trainNo, function() {
+			$('#generated-time').text(voyageGeneratedMessage.replace('{0}', new Date().toTimeString()));
+
 			input.blur();
 			starLink = $('#star');
 
