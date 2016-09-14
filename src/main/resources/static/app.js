@@ -38,7 +38,7 @@ form.submit(function(event) {
 
 	if (trainNo.length != 0) {
 		data.load('hr/' + trainNo, function() {
-			$('#generated-time').text(voyageGeneratedMessage.replace('{0}', new Date().toTimeString()));
+			$('#generated-time').text(messages['voyage.generated'].replace('{0}', new Date().toTimeString()));
 
 			input.blur();
 			starLink = $('#star');
@@ -144,7 +144,7 @@ function generateMyTrainsList() {
 			list.append(
 				'<li class="list-group-item">' +
 				'<a href="#" class="fetch-my-train" data-train-no="' + train + '">' + train + '</a>' +
-				'<a href="#" class="remove-my-train pull-right" title="' + savedRemoveMessage + '" data-train-no="' + train + '">' +
+				'<a href="#" class="remove-my-train pull-right" title="' + messages['saved.remove'] + '" data-train-no="' + train + '">' +
 				'<span class="glyphicon glyphicon-remove"></span>' +
 				'</a>' +
 				'</li>');
@@ -174,14 +174,14 @@ function generateMyTrainsList() {
 }
 
 function prepareUnstarred(link) {
-	link.attr('title', savedRemoveMessage)
+	link.attr('title', messages['saved.remove'])
 		.find('span.glyphicon')
 		.removeClass('glyphicon-star-empty')
 		.addClass('glyphicon-star');
 }
 
 function prepareStarred(link) {
-	link.attr('title', savedAddMessage)
+	link.attr('title', messages['saved.add'])
 		.find('span.glyphicon')
 		.removeClass('glyphicon-star')
 		.addClass('glyphicon-star-empty');
