@@ -1,18 +1,15 @@
 var form = $('#search-form');
 var input = $('#train-no-input');
 var button = $('#submit-button');
-var starred = $('#starred-trains');
-var panel = $('#starred-trains-panel');
-var list = $('#starred-trains-list');
+var saved = $('#saved-trains');
 var data = $('#train-data');
-var starLink;
+var saveLink;
 
 focusInput();
 generateMyTrainsList();
 
 Mousetrap.bind({
 	'/': focusInput,
-	's': toggleStarred,
 	'h': toggleDetails,
 	'r': submitSearch,
 	'?': displayShortcuts
@@ -41,26 +38,26 @@ form.submit(function(event) {
 			$('#generated-time').text(messages['voyage.generated'].replace('{0}', new Date().toTimeString()));
 
 			input.blur();
-			starLink = $('#star');
+			saveLink = $('#save');
 
 			if (containsTrain(trainNo)) {
-				prepareUnstarred(starLink);
+				prepareNotSaved(saveLink);
 			}
 			else {
-				prepareStarred(starLink);
+				prepareSaved(saveLink);
 			}
 
-			starLink.click(function(event) {
+			saveLink.click(function(event) {
 				event.preventDefault();
 				var trainNo = $(this).attr('data-train-no');
 
 				if (containsTrain(trainNo)) {
 					removeTrain(trainNo);
-					prepareStarred(starLink);
+					prepareSaved(saveLink);
 				}
 				else {
 					addTrain(trainNo);
-					prepareUnstarred(starLink);
+					prepareNotSaved(saveLink);
 				}
 
 				generateMyTrainsList();
@@ -75,10 +72,6 @@ function focusInput() {
 
 function blurInput() {
 	input.blur();
-}
-
-function toggleStarred() {
-	starred.collapse('toggle');
 }
 
 function toggleDetails() {
@@ -130,9 +123,7 @@ function containsTrain(trainNo) {
 }
 
 function generateMyTrainsList() {
-	panel.hide();
-	list.empty();
-
+	saved.empty();
 	var myTrains = loadMyTrains();
 
 	if (myTrains.length > 0) {
@@ -141,13 +132,11 @@ function generateMyTrainsList() {
 		});
 
 		myTrains.forEach(function(train) {
-			list.append(
-				'<li class="list-group-item">' +
-				'<a href="#" class="fetch-my-train" data-train-no="' + train + '">' + train + '</a>' +
-				'<a href="#" class="remove-my-train pull-right" title="' + messages['saved.remove'] + '" data-train-no="' + train + '">' +
-				'<span class="glyphicon glyphicon-remove"></span>' +
-				'</a>' +
-				'</li>');
+			if (!saved.is(':empty')) {
+				saved.append('&nbsp;')
+			}
+			saved.append('<button class="btn btn-primary btn-sm fetch-my-train" data-train-no="'
+				+ train + '">' + train + '</button>');
 		});
 
 		$('.fetch-my-train').click(function(event) {
@@ -162,25 +151,25 @@ function generateMyTrainsList() {
 			var trainNo = $(this).attr('data-train-no');
 			event.preventDefault();
 			removeTrain(trainNo);
-			if (trainNo == starLink.attr('data-train-no')) {
-				prepareStarred(starLink);
+			if (trainNo == saveLink.attr('data-train-no')) {
+				prepareSaved(saveLink);
 			}
 			generateMyTrainsList();
 		});
 	}
 	else {
-		panel.show();
+		saved.append('<p class="text-left text-muted">' + messages['saved.empty'] + '</p>')
 	}
 }
 
-function prepareUnstarred(link) {
+function prepareNotSaved(link) {
 	link.attr('title', messages['saved.remove'])
 		.find('span.glyphicon')
 		.removeClass('glyphicon-star-empty')
 		.addClass('glyphicon-star');
 }
 
-function prepareStarred(link) {
+function prepareSaved(link) {
 	link.attr('title', messages['saved.add'])
 		.find('span.glyphicon')
 		.removeClass('glyphicon-star')

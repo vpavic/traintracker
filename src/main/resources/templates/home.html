@@ -57,35 +57,18 @@
 	</nav>
 
 	<div class="container">
-		<div class="jumbotron">
-			<h3 th:text="#{search.title}">Search by train number</h3>
+		<div class="well">
+			<h4 th:text="#{search.title}">Search by train number</h4>
 			<form class="form-inline" id="search-form">
 				<div class="form-group">
 					<label class="sr-only" for="train-no-input" th:text="#{search.trainNo}">Train number</label>
-					<div class="input-group">
-						<input type="number" class="form-control" id="train-no-input" placeholder="Train number" th:placeholder="#{search.trainNo}" th:value="${train}"/>
-					</div>
+					<input type="number" class="form-control" id="train-no-input" placeholder="Train number" th:placeholder="#{search.trainNo}" th:value="${train}"/>
 				</div>
 				<button type="submit" class="btn btn-primary" id="submit-button" disabled="disabled" th:text="#{search.submit}">Search</button>
 			</form>
-		</div>
-	</div>
-
-	<div class="container">
-		<div class="panel panel-default">
-			<div class="panel-heading" role="tab" id="starred-trains-heading">
-				<h3 class="panel-title">
-					<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-					<a role="button" data-toggle="collapse" data-parent="#accordion" href="#starred-trains" aria-expanded="false" aria-controls="starred-trains" th:text="#{saved.title}">
-						Saved trains
-					</a>
-				</h3>
-			</div>
-			<div id="starred-trains" class="panel-collapse collapse" role="tabpanel" aria-labelledby="starred-trains-heading">
-				<div class="panel-body collapse" id="starred-trains-panel">
-					<p class="text-center text-muted" th:text="#{saved.empty}">No saved trains</p>
-				</div>
-				<ul class="list-group" id="starred-trains-list"></ul>
+			<h4 th:text="#{saved.title}">Saved trains</h4>
+			<div>
+				<p id="saved-trains"></p>
 			</div>
 		</div>
 	</div>
@@ -134,6 +117,7 @@
 	<script th:inline="javascript">
 		var messages = {
 			'saved.add': /*[[#{saved.add}]]*/ 'Add to saved trains',
+			'saved.empty': /*[[#{saved.empty}]]*/ 'No saved trains',
 			'saved.remove': /*[[#{saved.remove}]]*/ 'Remove from saved trains',
 			'voyage.generated': /*[[#{voyage.generated}]]*/ 'Generated on {0}.'
 		};
