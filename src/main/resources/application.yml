@@ -9,6 +9,9 @@ spring:
     serialization:
       write_dates_as_timestamps: false
 
+  thymeleaf:
+    mode: HTML
+
 security:
   basic:
     enabled: false

@@ -11,8 +11,10 @@ repositories {
 	jcenter()
 }
 
+ext['thymeleaf.version'] = '3.0.2.RELEASE'
+
 dependencies {
-	compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	compile 'org.springframework.boot:spring-boot-starter-web'
 	compile 'org.springframework.boot:spring-boot-starter-security'
 	compile 'org.springframework.boot:spring-boot-starter-cache'
 	compile 'org.springframework.boot:spring-boot-starter-actuator'
@@ -23,6 +25,7 @@ dependencies {
 	compile 'com.github.ben-manes.caffeine:caffeine'
 	compile 'com.google.guava:guava:20.0'
 	compile 'org.apache.httpcomponents:httpclient'
+	compile 'org.thymeleaf:thymeleaf-spring4'
 
 	compile 'org.webjars:bootstrap:3.3.7-1'
 	compile 'org.webjars:flag-icon-css:2.4.0'
