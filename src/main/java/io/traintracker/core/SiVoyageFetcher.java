@@ -1,6 +1,7 @@
 package io.traintracker.core;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SiVoyageFetcher extends AbstractVoyageFetcher {
+class SiVoyageFetcher extends AbstractVoyageFetcher {
 
 	private static final Charset CHARSET = Charset.forName("Cp1250");
 
@@ -34,12 +35,19 @@ public class SiVoyageFetcher extends AbstractVoyageFetcher {
 	}
 
 	@Override
-	public Voyage getVoyage(String train) throws Exception {
-		URI uri = new URIBuilder("http://ice.slo-zeleznice.si/CIDirect/default.asp")
-				.addParameter("Category", "E-zeleznice")
-				.addParameter("Service", "w_zamude_web_2_1")
-				.addParameter("vlak", train)
-				.build();
+	public Voyage getVoyage(String train) {
+		URI uri;
+
+		try {
+			uri = new URIBuilder("http://ice.slo-zeleznice.si/CIDirect/default.asp")
+					.addParameter("Category", "E-zeleznice")
+					.addParameter("Service", "w_zamude_web_2_1")
+					.addParameter("vlak", train)
+					.build();
+		}
+		catch (URISyntaxException e) {
+			throw new RuntimeException(e);
+		}
 
 		Matcher matcher = getMatcher(uri, CHARSET, PATTERN);
 
@@ -71,7 +79,11 @@ public class SiVoyageFetcher extends AbstractVoyageFetcher {
 			stations.add(station);
 		}
 
-		return stations.isEmpty() ? null : new Voyage(stations);
+		if (stations.isEmpty()) {
+			throw new VoyageNotFoundException();
+		}
+
+		return new Voyage(stations);
 	}
 
 }

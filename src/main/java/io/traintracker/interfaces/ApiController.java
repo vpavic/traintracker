@@ -1,7 +1,9 @@
 package io.traintracker.interfaces;
 
-import io.traintracker.core.VoyageService;
+import io.traintracker.core.UnsupportedCountryException;
 import io.traintracker.core.Voyage;
+import io.traintracker.core.VoyageNotFoundException;
+import io.traintracker.core.VoyageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import static java.util.Objects.requireNonNull;
 
 @RestController
-@RequestMapping(path = "/api/{country}/{train}")
+@RequestMapping(path = "/api/{country:[a-z]{2}}/{train}")
 public class ApiController {
 
 	private final VoyageService voyageService;
@@ -23,16 +25,11 @@ public class ApiController {
 	}
 
 	@GetMapping
-	public Voyage voyage(@PathVariable String country, @PathVariable String train)
-			throws Exception {
-		Voyage voyage = this.voyageService.getVoyage(country, train);
-		if (voyage == null) {
-			throw new VoyageNotFoundException();
-		}
-		return voyage;
+	public Voyage voyage(@PathVariable String country, @PathVariable String train) {
+		return this.voyageService.getVoyage(country, train);
 	}
 
-	@ExceptionHandler(VoyageNotFoundException.class)
+	@ExceptionHandler({ UnsupportedCountryException.class, VoyageNotFoundException.class })
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	public void notFound() {
 	}

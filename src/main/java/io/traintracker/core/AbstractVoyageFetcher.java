@@ -22,14 +22,16 @@ abstract class AbstractVoyageFetcher implements VoyageFetcher, AutoCloseable {
 		this.httpClient = requireNonNull(httpClient);
 	}
 
-	protected Matcher getMatcher(URI uri, Charset charset, Pattern pattern) throws IOException {
+	protected Matcher getMatcher(URI uri, Charset charset, Pattern pattern) {
 		HttpGet httpGet = new HttpGet(uri);
 
 		try (CloseableHttpResponse httpResponse = this.httpClient.execute(httpGet)) {
 			HttpEntity httpResponseEntity = httpResponse.getEntity();
 			String html = EntityUtils.toString(httpResponseEntity, charset);
-
 			return pattern.matcher(html);
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 

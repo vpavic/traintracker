@@ -2,12 +2,13 @@ package io.traintracker.core;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DefaultVoyageService implements VoyageService {
+class DefaultVoyageService implements VoyageService {
 
 	private final Map<String, VoyageFetcher> fetchers;
 
@@ -19,11 +20,16 @@ public class DefaultVoyageService implements VoyageService {
 	}
 
 	@Override
+	public Set<String> supportedCountries() {
+		return this.fetchers.keySet();
+	}
+
+	@Override
 	@Cacheable(cacheNames = "voyages")
-	public Voyage getVoyage(String country, String train) throws Exception {
+	public Voyage getVoyage(String country, String train) {
 		VoyageFetcher fetcher = this.fetchers.get(country);
 		if (fetcher == null) {
-			return null;
+			throw new UnsupportedCountryException();
 		}
 		return fetcher.getVoyage(train);
 	}

@@ -1,7 +1,12 @@
 package io.traintracker.core;
 
+import java.util.Set;
+
 public interface VoyageService {
 
-	Voyage getVoyage(String country, String train) throws Exception;
+	Set<String> supportedCountries();
+
+	Voyage getVoyage(String country, String train) throws UnsupportedCountryException,
+			VoyageNotFoundException;
 
 }

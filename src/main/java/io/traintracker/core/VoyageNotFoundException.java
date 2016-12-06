@@ -1,4 +1,4 @@
-package io.traintracker.interfaces;
+package io.traintracker.core;
 
 public class VoyageNotFoundException extends RuntimeException {
 }

@@ -1,8 +1,10 @@
 package io.traintracker.interfaces;
 
-import io.traintracker.core.VoyageService;
 import io.traintracker.core.Station;
+import io.traintracker.core.UnsupportedCountryException;
 import io.traintracker.core.Voyage;
+import io.traintracker.core.VoyageNotFoundException;
+import io.traintracker.core.VoyageService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,24 +26,25 @@ public class WebController {
 	@GetMapping
 	public String home(@PathVariable String country, Model model) {
 		model.addAttribute("country", country);
-		if (!"hr".equals(country)) {
+		if (!this.voyageService.supportedCountries().contains(country)) {
 			return "not-found :: fragment";
 		}
 		return "home";
 	}
 
 	@GetMapping(path = "/{train}")
-	public String voyage(@PathVariable String country, @PathVariable String train, Model model)
-			throws Exception {
-		Voyage voyage = this.voyageService.getVoyage(country, train);
+	public String voyage(@PathVariable String country, @PathVariable String train, Model model) {
 		model.addAttribute("country", country);
 		model.addAttribute("train", train);
-		if (!"hr".equals(country) || voyage == null) {
+		try {
+			Voyage voyage = this.voyageService.getVoyage(country, train);
+			model.addAttribute("delay", calculateDelay(voyage.getCurrentStation()));
+			model.addAttribute("voyage", voyage);
+			return "voyage :: fragment";
+		}
+		catch (UnsupportedCountryException | VoyageNotFoundException e) {
 			return "not-found :: fragment";
 		}
-		model.addAttribute("delay", calculateDelay(voyage.getCurrentStation()));
-		model.addAttribute("voyage", voyage);
-		return "voyage :: fragment";
 	}
 
 	private Integer calculateDelay(Station station) {

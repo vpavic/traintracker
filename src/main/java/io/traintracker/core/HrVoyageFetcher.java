@@ -1,6 +1,7 @@
 package io.traintracker.core;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -16,7 +17,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.springframework.stereotype.Component;
 
 @Component
-public class HrVoyageFetcher extends AbstractVoyageFetcher {
+class HrVoyageFetcher extends AbstractVoyageFetcher {
 
 	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("uuMMdd");
 
@@ -35,14 +36,21 @@ public class HrVoyageFetcher extends AbstractVoyageFetcher {
 	}
 
 	@Override
-	public Voyage getVoyage(String train) throws Exception {
-		URI uri = new URIBuilder("http://najava.hzinfra.hr/hzinfo/Default.asp")
-				.addParameter("VL", train)
-				.addParameter("D1", LocalDate.now(ZONE_ID).format(FORMATTER))
-				.addParameter("Category", "korisnici")
-				.addParameter("Service", "Pkvl")
-				.addParameter("SCREEN", "2")
-				.build();
+	public Voyage getVoyage(String train) {
+		URI uri;
+
+		try {
+			uri = new URIBuilder("http://najava.hzinfra.hr/hzinfo/Default.asp")
+					.addParameter("VL", train)
+					.addParameter("D1", LocalDate.now(ZONE_ID).format(FORMATTER))
+					.addParameter("Category", "korisnici")
+					.addParameter("Service", "Pkvl")
+					.addParameter("SCREEN", "2")
+					.build();
+		}
+		catch (URISyntaxException e) {
+			throw new RuntimeException(e);
+		}
 
 		Matcher matcher = getMatcher(uri, CHARSET, PATTERN);
 
@@ -76,7 +84,11 @@ public class HrVoyageFetcher extends AbstractVoyageFetcher {
 			stations.add(station);
 		}
 
-		return stations.isEmpty() ? null : new Voyage(stations);
+		if (stations.isEmpty()) {
+			throw new VoyageNotFoundException();
+		}
+
+		return new Voyage(stations);
 	}
 
 }
