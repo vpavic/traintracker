@@ -34,15 +34,15 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="/" th:href="@{/}" th:text="#{navbar.title}">TrainTracker</a>
+				<a class="navbar-brand" href="/" th:href="${#httpServletRequest.requestURI}" th:text="#{navbar.title}">TrainTracker</a>
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span th:text="#{navbar.language}" th:remove="tag">Language</span> <span class="caret"></span></a>
 						<ul class="dropdown-menu">
-							<li><a href="#" th:href="@{/(locale=en)}"><span class="flag-icon flag-icon-gb"></span> English</a></li>
-							<li><a href="#" th:href="@{/(locale=hr)}"><span class="flag-icon flag-icon-hr"></span> Hrvatski</a></li>
+							<li><a href="#" th:href="@{${#httpServletRequest.requestURI}(locale=en)}"><span class="flag-icon flag-icon-gb"></span> English</a></li>
+							<li><a href="#" th:href="@{${#httpServletRequest.requestURI}(locale=hr)}"><span class="flag-icon flag-icon-hr"></span> Hrvatski</a></li>
 						</ul>
 					</li>
 					<li class="dropdown">

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import static java.util.Objects.requireNonNull;
 
 @Controller
-@RequestMapping(path = "/{country}/{train}")
+@RequestMapping(path = "/{country:[a-z]{2}}")
 public class WebController {
 
 	private final VoyageService voyageService;
@@ -22,11 +22,21 @@ public class WebController {
 	}
 
 	@GetMapping
+	public String home(@PathVariable String country, Model model) {
+		model.addAttribute("country", country);
+		if (!"hr".equals(country)) {
+			return "not-found :: fragment";
+		}
+		return "home";
+	}
+
+	@GetMapping(path = "/{train}")
 	public String voyage(@PathVariable String country, @PathVariable String train, Model model)
 			throws Exception {
 		Voyage voyage = this.voyageService.getVoyage(country, train);
+		model.addAttribute("country", country);
 		model.addAttribute("train", train);
-		if (voyage == null) {
+		if (!"hr".equals(country) || voyage == null) {
 			return "not-found :: fragment";
 		}
 		model.addAttribute("delay", calculateDelay(voyage.getCurrentStation()));
