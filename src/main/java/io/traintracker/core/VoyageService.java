@@ -1,6 +1,4 @@
-package io.traintracker.app.application;
-
-import io.traintracker.app.domain.Voyage;
+package io.traintracker.core;
 
 public interface VoyageService {
 

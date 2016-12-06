@@ -1,11 +1,8 @@
-package io.traintracker.app.application.impl;
+package io.traintracker.core;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import io.traintracker.app.application.VoyageService;
-import io.traintracker.app.domain.Voyage;
-import io.traintracker.app.domain.VoyageFetcher;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 

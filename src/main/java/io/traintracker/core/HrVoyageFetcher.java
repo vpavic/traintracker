@@ -1,4 +1,4 @@
-package io.traintracker.app.infrastructure;
+package io.traintracker.core;
 
 import java.net.URI;
 import java.nio.charset.Charset;
@@ -11,8 +11,6 @@ import java.util.Deque;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import io.traintracker.app.domain.Station;
-import io.traintracker.app.domain.Voyage;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.springframework.stereotype.Component;

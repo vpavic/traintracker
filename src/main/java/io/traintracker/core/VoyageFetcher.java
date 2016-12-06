@@ -1,4 +1,4 @@
-package io.traintracker.app.domain;
+package io.traintracker.core;
 
 public interface VoyageFetcher {
 

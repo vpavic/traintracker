@@ -1,8 +1,8 @@
-package io.traintracker.app.interfaces;
+package io.traintracker.interfaces;
 
-import io.traintracker.app.application.VoyageService;
-import io.traintracker.app.domain.Station;
-import io.traintracker.app.domain.Voyage;
+import io.traintracker.core.VoyageService;
+import io.traintracker.core.Station;
+import io.traintracker.core.Voyage;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

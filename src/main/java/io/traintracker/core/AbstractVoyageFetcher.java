@@ -1,4 +1,4 @@
-package io.traintracker.app.infrastructure;
+package io.traintracker.core;
 
 import java.io.IOException;
 import java.net.URI;
@@ -6,7 +6,6 @@ import java.nio.charset.Charset;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import io.traintracker.app.domain.VoyageFetcher;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;

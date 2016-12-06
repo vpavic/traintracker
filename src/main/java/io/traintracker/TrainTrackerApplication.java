@@ -1,4 +1,4 @@
-package io.traintracker.app;
+package io.traintracker;
 
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;

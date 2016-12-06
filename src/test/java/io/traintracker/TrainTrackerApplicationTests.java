@@ -1,4 +1,4 @@
-package io.traintracker.app;
+package io.traintracker;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
