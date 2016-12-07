@@ -14,7 +14,7 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 class SiVoyageFetcher extends AbstractVoyageFetcher {
 
 	private static final Charset CHARSET = Charset.forName("Cp1250");

@@ -1,5 +1,7 @@
 package io.traintracker.interfaces;
 
+import java.util.Set;
+
 import io.traintracker.core.Station;
 import io.traintracker.core.UnsupportedCountryException;
 import io.traintracker.core.Voyage;
@@ -25,8 +27,10 @@ public class WebController {
 
 	@GetMapping
 	public String home(@PathVariable String country, Model model) {
+		Set<String> supportedCountries = this.voyageService.supportedCountries();
 		model.addAttribute("country", country);
-		if (!this.voyageService.supportedCountries().contains(country)) {
+		model.addAttribute("supportedCountries", supportedCountries);
+		if (!supportedCountries.contains(country)) {
 			return "not-found :: fragment";
 		}
 		return "home";
