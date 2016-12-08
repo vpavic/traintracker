@@ -12,6 +12,7 @@ Mousetrap.bind({
 	'/': focusInput,
 	'h': toggleDetails,
 	'r': submitSearch,
+	'c': countrySelector,
 	'?': displayShortcuts
 });
 
@@ -80,6 +81,10 @@ function toggleDetails() {
 
 function submitSearch() {
 	form.submit();
+}
+
+function countrySelector() {
+	$('#country').modal('show');
 }
 
 function displayShortcuts() {
