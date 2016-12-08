@@ -21,18 +21,16 @@
 			<div class="table-responsive">
 				<table class="table table-hover">
 					<tr>
-						<th th:text="#{voyage.table.station}">Station</th>
-						<th class="text-center" th:text="#{voyage.table.arrival}">Arrival</th>
-						<th class="text-center" th:text="#{voyage.table.delay}">Delay</th>
-						<th class="text-center" th:text="#{voyage.table.departure}">Departure</th>
-						<th class="text-center" th:text="#{voyage.table.delay}">Delay</th>
+						<th class="col-md-3" th:text="#{voyage.table.station}">Station</th>
+						<th class="col-md-2 text-center" colspan="2" th:text="#{voyage.table.arrival}">Arrival</th>
+						<th class="col-md-2 text-center" colspan="2" th:text="#{voyage.table.departure}">Departure</th>
 					</tr>
 					<tr th:object="${voyage.currentStation}">
-						<td th:text="*{name}">Name</td>
-						<td class="text-center" th:text="*{arrivalTime}">00:00</td>
-						<td class="text-center" th:text="*{arrivalDelay > 0}? *{arrivalDelay} : ''"></td>
-						<td class="text-center" th:text="*{departureTime}">00:00</td>
-						<td class="text-center" th:text="*{departureDelay > 0}? *{departureDelay} : ''"></td>
+						<td class="col-md-3" th:text="*{name}">Name</td>
+						<td class="col-md-1 text-center" th:text="*{arrivalTime}">00:00</td>
+						<td class="col-md-1 text-center" th:text="*{arrivalDelay > 0}? *{arrivalDelay} : ''"></td>
+						<td class="col-md-1 text-center" th:text="*{departureTime}">00:00</td>
+						<td class="col-md-1 text-center" th:text="*{departureDelay > 0}? *{departureDelay} : ''"></td>
 					</tr>
 				</table>
 			</div>
@@ -51,18 +49,16 @@
 				<div class="table-responsive">
 					<table class="table table-hover">
 						<tr>
-							<th th:text="#{voyage.table.station}">Station</th>
-							<th class="text-center" th:text="#{voyage.table.arrival}">Arrival</th>
-							<th class="text-center" th:text="#{voyage.table.delay}">Delay</th>
-							<th class="text-center" th:text="#{voyage.table.departure}">Departure</th>
-							<th class="text-center" th:text="#{voyage.table.delay}">Delay</th>
+							<th class="col-md-3" th:text="#{voyage.table.station}">Station</th>
+							<th class="col-md-2 text-center" colspan="2" th:text="#{voyage.table.arrival}">Arrival</th>
+							<th class="col-md-2 text-center" colspan="2" th:text="#{voyage.table.departure}">Departure</th>
 						</tr>
 						<tr th:each="station : ${voyage.stations}">
-							<td th:text="${station.name}">Name</td>
-							<td class="text-center" th:text="${station.arrivalTime}">00:00</td>
-							<td class="text-center" th:text="${station.arrivalDelay > 0}? ${station.arrivalDelay} :''"></td>
-							<td class="text-center" th:text="${station.departureTime}">00:00</td>
-							<td class="text-center" th:text="${station.departureDelay > 0}? ${station.departureDelay} : ''"></td>
+							<td class="col-md-3" th:text="${station.name}">Name</td>
+							<td class="col-md-1 text-center" th:text="${station.arrivalTime}">00:00</td>
+							<td class="col-md-1 text-center" th:text="${station.arrivalDelay > 0}? ${station.arrivalDelay} :''"></td>
+							<td class="col-md-1 text-center" th:text="${station.departureTime}">00:00</td>
+							<td class="col-md-1 text-center" th:text="${station.departureDelay > 0}? ${station.departureDelay} : ''"></td>
 						</tr>
 					</table>
 				</div>
