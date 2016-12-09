@@ -18,21 +18,22 @@
 					</a>
 				</h4>
 			</div>
-			<div class="table-responsive">
-				<table class="table table-hover">
-					<tr>
-						<th class="col-md-3" th:text="#{voyage.table.station}">Station</th>
-						<th class="col-md-2 text-center" colspan="2" th:text="#{voyage.table.arrival}">Arrival</th>
-						<th class="col-md-2 text-center" colspan="2" th:text="#{voyage.table.departure}">Departure</th>
-					</tr>
-					<tr th:object="${voyage.currentStation}">
-						<td class="col-md-3" th:text="*{name}">Name</td>
-						<td class="col-md-1 text-center" th:text="*{arrivalTime}">00:00</td>
-						<td class="col-md-1 text-center" th:text="*{arrivalDelay > 0}? *{arrivalDelay} : ''"></td>
-						<td class="col-md-1 text-center" th:text="*{departureTime}">00:00</td>
-						<td class="col-md-1 text-center" th:text="*{departureDelay > 0}? *{departureDelay} : ''"></td>
-					</tr>
-				</table>
+			<div class="list-group">
+				<div class="list-group-item" th:object="${voyage.currentStation}">
+					<h4 class="list-group-item-heading" th:text="*{name}">Name</h4>
+					<div class="list-group-item-text">
+						<div class="row" th:if="*{arrivalTime}">
+							<div class="col-xs-4" th:text="#{voyage.table.arrival}">Arrival</div>
+							<div class="col-xs-2" th:text="*{arrivalTime}">00:00</div>
+							<div class="col-xs-2" th:if="*{arrivalDelay}" th:text="*{'+' + arrivalDelay}"></div>
+						</div>
+						<div class="row" th:if="*{departureTime}">
+							<div class="col-xs-4" th:text="#{voyage.table.departure}">Departure</div>
+							<div class="col-xs-2" th:text="*{departureTime}">00:00</div>
+							<div class="col-xs-2" th:if="*{departureDelay}" th:text="*{'+' + departureDelay}"></div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 
@@ -46,21 +47,22 @@
 				</h4>
 			</div>
 			<div id="stations" class="panel-collapse collapse" role="tabpanel" aria-labelledby="stations-heading">
-				<div class="table-responsive">
-					<table class="table table-hover">
-						<tr>
-							<th class="col-md-3" th:text="#{voyage.table.station}">Station</th>
-							<th class="col-md-2 text-center" colspan="2" th:text="#{voyage.table.arrival}">Arrival</th>
-							<th class="col-md-2 text-center" colspan="2" th:text="#{voyage.table.departure}">Departure</th>
-						</tr>
-						<tr th:each="station : ${voyage.stations}">
-							<td class="col-md-3" th:text="${station.name}">Name</td>
-							<td class="col-md-1 text-center" th:text="${station.arrivalTime}">00:00</td>
-							<td class="col-md-1 text-center" th:text="${station.arrivalDelay > 0}? ${station.arrivalDelay} :''"></td>
-							<td class="col-md-1 text-center" th:text="${station.departureTime}">00:00</td>
-							<td class="col-md-1 text-center" th:text="${station.departureDelay > 0}? ${station.departureDelay} : ''"></td>
-						</tr>
-					</table>
+				<div class="list-group">
+					<div class="list-group-item" th:each="station : ${voyage.stations}">
+						<h4 class="list-group-item-heading" th:text="${station.name}">Name</h4>
+						<div class="list-group-item-text">
+							<div class="row" th:if="${station.arrivalTime}">
+								<div class="col-xs-4" th:text="#{voyage.table.arrival}">Arrival</div>
+								<div class="col-xs-2" th:text="${station.arrivalTime}">00:00</div>
+								<div class="col-xs-2" th:if="${station.arrivalDelay}" th:text="${'+' + station.arrivalDelay}"></div>
+							</div>
+							<div class="row" th:if="${station.departureTime}">
+								<div class="col-xs-4" th:text="#{voyage.table.departure}">Departure</div>
+								<div class="col-xs-2" th:text="${station.departureTime}">00:00</div>
+								<div class="col-xs-2" th:if="${station.departureDelay}" th:text="${'+' + station.departureDelay}"></div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
