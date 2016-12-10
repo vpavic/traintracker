@@ -1,3 +1,5 @@
+var country = $(document.body).attr('data-country');
+var savedTrainsKey = 'saved-trains-' + country;
 var form = $('#search-form');
 var input = $('#train-no-input');
 var button = $('#submit-button');
@@ -35,7 +37,7 @@ form.submit(function(event) {
 	var trainNo = input.val();
 
 	if (trainNo.length != 0) {
-		data.load('hr/' + trainNo, function() {
+		data.load(country + '/' + trainNo, function() {
 			$('#generated-time').text(messages['voyage.generated'].replace('{0}', new Date().toTimeString()));
 
 			input.blur();
@@ -92,11 +94,11 @@ function displayShortcuts() {
 }
 
 function saveMyTrains(myTrains) {
-	localStorage.setItem('my_trains', JSON.stringify(myTrains));
+	localStorage.setItem(savedTrainsKey, JSON.stringify(myTrains));
 }
 
 function loadMyTrains() {
-	return JSON.parse(localStorage.getItem('my_trains')) || [];
+	return JSON.parse(localStorage.getItem(savedTrainsKey)) || [];
 }
 
 function addTrain(trainNo) {
