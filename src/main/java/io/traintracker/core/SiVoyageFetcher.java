@@ -78,7 +78,7 @@ class SiVoyageFetcher extends AbstractVoyageFetcher {
 			throw new VoyageNotFoundException();
 		}
 
-		return new Voyage(stations);
+		return new Voyage(stations, uri, ZONE_ID);
 	}
 
 }
