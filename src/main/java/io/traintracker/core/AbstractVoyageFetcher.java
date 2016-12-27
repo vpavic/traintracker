@@ -3,10 +3,9 @@ package io.traintracker.core;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.Charset;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -16,19 +15,27 @@ import static java.util.Objects.requireNonNull;
 
 abstract class AbstractVoyageFetcher implements VoyageFetcher, AutoCloseable {
 
+	private static final int DEFAULT_TIMEOUT_SECONDS = 30;
+
 	private final CloseableHttpClient httpClient;
 
 	protected AbstractVoyageFetcher(CloseableHttpClient httpClient) {
 		this.httpClient = requireNonNull(httpClient);
 	}
 
-	protected Matcher getMatcher(URI uri, Charset charset, Pattern pattern) {
-		HttpGet httpGet = new HttpGet(uri);
+	protected String loadHtml(URI uri, Charset charset) {
+		RequestConfig config = RequestConfig.custom()
+				.setConnectionRequestTimeout(DEFAULT_TIMEOUT_SECONDS * 1000)
+				.setConnectTimeout(DEFAULT_TIMEOUT_SECONDS * 1000)
+				.setSocketTimeout(DEFAULT_TIMEOUT_SECONDS * 1000)
+				.build();
 
-		try (CloseableHttpResponse httpResponse = this.httpClient.execute(httpGet)) {
+		HttpGet request = new HttpGet(uri);
+		request.setConfig(config);
+
+		try (CloseableHttpResponse httpResponse = this.httpClient.execute(request)) {
 			HttpEntity httpResponseEntity = httpResponse.getEntity();
-			String html = EntityUtils.toString(httpResponseEntity, charset);
-			return pattern.matcher(html);
+			return EntityUtils.toString(httpResponseEntity, charset);
 		}
 		catch (Exception e) {
 			throw new RuntimeException(e);

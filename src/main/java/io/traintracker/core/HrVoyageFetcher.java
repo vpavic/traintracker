@@ -52,7 +52,8 @@ class HrVoyageFetcher extends AbstractVoyageFetcher {
 			throw new RuntimeException(e);
 		}
 
-		Matcher matcher = getMatcher(uri, CHARSET, PATTERN);
+		String html = loadHtml(uri, CHARSET);
+		Matcher matcher = PATTERN.matcher(html);
 
 		Deque<Station> stations = new ArrayDeque<>();
 
