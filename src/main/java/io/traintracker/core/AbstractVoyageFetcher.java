@@ -1,6 +1,5 @@
 package io.traintracker.core;
 
-import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.Charset;
 
@@ -13,7 +12,7 @@ import org.apache.http.util.EntityUtils;
 
 import static java.util.Objects.requireNonNull;
 
-abstract class AbstractVoyageFetcher implements VoyageFetcher, AutoCloseable {
+abstract class AbstractVoyageFetcher implements VoyageFetcher {
 
 	private static final int DEFAULT_TIMEOUT_SECONDS = 30;
 
@@ -40,11 +39,6 @@ abstract class AbstractVoyageFetcher implements VoyageFetcher, AutoCloseable {
 		catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-	}
-
-	@Override
-	public void close() throws IOException {
-		this.httpClient.close();
 	}
 
 }
