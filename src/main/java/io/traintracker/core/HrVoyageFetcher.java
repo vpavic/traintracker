@@ -40,12 +40,12 @@ class HrVoyageFetcher extends AbstractVoyageFetcher {
 		URI uri;
 
 		try {
-			uri = new URIBuilder("http://najava.hzinfra.hr/hzinfo/Default.asp")
-					.addParameter("VL", train)
-					.addParameter("D1", LocalDate.now(ZONE_ID).format(FORMATTER))
-					.addParameter("Category", "korisnici")
-					.addParameter("Service", "Pkvl")
-					.addParameter("SCREEN", "2")
+			uri = new URIBuilder("http://najava.hzinfra.hr/hzinfo/default.asp")
+					.addParameter("vl", train)
+					.addParameter("d1", LocalDate.now(ZONE_ID).format(FORMATTER))
+					.addParameter("category", "korisnici")
+					.addParameter("service", "pkvl")
+					.addParameter("screen", "2")
 					.build();
 		}
 		catch (URISyntaxException e) {

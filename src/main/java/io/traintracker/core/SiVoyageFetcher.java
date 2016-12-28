@@ -43,9 +43,10 @@ class SiVoyageFetcher extends AbstractVoyageFetcher {
 		try {
 			uri = new URIBuilder("http://www.slo-zeleznice.si/sl/potniki/vozni-redi/zamude")
 					.addParameter("view", "train")
-					.addParameter("tmpl", "component%")
-					.addParameter("da", LocalDate.now(ZONE_ID).format(FORMATTER))
 					.addParameter("vl", train)
+					.addParameter("da", LocalDate.now(ZONE_ID).format(FORMATTER))
+					.addParameter("tmpl", "component%")
+					.addParameter("loadStyles", "true")
 					.build();
 		}
 		catch (URISyntaxException e) {
