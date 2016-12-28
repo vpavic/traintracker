@@ -1,5 +1,6 @@
 package io.traintracker.interfaces;
 
+import java.util.Objects;
 import java.util.Set;
 
 import io.traintracker.core.Station;
@@ -13,8 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import static java.util.Objects.requireNonNull;
-
 @Controller
 @RequestMapping(path = "/{country:[a-z]{2}}")
 public class WebController {
@@ -22,7 +21,7 @@ public class WebController {
 	private final VoyageService voyageService;
 
 	public WebController(VoyageService voyageService) {
-		this.voyageService = requireNonNull(voyageService);
+		this.voyageService = Objects.requireNonNull(voyageService, "VoyageService must not be null");
 	}
 
 	@GetMapping

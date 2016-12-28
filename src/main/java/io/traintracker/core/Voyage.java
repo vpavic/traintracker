@@ -24,13 +24,14 @@ public class Voyage {
 	private LocalTime generatedTime;
 
 	public Voyage(Collection<Station> stations, URI source, ZoneId timezone) {
-		if (Objects.requireNonNull(stations).isEmpty()) {
+		Objects.requireNonNull(stations, "Stations must not be null");
+		if (stations.isEmpty()) {
 			throw new IllegalArgumentException("Stations must not be empty");
 		}
 		this.stations = Collections.unmodifiableList(new ArrayList<>(stations));
 		this.currentStation = Iterables.getLast(this.stations);
-		this.source = Objects.requireNonNull(source);
-		this.timezone = Objects.requireNonNull(timezone);
+		this.source = Objects.requireNonNull(source, "Source must not be null");
+		this.timezone = Objects.requireNonNull(timezone, "Timezone must not be null");
 		this.generatedTime = LocalTime.now();
 	}
 

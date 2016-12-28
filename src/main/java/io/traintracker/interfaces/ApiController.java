@@ -1,5 +1,7 @@
 package io.traintracker.interfaces;
 
+import java.util.Objects;
+
 import io.traintracker.core.UnsupportedCountryException;
 import io.traintracker.core.Voyage;
 import io.traintracker.core.VoyageNotFoundException;
@@ -12,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import static java.util.Objects.requireNonNull;
-
 @RestController
 @RequestMapping(path = "/api/{country:[a-z]{2}}/{train}")
 public class ApiController {
@@ -21,7 +21,7 @@ public class ApiController {
 	private final VoyageService voyageService;
 
 	public ApiController(VoyageService voyageService) {
-		this.voyageService = requireNonNull(voyageService);
+		this.voyageService = Objects.requireNonNull(voyageService, "VoyageService must not be null");
 	}
 
 	@GetMapping
