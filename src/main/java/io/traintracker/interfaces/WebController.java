@@ -4,16 +4,17 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
-import io.traintracker.core.Station;
-import io.traintracker.core.Voyage;
-import io.traintracker.core.VoyageFetcher;
-import io.traintracker.core.VoyageFetcherResolver;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import io.traintracker.core.Station;
+import io.traintracker.core.Voyage;
+import io.traintracker.core.VoyageFetcher;
+import io.traintracker.core.VoyageFetcherResolver;
 
 @Controller
 @RequestMapping(path = "/{country:[a-z]{2}}")

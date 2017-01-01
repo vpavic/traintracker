@@ -2,12 +2,13 @@ package io.traintracker.interfaces;
 
 import java.util.Objects;
 
-import io.traintracker.core.Voyage;
-import io.traintracker.core.VoyageFetcherResolver;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import io.traintracker.core.Voyage;
+import io.traintracker.core.VoyageFetcherResolver;
 
 @RestController
 @RequestMapping(path = "/api/{country:[a-z]{2}}/{train}")
