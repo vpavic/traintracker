@@ -1,6 +1,6 @@
 spring:
   cache:
-    cache-names: voyages
+    cache-names: voyages-hr,voyages-si
     caffeine:
       spec: maximumSize=100,expireAfterWrite=60s
 

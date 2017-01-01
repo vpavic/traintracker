@@ -5,20 +5,30 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
+import java.util.Optional;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 @Component
 class HrVoyageFetcher implements VoyageFetcher {
+
+	private static final String COUNTRY = "hr";
 
 	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuMMdd");
 
 	private static final ZoneId zoneId = ZoneId.of("Europe/Zagreb");
 
 	@Override
-	public Voyage getVoyage(String train) {
+	public String getCountry() {
+		return COUNTRY;
+	}
+
+	@Override
+	@Cacheable("voyages-hr")
+	public Optional<Voyage> getVoyage(String train) {
 		Document doc;
 
 		try {
@@ -38,10 +48,10 @@ class HrVoyageFetcher implements VoyageFetcher {
 		Collection<Station> stations = HrDocumentParser.parse(doc);
 
 		if (stations.isEmpty()) {
-			throw new VoyageNotFoundException();
+			return Optional.empty();
 		}
 
-		return new Voyage(stations, doc.location(), zoneId);
+		return Optional.of(new Voyage(stations, doc.location(), zoneId));
 	}
 
 }

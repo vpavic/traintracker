@@ -1,16 +1,17 @@
 package io.traintracker.interfaces;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 import io.traintracker.core.Station;
-import io.traintracker.core.UnsupportedCountryException;
 import io.traintracker.core.Voyage;
-import io.traintracker.core.VoyageNotFoundException;
-import io.traintracker.core.VoyageService;
+import io.traintracker.core.VoyageFetcher;
+import io.traintracker.core.VoyageFetcherResolver;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -18,20 +19,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(path = "/{country:[a-z]{2}}")
 public class WebController {
 
-	private final VoyageService voyageService;
+	private final VoyageFetcherResolver resolver;
 
-	public WebController(VoyageService voyageService) {
-		this.voyageService = Objects.requireNonNull(voyageService, "VoyageService must not be null");
+	public WebController(VoyageFetcherResolver resolver) {
+		this.resolver = Objects.requireNonNull(resolver, "VoyageFetcherResolver must not be null");
+	}
+
+	@ModelAttribute("supportedCountries")
+	public Set<String> supportedCountries() {
+		return this.resolver.supportedCountries();
 	}
 
 	@GetMapping
 	public String home(@PathVariable String country, Model model) {
-		Set<String> supportedCountries = this.voyageService.supportedCountries();
 		model.addAttribute("country", country);
-		model.addAttribute("supportedCountries", supportedCountries);
-		if (!supportedCountries.contains(country)) {
-			return "not-found :: fragment";
-		}
 		return "home";
 	}
 
@@ -39,15 +40,16 @@ public class WebController {
 	public String voyage(@PathVariable String country, @PathVariable String train, Model model) {
 		model.addAttribute("country", country);
 		model.addAttribute("train", train);
-		try {
-			Voyage voyage = this.voyageService.getVoyage(country, train);
-			model.addAttribute("delay", calculateDelay(voyage.getCurrentStation()));
-			model.addAttribute("voyage", voyage);
-			return "voyage :: fragment";
+		Optional<VoyageFetcher> fetcher = this.resolver.getVoyageFetcher(country);
+		if (fetcher.isPresent()) {
+			Optional<Voyage> voyage = fetcher.get().getVoyage(train);
+			if (voyage.isPresent()) {
+				model.addAttribute("delay", calculateDelay(voyage.get().getCurrentStation()));
+				model.addAttribute("voyage", voyage.get());
+				return "voyage :: fragment";
+			}
 		}
-		catch (UnsupportedCountryException | VoyageNotFoundException e) {
-			return "not-found :: fragment";
-		}
+		return "not-found :: fragment";
 	}
 
 	private Integer calculateDelay(Station station) {

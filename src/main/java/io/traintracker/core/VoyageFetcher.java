@@ -1,7 +1,11 @@
 package io.traintracker.core;
 
+import java.util.Optional;
+
 public interface VoyageFetcher {
 
-	Voyage getVoyage(String train) throws VoyageNotFoundException;
+	String getCountry();
+
+	Optional<Voyage> getVoyage(String train);
 
 }
