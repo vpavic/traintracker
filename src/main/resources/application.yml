@@ -2,7 +2,7 @@ spring:
   cache:
     cache-names: voyages
     caffeine:
-      spec: maximumSize=100,expireAfterAccess=60s
+      spec: maximumSize=100,expireAfterWrite=60s
 
   jackson:
     default-property-inclusion: non_empty
