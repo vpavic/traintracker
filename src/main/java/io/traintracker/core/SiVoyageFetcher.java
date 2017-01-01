@@ -1,86 +1,47 @@
 package io.traintracker.core;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.charset.Charset;
+import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Collection;
 
-import com.google.common.base.Strings;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.impl.client.CloseableHttpClient;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Component;
 
 @Component
-class SiVoyageFetcher extends AbstractVoyageFetcher {
+class SiVoyageFetcher implements VoyageFetcher {
 
-	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-	private static final Charset CHARSET = Charset.forName("Cp1250");
-
-	private static final Pattern PATTERN = Pattern.compile("<tr>\r\n" +
-			"                <td class=\"thTitle\">(?<name>.*?)</td>\r\n" +
-			"                <td class=\"tdPrice\">(?<arrivalTime>.*?)</td>\r\n" +
-			"                <td class=\"tdPrice\">(?<departureTime>.*?)</td>\r\n" +
-			"                </tr>");
-
-	private static final ZoneId ZONE_ID = ZoneId.of("Europe/Ljubljana");
-
-	public SiVoyageFetcher(CloseableHttpClient httpClient) {
-		super(httpClient);
-	}
+	private static final ZoneId zoneId = ZoneId.of("Europe/Ljubljana");
 
 	@Override
 	public Voyage getVoyage(String train) {
-		URI uri;
+		Document doc;
 
 		try {
-			uri = new URIBuilder("http://www.slo-zeleznice.si/sl/potniki/vozni-redi/zamude")
-					.addParameter("view", "train")
-					.addParameter("vl", train)
-					.addParameter("da", LocalDate.now(ZONE_ID).format(FORMATTER))
-					.addParameter("tmpl", "component%")
-					.addParameter("loadStyles", "true")
-					.build();
+			doc = Jsoup.connect("http://www.slo-zeleznice.si/sl/potniki/vozni-redi/zamude")
+					.data("view", "train")
+					.data("vl", train)
+					.data("da", LocalDate.now(zoneId).format(formatter))
+					.data("tmpl", "component%")
+					.data("loadStyles", "true")
+					.timeout(10000)
+					.get();
 		}
-		catch (URISyntaxException e) {
+		catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 
-		String html = loadHtml(uri, CHARSET);
-		Matcher matcher = PATTERN.matcher(html);
-
-		List<Station> stations = new ArrayList<>();
-
-		while (matcher.find()) {
-			String name = matcher.group("name").trim();
-			String arrivalTime = matcher.group("arrivalTime").trim();
-			String departureTime = matcher.group("departureTime").trim();
-
-			Station station = new Station(name);
-
-			if (!Strings.isNullOrEmpty(arrivalTime) && !arrivalTime.equals(".")) {
-				station.setArrivalTime(LocalTime.parse(arrivalTime));
-			}
-
-			if (!Strings.isNullOrEmpty(departureTime) && !departureTime.equals(".")) {
-				station.setDepartureTime(LocalTime.parse(departureTime));
-			}
-
-			stations.add(station);
-		}
+		Collection<Station> stations = SiDocumentParser.parse(doc);
 
 		if (stations.isEmpty()) {
 			throw new VoyageNotFoundException();
 		}
 
-		return new Voyage(stations, uri, ZONE_ID);
+		return new Voyage(stations, doc.location(), zoneId);
 	}
 
 }

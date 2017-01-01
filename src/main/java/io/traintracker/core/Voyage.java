@@ -1,6 +1,5 @@
 package io.traintracker.core;
 
-import java.net.URI;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -17,13 +16,13 @@ public class Voyage {
 
 	private Station currentStation;
 
-	private URI source;
+	private String source;
 
 	private ZoneId timezone;
 
 	private LocalTime generatedTime;
 
-	public Voyage(Collection<Station> stations, URI source, ZoneId timezone) {
+	public Voyage(Collection<Station> stations, String source, ZoneId timezone) {
 		Objects.requireNonNull(stations, "Stations must not be null");
 		if (stations.isEmpty()) {
 			throw new IllegalArgumentException("Stations must not be empty");
@@ -43,7 +42,7 @@ public class Voyage {
 		return this.currentStation;
 	}
 
-	public URI getSource() {
+	public String getSource() {
 		return this.source;
 	}
 

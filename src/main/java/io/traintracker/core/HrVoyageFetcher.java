@@ -1,95 +1,47 @@
 package io.traintracker.core;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.charset.Charset;
+import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Collection;
 
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.impl.client.CloseableHttpClient;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Component;
 
 @Component
-class HrVoyageFetcher extends AbstractVoyageFetcher {
+class HrVoyageFetcher implements VoyageFetcher {
 
-	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("uuMMdd");
+	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuMMdd");
 
-	private static final Charset CHARSET = Charset.forName("Cp1250");
-
-	private static final Pattern PATTERN = Pattern.compile("<TD ALIGN=left BGCOLOR=.{7}><FONT FACE=\"Arial\" SIZE=3>(?<name>.*?)</TD>\r\n" +
-			"<TD ALIGN=CENTER BGCOLOR=.{7}><FONT FACE=\"Arial\" SIZE=3>(?<direction>.*?)</TD>\r\n" +
-			"<TD ALIGN=CENTER BGCOLOR=.{7}><FONT FACE=\"Arial\" SIZE=3>.*?</TD>\r\n" +
-			"<TD ALIGN=CENTER BGCOLOR=.{7}><FONT FACE=\"Arial\" SIZE=3>(?<time>.*?)</TD>\r\n" +
-			"<TD ALIGN=CENTER BGCOLOR=.{7}><FONT FACE=\"Arial\" SIZE=3>(?<delay>.*?)</TD>");
-
-	private static final ZoneId ZONE_ID = ZoneId.of("Europe/Zagreb");
-
-	public HrVoyageFetcher(CloseableHttpClient httpClient) {
-		super(httpClient);
-	}
+	private static final ZoneId zoneId = ZoneId.of("Europe/Zagreb");
 
 	@Override
 	public Voyage getVoyage(String train) {
-		URI uri;
+		Document doc;
 
 		try {
-			uri = new URIBuilder("http://najava.hzinfra.hr/hzinfo/default.asp")
-					.addParameter("vl", train)
-					.addParameter("d1", LocalDate.now(ZONE_ID).format(FORMATTER))
-					.addParameter("category", "korisnici")
-					.addParameter("service", "pkvl")
-					.addParameter("screen", "2")
-					.build();
+			doc = Jsoup.connect("http://najava.hzinfra.hr/hzinfo/default.asp")
+					.data("vl", train)
+					.data("d1", LocalDate.now(zoneId).format(formatter))
+					.data("category", "korisnici")
+					.data("service", "pkvl")
+					.data("screen", "2")
+					.timeout(10000)
+					.get();
 		}
-		catch (URISyntaxException e) {
+		catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 
-		String html = loadHtml(uri, CHARSET);
-		Matcher matcher = PATTERN.matcher(html);
-
-		Deque<Station> stations = new ArrayDeque<>();
-
-		while (matcher.find()) {
-			String name = matcher.group("name").trim();
-			String direction = matcher.group("direction").trim();
-			String time = matcher.group("time").trim();
-			String delay = matcher.group("delay").trim();
-
-			Station station;
-
-			if (direction.equals("Dolazak")) {
-				station = new Station(name);
-				station.setArrivalTime(LocalTime.parse(time));
-				station.setArrivalDelay(delay.equals("<BR>") ? 0 : Integer.parseInt(delay));
-			}
-			else {
-				if (!stations.isEmpty() && stations.peekLast().getName().equals(name)) {
-					station = stations.removeLast();
-				}
-				else {
-					station = new Station(name);
-				}
-
-				station.setDepartureTime(LocalTime.parse(time));
-				station.setDepartureDelay(delay.equals("<BR>") ? 0 : Integer.parseInt(delay));
-			}
-
-			stations.add(station);
-		}
+		Collection<Station> stations = HrDocumentParser.parse(doc);
 
 		if (stations.isEmpty()) {
 			throw new VoyageNotFoundException();
 		}
 
-		return new Voyage(stations, uri, ZONE_ID);
+		return new Voyage(stations, doc.location(), zoneId);
 	}
 
 }
