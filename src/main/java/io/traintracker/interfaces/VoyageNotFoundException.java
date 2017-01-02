@@ -5,4 +5,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
 class VoyageNotFoundException extends RuntimeException {
+
+	VoyageNotFoundException() {
+		super("Voyage not found");
+	}
+
 }

@@ -4,14 +4,12 @@ import java.util.Objects;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.traintracker.core.Voyage;
 import io.traintracker.core.VoyageFetcherResolver;
 
 @RestController
-@RequestMapping(path = "/api/{country:[a-z]{2}}/{train}")
 public class ApiController {
 
 	private final VoyageFetcherResolver resolver;
@@ -20,7 +18,7 @@ public class ApiController {
 		this.resolver = Objects.requireNonNull(resolver, "VoyageFetcherResolver must not be null");
 	}
 
-	@GetMapping
+	@GetMapping(path = "/{country:[a-z]{2}}/{train}", produces = "application/json; charset=UTF-8")
 	public Voyage voyage(@PathVariable String country, @PathVariable String train) {
 		return this.resolver.getVoyageFetcher(country)
 				.orElseThrow(UnsupportedCountryException::new)
