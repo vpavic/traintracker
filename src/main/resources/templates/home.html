@@ -83,7 +83,7 @@
 					<h4 class="modal-title" id="header-country" th:text="#{country.title}">Country</h4>
 				</div>
 				<div class="modal-body">
-					<a href="#" class="btn btn-default btn-lg btn-block" role="button" th:each="country : ${supportedCountries}" th:href="@{'/' + ${country}}">
+					<a href="#" class="btn btn-default btn-lg btn-block" role="button" th:each="country : ${countries}" th:href="@{'/' + ${country}}">
 						<span class="flag-icon flag-icon-hr" th:class="${'flag-icon flag-icon-' + country}"></span>
 						<span th:text="#{'country.' + ${country}}">Croatia</span>
 					</a>
