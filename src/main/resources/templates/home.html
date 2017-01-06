@@ -37,18 +37,12 @@
 				<p class="navbar-text"><a class="navbar-link" href="#" data-toggle="modal" data-target="#country"><span class="flag-icon flag-icon-hr" th:class="${'flag-icon flag-icon-' + country}"></span></a></p>
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
-				<ul class="nav navbar-nav">
+				<ul class="nav navbar-nav navbar-right">
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span th:text="#{navbar.language}" th:remove="tag">Language</span> <span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="#" th:href="@{${#httpServletRequest.requestURI}(locale=en)}"><span class="flag-icon flag-icon-gb"></span> English</a></li>
 							<li><a href="#" th:href="@{${#httpServletRequest.requestURI}(locale=hr)}"><span class="flag-icon flag-icon-hr"></span> Hrvatski</a></li>
-						</ul>
-					</li>
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span th:text="#{navbar.help}" th:remove="tag">Help</span> <span class="caret"></span></a>
-						<ul class="dropdown-menu">
-							<li><a href="#" data-toggle="modal" data-target="#shortcuts" th:text="#{navbar.shortcuts}">Shortcuts</a></li>
 						</ul>
 					</li>
 				</ul>
