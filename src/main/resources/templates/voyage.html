@@ -69,8 +69,9 @@
 
 		<p class="text-center text-muted">
 			<small>
-				<span th:text="#{voyage.source}"></span>
-				<a href="#" target="_blank" th:href="${voyage.source}" th:text="${voyage.source}">http://example.com</a>
+				<span th:text="#{voyage.providedBy}"></span>
+				<a href="#" target="_blank" th:href="${voyage.carrier.website}" th:text="${voyage.carrier.name}">Carrier</a>
+				(<a href="#" target="_blank" th:href="${voyage.source}" th:text="#{voyage.source}">http://example.com</a>)
 			</small>
 		</p>
 

@@ -1,7 +1,6 @@
 package io.traintracker.core;
 
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -16,21 +15,21 @@ public class Voyage {
 
 	private Station currentStation;
 
-	private String source;
+	private Carrier carrier;
 
-	private ZoneId timezone;
+	private String source;
 
 	private LocalTime generatedTime;
 
-	public Voyage(Collection<Station> stations, String source, ZoneId timezone) {
+	public Voyage(Collection<Station> stations, Carrier carrier, String source) {
 		Objects.requireNonNull(stations, "Stations must not be null");
 		if (stations.isEmpty()) {
 			throw new IllegalArgumentException("Stations must not be empty");
 		}
 		this.stations = Collections.unmodifiableList(new ArrayList<>(stations));
 		this.currentStation = Iterables.getLast(this.stations);
+		this.carrier = Objects.requireNonNull(carrier, "Carrier must not be null");
 		this.source = Objects.requireNonNull(source, "Source must not be null");
-		this.timezone = Objects.requireNonNull(timezone, "Timezone must not be null");
 		this.generatedTime = LocalTime.now();
 	}
 
@@ -42,12 +41,12 @@ public class Voyage {
 		return this.currentStation;
 	}
 
-	public String getSource() {
-		return this.source;
+	public Carrier getCarrier() {
+		return this.carrier;
 	}
 
-	public ZoneId getTimezone() {
-		return this.timezone;
+	public String getSource() {
+		return this.source;
 	}
 
 	public LocalTime getGeneratedTime() {

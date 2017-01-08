@@ -15,15 +15,14 @@ import org.springframework.stereotype.Component;
 @Component
 class HrVoyageFetcher implements VoyageFetcher {
 
-	private static final String COUNTRY = "hr";
+	private static final Carrier carrier = new Carrier("hr", "HŽ Putnički prijevoz",
+			"http://www.hzpp.hr/", ZoneId.of("Europe/Zagreb"));
 
 	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuMMdd");
 
-	private static final ZoneId zoneId = ZoneId.of("Europe/Zagreb");
-
 	@Override
 	public String getCountry() {
-		return COUNTRY;
+		return carrier.getId();
 	}
 
 	@Override
@@ -34,7 +33,7 @@ class HrVoyageFetcher implements VoyageFetcher {
 		try {
 			doc = Jsoup.connect("http://najava.hzinfra.hr/hzinfo/default.asp")
 					.data("vl", train)
-					.data("d1", LocalDate.now(zoneId).format(formatter))
+					.data("d1", LocalDate.now(carrier.getTimezone()).format(formatter))
 					.data("category", "korisnici")
 					.data("service", "pkvl")
 					.data("screen", "2")
@@ -51,7 +50,7 @@ class HrVoyageFetcher implements VoyageFetcher {
 			return Optional.empty();
 		}
 
-		return Optional.of(new Voyage(stations, doc.location(), zoneId));
+		return Optional.of(new Voyage(stations, carrier, doc.location()));
 	}
 
 }
