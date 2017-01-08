@@ -5,9 +5,13 @@ import java.time.LocalTime;
 public class Station {
 
 	private String name;
+
 	private LocalTime arrivalTime;
+
 	private Integer arrivalDelay;
+
 	private LocalTime departureTime;
+
 	private Integer departureDelay;
 
 	public Station(String name) {
