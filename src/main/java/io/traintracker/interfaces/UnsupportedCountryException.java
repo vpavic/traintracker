@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 class UnsupportedCountryException extends RuntimeException {
 
-	UnsupportedCountryException() {
-		super("Unsupported country");
+	UnsupportedCountryException(String country) {
+		super("Unsupported country " + country);
 	}
 
 }

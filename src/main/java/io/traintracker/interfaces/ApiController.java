@@ -21,9 +21,9 @@ public class ApiController {
 	@GetMapping(path = "/{country:[a-z]{2}}/{train}", produces = "application/json; charset=UTF-8")
 	public Voyage voyage(@PathVariable String country, @PathVariable String train) {
 		return this.resolver.getVoyageFetcher(country)
-				.orElseThrow(UnsupportedCountryException::new)
+				.orElseThrow(() -> new UnsupportedCountryException(country))
 				.getVoyage(train)
-				.orElseThrow(VoyageNotFoundException::new);
+				.orElseThrow(() -> new VoyageNotFoundException(train));
 	}
 
 }
