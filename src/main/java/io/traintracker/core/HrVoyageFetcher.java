@@ -15,8 +15,8 @@ import org.springframework.stereotype.Component;
 @Component
 class HrVoyageFetcher implements VoyageFetcher {
 
-	private static final Carrier carrier = new Carrier("hr", "HŽ Putnički prijevoz",
-			"http://www.hzpp.hr/", ZoneId.of("Europe/Zagreb"));
+	private static final Carrier carrier = new Carrier("hr", "HŽ Infrastruktura",
+			"http://www.hzinfra.hr/", ZoneId.of("Europe/Zagreb"));
 
 	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuMMdd");
 
