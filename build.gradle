@@ -25,7 +25,7 @@ repositories {
 	maven { url 'https://repo.spring.io/milestone/' }
 }
 
-ext['thymeleaf.version'] = '3.0.2.RELEASE'
+ext['thymeleaf.version'] = '3.0.3.RELEASE'
 
 dependencies {
 	compile 'org.springframework.boot:spring-boot-starter-web'
