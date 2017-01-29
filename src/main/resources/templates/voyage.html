@@ -8,7 +8,7 @@
 </head>
 <body>
 	<div class="container" th:fragment="fragment" th:remove="tag">
-		<div class="panel" th:class="'panel ' + (${delay != null}? (${delay lt 1}? 'panel-success' : (${delay lt 20}? 'panel-warning' : 'panel-danger')) : 'panel-info')">
+		<div class="panel" th:class="'panel panel-' + ${delayLevel}">
 			<div class="panel-heading">
 				<h4 class="panel-title">
 					<span class="glyphicon glyphicon-info-sign"></span>

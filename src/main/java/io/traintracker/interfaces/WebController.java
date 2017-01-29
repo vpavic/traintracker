@@ -56,16 +56,26 @@ public class WebController {
 		if (!voyage.isPresent()) {
 			return "not-found :: fragment";
 		}
-		model.addAttribute("delay", calculateDelay(voyage.get().getCurrentStation()));
+		model.addAttribute("delayLevel", calculateDelayLevel(voyage.get().getCurrentStation()));
 		model.addAttribute("voyage", voyage.get());
 		return "voyage :: fragment";
 	}
 
-	private Integer calculateDelay(Station station) {
-		if (station.getDepartureDelay() != null) {
-			return station.getDepartureDelay();
+	private String calculateDelayLevel(Station station) {
+		Integer delay = station.getDepartureDelay() != null
+				? station.getDepartureDelay() : station.getArrivalDelay();
+		if (delay == null) {
+			return "info";
 		}
-		return station.getArrivalDelay();
+		else if (delay < 1) {
+			return "success";
+		}
+		else if (delay < 20) {
+			return "warning";
+		}
+		else {
+			return "danger";
+		}
 	}
 
 }
