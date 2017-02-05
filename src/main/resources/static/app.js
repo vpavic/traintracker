@@ -5,8 +5,7 @@ var button = $('#submit-button');
 var saved = $('#saved-trains');
 var saveLink;
 
-focusInput();
-generateMyTrainsList();
+$.pjax.defaults.timeout = 3000;
 
 Mousetrap.bind({
 	'/': focusInput,
@@ -17,6 +16,9 @@ Mousetrap.bind({
 });
 
 Mousetrap.bindGlobal('esc', blurInput);
+
+focusInput();
+generateMyTrainsList();
 
 input.keyup(function() {
 	var value = $(this).val();
