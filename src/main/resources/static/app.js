@@ -16,6 +16,10 @@ Mousetrap.bindGlobal('esc', blurInput);
 
 generateMyTrainsList();
 
+if (input.val()) {
+	decorateVoyageReport(input.val());
+}
+
 input.keyup(function() {
 	var value = $(this).val();
 	var empty = value.length == 0;
