@@ -1,10 +1,8 @@
-var country = $(document.body).attr('data-country');
-var savedTrainsKey = 'saved-trains-' + country;
+var savedTrainsKey = 'saved-trains-' + $(document.body).attr('data-country');
 var form = $('#search-form');
 var input = $('#train-no-input');
 var button = $('#submit-button');
 var saved = $('#saved-trains');
-var data = $('#train-data');
 var saveLink;
 
 focusInput();
@@ -21,52 +19,36 @@ Mousetrap.bind({
 Mousetrap.bindGlobal('esc', blurInput);
 
 input.keyup(function() {
+	var value = $(this).val();
+	var empty = value.length == 0;
 	var disabled = button.is(':disabled');
-	var empty = $(this).val().length == 0;
 
-	if (!disabled && empty) {
-		button.attr('disabled', 'disabled');
+	if (!empty) {
+		form.attr('action', value);
+		if (disabled) {
+			button.removeAttr('disabled');
+		}
 	}
-	else if (disabled && !empty) {
-		button.removeAttr('disabled');
+	else if (!disabled) {
+		form.removeAttr('action');
+		button.attr('disabled', 'disabled');
 	}
 });
 
 form.submit(function(event) {
-	event.preventDefault();
+	$.pjax.submit(event, '#train-data');
+});
+
+$('a[data-train]').click(function(event) {
+	var train = $(this).attr('data-train');
+	input.val(train);
+	input.keyup();
+	$.pjax.click(event, '#train-data');
+});
+
+$('#train-data').on('pjax:success', function() {
 	var trainNo = input.val();
-
-	if (trainNo.length != 0) {
-		data.load(country + '/' + trainNo, function() {
-			$('#generated-time').text(messages['voyage.generated'].replace('{0}', new Date().toTimeString()));
-
-			input.blur();
-			saveLink = $('#save');
-
-			if (containsTrain(trainNo)) {
-				prepareNotSaved(saveLink);
-			}
-			else {
-				prepareSaved(saveLink);
-			}
-
-			saveLink.click(function(event) {
-				event.preventDefault();
-				var trainNo = $(this).attr('data-train-no');
-
-				if (containsTrain(trainNo)) {
-					removeTrain(trainNo);
-					prepareSaved(saveLink);
-				}
-				else {
-					addTrain(trainNo);
-					prepareNotSaved(saveLink);
-				}
-
-				generateMyTrainsList();
-			});
-		});
-	}
+	decorateVoyageReport(trainNo);
 });
 
 function focusInput() {
@@ -142,16 +124,8 @@ function generateMyTrainsList() {
 			if (!saved.is(':empty')) {
 				saved.append('&nbsp;')
 			}
-			saved.append('<button class="btn btn-primary btn-sm fetch-my-train" data-train-no="'
-				+ train + '">' + train + '</button>');
-		});
-
-		$('.fetch-my-train').click(function(event) {
-			var trainNo = $(this).attr('data-train-no');
-			event.preventDefault();
-			input.val(trainNo);
-			input.keyup();
-			form.submit();
+			saved.append('<a class="btn btn-primary btn-sm" href="' + train
+				+ '" role="button" data-train="' + train + '">' + train + '</a>');
 		});
 
 		$('.remove-my-train').click(function(event) {
@@ -181,4 +155,35 @@ function prepareSaved(link) {
 		.find('span.glyphicon')
 		.removeClass('glyphicon-star')
 		.addClass('glyphicon-star-empty');
+}
+
+function decorateVoyageReport(trainNo) {
+	$('#generated-time').text(messages['voyage.generated'].replace('{0}',
+		new Date().toTimeString()));
+
+	input.blur();
+	saveLink = $('#save');
+
+	if (containsTrain(trainNo)) {
+		prepareNotSaved(saveLink);
+	}
+	else {
+		prepareSaved(saveLink);
+	}
+
+	saveLink.click(function(event) {
+		event.preventDefault();
+		var trainNo = $(this).attr('data-train-no');
+
+		if (containsTrain(trainNo)) {
+			removeTrain(trainNo);
+			prepareSaved(saveLink);
+		}
+		else {
+			addTrain(trainNo);
+			prepareNotSaved(saveLink);
+		}
+
+		generateMyTrainsList();
+	});
 }

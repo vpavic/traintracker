@@ -41,6 +41,7 @@ dependencies {
 	compile 'org.webjars:bootstrap:3.3.7-1'
 	compile 'org.webjars:flag-icon-css:2.4.0'
 	compile 'org.webjars:jquery:1.12.4'
+	compile 'org.webjars:jquery-pjax:1.9.6'
 	compile 'org.webjars:mousetrap:1.6.0'
 	compile 'org.webjars:pace:1.0.2'
 	compile 'org.webjars:webjars-locator'

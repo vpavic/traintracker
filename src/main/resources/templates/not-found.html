@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html lang="hr" xmlns="http://www.w3.org/1999/xhtml"
-		xmlns:th="http://www.thymeleaf.org">
-<head>
-	<meta charset="utf-8"/>
-
-	<title>Not found</title>
+		xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
+<head th:replace="base :: header">
 </head>
-<body>
-	<div class="container" th:fragment="fragment" th:remove="tag">
+<body th:replace="base :: body(~{:: div})">
+	<div th:fragment="fragment" th:remove="tag">
 		<div class="alert alert-warning" role="alert" th:text="#{voyage.notFound(${train})}">No voyage information available for train 000.</div>
 
 		<p class="text-center text-muted"><small id="generated-time"></small></p>

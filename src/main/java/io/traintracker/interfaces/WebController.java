@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import io.traintracker.core.Station;
 import io.traintracker.core.Voyage;
@@ -31,10 +32,15 @@ public class WebController {
 
 	@GetMapping(path = "/")
 	public String home(@ModelAttribute("countries") Set<String> countries) {
-		return "redirect:/" + countries.iterator().next();
+		return "redirect:/" + countries.iterator().next() + "/";
 	}
 
 	@GetMapping(path = "/{country:[a-z]{2}}")
+	public String country(@PathVariable String country) {
+		return "redirect:/" + country + "/";
+	}
+
+	@GetMapping(path = "/{country:[a-z]{2}}/")
 	public String country(@PathVariable String country, Model model,
 			@ModelAttribute("countries") Set<String> countries) {
 		model.addAttribute("country", country);
@@ -45,20 +51,21 @@ public class WebController {
 	}
 
 	@GetMapping(path = "/{country:[a-z]{2}}/{train}", produces = "text/html; charset=UTF-8")
-	public String voyage(@PathVariable String country, @PathVariable String train, Model model) {
+	public String voyage(@PathVariable String country, @PathVariable String train,
+			@RequestHeader(name = "X-PJAX", required = false) boolean pjax, Model model) {
 		model.addAttribute("country", country);
 		Optional<VoyageFetcher> fetcher = this.resolver.getVoyageFetcher(country);
 		if (!fetcher.isPresent()) {
-			return "not-found :: fragment";
+			return "not-found" + (pjax ? " :: fragment" : "");
 		}
 		model.addAttribute("train", train);
 		Optional<Voyage> voyage = fetcher.get().getVoyage(train);
 		if (!voyage.isPresent()) {
-			return "not-found :: fragment";
+			return "not-found" + (pjax ? " :: fragment" : "");
 		}
 		model.addAttribute("delayLevel", calculateDelayLevel(voyage.get().getCurrentStation()));
 		model.addAttribute("voyage", voyage.get());
-		return "voyage :: fragment";
+		return "voyage" + (pjax ? " :: fragment" : "");
 	}
 
 	private String calculateDelayLevel(Station station) {
