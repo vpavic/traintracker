@@ -56,9 +56,9 @@
 			<form class="form-inline" id="search-form">
 				<div class="form-group">
 					<label class="sr-only" for="train-no-input" th:text="#{search.trainNo}">Train number</label>
-					<input type="number" class="form-control" id="train-no-input" placeholder="Train number" th:placeholder="#{search.trainNo}" th:value="${train}"/>
+					<input type="number" class="form-control" id="train-no-input" placeholder="Train number" autofocus th:placeholder="#{search.trainNo}" th:value="${train}"/>
 				</div>
-				<button type="submit" class="btn btn-primary" id="submit-button" disabled="disabled" th:text="#{search.submit}">Search</button>
+				<button type="submit" class="btn btn-primary" id="submit-button" disabled th:text="#{search.submit}">Search</button>
 			</form>
 			<h4 th:text="#{saved.title}">Saved trains</h4>
 			<div>
@@ -127,7 +127,6 @@
 	<script src="https://cdn.jsdelivr.net/pace/1.0.2/pace.min.js" th:src="@{/webjars/pace/pace.min.js}"></script>
 	<script src="https://cdn.jsdelivr.net/mousetrap/1.5.3/mousetrap.min.js" th:src="@{/webjars/mousetrap/mousetrap.min.js}"></script>
 	<script src="https://cdn.jsdelivr.net/mousetrap/1.5.3/plugins/global-bind/mousetrap-global-bind.min.js" th:src="@{/webjars/mousetrap/mousetrap-global-bind.min.js}"></script>
-	<script src="https://cdn.jsdelivr.net/mousetrap/1.5.3/plugins/bind-dictionary/mousetrap-bind-dictionary.min.js" th:src="@{/webjars/mousetrap/mousetrap-bind-dictionary.min.js}"></script>
 	<script th:inline="javascript">
 		var messages = {
 			'saved.add': /*[[#{saved.add}]]*/ 'Add to saved trains',

@@ -7,17 +7,13 @@ var saveLink;
 
 $.pjax.defaults.timeout = 3000;
 
-Mousetrap.bind({
-	'/': focusInput,
-	'h': toggleDetails,
-	'r': submitSearch,
-	'c': countrySelector,
-	'?': displayShortcuts
-});
-
+Mousetrap.bind('/', function() { input.focus(); });
+Mousetrap.bind('h', function() { $('#stations').collapse('toggle'); });
+Mousetrap.bind('r', function() { form.submit(); });
+Mousetrap.bind('c', function() { $('#country').modal('show'); });
+Mousetrap.bind('?', function() { $('#shortcuts').modal('show'); });
 Mousetrap.bindGlobal('esc', blurInput);
 
-focusInput();
 generateMyTrainsList();
 
 input.keyup(function() {
@@ -53,28 +49,8 @@ $('#train-data').on('pjax:success', function() {
 	decorateVoyageReport(trainNo);
 });
 
-function focusInput() {
-	input.focus();
-}
-
 function blurInput() {
 	input.blur();
-}
-
-function toggleDetails() {
-	$('#stations').collapse('toggle');
-}
-
-function submitSearch() {
-	form.submit();
-}
-
-function countrySelector() {
-	$('#country').modal('show');
-}
-
-function displayShortcuts() {
-	$('#shortcuts').modal('show');
 }
 
 function saveMyTrains(myTrains) {
