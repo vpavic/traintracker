@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Collection;
+import java.util.Deque;
 import java.util.Optional;
 
 import org.jsoup.Jsoup;
@@ -44,7 +44,7 @@ class HrVoyageFetcher implements VoyageFetcher {
 			throw new RuntimeException(e);
 		}
 
-		Collection<Station> stations = HrDocumentParser.parse(doc);
+		Deque<Station> stations = HrDocumentParser.parse(doc);
 
 		if (stations.isEmpty()) {
 			return Optional.empty();

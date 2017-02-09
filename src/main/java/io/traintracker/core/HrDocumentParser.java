@@ -2,7 +2,6 @@ package io.traintracker.core;
 
 import java.time.LocalTime;
 import java.util.ArrayDeque;
-import java.util.Collection;
 import java.util.Deque;
 
 import org.jsoup.nodes.Document;
@@ -14,7 +13,7 @@ final class HrDocumentParser {
 	private HrDocumentParser() {
 	}
 
-	static Collection<Station> parse(Document doc) {
+	static Deque<Station> parse(Document doc) {
 		Deque<Station> stations = new ArrayDeque<>();
 
 		Elements tables = doc.getElementsByTag("tbody");

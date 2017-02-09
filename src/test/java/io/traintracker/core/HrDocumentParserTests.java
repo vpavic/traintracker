@@ -3,9 +3,8 @@ package io.traintracker.core;
 import java.io.File;
 import java.net.URI;
 import java.time.LocalTime;
-import java.util.Collection;
+import java.util.Deque;
 
-import com.google.common.collect.Iterables;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.Test;
@@ -17,9 +16,9 @@ public class HrDocumentParserTests {
 	@Test
 	public void testOk() {
 		Document doc = getDocument("/hr-ok.html");
-		Collection<Station> stations = HrDocumentParser.parse(doc);
+		Deque<Station> stations = HrDocumentParser.parse(doc);
 		assertThat(stations).hasSize(35);
-		Station currentStation = Iterables.getLast(stations);
+		Station currentStation = stations.getLast();
 		assertThat(currentStation.getName()).isEqualTo("VINKOVCI");
 		assertThat(currentStation.getArrivalTime()).isEqualTo(LocalTime.of(21, 28));
 		assertThat(currentStation.getArrivalDelay()).isEqualTo(21);
@@ -30,7 +29,7 @@ public class HrDocumentParserTests {
 	@Test
 	public void testNotFound() {
 		Document doc = getDocument("/hr-not-found.html");
-		Collection<Station> stations = HrDocumentParser.parse(doc);
+		Deque<Station> stations = HrDocumentParser.parse(doc);
 		assertThat(stations).isEmpty();
 	}
 
