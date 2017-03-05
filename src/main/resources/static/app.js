@@ -14,11 +14,14 @@ Mousetrap.bind('c', function() { $('#country').modal('show'); });
 Mousetrap.bind('?', function() { $('#shortcuts').modal('show'); });
 Mousetrap.bindGlobal('esc', function() { input.blur(); });
 
-generateMyTrainsList();
+$(document).ready(function() {
+	generateMyTrainsList();
 
-if (input.val()) {
-	decorateVoyageReport(input.val());
-}
+	if (input.val()) {
+		input.keyup();
+		decorateVoyageReport(input.val());
+	}
+});
 
 input.keyup(function() {
 	var value = $(this).val();
