@@ -12,7 +12,7 @@ Mousetrap.bind('h', function() { $('#stations').collapse('toggle'); });
 Mousetrap.bind('r', function() { form.submit(); });
 Mousetrap.bind('c', function() { $('#country').modal('show'); });
 Mousetrap.bind('?', function() { $('#shortcuts').modal('show'); });
-Mousetrap.bindGlobal('esc', blurInput);
+Mousetrap.bindGlobal('esc', function() { input.blur(); });
 
 generateMyTrainsList();
 
@@ -52,10 +52,6 @@ $('#train-data').on('pjax:success', function() {
 	var trainNo = input.val();
 	decorateVoyageReport(trainNo);
 });
-
-function blurInput() {
-	input.blur();
-}
 
 function saveMyTrains(myTrains) {
 	localStorage.setItem(savedTrainsKey, JSON.stringify(myTrains));
