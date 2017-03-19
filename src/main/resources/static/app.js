@@ -44,18 +44,6 @@ form.submit(function(event) {
 	$.pjax.submit(event, '#train-data');
 });
 
-$('a[data-train]').click(function(event) {
-	var train = $(this).attr('data-train');
-	input.val(train);
-	input.keyup();
-	$.pjax.click(event, '#train-data');
-});
-
-$('#train-data').on('pjax:success', function() {
-	var trainNo = input.val();
-	decorateVoyageReport(trainNo);
-});
-
 function saveMyTrains(myTrains) {
 	localStorage.setItem(savedTrainsKey, JSON.stringify(myTrains));
 }
@@ -122,6 +110,18 @@ function generateMyTrainsList() {
 	else {
 		saved.append('<p class="text-left text-muted">' + messages['saved.empty'] + '</p>')
 	}
+
+	$('a[data-train]').click(function(event) {
+		var train = $(this).attr('data-train');
+		input.val(train);
+		input.keyup();
+		$.pjax.click(event, '#train-data');
+	});
+
+	$('#train-data').on('pjax:success', function() {
+		var trainNo = input.val();
+		decorateVoyageReport(trainNo);
+	});
 }
 
 function prepareNotSaved(link) {
