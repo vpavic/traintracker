@@ -3,7 +3,7 @@
 		xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
 <head th:replace="base :: header">
 </head>
-<body th:replace="base :: body(~{:: div})">
+<body th:replace="base :: body(~{:: div}, ~{:: p})">
 	<th:block th:fragment="fragment">
 		<div class="panel" th:class="'panel panel-' + ${delayLevel}">
 			<div class="panel-heading">
