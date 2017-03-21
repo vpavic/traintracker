@@ -3,11 +3,9 @@
 		xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
 <head th:replace="base :: header">
 </head>
-<body th:replace="base :: body(~{:: div}, ~{:: p})">
+<body th:replace="base :: body(~{:: div}, ~{})">
 	<th:block th:fragment="fragment">
 		<div class="alert alert-warning" role="alert" th:text="#{voyage.notFound(${train})}">No voyage information available for train 000.</div>
-
-		<p class="text-center text-muted"><small th:text="#{voyage.generated(${voyage.generatedTime}, ${voyage.carrier.timezone})}">Generated on 00:00. All times are UTC.</small></p>
 	</th:block>
 </body>
 </html>
