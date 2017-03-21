@@ -139,9 +139,6 @@ function prepareSaved(link) {
 }
 
 function decorateVoyageReport(trainNo) {
-	$('#generated-time').text(messages['voyage.generated'].replace('{0}',
-		new Date().toTimeString()));
-
 	input.blur();
 	saveLink = $('#save');
 

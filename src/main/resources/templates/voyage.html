@@ -72,7 +72,7 @@
 			</small>
 		</p>
 
-		<p class="text-center text-muted"><small id="generated-time"></small></p>
+		<p class="text-center text-muted"><small th:text="#{voyage.generated(${#temporals.format(voyage.generatedTime, 'HH:mm:ss')}, ${voyage.carrier.timezone})}">Generated on 00:00. All times are UTC.</small></p>
 	</th:block>
 </body>
 </html>

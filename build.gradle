@@ -24,6 +24,7 @@ repositories {
 }
 
 ext['thymeleaf.version'] = '3.0.3.RELEASE'
+ext['thymeleaf-extras-java8time.version'] = '3.0.0.RELEASE'
 
 dependencies {
 	compile 'org.springframework.boot:spring-boot-starter-cache'
@@ -37,6 +38,7 @@ dependencies {
 	compile 'com.github.ben-manes.caffeine:caffeine'
 	compile 'org.jsoup:jsoup:1.10.1'
 	compile 'org.thymeleaf:thymeleaf-spring4'
+	compile 'org.thymeleaf.extras:thymeleaf-extras-java8time'
 
 	compile 'org.webjars:bootstrap:3.3.7-1'
 	compile 'org.webjars:flag-icon-css:2.4.0'
