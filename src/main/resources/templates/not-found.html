@@ -3,7 +3,7 @@
 		xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
 <head th:replace="base :: header">
 </head>
-<body th:replace="base :: body(~{:: div}, ~{})">
+<body th:replace="base :: body(~{:: div})">
 	<th:block th:fragment="fragment">
 		<div class="alert alert-warning" role="alert" th:text="#{voyage.notFound(${train})}">No voyage information available for train 000.</div>
 	</th:block>

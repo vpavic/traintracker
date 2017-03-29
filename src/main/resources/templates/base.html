@@ -23,7 +23,7 @@
 	<script src="https://cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
 </head>
-<body th:fragment="body(report, metadata)" th:attr="data-country=${country}">
+<body th:fragment="body(report)" th:attr="data-country=${country}">
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
 			<div class="navbar-header">
@@ -69,8 +69,6 @@
 
 	<div class="container" id="train-data">
 		<th:block th:replace="${report}"/>
-
-		<th:block th:replace="${metadata}"/>
 	</div>
 
 	<div class="modal fade" id="country" tabindex="-1" role="dialog" aria-labelledby="header-country">

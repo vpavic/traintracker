@@ -3,7 +3,7 @@
 		xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
 <head th:replace="base :: header">
 </head>
-<body th:replace="base :: body(~{:: div}, ~{:: p})">
+<body th:replace="base :: body(~{:: div})">
 	<th:block th:fragment="fragment">
 		<div class="panel" th:class="'panel panel-' + ${delayLevel}">
 			<div class="panel-heading">
@@ -64,15 +64,21 @@
 			</div>
 		</div>
 
-		<p class="text-center text-muted">
-			<small>
-				<span th:text="#{voyage.providedBy}"></span>
-				<a href="#" target="_blank" th:href="${voyage.carrier.website}" th:text="${voyage.carrier.name}">Carrier</a>
-				(<a href="#" target="_blank" th:href="${voyage.source}" th:text="#{voyage.source}">http://example.com</a>)
-			</small>
-		</p>
-
-		<p class="text-center text-muted"><small th:text="#{voyage.generated(${#temporals.format(voyage.generatedTime, 'HH:mm:ss')}, ${voyage.carrier.timezone})}">Generated on 00:00. All times are UTC.</small></p>
+		<div class="grid text-center text-muted">
+			<div class="row">
+				<small>
+					<span th:text="#{voyage.providedBy}"></span>
+					<a href="#" target="_blank" th:href="${voyage.carrier.website}" th:text="${voyage.carrier.name}">Carrier</a>
+					(<a href="#" target="_blank" th:href="${voyage.source}" th:text="#{voyage.source}">http://example.com</a>)
+				</small>
+			</div>
+			<div class="row">
+				<small th:text="#{voyage.generated(${#temporals.format(voyage.generatedTime, 'HH:mm:ss')})}">Generated on 00:00.</small>
+			</div>
+			<div class="row">
+				<small th:text="#{voyage.timezone(${voyage.carrier.timezone})}">All times are UTC.</small>
+			</div>
+		</div>
 	</th:block>
 </body>
 </html>
