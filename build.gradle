@@ -23,7 +23,7 @@ repositories {
 	jcenter()
 }
 
-ext['thymeleaf.version'] = '3.0.3.RELEASE'
+ext['thymeleaf.version'] = '3.0.5.RELEASE'
 ext['thymeleaf-extras-java8time.version'] = '3.0.0.RELEASE'
 
 dependencies {
