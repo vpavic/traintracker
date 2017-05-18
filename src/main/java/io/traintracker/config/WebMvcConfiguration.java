@@ -1,6 +1,6 @@
 package io.traintracker.config;
 
-import org.springframework.boot.autoconfigure.web.WebMvcRegistrationsAdapter;
+import org.springframework.boot.autoconfigure.web.servlet.WebMvcRegistrationsAdapter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
