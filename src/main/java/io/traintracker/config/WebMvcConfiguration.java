@@ -1,6 +1,6 @@
 package io.traintracker.config;
 
-import org.springframework.boot.autoconfigure.web.servlet.WebMvcRegistrationsAdapter;
+import org.springframework.boot.autoconfigure.web.servlet.WebMvcRegistrations;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -25,8 +25,8 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 	}
 
 	@Bean
-	public WebMvcRegistrationsAdapter webMvcRegistrationsAdapter() {
-		return new WebMvcRegistrationsAdapter() {
+	public WebMvcRegistrations webMvcRegistrations() {
+		return new WebMvcRegistrations() {
 
 			@Override
 			public RequestMappingHandlerMapping getRequestMappingHandlerMapping() {
