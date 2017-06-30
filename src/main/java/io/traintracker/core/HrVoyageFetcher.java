@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Deque;
-import java.util.Optional;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -27,7 +26,7 @@ class HrVoyageFetcher implements VoyageFetcher {
 
 	@Override
 	@Cacheable("voyages-hr")
-	public Optional<Voyage> getVoyage(String train) {
+	public Voyage getVoyage(String train) {
 		Document doc;
 
 		try {
@@ -47,10 +46,10 @@ class HrVoyageFetcher implements VoyageFetcher {
 		Deque<Station> stations = HrDocumentParser.parse(doc);
 
 		if (stations.isEmpty()) {
-			return Optional.empty();
+			return null;
 		}
 
-		return Optional.of(new Voyage(stations, carrier, doc.location()));
+		return new Voyage(stations, carrier, doc.location());
 	}
 
 }

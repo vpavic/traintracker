@@ -1,7 +1,6 @@
 package io.traintracker.interfaces;
 
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.stereotype.Controller;
@@ -54,17 +53,17 @@ public class WebController {
 	public String voyage(@PathVariable String country, @PathVariable String train,
 			@RequestHeader(name = "X-PJAX", required = false) boolean pjax, Model model) {
 		model.addAttribute("country", country);
-		Optional<VoyageFetcher> fetcher = this.resolver.getVoyageFetcher(country);
-		if (!fetcher.isPresent()) {
+		VoyageFetcher fetcher = this.resolver.getVoyageFetcher(country);
+		if (fetcher == null) {
 			return "not-found" + (pjax ? " :: fragment" : "");
 		}
 		model.addAttribute("train", train);
-		Optional<Voyage> voyage = fetcher.get().getVoyage(train);
-		if (!voyage.isPresent()) {
+		Voyage voyage = fetcher.getVoyage(train);
+		if (voyage == null) {
 			return "not-found" + (pjax ? " :: fragment" : "");
 		}
-		model.addAttribute("delayLevel", calculateDelayLevel(voyage.get().getCurrentStation()));
-		model.addAttribute("voyage", voyage.get());
+		model.addAttribute("delayLevel", calculateDelayLevel(voyage.getCurrentStation()));
+		model.addAttribute("voyage", voyage);
 		return "voyage" + (pjax ? " :: fragment" : "");
 	}
 

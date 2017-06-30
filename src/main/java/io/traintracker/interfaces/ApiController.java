@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.traintracker.core.Voyage;
+import io.traintracker.core.VoyageFetcher;
 import io.traintracker.core.VoyageFetcherResolver;
 
 @RestController
@@ -20,10 +21,15 @@ public class ApiController {
 
 	@GetMapping(path = "/{country:[a-z]{2}}/{train}", produces = "application/json; charset=UTF-8")
 	public Voyage voyage(@PathVariable String country, @PathVariable String train) {
-		return this.resolver.getVoyageFetcher(country)
-				.orElseThrow(() -> new UnsupportedCountryException(country))
-				.getVoyage(train)
-				.orElseThrow(() -> new VoyageNotFoundException(train));
+		VoyageFetcher fetcher = this.resolver.getVoyageFetcher(country);
+		if (fetcher == null) {
+			throw new UnsupportedCountryException(country);
+		}
+		Voyage voyage = fetcher.getVoyage(train);
+		if (voyage == null) {
+			throw new VoyageNotFoundException(train);
+		}
+		return voyage;
 	}
 
 }

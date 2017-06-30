@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -29,8 +28,8 @@ class DefaultVoyageFetcherResolver implements VoyageFetcherResolver {
 	}
 
 	@Override
-	public Optional<VoyageFetcher> getVoyageFetcher(String country) {
-		return Optional.ofNullable(this.fetchers.get(country));
+	public VoyageFetcher getVoyageFetcher(String country) {
+		return this.fetchers.get(country);
 	}
 
 }
