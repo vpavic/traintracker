@@ -3,5 +3,5 @@ applications:
 - name: traintracker
   random-route: true
   path: build/libs/traintracker.jar
-  memory: 512M
+  memory: 384M
   disk_quota: 256M
