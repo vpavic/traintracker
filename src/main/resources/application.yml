@@ -9,7 +9,7 @@ spring:
     serialization:
       write_dates_as_timestamps: false
 
-security:
-  basic:
-    enabled: false
-    realm: TrainTracker
+endpoints:
+  health:
+    web:
+      enabled: true
