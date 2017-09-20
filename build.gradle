@@ -24,7 +24,7 @@ apply plugin: 'com.gorylenko.gradle-git-properties'
 sourceCompatibility = '1.8'
 
 repositories {
-	jcenter()
+	mavenCentral()
 	maven { url 'https://repo.spring.io/libs-milestone/' }
 }
 
