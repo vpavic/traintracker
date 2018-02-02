@@ -5,77 +5,73 @@
 </head>
 <body th:replace="base :: body(~{:: div})">
 	<th:block th:fragment="fragment">
-		<div class="panel" th:class="'panel panel-' + ${delayLevel}">
-			<div class="panel-heading">
-				<h4 class="panel-title">
-					<span class="glyphicon glyphicon-info-sign"></span>
-					<span th:text="#{voyage.current.title}" th:remove="tag">Current train position</span>
-					<a href="#" class="pull-right" id="save" th:attr="data-train-no=${train}">
-						<span class="glyphicon"></span>
-					</a>
-				</h4>
+		<div class="list-group mt-4">
+			<div class="list-group-item" th:classappend="'list-group-item-' + ${delayLevel}">
+				<span class="fa fa-info-circle"></span>
+				<span th:text="#{voyage.current.title}" th:remove="tag">Current train position</span>
+				<a class="float-right" href="#" id="save" th:attr="data-train-no=${train}">
+					<span class="fa" id="star"></span>
+				</a>
 			</div>
-			<div class="list-group">
-				<div class="list-group-item" th:object="${voyage.currentStation}">
-					<h4 class="list-group-item-heading" th:text="*{name}">Name</h4>
-					<div class="list-group-item-text">
-						<div class="row" th:if="*{arrivalTime}">
-							<div class="col-xs-4" th:text="#{voyage.table.arrival}">Arrival</div>
-							<div class="col-xs-2" th:text="*{arrivalTime}">00:00</div>
-							<div class="col-xs-2" th:if="*{arrivalDelay}" th:text="*{'+' + arrivalDelay}"></div>
-						</div>
-						<div class="row" th:if="*{departureTime}">
-							<div class="col-xs-4" th:text="#{voyage.table.departure}">Departure</div>
-							<div class="col-xs-2" th:text="*{departureTime}">00:00</div>
-							<div class="col-xs-2" th:if="*{departureDelay}" th:text="*{'+' + departureDelay}"></div>
-						</div>
+			<div class="list-group-item flex-column align-items-start" th:object="${voyage.currentStation}">
+				<div class="d-flex w-100 justify-content-between">
+					<h5 class="list-group-item-heading" th:text="*{name}">Name</h5>
+				</div>
+				<div class="mb-1">
+					<div class="row" th:if="*{arrivalTime}">
+						<div class="col-4" th:text="#{voyage.table.arrival}">Arrival</div>
+						<div class="col-2" th:text="*{arrivalTime}">00:00</div>
+						<div class="col-2" th:if="*{arrivalDelay}" th:text="*{'+' + arrivalDelay}"></div>
+					</div>
+					<div class="row" th:if="*{departureTime}">
+						<div class="col-4" th:text="#{voyage.table.departure}">Departure</div>
+						<div class="col-2" th:text="*{departureTime}">00:00</div>
+						<div class="col-2" th:if="*{departureDelay}" th:text="*{'+' + departureDelay}"></div>
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<div class="panel panel-default">
-			<div class="panel-heading" role="tab" id="stations-heading">
-				<h4 class="panel-title">
-					<span class="glyphicon glyphicon-collapse-down" aria-hidden="true"></span>
-					<a role="button" data-toggle="collapse" data-parent="#accordion" href="#stations" aria-expanded="false" aria-controls="stations">
-						<span th:text="#{voyage.history.title}" th:remove="tag">Full voyage history</span>
-					</a>
-				</h4>
+		<div class="list-group mt-4">
+			<div class="list-group-item list-group-item-light">
+				<a role="button" data-toggle="collapse" data-parent="#accordion" href="#stations" aria-expanded="false" aria-controls="stations">
+					<span class="fa fa-plus-circle"></span>
+					<span th:text="#{voyage.history.title}" th:remove="tag">Full voyage history</span>
+				</a>
 			</div>
 			<div id="stations" class="panel-collapse collapse" role="tabpanel" aria-labelledby="stations-heading">
-				<div class="list-group">
-					<div class="list-group-item" th:each="station : ${voyage.stations}">
-						<h4 class="list-group-item-heading" th:text="${station.name}">Name</h4>
-						<div class="list-group-item-text">
-							<div class="row" th:if="${station.arrivalTime}">
-								<div class="col-xs-4" th:text="#{voyage.table.arrival}">Arrival</div>
-								<div class="col-xs-2" th:text="${station.arrivalTime}">00:00</div>
-								<div class="col-xs-2" th:if="${station.arrivalDelay}" th:text="${'+' + station.arrivalDelay}"></div>
-							</div>
-							<div class="row" th:if="${station.departureTime}">
-								<div class="col-xs-4" th:text="#{voyage.table.departure}">Departure</div>
-								<div class="col-xs-2" th:text="${station.departureTime}">00:00</div>
-								<div class="col-xs-2" th:if="${station.departureDelay}" th:text="${'+' + station.departureDelay}"></div>
-							</div>
+				<div class="list-group-item flex-column align-items-start" th:each="station : ${voyage.stations}">
+					<div class="d-flex w-100 justify-content-between">
+						<h5 class="list-group-item-heading" th:text="${station.name}">Name</h5>
+					</div>
+					<div class="list-group-item-text">
+						<div class="row" th:if="${station.arrivalTime}">
+							<div class="col-4" th:text="#{voyage.table.arrival}">Arrival</div>
+							<div class="col-2" th:text="${station.arrivalTime}">00:00</div>
+							<div class="col-2" th:if="${station.arrivalDelay}" th:text="${'+' + station.arrivalDelay}"></div>
+						</div>
+						<div class="row" th:if="${station.departureTime}">
+							<div class="col-4" th:text="#{voyage.table.departure}">Departure</div>
+							<div class="col-2" th:text="${station.departureTime}">00:00</div>
+							<div class="col-2" th:if="${station.departureDelay}" th:text="${'+' + station.departureDelay}"></div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<div class="grid text-center text-muted">
-			<div class="row">
+		<div class="container text-muted mt-4">
+			<div class="row justify-content-md-center">
 				<small>
 					<span th:text="#{voyage.providedBy}"></span>
 					<a href="#" target="_blank" th:href="${voyage.carrier.website}" th:text="${voyage.carrier.name}">Carrier</a>
 					(<a href="#" target="_blank" th:href="${voyage.source}" th:text="#{voyage.source}">http://example.com</a>)
 				</small>
 			</div>
-			<div class="row">
+			<div class="row justify-content-md-center">
 				<small th:text="#{voyage.generated(${#temporals.format(voyage.generatedTime, 'HH:mm:ss')})}">Generated on 00:00.</small>
 			</div>
-			<div class="row">
+			<div class="row justify-content-md-center">
 				<small th:text="#{voyage.timezone(${voyage.carrier.timezone})}">All times are UTC.</small>
 			</div>
 		</div>

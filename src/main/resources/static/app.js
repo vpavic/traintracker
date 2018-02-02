@@ -126,16 +126,16 @@ function generateMyTrainsList() {
 
 function prepareNotSaved(link) {
 	link.attr('title', messages['saved.remove'])
-		.find('span.glyphicon')
-		.removeClass('glyphicon-star-empty')
-		.addClass('glyphicon-star');
+		.find('span#star')
+		.removeClass('fa-star-o')
+		.addClass('fa-star');
 }
 
 function prepareSaved(link) {
 	link.attr('title', messages['saved.add'])
-		.find('span.glyphicon')
-		.removeClass('glyphicon-star')
-		.addClass('glyphicon-star-empty');
+		.find('span#star')
+		.removeClass('fa-star')
+		.addClass('fa-star-o');
 }
 
 function decorateVoyageReport(trainNo) {
