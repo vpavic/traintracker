@@ -13,15 +13,15 @@ repositories {
 }
 
 dependencies {
-	compile 'org.springframework.boot:spring-boot-starter-actuator'
-	compile 'org.springframework.boot:spring-boot-starter-cache'
-	compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	compile 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-cache'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 
-	compile 'org.springframework.boot:spring-boot-devtools'
+	implementation 'org.springframework.boot:spring-boot-devtools'
 
-	compile 'com.github.ben-manes.caffeine:caffeine'
-	compile 'org.jsoup:jsoup:1.11.2'
+	implementation 'com.github.ben-manes.caffeine:caffeine'
+	implementation 'org.jsoup:jsoup:1.11.2'
 
-	testCompile 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
