@@ -1,0 +1,9 @@
+apply plugin: 'com.github.ben-manes.versions'
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-dependencies:2.0.0.RELEASE'
+
+	constraints {
+		implementation 'org.jsoup:jsoup:1.11.2'
+	}
+}
