@@ -1,4 +1,4 @@
-package io.traintracker.interfaces;
+package ws.traintracker.interfaces;
 
 import java.util.Objects;
 import java.util.Set;
@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 
-import io.traintracker.core.Station;
-import io.traintracker.core.Voyage;
-import io.traintracker.core.VoyageFetcher;
-import io.traintracker.core.VoyageFetcherResolver;
+import ws.traintracker.core.Station;
+import ws.traintracker.core.Voyage;
+import ws.traintracker.core.VoyageFetcher;
+import ws.traintracker.core.VoyageFetcherResolver;
 
 @Controller
 public class WebController {

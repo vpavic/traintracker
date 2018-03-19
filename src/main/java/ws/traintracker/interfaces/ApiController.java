@@ -1,4 +1,4 @@
-package io.traintracker.interfaces;
+package ws.traintracker.interfaces;
 
 import java.util.Objects;
 
@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.traintracker.core.Voyage;
-import io.traintracker.core.VoyageFetcher;
-import io.traintracker.core.VoyageFetcherResolver;
+import ws.traintracker.core.Voyage;
+import ws.traintracker.core.VoyageFetcher;
+import ws.traintracker.core.VoyageFetcherResolver;
 
 @RestController
 public class ApiController {

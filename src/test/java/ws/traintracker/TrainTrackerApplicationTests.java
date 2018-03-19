@@ -1,4 +1,4 @@
-package io.traintracker;
+package ws.traintracker;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,4 +1,4 @@
-package io.traintracker.core;
+package ws.traintracker.core;
 
 public interface VoyageFetcher {
 

@@ -1,4 +1,4 @@
-package io.traintracker;
+package ws.traintracker;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

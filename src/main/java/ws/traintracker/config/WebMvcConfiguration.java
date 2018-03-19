@@ -1,4 +1,4 @@
-package io.traintracker.config;
+package ws.traintracker.config;
 
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcRegistrations;
 import org.springframework.context.annotation.Bean;
