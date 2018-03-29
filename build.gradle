@@ -1,11 +1,10 @@
 plugins {
 	id 'java'
-	id 'com.github.ben-manes.versions' version '0.17.0' apply false
+	id 'com.github.ben-manes.versions' version '0.17.0'
 	id 'com.gorylenko.gradle-git-properties' version '1.4.21'
+	id 'io.spring.dependency-management' version '1.0.4.RELEASE'
 	id 'org.springframework.boot' version '2.0.0.RELEASE'
 }
-
-apply from: "$rootDir/gradle/dependency-management.gradle"
 
 sourceCompatibility = '1.8'
 
@@ -14,15 +13,15 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-cache'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compile 'org.springframework.boot:spring-boot-starter-actuator'
+	compile 'org.springframework.boot:spring-boot-starter-cache'
+	compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	compile 'org.springframework.boot:spring-boot-starter-web'
 
-	implementation 'org.springframework.boot:spring-boot-devtools'
+	compile 'org.springframework.boot:spring-boot-devtools'
 
-	implementation 'com.github.ben-manes.caffeine:caffeine'
-	implementation 'org.jsoup:jsoup'
+	compile 'com.github.ben-manes.caffeine:caffeine'
+	compile 'org.jsoup:jsoup:1.11.2'
 
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testCompile 'org.springframework.boot:spring-boot-starter-test'
 }
