@@ -1,8 +1,8 @@
 plugins {
 	id 'java'
 	id 'com.github.ben-manes.versions' version '0.17.0'
-	id 'com.gorylenko.gradle-git-properties' version '1.4.21'
-	id 'org.springframework.boot' version '2.0.2.RELEASE'
+	id 'com.gorylenko.gradle-git-properties' version '1.5.1'
+	id 'org.springframework.boot' version '2.0.3.RELEASE'
 }
 
 apply plugin: 'io.spring.dependency-management'
