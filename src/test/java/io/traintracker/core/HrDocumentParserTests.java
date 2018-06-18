@@ -1,4 +1,4 @@
-package ws.traintracker.core;
+package io.traintracker.core;
 
 import java.io.File;
 import java.net.URI;

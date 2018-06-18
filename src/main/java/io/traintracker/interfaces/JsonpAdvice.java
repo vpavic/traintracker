@@ -1,4 +1,4 @@
-package ws.traintracker.interfaces;
+package io.traintracker.interfaces;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.AbstractJsonpResponseBodyAdvice;

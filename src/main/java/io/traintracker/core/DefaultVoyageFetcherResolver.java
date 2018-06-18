@@ -1,4 +1,4 @@
-package ws.traintracker.core;
+package io.traintracker.core;
 
 import java.util.Collections;
 import java.util.HashMap;
