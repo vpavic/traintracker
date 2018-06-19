@@ -18,7 +18,7 @@ public class ApiController {
 		this.resolver = Objects.requireNonNull(resolver, "VoyageFetcherResolver must not be null");
 	}
 
-	@GetMapping(path = "/{country:[a-z]{2}}/{train}", produces = "application/json; charset=UTF-8")
+	@GetMapping(path = "/{country:[a-z]{2}}/{train}", produces = "application/json")
 	public Voyage voyage(@PathVariable String country, @PathVariable String train) {
 		VoyageFetcher fetcher = this.resolver.getVoyageFetcher(country);
 		if (fetcher == null) {

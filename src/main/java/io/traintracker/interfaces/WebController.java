@@ -48,7 +48,7 @@ public class WebController {
 		return "home";
 	}
 
-	@GetMapping(path = "/{country:[a-z]{2}}/{train}", produces = "text/html; charset=UTF-8")
+	@GetMapping(path = "/{country:[a-z]{2}}/{train}", produces = "text/html")
 	public String voyage(@PathVariable String country, @PathVariable String train,
 			@RequestHeader(name = "X-PJAX", required = false) boolean pjax, Model model) {
 		model.addAttribute("country", country);
