@@ -7,6 +7,7 @@ import io.traintracker.core.Station;
 import io.traintracker.core.Voyage;
 import io.traintracker.core.VoyageFetcher;
 import io.traintracker.core.VoyageFetcherResolver;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,7 +49,7 @@ public class WebController {
 		return "home";
 	}
 
-	@GetMapping(path = "/{country:[a-z]{2}}/{train}", produces = "text/html")
+	@GetMapping(path = "/{country:[a-z]{2}}/{train}", produces = MediaType.TEXT_HTML_VALUE)
 	public String voyage(@PathVariable String country, @PathVariable String train,
 			@RequestHeader(name = "X-PJAX", required = false) boolean pjax, Model model) {
 		model.addAttribute("country", country);

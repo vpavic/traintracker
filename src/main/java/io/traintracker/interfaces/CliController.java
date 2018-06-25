@@ -11,6 +11,7 @@ import io.traintracker.core.Station;
 import io.traintracker.core.Voyage;
 import io.traintracker.core.VoyageFetcher;
 import io.traintracker.core.VoyageFetcherResolver;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +25,7 @@ public class CliController {
 		this.resolver = Objects.requireNonNull(resolver, "VoyageFetcherResolver must not be null");
 	}
 
-	@GetMapping(path = "/{country:[a-z]{2}}/{train}", produces = "text/plain")
+	@GetMapping(path = "/{country:[a-z]{2}}/{train}", produces = MediaType.TEXT_PLAIN_VALUE)
 	public String voyage(@PathVariable String country, @PathVariable String train) {
 		VoyageFetcher fetcher = this.resolver.getVoyageFetcher(country);
 		if (fetcher == null) {
