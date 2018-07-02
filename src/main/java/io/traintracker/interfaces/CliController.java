@@ -56,9 +56,6 @@ public class CliController {
 		at.addRule();
 		at.addRow(null, null, "Generated on " + voyage.getGeneratedTime() + " " + carrier.getTimezone());
 		at.addRule();
-		at.getContext().setGridTheme(TA_GridThemes.NONE);
-		at.getRenderer().setCWC(new CWC_LongestLine());
-		at.setPaddingLeftRight(1);
 		return renderAsciiTable(at);
 	}
 
