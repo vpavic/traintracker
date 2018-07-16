@@ -12,7 +12,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		// @formatter:off
 		http
 			.authorizeRequests()
-				.anyRequest().permitAll();
+				.anyRequest().permitAll()
+				.and()
+			.headers()
+				.httpStrictTransportSecurity()
+					.and()
+				.contentSecurityPolicy("default-src https: 'self'");
 		// @formatter:on
 	}
 
