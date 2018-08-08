@@ -21,6 +21,8 @@ dependencies {
 	compile 'org.springframework.boot:spring-boot-starter-web'
 
 	compile 'org.springframework.boot:spring-boot-devtools'
+	compile 'org.springframework.security:spring-security-oauth2-client'
+	compile 'org.springframework.security:spring-security-oauth2-jose'
 
 	compile 'com.github.ben-manes.caffeine:caffeine'
 	compile 'de.vandermeer:asciitable:0.3.2'

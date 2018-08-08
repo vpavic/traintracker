@@ -14,6 +14,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 				.anyRequest().permitAll()
 				.and()
+			.oauth2Login()
+				.and()
 			.headers()
 				.httpStrictTransportSecurity()
 					.and()
