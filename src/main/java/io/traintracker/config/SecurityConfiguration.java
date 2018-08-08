@@ -17,7 +17,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.headers()
 				.httpStrictTransportSecurity()
 					.and()
-				.contentSecurityPolicy("default-src https: 'self'");
+				.contentSecurityPolicy("default-src https: 'self'; script-src https: 'self' 'unsafe-inline'");
 		// @formatter:on
 	}
 
