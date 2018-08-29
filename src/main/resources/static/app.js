@@ -93,7 +93,7 @@ function generateMyTrainsList() {
 			if (!saved.is(':empty')) {
 				saved.append('&nbsp;')
 			}
-			saved.append('<a class="btn btn-primary btn-sm" href="' + train
+			saved.append('<a class="btn btn-primary btn-sm mb-1" href="' + train
 				+ '" role="button" data-train="' + train + '">' + train + '</a>');
 		});
 
