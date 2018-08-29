@@ -23,7 +23,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.contentSecurityPolicy("default-src https: 'self'; img-src https: data: 'self'; "
 						+ "script-src https: 'self' 'sha256-GV92UCCdl4ev/6K7wyHn39c/5lPZO6fNFOTT3dDz4L4='")
 					.and()
-				.referrerPolicy(ReferrerPolicy.NO_REFERRER_WHEN_DOWNGRADE);
+				.referrerPolicy(ReferrerPolicy.NO_REFERRER_WHEN_DOWNGRADE)
+					.and()
+				.featurePolicy("accelerometer 'none'; ambient-light-sensor 'none'; camera 'none'; "
+						+ "encrypted-media 'none'; fullscreen 'none'; geolocation 'none'; "
+						+ "gyroscope 'none'; magnetometer 'none'; microphone 'none'; midi 'none'; "
+						+ "payment 'none'; speaker 'none'; sync-xhr 'none'; usb 'none'; vr 'none'");
 		// @formatter:on
 	}
 
