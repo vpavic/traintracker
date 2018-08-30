@@ -1,15 +1,17 @@
 package io.traintracker.core;
 
-import java.io.IOException;
+import java.net.URI;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Deque;
 
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.DefaultUriBuilderFactory;
+import org.springframework.web.util.UriBuilder;
 
 @Component
 class HrVoyageFetcher implements VoyageFetcher {
@@ -19,6 +21,15 @@ class HrVoyageFetcher implements VoyageFetcher {
 
 	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuMMdd");
 
+	private static final UriBuilder uriBuilder = new DefaultUriBuilderFactory("http://najava.hzinfra.hr/hzinfo")
+			.uriString("/default.asp?vl={train}&d1={date}&category=korisnici&service=pkvl&screen=2");
+
+	private final WebClient webClient;
+
+	HrVoyageFetcher(WebClient.Builder webClientBuilder) {
+		this.webClient = webClientBuilder.baseUrl("http://najava.hzinfra.hr/hzinfo").build();
+	}
+
 	@Override
 	public String getCountry() {
 		return carrier.getId();
@@ -27,29 +38,19 @@ class HrVoyageFetcher implements VoyageFetcher {
 	@Override
 	@Cacheable("voyages-hr")
 	public Voyage getVoyage(String train) {
-		Document doc;
+		URI uri = uriBuilder.build(train, LocalDate.now(carrier.getTimezone()).format(formatter));
 
-		try {
-			doc = Jsoup.connect("http://najava.hzinfra.hr/hzinfo/default.asp")
-					.data("vl", train)
-					.data("d1", LocalDate.now(carrier.getTimezone()).format(formatter))
-					.data("category", "korisnici")
-					.data("service", "pkvl")
-					.data("screen", "2")
-					.timeout(10000)
-					.get();
-		}
-		catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-
-		Deque<Station> stations = HrDocumentParser.parse(doc);
-
-		if (stations.isEmpty()) {
-			return null;
-		}
-
-		return new Voyage(stations, carrier, doc.location());
+		// @formatter:off
+		return this.webClient.get()
+				.uri(uri)
+				.accept(MediaType.TEXT_HTML)
+				.exchange()
+				.flatMap(response -> response.toEntity(String.class))
+				.map(entity -> Jsoup.parse(entity.toString()))
+				.map(HrDocumentParser::parse)
+				.map(stations -> new Voyage(stations, carrier, uri.toString()))
+				.block();
+		// @formatter:on
 	}
 
 }
