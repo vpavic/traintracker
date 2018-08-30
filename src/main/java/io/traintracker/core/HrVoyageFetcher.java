@@ -4,6 +4,7 @@ import java.net.URI;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Deque;
 
 import org.jsoup.Jsoup;
 import org.springframework.cache.annotation.Cacheable;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import org.springframework.web.util.UriBuilder;
+import reactor.core.publisher.Mono;
 
 @Component
 class HrVoyageFetcher implements VoyageFetcher {
@@ -48,9 +50,13 @@ class HrVoyageFetcher implements VoyageFetcher {
 				.flatMap(response -> response.toEntity(String.class))
 				.map(entity -> Jsoup.parse(entity.toString()))
 				.map(HrDocumentParser::parse)
-				.map(stations -> new Voyage(stations, carrier, uri.toString()))
+				.flatMap(stations -> Mono.justOrEmpty(createVoyage(stations, uri)))
 				.block();
 		// @formatter:on
+	}
+
+	private static Voyage createVoyage(Deque<Station> stations, URI uri) {
+		return !stations.isEmpty() ? new Voyage(stations, carrier, uri.toString()) : null;
 	}
 
 }
