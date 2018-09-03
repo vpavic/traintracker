@@ -1,19 +1,23 @@
 package io.traintracker.core;
 
+import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Deque;
+import java.util.Objects;
 
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.util.DefaultUriBuilderFactory;
-import org.springframework.web.util.UriBuilder;
-import reactor.core.publisher.Mono;
 
 @Component
 class HrVoyageFetcher implements VoyageFetcher {
@@ -23,13 +27,11 @@ class HrVoyageFetcher implements VoyageFetcher {
 
 	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuMMdd");
 
-	private static final UriBuilder uriBuilder = new DefaultUriBuilderFactory("http://najava.hzinfra.hr/hzinfo")
-			.uriString("/default.asp?vl={train}&d1={date}&category=korisnici&service=pkvl&screen=2");
+	private final CloseableHttpClient httpClient;
 
-	private final WebClient webClient;
-
-	HrVoyageFetcher(WebClient.Builder webClientBuilder) {
-		this.webClient = webClientBuilder.baseUrl("http://najava.hzinfra.hr/hzinfo").build();
+	HrVoyageFetcher(CloseableHttpClient httpClient) {
+		Objects.requireNonNull(httpClient, "httpClient must not be null");
+		this.httpClient = httpClient;
 	}
 
 	@Override
@@ -40,23 +42,53 @@ class HrVoyageFetcher implements VoyageFetcher {
 	@Override
 	@Cacheable("voyages-hr")
 	public Voyage getVoyage(String train) {
-		URI uri = uriBuilder.build(train, LocalDate.now(carrier.getTimezone()).format(formatter));
+		URI uri = buildRequestUri(train, LocalDate.now(carrier.getTimezone()));
+		CloseableHttpResponse response = executeRequest(uri);
+		Document doc = parseDocument(response);
+		Deque<Station> stations = HrDocumentParser.parse(doc);
 
-		// @formatter:off
-		return this.webClient.get()
-				.uri(uri)
-				.accept(MediaType.TEXT_HTML)
-				.exchange()
-				.flatMap(response -> response.toEntity(String.class))
-				.map(entity -> Jsoup.parse(entity.toString()))
-				.map(HrDocumentParser::parse)
-				.flatMap(stations -> Mono.justOrEmpty(createVoyage(stations, uri)))
-				.block();
-		// @formatter:on
+		if (stations.isEmpty()) {
+			return null;
+		}
+
+		return new Voyage(stations, carrier, uri.toString());
 	}
 
-	private static Voyage createVoyage(Deque<Station> stations, URI uri) {
-		return !stations.isEmpty() ? new Voyage(stations, carrier, uri.toString()) : null;
+	private CloseableHttpResponse executeRequest(URI uri) {
+		try {
+			HttpGet request = new HttpGet(uri);
+			return this.httpClient.execute(request);
+		}
+		catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	private Document parseDocument(CloseableHttpResponse response) {
+		try {
+			String html = EntityUtils.toString(response.getEntity(), "Cp1250");
+			return Jsoup.parse(html);
+		}
+		catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	private static URI buildRequestUri(String train, LocalDate date) {
+		try {
+			// @formatter:off
+			return new URIBuilder("http://najava.hzinfra.hr/hzinfo/default.asp")
+					.addParameter("vl", train)
+					.addParameter("d1", date.format(formatter))
+					.addParameter("category", "korisnici")
+					.addParameter("service", "pkvl")
+					.addParameter("screen", "2")
+					.build();
+			// @formatter:on
+		}
+		catch (URISyntaxException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }
