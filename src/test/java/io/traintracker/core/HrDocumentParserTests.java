@@ -14,9 +14,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class HrDocumentParserTests {
 
 	@Test
-	public void testOk() {
-		Document doc = getDocument("/hr-ok.html");
-		Deque<Station> stations = HrDocumentParser.parse(doc);
+	public void testPkvlOk() {
+		Document doc = getDocument("/hr-pkvl-ok.html");
+		Deque<Station> stations = HrDocumentParser.parseOverview(doc);
 		assertThat(stations).hasSize(35);
 		Station currentStation = stations.getLast();
 		assertThat(currentStation.getName()).isEqualTo("VINKOVCI");
@@ -27,10 +27,29 @@ public class HrDocumentParserTests {
 	}
 
 	@Test
-	public void testNotFound() {
-		Document doc = getDocument("/hr-not-found.html");
-		Deque<Station> stations = HrDocumentParser.parse(doc);
+	public void testPkvlNotFound() {
+		Document doc = getDocument("/hr-pkvl-not-found.html");
+		Deque<Station> stations = HrDocumentParser.parseOverview(doc);
 		assertThat(stations).isEmpty();
+	}
+
+	@Test
+	public void testTpvlOk() {
+		Document doc = getDocument("/hr-tpvl-ok.html");
+		Station station = HrDocumentParser.parseCurrentPosition(doc);
+		assertThat(station).isNotNull();
+		assertThat(station.getName()).isEqualTo("NOVA KAPELA BATRINA");
+		assertThat(station.getArrivalTime()).isNull();
+		assertThat(station.getArrivalDelay()).isNull();
+		assertThat(station.getDepartureTime()).isEqualTo(LocalTime.of(5, 43));
+		assertThat(station.getDepartureDelay()).isEqualTo(27);
+	}
+
+	@Test
+	public void testTpvlNotFound() {
+		Document doc = getDocument("/hr-tpvl-not-found.html");
+		Station station = HrDocumentParser.parseCurrentPosition(doc);
+		assertThat(station).isNull();
 	}
 
 	private Document getDocument(String path) {

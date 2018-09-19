@@ -42,16 +42,21 @@ class HrVoyageFetcher implements VoyageFetcher {
 	@Override
 	@Cacheable("voyages-hr")
 	public Voyage getVoyage(String train) {
-		URI uri = buildRequestUri(train, LocalDate.now(carrier.getTimezone()));
-		CloseableHttpResponse response = executeRequest(uri);
-		Document doc = parseDocument(response);
-		Deque<Station> stations = HrDocumentParser.parse(doc);
+		URI currentPositionRequestUri = buildCurrentPositionRequestUri(train);
+		CloseableHttpResponse currentPositionResponse = executeRequest(currentPositionRequestUri);
+		Document currentPositionDocument = parseDocument(currentPositionResponse);
+		Station currentStation = HrDocumentParser.parseCurrentPosition(currentPositionDocument);
 
-		if (stations.isEmpty()) {
+		if (currentStation == null) {
 			return null;
 		}
 
-		return new Voyage(stations, carrier, uri.toString());
+		URI overviewRequestUri = buildOverviewRequestUri(train, LocalDate.now(carrier.getTimezone()));
+		CloseableHttpResponse overviewResponse = executeRequest(overviewRequestUri);
+		Document doc = parseDocument(overviewResponse);
+		Deque<Station> stations = HrDocumentParser.parseOverview(doc);
+
+		return new Voyage(currentStation, stations, carrier, overviewRequestUri.toString());
 	}
 
 	private CloseableHttpResponse executeRequest(URI uri) {
@@ -74,7 +79,7 @@ class HrVoyageFetcher implements VoyageFetcher {
 		}
 	}
 
-	private static URI buildRequestUri(String train, LocalDate date) {
+	private static URI buildOverviewRequestUri(String train, LocalDate date) {
 		try {
 			// @formatter:off
 			return new URIBuilder("http://najava.hzinfra.hr/hzinfo/default.asp")
@@ -82,6 +87,22 @@ class HrVoyageFetcher implements VoyageFetcher {
 					.addParameter("d1", date.format(formatter))
 					.addParameter("category", "korisnici")
 					.addParameter("service", "pkvl")
+					.addParameter("screen", "2")
+					.build();
+			// @formatter:on
+		}
+		catch (URISyntaxException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	private static URI buildCurrentPositionRequestUri(String train) {
+		try {
+			// @formatter:off
+			return new URIBuilder("http://vred.hzinfra.hr/hzinfo/Default.asp")
+					.addParameter("vl", train)
+					.addParameter("category", "hzinfo")
+					.addParameter("service", "tpvl")
 					.addParameter("screen", "2")
 					.build();
 			// @formatter:on

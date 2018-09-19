@@ -13,7 +13,39 @@ final class HrDocumentParser {
 	private HrDocumentParser() {
 	}
 
-	static Deque<Station> parse(Document doc) {
+	static Station parseCurrentPosition(Document doc) {
+		Station station = null;
+
+		Elements tables = doc.getElementsByTag("tbody");
+
+		if (tables.size() == 2) {
+			Elements rows = tables.last().children();
+			String nameRaw = rows.get(1).child(0).child(1).text().trim();
+			Element position = rows.get(2);
+			String direction = position.child(0).child(0).text().trim();
+			String timeRaw = position.child(0).child(1).text().trim();
+			String delayRaw = rows.get(3).child(0).child(0).child(0).text().trim();
+
+			String name = nameRaw.replace('+', ' ');
+			LocalTime time = LocalTime.parse(timeRaw.substring(12, 17));
+			int delay = delayRaw.startsWith("Kasni") ? Integer.parseInt(delayRaw.substring(6, 8)) : 0;
+
+			station = new Station(name);
+
+			if (direction.equals("Odlazak")) {
+				station.setDepartureTime(time);
+				station.setDepartureDelay(delay);
+			}
+			else {
+				station.setArrivalTime(time);
+				station.setArrivalDelay(delay);
+			}
+		}
+
+		return station;
+	}
+
+	static Deque<Station> parseOverview(Document doc) {
 		Deque<Station> stations = new ArrayDeque<>();
 
 		Elements tables = doc.getElementsByTag("tbody");

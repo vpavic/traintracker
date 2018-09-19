@@ -44,15 +44,13 @@ public class HrVoyageFetcherTests {
 	@Test
 	public void getVoyage_VoyageExists_ShouldReturnVoyage() throws Exception {
 		CloseableHttpResponse response = mock(CloseableHttpResponse.class);
-		File responseHtml = new File(getClass().getResource("/hr-ok.html").toURI());
+		File responseHtml = new File(getClass().getResource("/hr-tpvl-ok.html").toURI());
 		given(response.getEntity()).willReturn(new FileEntity(responseHtml));
 		given(this.httpClient.execute(any())).willReturn(response);
 
 		Voyage voyage = this.voyageFetcher.getVoyage("211");
 
 		assertThat(voyage).isNotNull();
-		assertThat(voyage.getStations()).hasSize(35);
-		assertThat(voyage.getCurrentStation().getName()).isEqualTo("VINKOVCI");
 		assertThat(voyage.getCarrier().getId()).isEqualTo("hr");
 	}
 

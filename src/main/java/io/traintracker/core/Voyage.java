@@ -18,15 +18,15 @@ public class Voyage {
 
 	private LocalTime generatedTime;
 
-	public Voyage(Deque<Station> stations, Carrier carrier, String source) {
+	public Voyage(Station currentStation, Deque<Station> stations, Carrier carrier, String source) {
+		Objects.requireNonNull(currentStation, "Current station must not be null");
 		Objects.requireNonNull(stations, "Stations must not be null");
-		if (stations.isEmpty()) {
-			throw new IllegalArgumentException("Stations must not be empty");
-		}
+		Objects.requireNonNull(carrier, "Carrier must not be null");
+		Objects.requireNonNull(source, "Source must not be null");
+		this.currentStation = currentStation;
 		this.stations = Collections.unmodifiableCollection(stations);
-		this.currentStation = stations.getLast();
-		this.carrier = Objects.requireNonNull(carrier, "Carrier must not be null");
-		this.source = Objects.requireNonNull(source, "Source must not be null");
+		this.carrier = carrier;
+		this.source = source;
 		this.generatedTime = LocalTime.now();
 	}
 
