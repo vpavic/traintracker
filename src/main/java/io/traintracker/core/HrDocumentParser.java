@@ -28,7 +28,8 @@ final class HrDocumentParser {
 
 			String name = nameRaw.replace('+', ' ');
 			LocalTime time = LocalTime.parse(timeRaw.substring(12, 17));
-			int delay = delayRaw.startsWith("Kasni") ? Integer.parseInt(delayRaw.substring(6, 8)) : 0;
+			int delay = delayRaw.startsWith("Kasni")
+					? Integer.parseInt(delayRaw.substring(6, delayRaw.indexOf(' ', 6))) : 0;
 
 			station = new Station(name);
 
