@@ -2,7 +2,7 @@ plugins {
 	id 'java'
 	id 'com.github.ben-manes.versions' version '0.20.0'
 	id 'com.gorylenko.gradle-git-properties' version '1.5.2'
-	id 'org.springframework.boot' version '2.1.0.M3'
+	id 'org.springframework.boot' version '2.1.0.M4'
 }
 
 apply plugin: 'io.spring.dependency-management'
