@@ -29,6 +29,12 @@
 						<a class="dropdown-item" href="#" data-th-href="@{${#httpServletRequest.requestURI}(locale=hr)}"><span class="flag-icon flag-icon-hr"></span> Hrvatski</a>
 					</div>
 				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#" data-toggle="modal" data-target="#login" data-th-text="#{navbar.login}" data-th-if="${principal == null}">Log In</a>
+					<span class="align-middle">
+						<img src="" alt="Principal" width="40" height="40" data-th-src="${principal.attributes['picture']}" data-th-alt="${principal.attributes['name']}" data-th-if="${principal != null}"/>
+					</span>
+				</li>
 			</ul>
 		</div>
 	</div>
@@ -69,6 +75,20 @@
 					<span class="flag-icon flag-icon-hr" data-th-class="${'flag-icon flag-icon-' + country}"></span>
 					<span data-th-text="#{'country.' + ${country}}">Croatia</span>
 				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="header-login">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="header-login" data-th-text="#{login.title}"> </h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			</div>
+			<div class="modal-body">
+				<a class="btn btn-outline-primary btn-lg btn-block" href="#" role="button" data-th-href="@{/oauth2/authorization/google}" data-th-text="#{login.google}">Log In with Google</a>
 			</div>
 		</div>
 	</div>
