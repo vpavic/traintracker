@@ -14,6 +14,12 @@ repositories {
 	maven { url 'https://repo.spring.io/libs-milestone/' }
 }
 
+dependencyManagement {
+	imports {
+		mavenBom 'org.testcontainers:testcontainers-bom:1.9.1'
+	}
+}
+
 dependencies {
 	compile 'org.springframework.boot:spring-boot-starter-actuator'
 	compile 'org.springframework.boot:spring-boot-starter-cache'
@@ -32,4 +38,5 @@ dependencies {
 	compile 'org.jsoup:jsoup:1.11.3'
 
 	testCompile 'org.springframework.boot:spring-boot-starter-test'
+	testCompile 'org.testcontainers:testcontainers'
 }
