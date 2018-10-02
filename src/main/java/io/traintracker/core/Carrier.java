@@ -1,9 +1,10 @@
 package io.traintracker.core;
 
+import java.io.Serializable;
 import java.time.ZoneId;
 import java.util.Objects;
 
-public class Carrier {
+public class Carrier implements Serializable {
 
 	private String id;
 

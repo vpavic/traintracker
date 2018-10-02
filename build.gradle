@@ -17,6 +17,7 @@ repositories {
 dependencies {
 	compile 'org.springframework.boot:spring-boot-starter-actuator'
 	compile 'org.springframework.boot:spring-boot-starter-cache'
+	compile 'org.springframework.boot:spring-boot-starter-data-redis'
 	compile 'org.springframework.boot:spring-boot-starter-security'
 	compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	compile 'org.springframework.boot:spring-boot-starter-web'
@@ -24,8 +25,8 @@ dependencies {
 	compile 'org.springframework.boot:spring-boot-devtools'
 	compile 'org.springframework.security:spring-security-oauth2-client'
 	compile 'org.springframework.security:spring-security-oauth2-jose'
+	compile 'org.springframework.session:spring-session-data-redis'
 
-	compile 'com.github.ben-manes.caffeine:caffeine'
 	compile 'de.vandermeer:asciitable:0.3.2'
 	compile 'org.apache.httpcomponents:httpclient'
 	compile 'org.jsoup:jsoup:1.11.3'

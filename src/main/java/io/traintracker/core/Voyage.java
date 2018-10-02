@@ -1,12 +1,13 @@
 package io.traintracker.core;
 
+import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.Objects;
 
-public class Voyage {
+public class Voyage implements Serializable {
 
 	private Collection<Station> stations;
 

@@ -1,8 +1,9 @@
 package io.traintracker.core;
 
+import java.io.Serializable;
 import java.time.LocalTime;
 
-public class Station {
+public class Station implements Serializable {
 
 	private String name;
 
