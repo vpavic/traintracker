@@ -80,7 +80,7 @@
 	</div>
 </div>
 
-<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="header-login">
+<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="header-login" data-th-if="${principal == null}">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -88,7 +88,7 @@
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			</div>
 			<div class="modal-body">
-				<a class="btn btn-outline-primary btn-lg btn-block" href="#" role="button" data-th-href="@{/oauth2/authorization/google}" data-th-text="#{login.google}">Log In with Google</a>
+				<a class="btn btn-outline-primary btn-lg btn-block" href="#" role="button" data-th-each="login : ${logins}" data-th-href="@{${login.value}}" data-th-text="#{'login.' + ${login.key}}">Log In with Google</a>
 			</div>
 		</div>
 	</div>

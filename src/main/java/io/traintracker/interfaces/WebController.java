@@ -1,7 +1,10 @@
 package io.traintracker.interfaces;
 
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import io.traintracker.core.Station;
 import io.traintracker.core.Voyage;
@@ -22,13 +25,27 @@ public class WebController {
 
 	private final VoyageFetcherResolver resolver;
 
+	private final Map<String, String> logins;
+
 	public WebController(VoyageFetcherResolver resolver) {
-		this.resolver = Objects.requireNonNull(resolver, "VoyageFetcherResolver must not be null");
+		Objects.requireNonNull(resolver, "VoyageFetcherResolver must not be null");
+		this.resolver = resolver;
+		this.logins = prepareLogins();
+	}
+
+	@SuppressWarnings("unchecked")
+	private static Map<String, String> prepareLogins() {
+		return Stream.of("google").collect(Collectors.toMap(s -> s, s -> "/oauth2/authorization/" + s));
 	}
 
 	@ModelAttribute("countries")
 	public Set<String> countries() {
 		return this.resolver.supportedCountries();
+	}
+
+	@ModelAttribute("logins")
+	public Map<String, String> logins() {
+		return this.logins;
 	}
 
 	@ModelAttribute("principal")
