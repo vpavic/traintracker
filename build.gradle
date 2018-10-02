@@ -23,6 +23,7 @@ dependencyManagement {
 dependencies {
 	compile 'org.springframework.boot:spring-boot-starter-actuator'
 	compile 'org.springframework.boot:spring-boot-starter-cache'
+	compile 'org.springframework.boot:spring-boot-starter-cloud-connectors'
 	compile 'org.springframework.boot:spring-boot-starter-data-redis'
 	compile 'org.springframework.boot:spring-boot-starter-security'
 	compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
