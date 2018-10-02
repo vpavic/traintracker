@@ -8,6 +8,8 @@ import io.traintracker.core.Voyage;
 import io.traintracker.core.VoyageFetcher;
 import io.traintracker.core.VoyageFetcherResolver;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +29,11 @@ public class WebController {
 	@ModelAttribute("countries")
 	public Set<String> countries() {
 		return this.resolver.supportedCountries();
+	}
+
+	@ModelAttribute("principal")
+	public OAuth2User authentication(@AuthenticationPrincipal OAuth2User principal) {
+		return principal;
 	}
 
 	@GetMapping(path = "/")
