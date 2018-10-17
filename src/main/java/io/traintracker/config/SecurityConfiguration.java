@@ -22,7 +22,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.httpStrictTransportSecurity()
 					.and()
 				.contentSecurityPolicy("default-src https: 'self'; img-src https: data: 'self'; "
-						+ "script-src https: 'self' 'sha256-GV92UCCdl4ev/6K7wyHn39c/5lPZO6fNFOTT3dDz4L4='")
+						+ "script-src https: 'self' 'sha256-F+rFUB1Z7u0McuUUop6hGovMsPsMKIUuvSl3490LveA='")
 					.and()
 				.referrerPolicy(ReferrerPolicy.NO_REFERRER_WHEN_DOWNGRADE)
 					.and()

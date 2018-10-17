@@ -2,7 +2,7 @@ plugins {
 	id 'java'
 	id 'com.github.ben-manes.versions' version '0.20.0'
 	id 'com.gorylenko.gradle-git-properties' version '1.5.2'
-	id 'org.springframework.boot' version '2.1.0.M4'
+	id 'org.springframework.boot' version '2.1.0.RC1'
 }
 
 apply plugin: 'io.spring.dependency-management'
@@ -32,7 +32,7 @@ dependencies {
 	compile 'org.springframework.boot:spring-boot-devtools'
 	compile 'org.springframework.security:spring-security-oauth2-client'
 	compile 'org.springframework.security:spring-security-oauth2-jose'
-	compile 'org.springframework.session:spring-session-data-redis'
+	compile 'org.springframework.session:spring-session-data-redis:2.1.0.RELEASE'
 
 	compile 'de.vandermeer:asciitable:0.3.2'
 	compile 'org.apache.httpcomponents:httpclient'
