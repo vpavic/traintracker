@@ -25,6 +25,7 @@ dependencies {
 	compile 'org.springframework.boot:spring-boot-starter-cache'
 	compile 'org.springframework.boot:spring-boot-starter-cloud-connectors'
 	compile 'org.springframework.boot:spring-boot-starter-data-redis'
+	compile 'org.springframework.boot:spring-boot-starter-jdbc'
 	compile 'org.springframework.boot:spring-boot-starter-security'
 	compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	compile 'org.springframework.boot:spring-boot-starter-web'
@@ -37,7 +38,9 @@ dependencies {
 	compile 'de.vandermeer:asciitable:0.3.2'
 	compile 'org.apache.httpcomponents:httpclient'
 	compile 'org.jsoup:jsoup:1.11.3'
+	compile 'org.postgresql:postgresql'
 
 	testCompile 'org.springframework.boot:spring-boot-starter-test'
+	testCompile 'org.testcontainers:postgresql'
 	testCompile 'org.testcontainers:testcontainers'
 }
