@@ -1,4 +1,4 @@
-package io.traintracker.core;
+package io.traintracker.domain.model.carrier;
 
 import java.io.Serializable;
 import java.time.ZoneId;

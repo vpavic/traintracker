@@ -1,9 +1,10 @@
-package io.traintracker.core;
+package io.traintracker.infrastructure.fetcher.hr;
 
 import java.time.LocalTime;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+import io.traintracker.domain.model.voyage.Station;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;

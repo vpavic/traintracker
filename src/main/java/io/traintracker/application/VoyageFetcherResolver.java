@@ -1,4 +1,4 @@
-package io.traintracker.core;
+package io.traintracker.application;
 
 import java.util.Set;
 

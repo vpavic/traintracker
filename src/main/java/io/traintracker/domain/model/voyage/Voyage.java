@@ -1,4 +1,6 @@
-package io.traintracker.core;
+package io.traintracker.domain.model.voyage;
+
+import io.traintracker.domain.model.carrier.Carrier;
 
 import java.io.Serializable;
 import java.time.LocalTime;

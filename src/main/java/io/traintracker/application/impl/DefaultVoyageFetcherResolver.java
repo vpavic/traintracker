@@ -1,4 +1,4 @@
-package io.traintracker.core;
+package io.traintracker.application.impl;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -7,10 +7,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import io.traintracker.application.VoyageFetcher;
+import io.traintracker.application.VoyageFetcherResolver;
 import org.springframework.stereotype.Component;
 
 @Component
-class DefaultVoyageFetcherResolver implements VoyageFetcherResolver {
+public class DefaultVoyageFetcherResolver implements VoyageFetcherResolver {
 
 	private final Map<String, VoyageFetcher> fetchers;
 

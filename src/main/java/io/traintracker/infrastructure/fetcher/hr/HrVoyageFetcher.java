@@ -1,4 +1,4 @@
-package io.traintracker.core;
+package io.traintracker.infrastructure.fetcher.hr;
 
 import java.io.IOException;
 import java.net.URI;
@@ -9,6 +9,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.Deque;
 import java.util.Objects;
 
+import io.traintracker.application.VoyageFetcher;
+import io.traintracker.domain.model.carrier.Carrier;
+import io.traintracker.domain.model.voyage.Station;
+import io.traintracker.domain.model.voyage.Voyage;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
@@ -20,7 +24,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 @Component
-class HrVoyageFetcher implements VoyageFetcher {
+public class HrVoyageFetcher implements VoyageFetcher {
 
 	private static final Carrier carrier = new Carrier("hr", "HŽ Infrastruktura",
 			"http://www.hzinfra.hr/", ZoneId.of("Europe/Zagreb"));
@@ -29,7 +33,7 @@ class HrVoyageFetcher implements VoyageFetcher {
 
 	private final CloseableHttpClient httpClient;
 
-	HrVoyageFetcher(CloseableHttpClient httpClient) {
+	public HrVoyageFetcher(CloseableHttpClient httpClient) {
 		Objects.requireNonNull(httpClient, "httpClient must not be null");
 		this.httpClient = httpClient;
 	}

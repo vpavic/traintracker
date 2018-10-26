@@ -1,10 +1,10 @@
-package io.traintracker.interfaces;
+package io.traintracker.interfaces.voyage;
 
 import java.util.Objects;
 
-import io.traintracker.core.Voyage;
-import io.traintracker.core.VoyageFetcher;
-import io.traintracker.core.VoyageFetcherResolver;
+import io.traintracker.domain.model.voyage.Voyage;
+import io.traintracker.application.VoyageFetcher;
+import io.traintracker.application.VoyageFetcherResolver;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

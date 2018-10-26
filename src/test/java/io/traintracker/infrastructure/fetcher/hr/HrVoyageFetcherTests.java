@@ -1,7 +1,8 @@
-package io.traintracker.core;
+package io.traintracker.infrastructure.fetcher.hr;
 
 import java.io.File;
 
+import io.traintracker.domain.model.voyage.Voyage;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.entity.FileEntity;
 import org.apache.http.entity.StringEntity;

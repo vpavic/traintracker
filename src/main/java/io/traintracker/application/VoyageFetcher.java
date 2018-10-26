@@ -1,4 +1,6 @@
-package io.traintracker.core;
+package io.traintracker.application;
+
+import io.traintracker.domain.model.voyage.Voyage;
 
 public interface VoyageFetcher {
 
