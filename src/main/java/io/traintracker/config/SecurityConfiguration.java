@@ -22,6 +22,7 @@ import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter.ReferrerPolicy;
 
@@ -67,11 +68,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			}
 			return this.jdbcOperations.queryForObject(
 					"SELECT client_id, client_secret FROM client_registration WHERE id = ?",
-					(rs, rowNum) -> CommonOAuth2Provider.valueOf(registrationId.toUpperCase())
-							.getBuilder(registrationId).clientId(rs.getString("client_id"))
-							.clientSecret(rs.getString("client_secret")).build(),
+					(rs, rowNum) -> createClientRegistration(registrationId, rs.getString("client_id"),
+							rs.getString("client_secret")),
 					registrationId);
 		};
+	}
+
+	private static ClientRegistration createClientRegistration(String registrationId, String clientId,
+			String clientSecret) {
+		// @formatter:off
+		return CommonOAuth2Provider.valueOf(registrationId.toUpperCase())
+				.getBuilder(registrationId)
+				.clientId(clientId)
+				.clientSecret(clientSecret)
+				.build();
+		// @formatter:on
 	}
 
 }
