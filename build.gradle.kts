@@ -4,7 +4,7 @@ plugins {
     id("com.github.ben-manes.versions") version "0.20.0"
     id("com.gorylenko.gradle-git-properties") version "1.5.2"
     id("io.spring.dependency-management") version "1.0.6.RELEASE"
-    id("org.springframework.boot") version "2.1.0.RC1"
+    id("org.springframework.boot") version "2.1.0.RELEASE"
 }
 
 java {
@@ -13,7 +13,6 @@ java {
 
 repositories {
     mavenCentral()
-    maven(url = "https://repo.spring.io/libs-milestone/")
 }
 
 dependencyManagement {
@@ -35,7 +34,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-devtools")
     compile("org.springframework.security:spring-security-oauth2-client")
     compile("org.springframework.security:spring-security-oauth2-jose")
-    compile("org.springframework.session:spring-session-data-redis:2.1.0.RELEASE")
+    compile("org.springframework.session:spring-session-data-redis")
 
     compile("de.vandermeer:asciitable:0.3.2")
     compile("org.apache.httpcomponents:httpclient")
