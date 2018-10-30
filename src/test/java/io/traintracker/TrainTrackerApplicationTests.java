@@ -32,43 +32,43 @@ import org.testcontainers.containers.PostgreSQLContainer;
 @SpringBootTest
 public class TrainTrackerApplicationTests {
 
-	@Test
-	public void contextLoads() {
-	}
+    @Test
+    public void contextLoads() {
+    }
 
-	@TestConfiguration
-	static class Config {
+    @TestConfiguration
+    static class Config {
 
-		@Bean
-		public PostgreSQLContainer postgreSqlContainer() {
-			PostgreSQLContainer postgreSqlContainer = new PostgreSQLContainer("postgres:10.5");
-			postgreSqlContainer.start();
-			return postgreSqlContainer;
-		}
+        @Bean
+        public PostgreSQLContainer postgreSqlContainer() {
+            PostgreSQLContainer postgreSqlContainer = new PostgreSQLContainer("postgres:10.5");
+            postgreSqlContainer.start();
+            return postgreSqlContainer;
+        }
 
-		@Bean
-		public HikariDataSource dataSource() {
-			HikariDataSource dataSource = new HikariDataSource();
-			dataSource.setJdbcUrl(postgreSqlContainer().getJdbcUrl());
-			dataSource.setUsername(postgreSqlContainer().getUsername());
-			dataSource.setPassword(postgreSqlContainer().getPassword());
-			return dataSource;
-		}
+        @Bean
+        public HikariDataSource dataSource() {
+            HikariDataSource dataSource = new HikariDataSource();
+            dataSource.setJdbcUrl(postgreSqlContainer().getJdbcUrl());
+            dataSource.setUsername(postgreSqlContainer().getUsername());
+            dataSource.setPassword(postgreSqlContainer().getPassword());
+            return dataSource;
+        }
 
-		@Bean
-		public GenericContainer redisContainer() {
-			GenericContainer redisContainer = new GenericContainer("redis:4.0.11").withExposedPorts(6379);
-			redisContainer.start();
-			return redisContainer;
-		}
+        @Bean
+        public GenericContainer redisContainer() {
+            GenericContainer redisContainer = new GenericContainer("redis:4.0.11").withExposedPorts(6379);
+            redisContainer.start();
+            return redisContainer;
+        }
 
-		@Bean
-		public LettuceConnectionFactory redisConnectionFactory() {
-			RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration(
-					redisContainer().getContainerIpAddress(), redisContainer().getFirstMappedPort());
-			return new LettuceConnectionFactory(configuration);
-		}
+        @Bean
+        public LettuceConnectionFactory redisConnectionFactory() {
+            RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration(
+                    redisContainer().getContainerIpAddress(), redisContainer().getFirstMappedPort());
+            return new LettuceConnectionFactory(configuration);
+        }
 
-	}
+    }
 
 }

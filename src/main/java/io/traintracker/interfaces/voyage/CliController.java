@@ -36,70 +36,70 @@ import io.traintracker.domain.model.voyage.Voyage;
 @RestController
 public class CliController {
 
-	private final VoyageFetcherResolver resolver;
+    private final VoyageFetcherResolver resolver;
 
-	public CliController(VoyageFetcherResolver resolver) {
-		this.resolver = Objects.requireNonNull(resolver, "VoyageFetcherResolver must not be null");
-	}
+    public CliController(VoyageFetcherResolver resolver) {
+        this.resolver = Objects.requireNonNull(resolver, "VoyageFetcherResolver must not be null");
+    }
 
-	@GetMapping(path = "/{country:[a-z]{2}}/{train}", produces = MediaType.TEXT_PLAIN_VALUE)
-	public String voyage(@PathVariable String country, @PathVariable String train) {
-		VoyageFetcher fetcher = this.resolver.getVoyageFetcher(country);
-		if (fetcher == null) {
-			return generateErrorReport("Unsupported country");
-		}
-		Voyage voyage = fetcher.getVoyage(train);
-		if (voyage == null) {
-			return generateErrorReport("Voyage not found");
-		}
-		return generateReport(train, voyage);
-	}
+    @GetMapping(path = "/{country:[a-z]{2}}/{train}", produces = MediaType.TEXT_PLAIN_VALUE)
+    public String voyage(@PathVariable String country, @PathVariable String train) {
+        VoyageFetcher fetcher = this.resolver.getVoyageFetcher(country);
+        if (fetcher == null) {
+            return generateErrorReport("Unsupported country");
+        }
+        Voyage voyage = fetcher.getVoyage(train);
+        if (voyage == null) {
+            return generateErrorReport("Voyage not found");
+        }
+        return generateReport(train, voyage);
+    }
 
-	private static String generateErrorReport(String error) {
-		AsciiTable at = new AsciiTable();
-		at.addRow("Error: " + error);
-		return renderAsciiTable(at);
-	}
+    private static String generateErrorReport(String error) {
+        AsciiTable at = new AsciiTable();
+        at.addRow("Error: " + error);
+        return renderAsciiTable(at);
+    }
 
-	private static String generateReport(String train, Voyage voyage) {
-		Station currentStation = voyage.getCurrentStation();
-		Carrier carrier = voyage.getCarrier();
-		AsciiTable at = new AsciiTable();
-		at.addRule();
-		at.addRow(null, null, "Report for train " + carrier.getId() + "/" + train);
-		at.addRule();
-		at.addRow("Current station", "Arrival", "Departure");
-		at.addRow(currentStation.getName(), formatArrival(currentStation), formatDeparture(currentStation));
-		at.addRule();
-		at.addRow(null, null, "Generated on " + voyage.getGeneratedTime() + " " + carrier.getTimezone());
-		at.addRule();
-		return renderAsciiTable(at);
-	}
+    private static String generateReport(String train, Voyage voyage) {
+        Station currentStation = voyage.getCurrentStation();
+        Carrier carrier = voyage.getCarrier();
+        AsciiTable at = new AsciiTable();
+        at.addRule();
+        at.addRow(null, null, "Report for train " + carrier.getId() + "/" + train);
+        at.addRule();
+        at.addRow("Current station", "Arrival", "Departure");
+        at.addRow(currentStation.getName(), formatArrival(currentStation), formatDeparture(currentStation));
+        at.addRule();
+        at.addRow(null, null, "Generated on " + voyage.getGeneratedTime() + " " + carrier.getTimezone());
+        at.addRule();
+        return renderAsciiTable(at);
+    }
 
-	private static String formatArrival(Station station) {
-		return formatTimeAndDelay(station.getArrivalTime(), station.getArrivalDelay());
-	}
+    private static String formatArrival(Station station) {
+        return formatTimeAndDelay(station.getArrivalTime(), station.getArrivalDelay());
+    }
 
-	private static String formatDeparture(Station station) {
-		return formatTimeAndDelay(station.getDepartureTime(), station.getDepartureDelay());
-	}
+    private static String formatDeparture(Station station) {
+        return formatTimeAndDelay(station.getDepartureTime(), station.getDepartureDelay());
+    }
 
-	private static String formatTimeAndDelay(LocalTime time, Integer delay) {
-		if (time == null) {
-			return "-";
-		}
-		String timeAndDelay = time.toString();
-		if (delay > 0) {
-			timeAndDelay += " +" + delay;
-		}
-		return timeAndDelay;
-	}
+    private static String formatTimeAndDelay(LocalTime time, Integer delay) {
+        if (time == null) {
+            return "-";
+        }
+        String timeAndDelay = time.toString();
+        if (delay > 0) {
+            timeAndDelay += " +" + delay;
+        }
+        return timeAndDelay;
+    }
 
-	private static String renderAsciiTable(AsciiTable at) {
-		at.getContext().setGridTheme(TA_GridThemes.NONE);
-		at.getRenderer().setCWC(new CWC_LongestLine());
-		at.setPaddingLeftRight(1);
-		return at.render() + '\n';
-	}
+    private static String renderAsciiTable(AsciiTable at) {
+        at.getContext().setGridTheme(TA_GridThemes.NONE);
+        at.getRenderer().setCWC(new CWC_LongestLine());
+        at.setPaddingLeftRight(1);
+        return at.render() + '\n';
+    }
 
 }

@@ -43,94 +43,94 @@ import io.traintracker.domain.model.voyage.Voyage;
 @Component
 public class HrVoyageFetcher implements VoyageFetcher {
 
-	private static final Carrier carrier = new Carrier("hr", "HŽ Infrastruktura", "http://www.hzinfra.hr/",
-			ZoneId.of("Europe/Zagreb"));
+    private static final Carrier carrier = new Carrier("hr", "HŽ Infrastruktura", "http://www.hzinfra.hr/",
+            ZoneId.of("Europe/Zagreb"));
 
-	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuMMdd");
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuMMdd");
 
-	private final CloseableHttpClient httpClient;
+    private final CloseableHttpClient httpClient;
 
-	public HrVoyageFetcher(CloseableHttpClient httpClient) {
-		Objects.requireNonNull(httpClient, "httpClient must not be null");
-		this.httpClient = httpClient;
-	}
+    public HrVoyageFetcher(CloseableHttpClient httpClient) {
+        Objects.requireNonNull(httpClient, "httpClient must not be null");
+        this.httpClient = httpClient;
+    }
 
-	@Override
-	public String getCountry() {
-		return carrier.getId();
-	}
+    @Override
+    public String getCountry() {
+        return carrier.getId();
+    }
 
-	@Override
-	@Cacheable("voyages-hr")
-	public Voyage getVoyage(String train) {
-		URI currentPositionRequestUri = buildCurrentPositionRequestUri(train);
-		CloseableHttpResponse currentPositionResponse = executeRequest(currentPositionRequestUri);
-		Document currentPositionDocument = parseDocument(currentPositionResponse);
-		Station currentStation = HrDocumentParser.parseCurrentPosition(currentPositionDocument);
+    @Override
+    @Cacheable("voyages-hr")
+    public Voyage getVoyage(String train) {
+        URI currentPositionRequestUri = buildCurrentPositionRequestUri(train);
+        CloseableHttpResponse currentPositionResponse = executeRequest(currentPositionRequestUri);
+        Document currentPositionDocument = parseDocument(currentPositionResponse);
+        Station currentStation = HrDocumentParser.parseCurrentPosition(currentPositionDocument);
 
-		if (currentStation == null) {
-			return null;
-		}
+        if (currentStation == null) {
+            return null;
+        }
 
-		URI overviewRequestUri = buildOverviewRequestUri(train, LocalDate.now(carrier.getTimezone()));
-		CloseableHttpResponse overviewResponse = executeRequest(overviewRequestUri);
-		Document doc = parseDocument(overviewResponse);
-		Deque<Station> stations = HrDocumentParser.parseOverview(doc);
+        URI overviewRequestUri = buildOverviewRequestUri(train, LocalDate.now(carrier.getTimezone()));
+        CloseableHttpResponse overviewResponse = executeRequest(overviewRequestUri);
+        Document doc = parseDocument(overviewResponse);
+        Deque<Station> stations = HrDocumentParser.parseOverview(doc);
 
-		return new Voyage(currentStation, stations, carrier, overviewRequestUri.toString());
-	}
+        return new Voyage(currentStation, stations, carrier, overviewRequestUri.toString());
+    }
 
-	private CloseableHttpResponse executeRequest(URI uri) {
-		try {
-			HttpGet request = new HttpGet(uri);
-			return this.httpClient.execute(request);
-		}
-		catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
+    private CloseableHttpResponse executeRequest(URI uri) {
+        try {
+            HttpGet request = new HttpGet(uri);
+            return this.httpClient.execute(request);
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-	private Document parseDocument(CloseableHttpResponse response) {
-		try {
-			String html = EntityUtils.toString(response.getEntity(), "Cp1250");
-			return Jsoup.parse(html);
-		}
-		catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
+    private Document parseDocument(CloseableHttpResponse response) {
+        try {
+            String html = EntityUtils.toString(response.getEntity(), "Cp1250");
+            return Jsoup.parse(html);
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-	private static URI buildOverviewRequestUri(String train, LocalDate date) {
-		try {
-			// @formatter:off
-			return new URIBuilder("http://najava.hzinfra.hr/hzinfo/default.asp")
-					.addParameter("vl", train)
-					.addParameter("d1", date.format(formatter))
-					.addParameter("category", "korisnici")
-					.addParameter("service", "pkvl")
-					.addParameter("screen", "2")
-					.build();
-			// @formatter:on
-		}
-		catch (URISyntaxException e) {
-			throw new RuntimeException(e);
-		}
-	}
+    private static URI buildOverviewRequestUri(String train, LocalDate date) {
+        try {
+            // @formatter:off
+            return new URIBuilder("http://najava.hzinfra.hr/hzinfo/default.asp")
+                    .addParameter("vl", train)
+                    .addParameter("d1", date.format(formatter))
+                    .addParameter("category", "korisnici")
+                    .addParameter("service", "pkvl")
+                    .addParameter("screen", "2")
+                    .build();
+            // @formatter:on
+        }
+        catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-	private static URI buildCurrentPositionRequestUri(String train) {
-		try {
-			// @formatter:off
-			return new URIBuilder("http://vred.hzinfra.hr/hzinfo/Default.asp")
-					.addParameter("vl", train)
-					.addParameter("category", "hzinfo")
-					.addParameter("service", "tpvl")
-					.addParameter("screen", "2")
-					.build();
-			// @formatter:on
-		}
-		catch (URISyntaxException e) {
-			throw new RuntimeException(e);
-		}
-	}
+    private static URI buildCurrentPositionRequestUri(String train) {
+        try {
+            // @formatter:off
+            return new URIBuilder("http://vred.hzinfra.hr/hzinfo/Default.asp")
+                    .addParameter("vl", train)
+                    .addParameter("category", "hzinfo")
+                    .addParameter("service", "tpvl")
+                    .addParameter("screen", "2")
+                    .build();
+            // @formatter:on
+        }
+        catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

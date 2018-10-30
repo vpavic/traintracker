@@ -22,35 +22,35 @@ import java.util.Objects;
 
 public class Carrier implements Serializable {
 
-	private String id;
+    private String id;
 
-	private String name;
+    private String name;
 
-	private String website;
+    private String website;
 
-	private ZoneId timezone;
+    private ZoneId timezone;
 
-	public Carrier(String id, String name, String website, ZoneId timezone) {
-		this.id = Objects.requireNonNull(id);
-		this.name = Objects.requireNonNull(name);
-		this.website = Objects.requireNonNull(website);
-		this.timezone = Objects.requireNonNull(timezone);
-	}
+    public Carrier(String id, String name, String website, ZoneId timezone) {
+        this.id = Objects.requireNonNull(id);
+        this.name = Objects.requireNonNull(name);
+        this.website = Objects.requireNonNull(website);
+        this.timezone = Objects.requireNonNull(timezone);
+    }
 
-	public String getId() {
-		return this.id;
-	}
+    public String getId() {
+        return this.id;
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	public String getWebsite() {
-		return this.website;
-	}
+    public String getWebsite() {
+        return this.website;
+    }
 
-	public ZoneId getTimezone() {
-		return this.timezone;
-	}
+    public ZoneId getTimezone() {
+        return this.timezone;
+    }
 
 }

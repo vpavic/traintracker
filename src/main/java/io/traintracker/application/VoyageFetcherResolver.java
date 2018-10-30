@@ -20,8 +20,8 @@ import java.util.Set;
 
 public interface VoyageFetcherResolver {
 
-	Set<String> supportedCountries();
+    Set<String> supportedCountries();
 
-	VoyageFetcher getVoyageFetcher(String country);
+    VoyageFetcher getVoyageFetcher(String country);
 
 }

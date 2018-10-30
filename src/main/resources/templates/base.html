@@ -1,130 +1,152 @@
 <!DOCTYPE html>
 <html>
 <head data-th-fragment="header">
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	<title data-th-text="#{app.title}">TrainTracker</title>
+    <title data-th-text="#{app.title}">TrainTracker</title>
 
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-flash.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="icon" href="/favicon.ico" data-th-href="@{/favicon.ico}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-flash.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" href="/favicon.ico" data-th-href="@{/favicon.ico}">
 </head>
 <body data-th-fragment="body(report)" data-th-attr="data-country=${country}">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-	<div class="container">
-		<a class="navbar-brand" href="/" data-th-href="@{'/' + ${country} + '/'}" data-th-text="#{navbar.title}">TrainTracker</a>
-		<a class="nav-item navbar-link" href="#" data-toggle="modal" data-target="#country"><span class="flag-icon flag-icon-hr" data-th-class="${'flag-icon flag-icon-' + country}"></span></a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav ml-auto">
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-th-text="#{navbar.language}">Language</a>
-					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<a class="dropdown-item" href="#" data-th-href="@{${#httpServletRequest.requestURI}(locale=en)}"><span class="flag-icon flag-icon-gb"></span> English</a>
-						<a class="dropdown-item" href="#" data-th-href="@{${#httpServletRequest.requestURI}(locale=hr)}"><span class="flag-icon flag-icon-hr"></span> Hrvatski</a>
-					</div>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#" data-toggle="modal" data-target="#login" data-th-text="#{navbar.login}" data-th-if="${principal == null}">Log In</a>
-					<span class="align-middle">
-						<img src="" alt="Principal" width="40" height="40" data-th-src="${principal.attributes['picture']}" data-th-alt="${principal.attributes['name']}" data-th-if="${principal != null}"/>
-					</span>
-				</li>
-			</ul>
-		</div>
-	</div>
+    <div class="container">
+        <a class="navbar-brand" href="/" data-th-href="@{'/' + ${country} + '/'}" data-th-text="#{navbar.title}">TrainTracker</a>
+        <a class="nav-item navbar-link" href="#" data-toggle="modal" data-target="#country"><span
+                class="flag-icon flag-icon-hr" data-th-class="${'flag-icon flag-icon-' + country}"></span></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                       data-th-text="#{navbar.language}">Language</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#"
+                           data-th-href="@{${#httpServletRequest.requestURI}(locale=en)}"><span
+                                class="flag-icon flag-icon-gb"></span> English</a>
+                        <a class="dropdown-item" href="#"
+                           data-th-href="@{${#httpServletRequest.requestURI}(locale=hr)}"><span
+                                class="flag-icon flag-icon-hr"></span> Hrvatski</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#login" data-th-text="#{navbar.login}"
+                       data-th-if="${principal == null}">Log In</a>
+                    <span class="align-middle">
+                        <img src="" alt="Principal" width="40" height="40"
+                             data-th-src="${principal.attributes['picture']}"
+                             data-th-alt="${principal.attributes['name']}" data-th-if="${principal != null}"/>
+                    </span>
+                </li>
+            </ul>
+        </div>
+    </div>
 </nav>
 
 <div class="container">
-	<div class="card bg-light mt-4">
-		<div class="card-body">
-			<h5 class="card-title" data-th-text="#{search.title}">Search by train number</h5>
-			<form class="form-inline" id="search-form">
-				<div class="form-group mr-sm-2 mb-3">
-					<label class="sr-only" for="train-no-input" data-th-text="#{search.trainNo}">Train number</label>
-					<input type="text" class="form-control" id="train-no-input" placeholder="Train number" size="10" autofocus data-th-placeholder="#{search.trainNo}" data-th-value="${train}"/>
-				</div>
-				<button type="submit" class="btn btn-primary mb-3" id="submit-button" disabled data-th-text="#{search.submit}">Search</button>
-			</form>
-			<h5 class="card-title" data-th-text="#{saved.title}">Saved trains</h5>
-			<div>
-				<p id="saved-trains"></p>
-			</div>
-		</div>
-	</div>
+    <div class="card bg-light mt-4">
+        <div class="card-body">
+            <h5 class="card-title" data-th-text="#{search.title}">Search by train number</h5>
+            <form class="form-inline" id="search-form">
+                <div class="form-group mr-sm-2 mb-3">
+                    <label class="sr-only" for="train-no-input" data-th-text="#{search.trainNo}">Train number</label>
+                    <input type="text" class="form-control" id="train-no-input" placeholder="Train number" size="10"
+                           autofocus data-th-placeholder="#{search.trainNo}" data-th-value="${train}"/>
+                </div>
+                <button type="submit" class="btn btn-primary mb-3" id="submit-button" disabled
+                        data-th-text="#{search.submit}">Search
+                </button>
+            </form>
+            <h5 class="card-title" data-th-text="#{saved.title}">Saved trains</h5>
+            <div>
+                <p id="saved-trains"></p>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="container" id="train-data">
-	<div data-th-replace="${report}"></div>
+    <div data-th-replace="${report}"></div>
 </div>
 
 <div class="modal fade" id="country" tabindex="-1" role="dialog" aria-labelledby="header-country">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="header-country" data-th-text="#{country.title}">Country</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			</div>
-			<div class="modal-body">
-				<a class="btn btn-outline-primary btn-lg btn-block" href="#" role="button" data-th-each="country : ${countries}" data-th-href="@{'/' + ${country} + '/'}">
-					<span class="flag-icon flag-icon-hr" data-th-class="${'flag-icon flag-icon-' + country}"></span>
-					<span data-th-text="#{'country.' + ${country}}">Croatia</span>
-				</a>
-			</div>
-		</div>
-	</div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="header-country" data-th-text="#{country.title}">Country</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <a class="btn btn-outline-primary btn-lg btn-block" href="#" role="button"
+                   data-th-each="country : ${countries}" data-th-href="@{'/' + ${country} + '/'}">
+                    <span class="flag-icon flag-icon-hr" data-th-class="${'flag-icon flag-icon-' + country}"></span>
+                    <span data-th-text="#{'country.' + ${country}}">Croatia</span>
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="header-login" data-th-if="${principal == null}">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="header-login" data-th-text="#{login.title}"> </h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			</div>
-			<div class="modal-body">
-				<a class="btn btn-outline-primary btn-lg btn-block" href="#" role="button" data-th-each="login : ${logins}" data-th-href="@{${login.value}}" data-th-text="#{'login.' + ${login.key}}">Log In with Google</a>
-			</div>
-		</div>
-	</div>
+<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="header-login"
+     data-th-if="${principal == null}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="header-login" data-th-text="#{login.title}"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <a class="btn btn-outline-primary btn-lg btn-block" href="#" role="button"
+                   data-th-each="login : ${logins}" data-th-href="@{${login.value}}"
+                   data-th-text="#{'login.' + ${login.key}}">Log In with Google</a>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="modal fade" id="shortcuts" tabindex="-1" role="dialog" aria-labelledby="header-shortcuts">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="header-shortcuts" data-th-text="#{shortcuts.title}">Shortcuts</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			</div>
-			<div class="modal-body">
-				<div class="row">
-					<div class="col-md-2 text-right"><kbd>/</kbd></div>
-					<div class="col-md-6" data-th-text="#{shortcuts.focusSearch}">Focus search input</div>
-				</div>
-				<div class="row">
-					<div class="col-md-2 text-right"><kbd>h</kbd></div>
-					<div class="col-md-6" data-th-text="#{shortcuts.toggleHistory}">Show/hide full voyage history</div>
-				</div>
-				<div class="row">
-					<div class="col-md-2 text-right"><kbd>r</kbd></div>
-					<div class="col-md-6" data-th-text="#{shortcuts.refresh}">Refresh current search</div>
-				</div>
-				<div class="row">
-					<div class="col-md-2 text-right"><kbd>c</kbd></div>
-					<div class="col-md-6" data-th-text="#{shortcuts.countrySelector}">Show country selector</div>
-				</div>
-				<div class="row">
-					<div class="col-md-2 text-right"><kbd>?</kbd></div>
-					<div class="col-md-6" data-th-text="#{shortcuts.show}">Show shortcuts</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="header-shortcuts" data-th-text="#{shortcuts.title}">Shortcuts</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-2 text-right"><kbd>/</kbd></div>
+                    <div class="col-md-6" data-th-text="#{shortcuts.focusSearch}">Focus search input</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 text-right"><kbd>h</kbd></div>
+                    <div class="col-md-6" data-th-text="#{shortcuts.toggleHistory}">Show/hide full voyage history</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 text-right"><kbd>r</kbd></div>
+                    <div class="col-md-6" data-th-text="#{shortcuts.refresh}">Refresh current search</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 text-right"><kbd>c</kbd></div>
+                    <div class="col-md-6" data-th-text="#{shortcuts.countrySelector}">Show country selector</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 text-right"><kbd>?</kbd></div>
+                    <div class="col-md-6" data-th-text="#{shortcuts.show}">Show shortcuts</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -134,11 +156,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.6.2/mousetrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.6.2/plugins/global-bind/mousetrap-global-bind.min.js"></script>
 <script data-th-inline="javascript">
-	var messages = {
-		'saved.add': /*[[#{saved.add}]]*/ 'Add to saved trains',
-		'saved.empty': /*[[#{saved.empty}]]*/ 'No saved trains',
-		'saved.remove': /*[[#{saved.remove}]]*/ 'Remove from saved trains'
-	};
+    var messages = {
+        'saved.add': /*[[#{saved.add}]]*/ 'Add to saved trains',
+        'saved.empty': /*[[#{saved.empty}]]*/ 'No saved trains',
+        'saved.remove': /*[[#{saved.remove}]]*/ 'Remove from saved trains'
+    };
 </script>
 <script src="/app.js"></script>
 </body>

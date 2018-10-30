@@ -35,41 +35,41 @@ import static org.mockito.Mockito.reset;
 
 public class HrVoyageFetcherTests {
 
-	private CloseableHttpClient httpClient = mock(CloseableHttpClient.class);
+    private CloseableHttpClient httpClient = mock(CloseableHttpClient.class);
 
-	private HrVoyageFetcher voyageFetcher;
+    private HrVoyageFetcher voyageFetcher;
 
-	@Before
-	public void setUp() {
-		reset(this.httpClient);
-		this.voyageFetcher = new HrVoyageFetcher(this.httpClient);
-	}
+    @Before
+    public void setUp() {
+        reset(this.httpClient);
+        this.voyageFetcher = new HrVoyageFetcher(this.httpClient);
+    }
 
-	@Test
-	public void getCountry_ShouldReturnHr() {
-		assertThat(this.voyageFetcher.getCountry()).isEqualTo("hr");
-	}
+    @Test
+    public void getCountry_ShouldReturnHr() {
+        assertThat(this.voyageFetcher.getCountry()).isEqualTo("hr");
+    }
 
-	@Test
-	public void getVoyage_VoyageDoesNotExist_ShouldReturnNull() throws Exception {
-		CloseableHttpResponse response = mock(CloseableHttpResponse.class);
-		given(response.getEntity()).willReturn(new StringEntity("<html/>"));
-		given(this.httpClient.execute(any())).willReturn(response);
+    @Test
+    public void getVoyage_VoyageDoesNotExist_ShouldReturnNull() throws Exception {
+        CloseableHttpResponse response = mock(CloseableHttpResponse.class);
+        given(response.getEntity()).willReturn(new StringEntity("<html/>"));
+        given(this.httpClient.execute(any())).willReturn(response);
 
-		assertThat(this.voyageFetcher.getVoyage("123")).isNull();
-	}
+        assertThat(this.voyageFetcher.getVoyage("123")).isNull();
+    }
 
-	@Test
-	public void getVoyage_VoyageExists_ShouldReturnVoyage() throws Exception {
-		CloseableHttpResponse response = mock(CloseableHttpResponse.class);
-		File responseHtml = new File(getClass().getResource("/hr-tpvl-ok.html").toURI());
-		given(response.getEntity()).willReturn(new FileEntity(responseHtml));
-		given(this.httpClient.execute(any())).willReturn(response);
+    @Test
+    public void getVoyage_VoyageExists_ShouldReturnVoyage() throws Exception {
+        CloseableHttpResponse response = mock(CloseableHttpResponse.class);
+        File responseHtml = new File(getClass().getResource("/hr-tpvl-ok.html").toURI());
+        given(response.getEntity()).willReturn(new FileEntity(responseHtml));
+        given(this.httpClient.execute(any())).willReturn(response);
 
-		Voyage voyage = this.voyageFetcher.getVoyage("211");
+        Voyage voyage = this.voyageFetcher.getVoyage("211");
 
-		assertThat(voyage).isNotNull();
-		assertThat(voyage.getCarrier().getId()).isEqualTo("hr");
-	}
+        assertThat(voyage).isNotNull();
+        assertThat(voyage.getCarrier().getId()).isEqualTo("hr");
+    }
 
 }

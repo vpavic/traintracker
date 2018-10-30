@@ -20,8 +20,8 @@ import io.traintracker.domain.model.voyage.Voyage;
 
 public interface VoyageFetcher {
 
-	String getCountry();
+    String getCountry();
 
-	Voyage getVoyage(String train);
+    Voyage getVoyage(String train);
 
 }

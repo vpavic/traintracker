@@ -28,30 +28,30 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 @Configuration
 public class WebMvcConfiguration implements WebMvcConfigurer {
 
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new LocaleChangeInterceptor());
-	}
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new LocaleChangeInterceptor());
+    }
 
-	@Bean
-	public CookieLocaleResolver localeResolver() {
-		CookieLocaleResolver localeResolver = new CookieLocaleResolver();
-		localeResolver.setCookieName("LOCALE");
-		return localeResolver;
-	}
+    @Bean
+    public CookieLocaleResolver localeResolver() {
+        CookieLocaleResolver localeResolver = new CookieLocaleResolver();
+        localeResolver.setCookieName("LOCALE");
+        return localeResolver;
+    }
 
-	@Bean
-	public WebMvcRegistrations webMvcRegistrations() {
-		return new WebMvcRegistrations() {
+    @Bean
+    public WebMvcRegistrations webMvcRegistrations() {
+        return new WebMvcRegistrations() {
 
-			@Override
-			public RequestMappingHandlerMapping getRequestMappingHandlerMapping() {
-				RequestMappingHandlerMapping handlerMapping = new RequestMappingHandlerMapping();
-				handlerMapping.setUseTrailingSlashMatch(false);
-				return handlerMapping;
-			}
+            @Override
+            public RequestMappingHandlerMapping getRequestMappingHandlerMapping() {
+                RequestMappingHandlerMapping handlerMapping = new RequestMappingHandlerMapping();
+                handlerMapping.setUseTrailingSlashMatch(false);
+                return handlerMapping;
+            }
 
-		};
-	}
+        };
+    }
 
 }

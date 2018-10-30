@@ -30,23 +30,23 @@ import io.traintracker.domain.model.voyage.Voyage;
 @RestController
 public class ApiController {
 
-	private final VoyageFetcherResolver resolver;
+    private final VoyageFetcherResolver resolver;
 
-	public ApiController(VoyageFetcherResolver resolver) {
-		this.resolver = Objects.requireNonNull(resolver, "VoyageFetcherResolver must not be null");
-	}
+    public ApiController(VoyageFetcherResolver resolver) {
+        this.resolver = Objects.requireNonNull(resolver, "VoyageFetcherResolver must not be null");
+    }
 
-	@GetMapping(path = "/{country:[a-z]{2}}/{train}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public Voyage voyage(@PathVariable String country, @PathVariable String train) {
-		VoyageFetcher fetcher = this.resolver.getVoyageFetcher(country);
-		if (fetcher == null) {
-			throw new UnsupportedCountryException(country);
-		}
-		Voyage voyage = fetcher.getVoyage(train);
-		if (voyage == null) {
-			throw new VoyageNotFoundException(train);
-		}
-		return voyage;
-	}
+    @GetMapping(path = "/{country:[a-z]{2}}/{train}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Voyage voyage(@PathVariable String country, @PathVariable String train) {
+        VoyageFetcher fetcher = this.resolver.getVoyageFetcher(country);
+        if (fetcher == null) {
+            throw new UnsupportedCountryException(country);
+        }
+        Voyage voyage = fetcher.getVoyage(train);
+        if (voyage == null) {
+            throw new VoyageNotFoundException(train);
+        }
+        return voyage;
+    }
 
 }

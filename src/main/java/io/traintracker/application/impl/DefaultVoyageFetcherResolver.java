@@ -31,24 +31,24 @@ import io.traintracker.application.VoyageFetcherResolver;
 @Component
 public class DefaultVoyageFetcherResolver implements VoyageFetcherResolver {
 
-	private final Map<String, VoyageFetcher> fetchers;
+    private final Map<String, VoyageFetcher> fetchers;
 
-	public DefaultVoyageFetcherResolver(List<VoyageFetcher> fetchers) {
-		Map<String, VoyageFetcher> map = new HashMap<>();
-		for (VoyageFetcher fetcher : fetchers) {
-			map.put(fetcher.getCountry(), fetcher);
-		}
-		this.fetchers = Collections.unmodifiableMap(new TreeMap<>(map));
-	}
+    public DefaultVoyageFetcherResolver(List<VoyageFetcher> fetchers) {
+        Map<String, VoyageFetcher> map = new HashMap<>();
+        for (VoyageFetcher fetcher : fetchers) {
+            map.put(fetcher.getCountry(), fetcher);
+        }
+        this.fetchers = Collections.unmodifiableMap(new TreeMap<>(map));
+    }
 
-	@Override
-	public Set<String> supportedCountries() {
-		return this.fetchers.keySet();
-	}
+    @Override
+    public Set<String> supportedCountries() {
+        return this.fetchers.keySet();
+    }
 
-	@Override
-	public VoyageFetcher getVoyageFetcher(String country) {
-		return this.fetchers.get(country);
-	}
+    @Override
+    public VoyageFetcher getVoyageFetcher(String country) {
+        return this.fetchers.get(country);
+    }
 
 }

@@ -25,22 +25,22 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class HttpClientConfiguration {
 
-	@Bean
-	public CloseableHttpClient httpClient() {
-		// @formatter:off
-		RequestConfig requestConfig = RequestConfig.custom()
-				.setConnectionRequestTimeout(5000)
-				.setConnectTimeout(5000)
-				.setSocketTimeout(5000)
-				.build();
-		// @formatter:on
+    @Bean
+    public CloseableHttpClient httpClient() {
+        // @formatter:off
+        RequestConfig requestConfig = RequestConfig.custom()
+                .setConnectionRequestTimeout(5000)
+                .setConnectTimeout(5000)
+                .setSocketTimeout(5000)
+                .build();
+        // @formatter:on
 
-		// @formatter:off
-		return HttpClientBuilder.create()
-				.setDefaultRequestConfig(requestConfig)
-				.useSystemProperties()
-				.build();
-		// @formatter:on
-	}
+        // @formatter:off
+        return HttpClientBuilder.create()
+                .setDefaultRequestConfig(requestConfig)
+                .useSystemProperties()
+                .build();
+        // @formatter:on
+    }
 
 }
