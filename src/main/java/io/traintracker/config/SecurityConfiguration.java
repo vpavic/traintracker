@@ -81,6 +81,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .getBuilder(registrationId)
                 .clientId(clientId)
                 .clientSecret(clientSecret)
+                .userNameAttributeName("email")
                 .build();
         // @formatter:on
     }
