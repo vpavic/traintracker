@@ -8,5 +8,5 @@ CREATE TABLE IF NOT EXISTS user_profile (
   email       VARCHAR(50) PRIMARY KEY,
   first_login BIGINT NOT NULL,
   last_login  BIGINT NOT NULL,
-  favorites   JSONB
+  favorites   JSONB  NOT NULL DEFAULT '{}' :: JSONB
 );
