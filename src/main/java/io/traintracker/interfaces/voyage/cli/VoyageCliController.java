@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.traintracker.interfaces.voyage;
+package io.traintracker.interfaces.voyage.cli;
 
 import java.time.LocalTime;
 import java.util.Objects;
@@ -25,6 +25,7 @@ import de.vandermeer.asciithemes.TA_GridThemes;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.traintracker.application.VoyageFetcher;
@@ -34,15 +35,16 @@ import io.traintracker.domain.model.voyage.Station;
 import io.traintracker.domain.model.voyage.Voyage;
 
 @RestController
-public class CliController {
+@RequestMapping(path = "/{country:[a-z]{2}}/{train}", produces = MediaType.TEXT_PLAIN_VALUE)
+public class VoyageCliController {
 
     private final VoyageFetcherResolver resolver;
 
-    public CliController(VoyageFetcherResolver resolver) {
+    public VoyageCliController(VoyageFetcherResolver resolver) {
         this.resolver = Objects.requireNonNull(resolver, "VoyageFetcherResolver must not be null");
     }
 
-    @GetMapping(path = "/{country:[a-z]{2}}/{train}", produces = MediaType.TEXT_PLAIN_VALUE)
+    @GetMapping
     public String voyage(@PathVariable String country, @PathVariable String train) {
         VoyageFetcher fetcher = this.resolver.getVoyageFetcher(country);
         if (fetcher == null) {

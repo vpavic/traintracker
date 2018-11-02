@@ -14,23 +14,17 @@
  * limitations under the License.
  */
 
-package io.traintracker.interfaces.voyage;
+package io.traintracker.interfaces.voyage.web;
 
-import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.springframework.http.MediaType;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import io.traintracker.application.VoyageFetcher;
 import io.traintracker.application.VoyageFetcherResolver;
@@ -38,59 +32,17 @@ import io.traintracker.domain.model.voyage.Station;
 import io.traintracker.domain.model.voyage.Voyage;
 
 @Controller
-public class WebController {
+@RequestMapping(path = "/{country:[a-z]{2}}/{train}", produces = MediaType.TEXT_HTML_VALUE)
+public class VoyageWebController {
 
     private final VoyageFetcherResolver resolver;
 
-    private final Map<String, String> logins;
-
-    public WebController(VoyageFetcherResolver resolver) {
+    public VoyageWebController(VoyageFetcherResolver resolver) {
         Objects.requireNonNull(resolver, "VoyageFetcherResolver must not be null");
         this.resolver = resolver;
-        this.logins = prepareLogins();
     }
 
-    @SuppressWarnings("unchecked")
-    private static Map<String, String> prepareLogins() {
-        return Stream.of("google").collect(Collectors.toMap(s -> s, s -> "/oauth2/authorization/" + s));
-    }
-
-    @ModelAttribute("countries")
-    public Set<String> countries() {
-        return this.resolver.supportedCountries();
-    }
-
-    @ModelAttribute("logins")
-    public Map<String, String> logins() {
-        return this.logins;
-    }
-
-    @ModelAttribute("principal")
-    public OAuth2User authentication(@AuthenticationPrincipal OAuth2User principal) {
-        return principal;
-    }
-
-    @GetMapping(path = "/")
-    public String home(@ModelAttribute("countries") Set<String> countries) {
-        return "redirect:/" + countries.iterator().next() + "/";
-    }
-
-    @GetMapping(path = "/{country:[a-z]{2}}")
-    public String country(@PathVariable String country) {
-        return "redirect:/" + country + "/";
-    }
-
-    @GetMapping(path = "/{country:[a-z]{2}}/")
-    public String country(@PathVariable String country, Model model,
-            @ModelAttribute("countries") Set<String> countries) {
-        model.addAttribute("country", country);
-        if (!countries.contains(country)) {
-            return "not-found :: fragment";
-        }
-        return "home";
-    }
-
-    @GetMapping(path = "/{country:[a-z]{2}}/{train}", produces = MediaType.TEXT_HTML_VALUE)
+    @GetMapping
     public String voyage(@PathVariable String country, @PathVariable String train,
             @RequestHeader(name = "X-PJAX", required = false) boolean pjax, Model model) {
         model.addAttribute("country", country);

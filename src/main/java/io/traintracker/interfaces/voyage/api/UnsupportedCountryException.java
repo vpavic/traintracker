@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package io.traintracker.interfaces.voyage;
+package io.traintracker.interfaces.voyage.api;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.NOT_FOUND)
-class VoyageNotFoundException extends RuntimeException {
+@ResponseStatus(HttpStatus.BAD_REQUEST)
+class UnsupportedCountryException extends RuntimeException {
 
-    VoyageNotFoundException(String train) {
-        super("Voyage " + train + " not found");
+    UnsupportedCountryException(String country) {
+        super("Unsupported country " + country);
     }
 
 }
