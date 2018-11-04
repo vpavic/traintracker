@@ -16,8 +16,7 @@
 
 package io.traintracker.interfaces.voyage.web;
 
-import java.util.Objects;
-
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,9 +24,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.server.ResponseStatusException;
 
 import io.traintracker.application.VoyageFetcher;
-import io.traintracker.application.VoyageFetcherResolver;
 import io.traintracker.domain.model.voyage.Station;
 import io.traintracker.domain.model.voyage.Voyage;
 
@@ -35,21 +34,13 @@ import io.traintracker.domain.model.voyage.Voyage;
 @RequestMapping(path = "/{country:[a-z]{2}}/{train}", produces = MediaType.TEXT_HTML_VALUE)
 public class VoyageWebController {
 
-    private final VoyageFetcherResolver resolver;
-
-    public VoyageWebController(VoyageFetcherResolver resolver) {
-        Objects.requireNonNull(resolver, "VoyageFetcherResolver must not be null");
-        this.resolver = resolver;
-    }
-
     @GetMapping
-    public String voyage(@PathVariable String country, @PathVariable String train,
+    public String voyage(@PathVariable("country") VoyageFetcher fetcher, @PathVariable String train,
             @RequestHeader(name = "X-PJAX", required = false) boolean pjax, Model model) {
-        model.addAttribute("country", country);
-        VoyageFetcher fetcher = this.resolver.getVoyageFetcher(country);
         if (fetcher == null) {
-            return "not-found" + (pjax ? " :: fragment" : "");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
+        model.addAttribute("country", fetcher.getCountry());
         model.addAttribute("train", train);
         Voyage voyage = fetcher.getVoyage(train);
         if (voyage == null) {

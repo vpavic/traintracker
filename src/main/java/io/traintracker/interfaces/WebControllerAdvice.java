@@ -16,8 +16,8 @@
 
 package io.traintracker.interfaces;
 
+import java.util.Collections;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -27,20 +27,17 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import io.traintracker.application.VoyageFetcherResolver;
 import io.traintracker.interfaces.home.HomeWebController;
 import io.traintracker.interfaces.voyage.web.VoyageWebController;
 
 @ControllerAdvice(assignableTypes = { HomeWebController.class, VoyageWebController.class })
 public class WebControllerAdvice {
 
-    private final VoyageFetcherResolver resolver;
+    private static final Set<String> COUNTRIES = Collections.singleton("hr");
 
     private final Map<String, String> logins;
 
-    public WebControllerAdvice(VoyageFetcherResolver resolver) {
-        Objects.requireNonNull(resolver, "VoyageFetcherResolver must not be null");
-        this.resolver = resolver;
+    public WebControllerAdvice() {
         this.logins = prepareLogins();
     }
 
@@ -51,7 +48,7 @@ public class WebControllerAdvice {
 
     @ModelAttribute("countries")
     public Set<String> countries() {
-        return this.resolver.supportedCountries();
+        return COUNTRIES;
     }
 
     @ModelAttribute("logins")

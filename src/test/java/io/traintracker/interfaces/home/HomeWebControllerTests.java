@@ -23,17 +23,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import io.traintracker.application.VoyageFetcherResolver;
-
 @RunWith(SpringRunner.class)
 @WebMvcTest(HomeWebController.class)
 public class HomeWebControllerTests {
 
     @MockBean
     private JdbcOperations jdbcOperations;
-
-    @MockBean
-    private VoyageFetcherResolver voyageFetcherResolver;
 
     @Test
     public void test() {

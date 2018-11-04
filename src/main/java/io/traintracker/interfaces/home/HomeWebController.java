@@ -18,6 +18,7 @@ package io.traintracker.interfaces.home;
 
 import java.util.Set;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +26,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.server.ResponseStatusException;
+
+import io.traintracker.application.VoyageFetcher;
 
 @Controller
 @RequestMapping(produces = MediaType.TEXT_HTML_VALUE)
@@ -41,12 +45,11 @@ public class HomeWebController {
     }
 
     @GetMapping(path = "/{country:[a-z]{2}}/")
-    public String country(@PathVariable String country, Model model,
-            @ModelAttribute("countries") Set<String> countries) {
-        model.addAttribute("country", country);
-        if (!countries.contains(country)) {
-            return "not-found :: fragment";
+    public String country(@PathVariable("country") VoyageFetcher fetcher, Model model) {
+        if (fetcher == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
+        model.addAttribute("country", fetcher.getCountry());
         return "home";
     }
 

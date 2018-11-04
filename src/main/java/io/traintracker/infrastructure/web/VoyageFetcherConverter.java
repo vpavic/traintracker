@@ -14,26 +14,26 @@
  * limitations under the License.
  */
 
-package io.traintracker.application.impl;
+package io.traintracker.infrastructure.web;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 import io.traintracker.application.VoyageFetcher;
-import io.traintracker.application.VoyageFetcherResolver;
 
 @Component
-public class DefaultVoyageFetcherResolver implements VoyageFetcherResolver {
+public class VoyageFetcherConverter implements Converter<String, VoyageFetcher> {
 
     private final Map<String, VoyageFetcher> fetchers;
 
-    public DefaultVoyageFetcherResolver(List<VoyageFetcher> fetchers) {
+    public VoyageFetcherConverter(List<VoyageFetcher> fetchers) {
         Map<String, VoyageFetcher> map = new HashMap<>();
         for (VoyageFetcher fetcher : fetchers) {
             map.put(fetcher.getCountry(), fetcher);
@@ -42,13 +42,8 @@ public class DefaultVoyageFetcherResolver implements VoyageFetcherResolver {
     }
 
     @Override
-    public Set<String> supportedCountries() {
-        return this.fetchers.keySet();
-    }
-
-    @Override
-    public VoyageFetcher getVoyageFetcher(String country) {
-        return this.fetchers.get(country);
+    public VoyageFetcher convert(@NonNull String source) {
+        return this.fetchers.get(source);
     }
 
 }

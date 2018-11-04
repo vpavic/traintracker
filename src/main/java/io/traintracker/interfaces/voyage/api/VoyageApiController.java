@@ -16,8 +16,6 @@
 
 package io.traintracker.interfaces.voyage.api;
 
-import java.util.Objects;
-
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,24 +23,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.traintracker.application.VoyageFetcher;
-import io.traintracker.application.VoyageFetcherResolver;
 import io.traintracker.domain.model.voyage.Voyage;
 
 @RestController
 @RequestMapping(path = "/{country:[a-z]{2}}/{train}", produces = MediaType.APPLICATION_JSON_VALUE)
 public class VoyageApiController {
 
-    private final VoyageFetcherResolver resolver;
-
-    public VoyageApiController(VoyageFetcherResolver resolver) {
-        this.resolver = Objects.requireNonNull(resolver, "VoyageFetcherResolver must not be null");
-    }
-
     @GetMapping
-    public Voyage voyage(@PathVariable String country, @PathVariable String train) {
-        VoyageFetcher fetcher = this.resolver.getVoyageFetcher(country);
+    public Voyage voyage(@PathVariable("country") VoyageFetcher fetcher, @PathVariable String train) {
         if (fetcher == null) {
-            throw new UnsupportedCountryException(country);
+            throw new UnsupportedCountryException();
         }
         Voyage voyage = fetcher.getVoyage(train);
         if (voyage == null) {
