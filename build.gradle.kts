@@ -17,7 +17,7 @@ repositories {
 
 dependencyManagement {
     imports {
-        mavenBom("org.testcontainers:testcontainers-bom:1.9.1")
+        mavenBom("org.testcontainers:testcontainers-bom:1.10.1")
     }
 }
 
