@@ -16,6 +16,13 @@ cache:
   - $HOME/.gradle/caches/
   - $HOME/.gradle/wrapper/
 
-install: true
-
-script: ./gradlew check --no-daemon
+deploy:
+  provider: cloudfoundry
+  api: https://api.cloud.pcftest.com
+  username: vedran.pavic@gmail.com
+  password:
+    secure: Qtw4d7WKrzSgYcGpoIwzwZx3IP91IrF0hNr3vN9X7EGd+gmCs5FDmOUL7gpq6a9ZJv4S0qWXuTCciPSa7ZMK30rY7Q9Sn0woSSdmXa6OR+Swg2QHXZqnUCTqtIsqxQsDEP9J0dwAtet8bQKLSFsLTtuNkTIh/INt8lTmSNqXwAhSzVSneQjZexo/kZaxZ+XOuJ4u0a9DDQ/bcBqhlGU4qTkNqnl2W0Bgbm8j63MiDwcMJsNMG0/GfYmoPlS+j/iJqCWsWFoJq94dgHaklKsAtboivSb8C9SeXL6klovdDduwNXKqfx9u4LHJEC6ugHqXNi/QXcKxJoMOh99zolBH5pKX9og/zYQZ2fJ6n0urVYmYZx5Pnmk7cDVNSsPmB4zAg+m/hjpO8J2G62z+bLPoe+oHZLGBBeQ8hYu5m7ZHfOEAZVHztmzufoeGh+T7DWOC+kYporgvmmYTLpLOciBO5HLM1aTeVJXU/SM+Uc0ArUgJNhSihQeHP9mHHj2yLWdoMCT/gS3aZjqCC+sDZky3XYLFdKUViBq0sWFHDBv4x14/D8EQlqU1tAqSrhmNcQ3uuutVZjyWOwXDkax6NmfJEJQUaBJaze4LnnkQj5RfWoI95FLhGWLKWtzAy3RxFFIyDA14k8wKAEhkTMkAgYUezHplXpC5KoalI49X0nbW+68=
+  organization: traintracker.io
+  space: production
+  on:
+    repo: traintracker/traintracker
