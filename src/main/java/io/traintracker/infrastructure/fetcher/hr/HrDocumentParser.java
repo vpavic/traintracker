@@ -49,13 +49,13 @@ final class HrDocumentParser {
             int delay = delayRaw.startsWith("Kasni") ? Integer.parseInt(delayRaw.substring(6, delayRaw.indexOf(' ', 6)))
                     : 0;
 
-            station = new Station(name);
-
             if (direction.equals("Odlazak")) {
+                station = new Station(name);
                 station.setDepartureTime(time);
                 station.setDepartureDelay(delay);
             }
-            else {
+            else if (direction.equals("Dolazak") || direction.equals("Završio vožnju")) {
+                station = new Station(name);
                 station.setArrivalTime(time);
                 station.setArrivalDelay(delay);
             }
