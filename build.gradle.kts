@@ -3,7 +3,6 @@ plugins {
     checkstyle
     id("com.github.ben-manes.versions") version "0.20.0"
     id("com.gorylenko.gradle-git-properties") version "2.0.0-beta1"
-    id("io.spring.dependency-management") version "1.0.6.RELEASE"
     id("org.springframework.boot") version "2.1.0.RELEASE"
 }
 
@@ -15,13 +14,10 @@ repositories {
     mavenCentral()
 }
 
-dependencyManagement {
-    imports {
-        mavenBom("org.testcontainers:testcontainers-bom:1.10.2")
-    }
-}
-
 dependencies {
+    implementation(enforcedPlatform("org.springframework.boot:spring-boot-dependencies:2.1.0.RELEASE"))
+    implementation(enforcedPlatform("org.testcontainers:testcontainers-bom:1.10.2"))
+
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-cache")
     implementation("org.springframework.boot:spring-boot-starter-cloud-connectors")
