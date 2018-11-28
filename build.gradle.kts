@@ -17,31 +17,31 @@ repositories {
 
 dependencyManagement {
     imports {
-        mavenBom("org.testcontainers:testcontainers-bom:1.10.1")
+        mavenBom("org.testcontainers:testcontainers-bom:1.10.2")
     }
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-actuator")
-    compile("org.springframework.boot:spring-boot-starter-cache")
-    compile("org.springframework.boot:spring-boot-starter-cloud-connectors")
-    compile("org.springframework.boot:spring-boot-starter-data-redis")
-    compile("org.springframework.boot:spring-boot-starter-jdbc")
-    compile("org.springframework.boot:spring-boot-starter-oauth2-client")
-    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
-    compile("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springframework.boot:spring-boot-starter-cache")
+    implementation("org.springframework.boot:spring-boot-starter-cloud-connectors")
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+    implementation("org.springframework.boot:spring-boot-starter-jdbc")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+    implementation("org.springframework.boot:spring-boot-starter-web")
 
-    compile("org.springframework.boot:spring-boot-devtools")
-    compile("org.springframework.session:spring-session-data-redis")
+    implementation("org.springframework.boot:spring-boot-devtools")
+    implementation("org.springframework.session:spring-session-data-redis")
 
-    compile("de.vandermeer:asciitable:0.3.2")
-    compile("org.apache.httpcomponents:httpclient")
-    compile("org.jsoup:jsoup:1.11.3")
-    compile("org.postgresql:postgresql")
+    implementation("de.vandermeer:asciitable:0.3.2")
+    implementation("org.apache.httpcomponents:httpclient")
+    implementation("org.jsoup:jsoup:1.11.3")
+    implementation("org.postgresql:postgresql")
 
-    testCompile("org.springframework.boot:spring-boot-starter-test")
-    testCompile("org.testcontainers:postgresql")
-    testCompile("org.testcontainers:testcontainers")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.testcontainers:postgresql")
+    testImplementation("org.testcontainers:testcontainers")
 }
 
 checkstyle {

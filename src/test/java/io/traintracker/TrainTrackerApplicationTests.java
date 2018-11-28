@@ -41,7 +41,7 @@ public class TrainTrackerApplicationTests {
 
         @Bean
         public PostgreSQLContainer postgreSqlContainer() {
-            PostgreSQLContainer postgreSqlContainer = new PostgreSQLContainer("postgres:10.5");
+            PostgreSQLContainer postgreSqlContainer = new PostgreSQLContainer("postgres:10.6");
             postgreSqlContainer.start();
             return postgreSqlContainer;
         }
