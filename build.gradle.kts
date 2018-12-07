@@ -14,6 +14,10 @@ repositories {
     mavenCentral()
 }
 
+configurations.all {
+    resolutionStrategy.force("org.thymeleaf.extras:thymeleaf-extras-java8time:3.0.1.RELEASE")
+}
+
 dependencies {
     implementation(enforcedPlatform("org.springframework.boot:spring-boot-dependencies:2.1.1.RELEASE"))
     implementation(enforcedPlatform("org.testcontainers:testcontainers-bom:1.10.2"))
