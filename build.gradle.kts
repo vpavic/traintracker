@@ -19,8 +19,8 @@ configurations.all {
 }
 
 dependencies {
-    implementation(enforcedPlatform("org.springframework.boot:spring-boot-dependencies:2.1.1.RELEASE"))
-    implementation(enforcedPlatform("org.testcontainers:testcontainers-bom:1.10.2"))
+    implementation(platform("org.springframework.boot:spring-boot-dependencies:2.1.1.RELEASE"))
+    implementation(platform("org.testcontainers:testcontainers-bom:1.10.2"))
 
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-cache")
