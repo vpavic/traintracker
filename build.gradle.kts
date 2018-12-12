@@ -14,8 +14,15 @@ repositories {
     mavenCentral()
 }
 
-configurations.all {
-    resolutionStrategy.force("org.thymeleaf.extras:thymeleaf-extras-java8time:3.0.1.RELEASE")
+val developmentOnly: Configuration by configurations.creating
+
+configurations {
+    all {
+        resolutionStrategy.force("org.thymeleaf.extras:thymeleaf-extras-java8time:3.0.1.RELEASE")
+    }
+    runtimeClasspath {
+        extendsFrom(configurations["developmentOnly"])
+    }
 }
 
 dependencies {
@@ -31,13 +38,14 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
 
-    implementation("org.springframework.boot:spring-boot-devtools")
     implementation("org.springframework.session:spring-session-data-redis")
 
     implementation("de.vandermeer:asciitable:0.3.2")
     implementation("org.apache.httpcomponents:httpclient")
     implementation("org.jsoup:jsoup:1.11.3")
     implementation("org.postgresql:postgresql")
+
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.testcontainers:postgresql")
