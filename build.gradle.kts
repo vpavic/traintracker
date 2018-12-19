@@ -27,7 +27,7 @@ configurations {
 
 dependencies {
     implementation(platform("org.springframework.boot:spring-boot-dependencies:2.1.1.RELEASE"))
-    implementation(platform("org.testcontainers:testcontainers-bom:1.10.2"))
+    implementation(platform("org.testcontainers:testcontainers-bom:1.10.3"))
 
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-cache")
@@ -52,5 +52,5 @@ dependencies {
 }
 
 checkstyle {
-    toolVersion = "8.14"
+    toolVersion = "8.15"
 }
