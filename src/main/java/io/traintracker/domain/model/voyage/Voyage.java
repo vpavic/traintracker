@@ -46,7 +46,7 @@ public class Voyage implements Serializable {
         this.stations = Collections.unmodifiableCollection(stations);
         this.carrier = carrier;
         this.source = source;
-        this.generatedTime = LocalTime.now();
+        this.generatedTime = LocalTime.now(carrier.getTimezone());
     }
 
     public Collection<Station> getStations() {
