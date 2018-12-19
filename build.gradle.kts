@@ -32,16 +32,16 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-cache")
     implementation("org.springframework.boot:spring-boot-starter-cloud-connectors")
-    implementation("org.springframework.boot:spring-boot-starter-data-redis")
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
 
-    implementation("org.springframework.session:spring-session-data-redis")
+    implementation("org.springframework.session:spring-session-hazelcast")
 
     implementation("de.vandermeer:asciitable:0.3.2")
     implementation("org.apache.httpcomponents:httpclient")
+    implementation("javax.cache:cache-api")
     implementation("org.jsoup:jsoup:1.11.3")
     implementation("org.postgresql:postgresql")
 
@@ -49,7 +49,6 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.testcontainers:postgresql")
-    testImplementation("org.testcontainers:testcontainers")
 }
 
 checkstyle {
