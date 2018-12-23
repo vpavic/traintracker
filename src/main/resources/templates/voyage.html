@@ -62,7 +62,7 @@
     </div>
 
     <div class="container text-muted mt-4">
-        <div class="row justify-content-md-center">
+        <div class="d-flex justify-content-center">
             <small>
                 <span data-th-text="#{voyage.providedBy}"></span>
                 <a href="#" target="_blank" data-th-href="${voyage.carrier.website}"
@@ -70,12 +70,12 @@
                 (<a href="#" target="_blank" data-th-href="${voyage.source}" data-th-text="#{voyage.source}">http://example.com</a>)
             </small>
         </div>
-        <div class="row justify-content-md-center">
+        <div class="d-flex justify-content-center">
             <small data-th-text="#{voyage.generated(${#temporals.format(voyage.generatedTime, 'HH:mm:ss')})}">Generated
                 on 00:00.
             </small>
         </div>
-        <div class="row justify-content-md-center">
+        <div class="d-flex justify-content-center">
             <small data-th-text="#{voyage.timezone(${voyage.carrier.timezone})}">All times are UTC.</small>
         </div>
     </div>
