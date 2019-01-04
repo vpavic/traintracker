@@ -2,7 +2,6 @@ plugins {
     java
     checkstyle
     id("com.github.ben-manes.versions") version "0.20.0"
-    id("com.gorylenko.gradle-git-properties") version "2.0.0-beta1"
     id("org.springframework.boot") version "2.1.1.RELEASE"
 }
 
@@ -29,7 +28,6 @@ dependencies {
     implementation(platform("org.springframework.boot:spring-boot-dependencies:2.1.1.RELEASE"))
     implementation(platform("org.testcontainers:testcontainers-bom:1.10.5"))
 
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-cache")
     implementation("org.springframework.boot:spring-boot-starter-cloud-connectors")
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
