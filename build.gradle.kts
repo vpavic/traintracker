@@ -39,6 +39,7 @@ dependencies {
 
     implementation("com.github.ben-manes.caffeine:caffeine")
     implementation("de.vandermeer:asciitable:0.3.2")
+    implementation("io.dropwizard.metrics:metrics-servlets")
     implementation("org.apache.httpcomponents:httpclient")
     implementation("org.jsoup:jsoup:1.11.3")
     implementation("org.postgresql:postgresql")
