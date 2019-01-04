@@ -19,20 +19,31 @@ package io.traintracker.interfaces.voyage.web;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.jdbc.core.JdbcOperations;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(VoyageWebController.class)
 public class VoyageWebControllerTests {
 
-    @MockBean
-    private JdbcOperations jdbcOperations;
-
     @Test
     public void test() {
         // TODO
+    }
+
+    @TestConfiguration
+    static class Config {
+
+        @Bean
+        public ClientRegistrationRepository clientRegistrationRepository() {
+            return new InMemoryClientRegistrationRepository(CommonOAuth2Provider.GOOGLE.getBuilder("google")
+                    .clientId("clientId").clientSecret("clientSecret").build());
+        }
+
     }
 
 }
