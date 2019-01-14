@@ -2,7 +2,7 @@ plugins {
     java
     checkstyle
     id("com.github.ben-manes.versions") version "0.20.0"
-    id("org.springframework.boot") version "2.1.1.RELEASE"
+    id("org.springframework.boot") version "2.1.2.RELEASE"
 }
 
 java {
@@ -25,7 +25,7 @@ configurations {
 }
 
 dependencies {
-    implementation(platform("org.springframework.boot:spring-boot-dependencies:2.1.1.RELEASE"))
+    implementation(platform("org.springframework.boot:spring-boot-dependencies:2.1.2.RELEASE"))
     implementation(platform("org.testcontainers:testcontainers-bom:1.10.5"))
 
     implementation("org.springframework.boot:spring-boot-starter-cache")
