@@ -17,7 +17,7 @@ val developmentOnly: Configuration by configurations.creating
 
 configurations {
     all {
-        resolutionStrategy.force("org.thymeleaf.extras:thymeleaf-extras-java8time:3.0.1.RELEASE")
+        resolutionStrategy.force("org.thymeleaf.extras:thymeleaf-extras-java8time:3.0.3.RELEASE")
     }
     runtimeClasspath {
         extendsFrom(configurations["developmentOnly"])
@@ -26,7 +26,7 @@ configurations {
 
 dependencies {
     implementation(platform("org.springframework.boot:spring-boot-dependencies:2.1.2.RELEASE"))
-    implementation(platform("org.testcontainers:testcontainers-bom:1.10.5"))
+    implementation(platform("org.testcontainers:testcontainers-bom:1.10.6"))
 
     implementation("org.springframework.boot:spring-boot-starter-cache")
     implementation("org.springframework.boot:spring-boot-starter-cloud-connectors")
@@ -51,5 +51,5 @@ dependencies {
 }
 
 checkstyle {
-    toolVersion = "8.15"
+    toolVersion = "8.17"
 }
