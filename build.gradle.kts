@@ -25,7 +25,9 @@ configurations {
 }
 
 dependencies {
-    implementation(platform("org.springframework.boot:spring-boot-dependencies:2.1.2.RELEASE"))
+    arrayOf("implementation", "annotationProcessor").forEach {
+        add(it, platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
+    }
     implementation(platform("org.testcontainers:testcontainers-bom:1.10.6"))
 
     implementation("org.springframework.boot:spring-boot-starter-cache")
@@ -35,14 +37,15 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
 
-    implementation("org.springframework.session:spring-session-jdbc")
-
     implementation("com.github.ben-manes.caffeine:caffeine")
     implementation("de.vandermeer:asciitable:0.3.2")
     implementation("io.dropwizard.metrics:metrics-servlets")
     implementation("org.apache.httpcomponents:httpclient")
     implementation("org.jsoup:jsoup:1.11.3")
     implementation("org.postgresql:postgresql")
+    implementation("org.springframework.session:spring-session-jdbc")
+
+    annotationProcessor("org.springframework:spring-context-indexer")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 
