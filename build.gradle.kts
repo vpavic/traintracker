@@ -1,8 +1,10 @@
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
+
 plugins {
     java
     checkstyle
     id("com.github.ben-manes.versions") version "0.20.0"
-    id("org.springframework.boot") version "2.1.2.RELEASE"
+    id("org.springframework.boot") version "2.1.3.RELEASE"
 }
 
 java {
@@ -16,9 +18,6 @@ repositories {
 val developmentOnly: Configuration by configurations.creating
 
 configurations {
-    all {
-        resolutionStrategy.force("org.thymeleaf.extras:thymeleaf-extras-java8time:3.0.3.RELEASE")
-    }
     runtimeClasspath {
         extendsFrom(configurations["developmentOnly"])
     }
@@ -26,7 +25,7 @@ configurations {
 
 dependencies {
     arrayOf("implementation", "annotationProcessor").forEach {
-        add(it, platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
+        add(it, platform(SpringBootPlugin.BOM_COORDINATES))
     }
     implementation(platform("org.testcontainers:testcontainers-bom:1.10.6"))
 
