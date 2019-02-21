@@ -2,8 +2,10 @@ import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
     java
-    checkstyle
+    kotlin("jvm") version "1.3.21"
     id("com.github.ben-manes.versions") version "0.20.0"
+    id("org.jetbrains.kotlin.plugin.spring") version "1.3.21"
+    id("org.jlleitschuh.gradle.ktlint") version "7.1.0"
     id("org.springframework.boot") version "2.1.3.RELEASE"
 }
 
@@ -12,7 +14,7 @@ java {
 }
 
 repositories {
-    mavenCentral()
+    jcenter()
 }
 
 val developmentOnly: Configuration by configurations.creating
@@ -37,9 +39,11 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
 
     implementation("com.github.ben-manes.caffeine:caffeine")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("de.vandermeer:asciitable:0.3.2")
     implementation("io.dropwizard.metrics:metrics-servlets")
     implementation("org.apache.httpcomponents:httpclient")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jsoup:jsoup:1.11.3")
     implementation("org.postgresql:postgresql")
     implementation("org.springframework.session:spring-session-jdbc")
@@ -50,8 +54,4 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.testcontainers:postgresql")
-}
-
-checkstyle {
-    toolVersion = "8.17"
 }
