@@ -42,7 +42,7 @@ class WebControllerAdvice {
     }
 
     @ModelAttribute("principal")
-    fun authentication(@AuthenticationPrincipal principal: OAuth2User): OAuth2User {
+    fun authentication(@AuthenticationPrincipal principal: OAuth2User?): OAuth2User? {
         return principal
     }
 
