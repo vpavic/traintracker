@@ -25,20 +25,14 @@ import org.springframework.web.bind.annotation.ModelAttribute
 
 @ControllerAdvice(assignableTypes = [HomeWebController::class, VoyageWebController::class])
 class WebControllerAdvice {
-    private val logins: Map<String, String>
-
-    init {
-        this.logins = prepareLogins()
-    }
-
     @ModelAttribute("countries")
     fun countries(): Set<String> {
-        return COUNTRIES
+        return countries
     }
 
     @ModelAttribute("logins")
     fun logins(): Map<String, String> {
-        return this.logins
+        return logins
     }
 
     @ModelAttribute("principal")
@@ -47,10 +41,8 @@ class WebControllerAdvice {
     }
 
     companion object {
-        private val COUNTRIES = setOf("hr")
+        private val countries = setOf("hr")
 
-        private fun prepareLogins(): Map<String, String> {
-            return listOf("google").associateBy({ it }, { "/oauth2/authorization/$it" })
-        }
+        private val logins = listOf("google").associateBy({ it }, { "/oauth2/authorization/$it" })
     }
 }

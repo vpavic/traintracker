@@ -84,7 +84,6 @@ class HrVoyageFetcher(private val httpClient: CloseableHttpClient) : VoyageFetch
 
         private fun buildOverviewRequestUri(train: String, date: LocalDate): URI {
             try {
-                // @formatter:off
                 return URIBuilder("http://najava.hzinfra.hr/hzinfo/default.asp")
                     .addParameter("vl", train)
                     .addParameter("d1", date.format(formatter))
@@ -92,7 +91,6 @@ class HrVoyageFetcher(private val httpClient: CloseableHttpClient) : VoyageFetch
                     .addParameter("service", "pkvl")
                     .addParameter("screen", "2")
                     .build()
-                // @formatter:on
             } catch (e: URISyntaxException) {
                 throw RuntimeException(e)
             }
@@ -100,14 +98,12 @@ class HrVoyageFetcher(private val httpClient: CloseableHttpClient) : VoyageFetch
 
         private fun buildCurrentPositionRequestUri(train: String): URI {
             try {
-                // @formatter:off
                 return URIBuilder("http://vred.hzinfra.hr/hzinfo/Default.asp")
                     .addParameter("vl", train)
                     .addParameter("category", "hzinfo")
                     .addParameter("service", "tpvl")
                     .addParameter("screen", "2")
                     .build()
-                // @formatter:on
             } catch (e: URISyntaxException) {
                 throw RuntimeException(e)
             }

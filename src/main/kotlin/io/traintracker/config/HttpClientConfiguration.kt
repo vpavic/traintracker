@@ -26,19 +26,15 @@ import org.springframework.context.annotation.Configuration
 class HttpClientConfiguration {
     @Bean
     fun httpClient(): CloseableHttpClient {
-        // @formatter:off
         val requestConfig = RequestConfig.custom()
             .setConnectionRequestTimeout(5000)
             .setConnectTimeout(5000)
             .setSocketTimeout(5000)
             .build()
-        // @formatter:on
 
-        // @formatter:off
         return HttpClientBuilder.create()
             .setDefaultRequestConfig(requestConfig)
             .useSystemProperties()
             .build()
-        // @formatter:on
     }
 }

@@ -51,13 +51,11 @@ class JdbcClientRegistrationRepository(private val jdbcOperations: JdbcOperation
         clientId: String,
         clientSecret: String
     ): ClientRegistration {
-        // @formatter:off
         return CommonOAuth2Provider.valueOf(registrationId.toUpperCase())
             .getBuilder(registrationId)
             .clientId(clientId)
             .clientSecret(clientSecret)
             .userNameAttributeName("email")
             .build()
-        // @formatter:on
     }
 }

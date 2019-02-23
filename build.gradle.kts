@@ -26,10 +26,10 @@ configurations {
 }
 
 dependencies {
-    arrayOf("implementation", "annotationProcessor").forEach {
-        add(it, platform(SpringBootPlugin.BOM_COORDINATES))
-    }
+    implementation(platform(SpringBootPlugin.BOM_COORDINATES))
     implementation(platform("org.testcontainers:testcontainers-bom:1.10.6"))
+
+    implementation(kotlin("stdlib-jdk8"))
 
     implementation("org.springframework.boot:spring-boot-starter-cache")
     implementation("org.springframework.boot:spring-boot-starter-cloud-connectors")
@@ -43,12 +43,9 @@ dependencies {
     implementation("de.vandermeer:asciitable:0.3.2")
     implementation("io.dropwizard.metrics:metrics-servlets")
     implementation("org.apache.httpcomponents:httpclient")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jsoup:jsoup:1.11.3")
     implementation("org.postgresql:postgresql")
     implementation("org.springframework.session:spring-session-jdbc")
-
-    annotationProcessor("org.springframework:spring-context-indexer")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 
