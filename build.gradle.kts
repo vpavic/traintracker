@@ -3,6 +3,7 @@ import org.springframework.boot.gradle.plugin.SpringBootPlugin
 plugins {
     java
     kotlin("jvm") version "1.3.21"
+    id("com.diffplug.gradle.spotless") version "3.18.0"
     id("com.github.ben-manes.versions") version "0.20.0"
     id("org.jetbrains.kotlin.plugin.spring") version "1.3.21"
     id("org.jlleitschuh.gradle.ktlint") version "7.1.0"
@@ -51,4 +52,10 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.testcontainers:postgresql")
+}
+
+spotless {
+    kotlin {
+        licenseHeaderFile(rootProject.file("config/spotless/license.kt"))
+    }
 }
