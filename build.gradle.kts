@@ -4,7 +4,7 @@ plugins {
     java
     kotlin("jvm") version "1.3.21"
     id("com.diffplug.gradle.spotless") version "3.18.0"
-    id("com.github.ben-manes.versions") version "0.20.0"
+    id("com.github.ben-manes.versions") version "0.21.0"
     id("org.jetbrains.kotlin.plugin.spring") version "1.3.21"
     id("org.jlleitschuh.gradle.ktlint") version "7.1.0"
     id("org.springframework.boot") version "2.1.3.RELEASE"
