@@ -18,14 +18,15 @@ package io.traintracker.domain.model.voyage
 
 import io.traintracker.domain.model.carrier.Carrier
 import java.io.Serializable
+import java.time.LocalDate
 import java.time.LocalTime
-import java.util.Deque
 
 class Voyage(
-    val currentStation: Station,
-    val stations: Deque<Station>,
     val carrier: Carrier,
-    val source: String
+    val date: LocalDate,
+    val currentStation: Station,
+    val source: String,
+    val generatedTime: LocalTime
 ) : Serializable {
-    val generatedTime: LocalTime = LocalTime.now(carrier.timezone)
+    var stations: Collection<Station> = emptyList()
 }

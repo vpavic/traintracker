@@ -32,6 +32,7 @@ import java.io.IOException
 import java.net.URI
 import java.net.URISyntaxException
 import java.time.LocalDate
+import java.time.LocalTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
@@ -50,10 +51,17 @@ class HrVoyageFetcher(private val httpClient: CloseableHttpClient) : VoyageFetch
 
         val overviewRequestUri = buildOverviewRequestUri(train, LocalDate.now(carrier.timezone))
         val overviewResponse = executeRequest(overviewRequestUri)
-        val doc = parseDocument(overviewResponse)
-        val stations = HrDocumentParser.parseOverview(doc)
+        val overviewDocument = parseDocument(overviewResponse)
+        val stations = HrDocumentParser.parseOverview(overviewDocument)
 
-        return Voyage(currentStation, stations, carrier, overviewRequestUri.toString())
+        val time = LocalDate.now(carrier.timezone)
+        val generatedTime = LocalTime.now(carrier.timezone)
+
+        val voyage = Voyage(carrier, time, currentStation, overviewRequestUri.toString(), generatedTime)
+        if (stations.isNotEmpty()) {
+            voyage.stations = stations
+        }
+        return voyage
     }
 
     private fun executeRequest(uri: URI): CloseableHttpResponse {
