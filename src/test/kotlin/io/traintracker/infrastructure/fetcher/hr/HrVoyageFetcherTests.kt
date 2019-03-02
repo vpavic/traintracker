@@ -48,7 +48,6 @@ class HrVoyageFetcherTests {
     }
 
     @Test
-    @Throws(Exception::class)
     fun getVoyage_VoyageDoesNotExist_ShouldReturnNull() {
         val response = mock(CloseableHttpResponse::class.java)
         given<HttpEntity>(response.entity).willReturn(StringEntity("<html/>"))
@@ -58,7 +57,6 @@ class HrVoyageFetcherTests {
     }
 
     @Test
-    @Throws(Exception::class)
     fun getVoyage_VoyageExists_ShouldReturnVoyage() {
         val response = mock(CloseableHttpResponse::class.java)
         val responseHtml = File(javaClass.getResource("/hr-tpvl-ok.html").toURI())

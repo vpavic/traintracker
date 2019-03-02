@@ -28,9 +28,7 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Component
-import java.io.IOException
 import java.net.URI
-import java.net.URISyntaxException
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
@@ -65,21 +63,13 @@ class HrVoyageFetcher(private val httpClient: CloseableHttpClient) : VoyageFetch
     }
 
     private fun executeRequest(uri: URI): CloseableHttpResponse {
-        try {
-            val request = HttpGet(uri)
-            return this.httpClient.execute(request)
-        } catch (e: IOException) {
-            throw RuntimeException(e)
-        }
+        val request = HttpGet(uri)
+        return this.httpClient.execute(request)
     }
 
     private fun parseDocument(response: CloseableHttpResponse): Document {
-        try {
-            val html = EntityUtils.toString(response.entity, "Cp1250")
-            return Jsoup.parse(html)
-        } catch (e: IOException) {
-            throw RuntimeException(e)
-        }
+        val html = EntityUtils.toString(response.entity, "Cp1250")
+        return Jsoup.parse(html)
     }
 
     companion object {
@@ -91,30 +81,22 @@ class HrVoyageFetcher(private val httpClient: CloseableHttpClient) : VoyageFetch
         private val formatter = DateTimeFormatter.ofPattern("uuMMdd")
 
         private fun buildOverviewRequestUri(train: String, date: LocalDate): URI {
-            try {
-                return URIBuilder("http://najava.hzinfra.hr/hzinfo/default.asp")
-                    .addParameter("vl", train)
-                    .addParameter("d1", date.format(formatter))
-                    .addParameter("category", "korisnici")
-                    .addParameter("service", "pkvl")
-                    .addParameter("screen", "2")
-                    .build()
-            } catch (e: URISyntaxException) {
-                throw RuntimeException(e)
-            }
+            return URIBuilder("http://najava.hzinfra.hr/hzinfo/default.asp")
+                .addParameter("vl", train)
+                .addParameter("d1", date.format(formatter))
+                .addParameter("category", "korisnici")
+                .addParameter("service", "pkvl")
+                .addParameter("screen", "2")
+                .build()
         }
 
         private fun buildCurrentPositionRequestUri(train: String): URI {
-            try {
-                return URIBuilder("http://vred.hzinfra.hr/hzinfo/Default.asp")
-                    .addParameter("vl", train)
-                    .addParameter("category", "hzinfo")
-                    .addParameter("service", "tpvl")
-                    .addParameter("screen", "2")
-                    .build()
-            } catch (e: URISyntaxException) {
-                throw RuntimeException(e)
-            }
+            return URIBuilder("http://vred.hzinfra.hr/hzinfo/Default.asp")
+                .addParameter("vl", train)
+                .addParameter("category", "hzinfo")
+                .addParameter("service", "tpvl")
+                .addParameter("screen", "2")
+                .build()
         }
     }
 }

@@ -64,11 +64,7 @@ class HrDocumentParserTests {
     }
 
     private fun getDocument(path: String): Document {
-        try {
-            val uri = javaClass.getResource(path).toURI()
-            return Jsoup.parse(File(uri), "Cp1250")
-        } catch (e: Exception) {
-            throw RuntimeException(e)
-        }
+        val uri = javaClass.getResource(path).toURI()
+        return Jsoup.parse(File(uri), "Cp1250")
     }
 }
