@@ -18,6 +18,7 @@ package io.traintracker.domain.model.voyage
 
 import io.traintracker.domain.model.carrier.Carrier
 import java.io.Serializable
+import java.net.URI
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -25,8 +26,7 @@ class Voyage(
     val carrier: Carrier,
     val date: LocalDate,
     val currentStation: Station,
-    val source: String,
+    var stations: Collection<Station>,
+    val sources: List<URI>,
     val generatedTime: LocalTime
-) : Serializable {
-    var stations: Collection<Station> = emptyList()
-}
+) : Serializable

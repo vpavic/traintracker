@@ -46,20 +46,17 @@ class HrVoyageFetcher(private val httpClient: CloseableHttpClient) : VoyageFetch
         val currentPositionResponse = executeRequest(currentPositionRequestUri)
         val currentPositionDocument = parseDocument(currentPositionResponse)
         val currentStation = HrDocumentParser.parseCurrentPosition(currentPositionDocument) ?: return null
-
         val overviewRequestUri = buildOverviewRequestUri(train, LocalDate.now(carrier.timezone))
         val overviewResponse = executeRequest(overviewRequestUri)
         val overviewDocument = parseDocument(overviewResponse)
         val stations = HrDocumentParser.parseOverview(overviewDocument)
-
         val time = LocalDate.now(carrier.timezone)
         val generatedTime = LocalTime.now(carrier.timezone)
-
-        val voyage = Voyage(carrier, time, currentStation, overviewRequestUri.toString(), generatedTime)
+        val sources = mutableListOf(currentPositionRequestUri)
         if (stations.isNotEmpty()) {
-            voyage.stations = stations
+            sources.add(overviewRequestUri)
         }
-        return voyage
+        return Voyage(carrier, time, currentStation, stations, sources, generatedTime)
     }
 
     private fun executeRequest(uri: URI): CloseableHttpResponse {
