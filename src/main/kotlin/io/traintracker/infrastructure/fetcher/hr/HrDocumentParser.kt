@@ -43,14 +43,17 @@ internal object HrDocumentParser {
             else
                 0
 
-            if (direction == "Odlazak") {
-                station = Station(name)
-                station.departureTime = time
-                station.departureDelay = delay
-            } else if (direction == "Dolazak" || direction == "Završio vožnju") {
-                station = Station(name)
-                station.arrivalTime = time
-                station.arrivalDelay = delay
+            when (direction) {
+                "Odlazak" -> {
+                    station = Station(name)
+                    station.departureTime = time
+                    station.departureDelay = delay
+                }
+                "Dolazak", "Završio vožnju" -> {
+                    station = Station(name)
+                    station.arrivalTime = time
+                    station.arrivalDelay = delay
+                }
             }
         }
 
@@ -74,19 +77,22 @@ internal object HrDocumentParser {
 
                 val station: Station
 
-                if (direction == "Dolazak") {
-                    station = Station(name)
-                    station.arrivalTime = LocalTime.parse(time)
-                    station.arrivalDelay = if (delay.isEmpty()) 0 else Integer.parseInt(delay)
-                } else {
-                    station = if (!stations.isEmpty() && stations.peekLast().name == name) {
-                        stations.removeLast()
-                    } else {
-                        Station(name)
+                when (direction) {
+                    "Dolazak" -> {
+                        station = Station(name)
+                        station.arrivalTime = LocalTime.parse(time)
+                        station.arrivalDelay = if (delay.isEmpty()) 0 else Integer.parseInt(delay)
                     }
+                    else -> {
+                        station = if (!stations.isEmpty() && stations.peekLast().name == name) {
+                            stations.removeLast()
+                        } else {
+                            Station(name)
+                        }
 
-                    station.departureTime = LocalTime.parse(time)
-                    station.departureDelay = if (delay.isEmpty()) 0 else Integer.parseInt(delay)
+                        station.departureTime = LocalTime.parse(time)
+                        station.departureDelay = if (delay.isEmpty()) 0 else Integer.parseInt(delay)
+                    }
                 }
 
                 stations.add(station)
