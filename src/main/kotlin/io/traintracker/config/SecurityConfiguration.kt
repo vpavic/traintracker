@@ -37,7 +37,7 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter() {
                     .and()
                 .contentSecurityPolicy(
                     "default-src https: 'self'; img-src https: data: 'self'; " +
-                        "script-src https: 'self' 'sha256-cLORh50nqiO5Qc4TxEeD14Enk413ikSUi1q8ZBOXJA8='"
+                        "script-src https: 'self' 'sha256-GSHdHk0+/vVwKMATSXq9jA0l/R72njl6b2I7JrLNt1Q='"
                 )
                     .and()
                 .referrerPolicy(ReferrerPolicy.NO_REFERRER_WHEN_DOWNGRADE)
