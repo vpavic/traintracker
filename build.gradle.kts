@@ -5,6 +5,7 @@ plugins {
     kotlin("jvm") version "1.3.21"
     id("com.diffplug.gradle.spotless") version "3.18.0"
     id("com.github.ben-manes.versions") version "0.21.0"
+    id("com.google.cloud.tools.jib") version "1.0.2"
     id("org.jetbrains.kotlin.plugin.spring") version "1.3.21"
     id("org.jlleitschuh.gradle.ktlint") version "7.1.0"
     id("org.springframework.boot") version "2.1.3.RELEASE"
@@ -57,5 +58,11 @@ dependencies {
 spotless {
     kotlin {
         licenseHeaderFile(rootProject.file("config/spotless/license.kt"))
+    }
+}
+
+jib {
+    from {
+        image = "openjdk:8u201-jdk-alpine3.9"
     }
 }
