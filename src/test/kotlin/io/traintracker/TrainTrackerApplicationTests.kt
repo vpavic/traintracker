@@ -36,17 +36,17 @@ class TrainTrackerApplicationTests {
     internal class Config {
         @Bean
         fun postgreSqlContainer(): KPostgreSQLContainer {
-            val postgreSqlContainer = KPostgreSQLContainer("postgres:10.6")
+            val postgreSqlContainer = KPostgreSQLContainer("postgres:11.2-alpine")
             postgreSqlContainer.start()
             return postgreSqlContainer
         }
 
         @Bean
-        fun dataSource(): HikariDataSource {
+        fun dataSource(postgreSqlContainer: KPostgreSQLContainer): HikariDataSource {
             val dataSource = HikariDataSource()
-            dataSource.jdbcUrl = postgreSqlContainer().getJdbcUrl()
-            dataSource.username = postgreSqlContainer().getUsername()
-            dataSource.password = postgreSqlContainer().getPassword()
+            dataSource.jdbcUrl = postgreSqlContainer.getJdbcUrl()
+            dataSource.username = postgreSqlContainer.getUsername()
+            dataSource.password = postgreSqlContainer.getPassword()
             return dataSource
         }
     }
