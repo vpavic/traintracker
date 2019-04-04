@@ -3,12 +3,12 @@ import org.springframework.boot.gradle.plugin.SpringBootPlugin
 plugins {
     java
     kotlin("jvm") version "1.3.21"
-    id("com.diffplug.gradle.spotless") version "3.18.0"
+    id("com.diffplug.gradle.spotless") version "3.21.1"
     id("com.github.ben-manes.versions") version "0.21.0"
     id("com.google.cloud.tools.jib") version "1.0.2"
     id("org.jetbrains.kotlin.plugin.spring") version "1.3.21"
-    id("org.jlleitschuh.gradle.ktlint") version "7.1.0"
-    id("org.springframework.boot") version "2.1.3.RELEASE"
+    id("org.jlleitschuh.gradle.ktlint") version "7.2.1"
+    id("org.springframework.boot") version "2.1.4.RELEASE"
 }
 
 java {
@@ -16,7 +16,7 @@ java {
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 val developmentOnly: Configuration by configurations.creating
@@ -29,7 +29,7 @@ configurations {
 
 dependencies {
     implementation(platform(SpringBootPlugin.BOM_COORDINATES))
-    implementation(platform("org.testcontainers:testcontainers-bom:1.10.6"))
+    implementation(platform("org.testcontainers:testcontainers-bom:1.11.1"))
 
     implementation(kotlin("stdlib-jdk8"))
 
