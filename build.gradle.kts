@@ -12,7 +12,7 @@ plugins {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_11
 }
 
 repositories {
@@ -63,6 +63,6 @@ spotless {
 
 jib {
     from {
-        image = "openjdk:8u201-jdk-alpine3.9"
+        image = "openjdk:11.0.3-jdk-slim-stretch"
     }
 }
