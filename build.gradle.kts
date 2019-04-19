@@ -63,6 +63,6 @@ spotless {
 
 jib {
     from {
-        image = "openjdk:11.0.3-jdk-slim-stretch"
+        image = "adoptopenjdk/openjdk11-openj9:jdk-11.0.2.9_openj9-0.12.1-alpine"
     }
 }

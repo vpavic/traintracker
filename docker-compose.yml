@@ -11,7 +11,7 @@ services:
       - postgres
   postgres:
     container_name: traintracker-postgres
-    image: "postgres:11.2-alpine"
+    image: "postgres:11.2"
     environment:
       - POSTGRES_PASSWORD=traintracker
       - POSTGRES_USER=traintracker
