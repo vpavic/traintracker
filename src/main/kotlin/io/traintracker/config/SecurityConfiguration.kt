@@ -50,14 +50,14 @@ class SecurityConfiguration(val properties: SecurityProperties) : WebSecurityCon
                         "gyroscope 'none'; magnetometer 'none'; microphone 'none'; midi 'none'; " +
                         "payment 'none'; speaker 'none'; sync-xhr 'none'; usb 'none'; vr 'none'"
                 )
-                    .and()
-                .and()
-            .requiresChannel()
-                .anyRequest().requires(requiresChannel())
         // @formatter:on
-    }
 
-    private fun requiresChannel(): String {
-        return if (this.properties.requireSecureChannel) "REQUIRES_SECURE_CHANNEL" else "REQUIRES_INSECURE_CHANNEL"
+        if (this.properties.requireSecureChannel) {
+            // @formatter:off
+            http
+                .requiresChannel()
+                    .anyRequest().requiresSecure()
+            // @formatter:on
+        }
     }
 }
