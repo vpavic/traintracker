@@ -16,13 +16,15 @@
 
 package io.traintracker.config
 
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter.ReferrerPolicy
 
 @Configuration
-class SecurityConfiguration : WebSecurityConfigurerAdapter() {
+@EnableConfigurationProperties(SecurityProperties::class)
+class SecurityConfiguration(val properties: SecurityProperties) : WebSecurityConfigurerAdapter() {
     override fun configure(http: HttpSecurity) {
         // @formatter:off
         http
@@ -48,6 +50,14 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter() {
                         "gyroscope 'none'; magnetometer 'none'; microphone 'none'; midi 'none'; " +
                         "payment 'none'; speaker 'none'; sync-xhr 'none'; usb 'none'; vr 'none'"
                 )
+                    .and()
+                .and()
+            .requiresChannel()
+                .anyRequest().requires(requiresChannel())
         // @formatter:on
+    }
+
+    private fun requiresChannel(): String {
+        return if (this.properties.requireSecureChannel) "REQUIRES_SECURE_CHANNEL" else "REQUIRES_INSECURE_CHANNEL"
     }
 }
