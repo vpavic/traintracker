@@ -53,7 +53,7 @@ class VoyageWebController {
         val delay = if (station.departureDelay != null) station.departureDelay else station.arrivalDelay
         return when {
             delay == null -> "info"
-            delay < 1 -> "success"
+            delay < 5 -> "success"
             delay < 20 -> "warning"
             else -> "danger"
         }
