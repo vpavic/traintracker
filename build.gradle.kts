@@ -2,13 +2,13 @@ import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
     java
-    kotlin("jvm") version "1.3.30"
-    id("com.diffplug.gradle.spotless") version "3.22.0"
+    kotlin("jvm") version "1.3.31"
+    id("com.diffplug.gradle.spotless") version "3.23.0"
     id("com.github.ben-manes.versions") version "0.21.0"
-    id("com.google.cloud.tools.jib") version "1.1.1"
-    id("org.jetbrains.kotlin.plugin.spring") version "1.3.30"
-    id("org.jlleitschuh.gradle.ktlint") version "7.3.0"
-    id("org.springframework.boot") version "2.1.4.RELEASE"
+    id("com.google.cloud.tools.jib") version "1.2.0"
+    id("org.jetbrains.kotlin.plugin.spring") version "1.3.31"
+    id("org.jlleitschuh.gradle.ktlint") version "8.0.0"
+    id("org.springframework.boot") version "2.1.5.RELEASE"
 }
 
 java {
@@ -45,7 +45,7 @@ dependencies {
     implementation("de.vandermeer:asciitable:0.3.2")
     implementation("io.dropwizard.metrics:metrics-servlets")
     implementation("org.apache.httpcomponents:httpclient")
-    implementation("org.jsoup:jsoup:1.11.3")
+    implementation("org.jsoup:jsoup:1.12.1")
     implementation("org.postgresql:postgresql")
     implementation("org.springframework.session:spring-session-jdbc")
 
@@ -63,6 +63,6 @@ spotless {
 
 jib {
     from {
-        image = "adoptopenjdk/openjdk11-openj9:jdk-11.0.2.9_openj9-0.12.1-alpine"
+        image = "adoptopenjdk/openjdk11-openj9:jdk-11.0.3_7_openj9-0.14.0-alpine"
     }
 }
