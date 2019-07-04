@@ -2,13 +2,13 @@ import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
     java
-    kotlin("jvm") version "1.3.31"
-    id("com.diffplug.gradle.spotless") version "3.23.0"
+    kotlin("jvm") version "1.3.41"
+    id("com.diffplug.gradle.spotless") version "3.23.1"
     id("com.github.ben-manes.versions") version "0.21.0"
-    id("com.google.cloud.tools.jib") version "1.2.0"
-    id("org.jetbrains.kotlin.plugin.spring") version "1.3.31"
-    id("org.jlleitschuh.gradle.ktlint") version "8.0.0"
-    id("org.springframework.boot") version "2.1.5.RELEASE"
+    id("com.google.cloud.tools.jib") version "1.3.0"
+    id("org.jetbrains.kotlin.plugin.spring") version "1.3.41"
+    id("org.jlleitschuh.gradle.ktlint") version "8.1.0"
+    id("org.springframework.boot") version "2.1.6.RELEASE"
 }
 
 java {
@@ -29,7 +29,7 @@ configurations {
 
 dependencies {
     implementation(platform(SpringBootPlugin.BOM_COORDINATES))
-    implementation(platform("org.testcontainers:testcontainers-bom:1.11.2"))
+    implementation(platform("org.testcontainers:testcontainers-bom:1.11.3"))
 
     implementation(kotlin("stdlib-jdk8"))
 
