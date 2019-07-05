@@ -2,13 +2,13 @@ import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
     java
-    kotlin("jvm") version Versions.kotlin
-    id("com.diffplug.gradle.spotless") version Versions.spotless
-    id("com.github.ben-manes.versions") version Versions.versions
-    id("com.google.cloud.tools.jib") version Versions.jib
-    id("org.jetbrains.kotlin.plugin.spring") version Versions.kotlin
-    id("org.jlleitschuh.gradle.ktlint") version Versions.ktlint
-    id("org.springframework.boot") version Versions.springBoot
+    kotlin("jvm") version PluginVersions.kotlin
+    id("com.diffplug.gradle.spotless") version PluginVersions.spotless
+    id("com.github.ben-manes.versions") version PluginVersions.versions
+    id("com.google.cloud.tools.jib") version PluginVersions.jib
+    id("org.jetbrains.kotlin.plugin.spring") version PluginVersions.kotlin
+    id("org.jlleitschuh.gradle.ktlint") version PluginVersions.ktlint
+    id("org.springframework.boot") version PluginVersions.springBoot
 }
 
 java {
@@ -29,7 +29,7 @@ configurations {
 
 dependencies {
     implementation(platform(SpringBootPlugin.BOM_COORDINATES))
-    implementation(platform("org.testcontainers:testcontainers-bom:${Versions.testcontainers}"))
+    implementation(platform("org.testcontainers:testcontainers-bom:${DependencyVersions.testcontainers}"))
 
     implementation(kotlin("stdlib-jdk8"))
 
@@ -42,10 +42,10 @@ dependencies {
 
     implementation("com.github.ben-manes.caffeine:caffeine")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("de.vandermeer:asciitable:${Versions.asciiTable}")
+    implementation("de.vandermeer:asciitable:${DependencyVersions.asciiTable}")
     implementation("io.dropwizard.metrics:metrics-servlets")
     implementation("org.apache.httpcomponents:httpclient")
-    implementation("org.jsoup:jsoup:${Versions.jsoup}")
+    implementation("org.jsoup:jsoup:${DependencyVersions.jsoup}")
     implementation("org.postgresql:postgresql")
     implementation("org.springframework.session:spring-session-jdbc")
 
