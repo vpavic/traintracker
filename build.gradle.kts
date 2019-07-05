@@ -2,13 +2,13 @@ import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
     java
-    kotlin("jvm") version "1.3.41"
-    id("com.diffplug.gradle.spotless") version "3.23.1"
-    id("com.github.ben-manes.versions") version "0.21.0"
-    id("com.google.cloud.tools.jib") version "1.3.0"
-    id("org.jetbrains.kotlin.plugin.spring") version "1.3.41"
-    id("org.jlleitschuh.gradle.ktlint") version "8.1.0"
-    id("org.springframework.boot") version "2.1.6.RELEASE"
+    kotlin("jvm") version Versions.kotlin
+    id("com.diffplug.gradle.spotless") version Versions.spotless
+    id("com.github.ben-manes.versions") version Versions.versions
+    id("com.google.cloud.tools.jib") version Versions.jib
+    id("org.jetbrains.kotlin.plugin.spring") version Versions.kotlin
+    id("org.jlleitschuh.gradle.ktlint") version Versions.ktlint
+    id("org.springframework.boot") version Versions.springBoot
 }
 
 java {
@@ -29,7 +29,7 @@ configurations {
 
 dependencies {
     implementation(platform(SpringBootPlugin.BOM_COORDINATES))
-    implementation(platform("org.testcontainers:testcontainers-bom:1.11.3"))
+    implementation(platform("org.testcontainers:testcontainers-bom:${Versions.testcontainers}"))
 
     implementation(kotlin("stdlib-jdk8"))
 
@@ -42,10 +42,10 @@ dependencies {
 
     implementation("com.github.ben-manes.caffeine:caffeine")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("de.vandermeer:asciitable:0.3.2")
+    implementation("de.vandermeer:asciitable:${Versions.asciiTable}")
     implementation("io.dropwizard.metrics:metrics-servlets")
     implementation("org.apache.httpcomponents:httpclient")
-    implementation("org.jsoup:jsoup:1.12.1")
+    implementation("org.jsoup:jsoup:${Versions.jsoup}")
     implementation("org.postgresql:postgresql")
     implementation("org.springframework.session:spring-session-jdbc")
 
