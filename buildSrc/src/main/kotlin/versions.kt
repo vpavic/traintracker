@@ -26,5 +26,5 @@ object PluginVersions {
 object DependencyVersions {
     val asciiTable = "0.3.2"
     val jsoup = "1.12.1"
-    val testcontainers = "1.11.3"
+    val testcontainers = "1.11.4"
 }
