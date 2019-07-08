@@ -1,5 +1,9 @@
 import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
+buildscript {
+    extra.set("profile", properties["profile"])
+}
+
 plugins {
     java
     kotlin("jvm") version PluginVersions.kotlin
@@ -22,8 +26,10 @@ repositories {
 val developmentOnly: Configuration by configurations.creating
 
 configurations {
-    runtimeClasspath {
-        extendsFrom(configurations["developmentOnly"])
+    if (project.properties["profile"] == "development") {
+        runtimeClasspath {
+            extendsFrom(developmentOnly)
+        }
     }
 }
 
@@ -49,7 +55,9 @@ dependencies {
     implementation("org.postgresql:postgresql")
     implementation("org.springframework.session:spring-session-jdbc")
 
-    developmentOnly("org.springframework.boot:spring-boot-devtools")
+    if (project.properties["profile"] == "development") {
+        developmentOnly("org.springframework.boot:spring-boot-devtools")
+    }
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.testcontainers:postgresql")

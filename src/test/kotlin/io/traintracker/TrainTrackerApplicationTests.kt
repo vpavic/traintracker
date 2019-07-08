@@ -44,9 +44,9 @@ class TrainTrackerApplicationTests {
         @Bean
         fun dataSource(postgreSqlContainer: KPostgreSQLContainer): HikariDataSource {
             val dataSource = HikariDataSource()
-            dataSource.jdbcUrl = postgreSqlContainer.getJdbcUrl()
-            dataSource.username = postgreSqlContainer.getUsername()
-            dataSource.password = postgreSqlContainer.getPassword()
+            dataSource.jdbcUrl = postgreSqlContainer.jdbcUrl
+            dataSource.username = postgreSqlContainer.username
+            dataSource.password = postgreSqlContainer.password
             return dataSource
         }
     }
