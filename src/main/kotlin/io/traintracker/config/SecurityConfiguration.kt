@@ -39,7 +39,7 @@ class SecurityConfiguration(val properties: SecurityProperties) : WebSecurityCon
                     .and()
                 .contentSecurityPolicy(
                     "default-src https: 'self'; img-src https: data: 'self'; " +
-                        "script-src https: 'self' 'sha256-GSHdHk0+/vVwKMATSXq9jA0l/R72njl6b2I7JrLNt1Q='"
+                        "script-src https: 'self' 'sha256-CW5fKI3jV5qwoLYOgIrchxDYRW5DcBigpTBsFB6U8i8='"
                 )
                     .and()
                 .referrerPolicy(ReferrerPolicy.NO_REFERRER_WHEN_DOWNGRADE)
