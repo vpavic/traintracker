@@ -26,7 +26,7 @@ repositories {
 val developmentOnly: Configuration by configurations.creating
 
 configurations {
-    if (project.properties["profile"] == "development") {
+    if (project.extra.get("profile") == "development") {
         runtimeClasspath {
             extendsFrom(developmentOnly)
         }
@@ -55,7 +55,7 @@ dependencies {
     implementation("org.postgresql:postgresql")
     implementation("org.springframework.session:spring-session-jdbc")
 
-    if (project.properties["profile"] == "development") {
+    if (project.extra.get("profile") == "development") {
         developmentOnly("org.springframework.boot:spring-boot-devtools")
     }
 
