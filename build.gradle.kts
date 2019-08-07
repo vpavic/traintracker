@@ -21,6 +21,7 @@ java {
 
 repositories {
     mavenCentral()
+    maven(url = "https://repo.spring.io/libs-milestone")
 }
 
 val developmentOnly: Configuration by configurations.creating
