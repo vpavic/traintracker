@@ -36,7 +36,7 @@ class TrainTrackerApplicationTests {
     internal class Config {
         @Bean
         fun postgreSqlContainer(): KPostgreSQLContainer {
-            val postgreSqlContainer = KPostgreSQLContainer("postgres:11.4")
+            val postgreSqlContainer = KPostgreSQLContainer("postgres:11.5")
             postgreSqlContainer.start()
             return postgreSqlContainer
         }
