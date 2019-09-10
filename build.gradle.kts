@@ -31,10 +31,10 @@ configurations {
 }
 
 dependencies {
+    implementation(kotlin("stdlib-jdk8"))
+
     implementation(platform(SpringBootPlugin.BOM_COORDINATES))
     implementation(platform("org.testcontainers:testcontainers-bom:${DependencyVersions.testcontainers}"))
-
-    implementation(kotlin("stdlib-jdk8"))
 
     implementation("org.springframework.boot:spring-boot-starter-cache")
     implementation("org.springframework.boot:spring-boot-starter-cloud-connectors")
