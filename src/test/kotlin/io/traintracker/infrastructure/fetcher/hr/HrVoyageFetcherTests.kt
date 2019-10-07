@@ -16,6 +16,7 @@
 
 package io.traintracker.infrastructure.fetcher.hr
 
+import java.io.File
 import org.apache.http.HttpEntity
 import org.apache.http.client.methods.CloseableHttpResponse
 import org.apache.http.client.methods.HttpUriRequest
@@ -29,7 +30,6 @@ import org.mockito.ArgumentMatchers.any
 import org.mockito.BDDMockito.given
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.reset
-import java.io.File
 
 class HrVoyageFetcherTests {
     private val httpClient = mock(CloseableHttpClient::class.java)

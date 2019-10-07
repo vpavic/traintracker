@@ -22,12 +22,12 @@ import de.vandermeer.asciithemes.TA_GridThemes
 import io.traintracker.application.VoyageFetcher
 import io.traintracker.domain.model.voyage.Station
 import io.traintracker.domain.model.voyage.Voyage
+import java.time.LocalTime
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import java.time.LocalTime
 
 @RestController
 @RequestMapping(path = ["/{country:[a-z]{2}}/{train}"], produces = [MediaType.TEXT_PLAIN_VALUE])

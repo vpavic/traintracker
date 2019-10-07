@@ -16,12 +16,12 @@
 
 package io.traintracker.infrastructure.security
 
+import java.time.Instant
 import org.springframework.context.event.EventListener
 import org.springframework.jdbc.core.JdbcOperations
 import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken
 import org.springframework.stereotype.Component
-import java.time.Instant
 
 @Component
 class AuthenticationEventListener(private val jdbcOperations: JdbcOperations) {
