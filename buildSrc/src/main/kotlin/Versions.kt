@@ -15,12 +15,12 @@
  */
 
 object PluginVersions {
-    val jib = "1.6.1"
+    val jib = "1.7.0"
     val kotlin = "1.3.50"
     val ktlint = "9.0.0"
-    val spotless = "3.24.3"
-    val springBoot = "2.2.0.RC1"
-    val versions = "0.25.0"
+    val spotless = "3.25.0"
+    val springBoot = "2.2.0.RELEASE"
+    val versions = "0.27.0"
 }
 
 object DependencyVersions {
