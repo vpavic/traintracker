@@ -2,13 +2,13 @@ import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
     java
-    kotlin("jvm") version PluginVersions.kotlin
-    id("com.diffplug.gradle.spotless") version PluginVersions.spotless
-    id("com.github.ben-manes.versions") version PluginVersions.versions
-    id("com.google.cloud.tools.jib") version PluginVersions.jib
-    id("org.jetbrains.kotlin.plugin.spring") version PluginVersions.kotlin
-    id("org.jlleitschuh.gradle.ktlint") version PluginVersions.ktlint
-    id("org.springframework.boot") version PluginVersions.springBoot
+    kotlin("jvm")
+    id("com.diffplug.gradle.spotless")
+    id("com.github.ben-manes.versions")
+    id("com.google.cloud.tools.jib")
+    id("org.jetbrains.kotlin.plugin.spring")
+    id("org.jlleitschuh.gradle.ktlint")
+    id("org.springframework.boot")
 }
 
 java {
