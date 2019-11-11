@@ -14,18 +14,9 @@
  * limitations under the License.
  */
 
-object PluginVersions {
-    val jib = "1.7.0"
-    val kotlin = "1.3.50"
-    val ktlint = "9.0.0"
-    val spotless = "3.25.0"
-    val springBoot = "2.2.0.RELEASE"
-    val versions = "0.27.0"
-}
-
 object DependencyVersions {
     val adoptOpenJdk = "11.0.4_11-jre-openj9-0.15.1"
     val asciiTable = "0.3.2"
     val jsoup = "1.12.1"
-    val testcontainers = "1.12.2"
+    val testcontainers = "1.12.3"
 }
