@@ -18,5 +18,5 @@ object DependencyVersions {
     val adoptOpenJdk = "11.0.4_11-jre-openj9-0.15.1"
     val asciiTable = "0.3.2"
     val jsoup = "1.12.1"
-    val testcontainers = "1.12.3"
+    val testcontainers = "1.12.4"
 }

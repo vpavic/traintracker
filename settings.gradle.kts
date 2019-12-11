@@ -1,9 +1,9 @@
 pluginManagement {
-    val jibVersion = "1.7.0"
-    val kotlinVersion = "1.3.50"
-    val ktlintVersion = "9.1.0"
-    val spotlessVersion = "3.25.0"
-    val springBootVersion = "2.2.1.RELEASE"
+    val jibVersion = "1.8.0"
+    val kotlinVersion = "1.3.61"
+    val ktlintVersion = "9.1.1"
+    val spotlessVersion = "3.26.1"
+    val springBootVersion = "2.2.2.RELEASE"
     val versionsVersion = "0.27.0"
 
     plugins {
