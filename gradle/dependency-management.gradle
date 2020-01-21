@@ -1,0 +1,10 @@
+dependencies {
+    implementation platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion")
+
+    testImplementation platform('org.testcontainers:testcontainers-bom:1.12.4')
+
+    constraints {
+        implementation 'de.vandermeer:asciitable:0.3.2'
+        implementation 'org.jsoup:jsoup:1.12.1'
+    }
+}

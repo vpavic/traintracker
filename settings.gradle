@@ -1,0 +1,25 @@
+pluginManagement {
+    plugins {
+        id 'org.jetbrains.kotlin.jvm' version kotlinVersion
+        id 'com.diffplug.gradle.spotless' version "3.26.1"
+        id 'com.github.ben-manes.versions' version "0.27.0"
+        id 'com.google.cloud.tools.jib' version "1.8.0"
+        id 'org.jetbrains.kotlin.plugin.spring' version kotlinVersion
+        id 'org.jlleitschuh.gradle.ktlint' version "9.1.1"
+    }
+
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id == 'org.springframework.boot') {
+                useModule "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
+            }
+        }
+    }
+
+    repositories {
+        gradlePluginPortal()
+        maven { url = 'https://repo.spring.io/libs-milestone/' }
+    }
+}
+
+rootProject.name = 'traintracker'
