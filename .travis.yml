@@ -1,6 +1,7 @@
 sudo: required
 language: java
-jdk: openjdk11
+jdk:
+  - openjdk11
 services:
   - docker
 before_cache:
@@ -10,13 +11,5 @@ cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
-deploy:
-  provider: cloudfoundry
-  api: https://api.run.pivotal.io
-  username: vedran.pavic@gmail.com
-  password:
-    secure: un2xkHc13Ge/KQA4z3VJv25/mRllYanuJyHMiTLUo9TZvTc1MRItfc79jn7abCn01wcK5nyd/2Dcqw3noHwa47oNaVxLSbhIxT/+ijVDyGKzR69mcGys1s0rVVNO1zYnCgHofzxRh1/C1uP4AjipLTJYRolghPFBBUcpHp8ll6Tjs54W1shf6hV3s1YzwPLPkaJvX4hqOJBMkQ/qOn85ijNEtYjgZ/7zxtySwKtunYfnupjo1y3j5Zuo5LXm+oYzaYkZ46nQ40E5pJTjtc/6M2AIsg6M21TeRzWOcsbgTcY7eIJJpV/V5JQHC5GUQ5D+qLda9YxU55P4odUOLBlARNaKQ4bRPHC8C5hqnrAUsFgYFIIj63af14MyfXHaaumQdEKK4neIadNpB+uGRA7KYEiZ/lO2UjWVLw/86IZxfba3cvQIM76P3au48R4CMXGk7VqdrzDbhZ2kQDko+JJCMJbOQF5UFYjmUja/LnXyNquE1G/cCBlq9bnuNWSJnqJi7AaT7DS63+TfgOczX7kIG4sssGzwRqMEc4ILCVQXmfINEPW6gf1XMXwmNNAkndlGOHZRIx4pkVDg3IUChL2F5EzStWoAMz4t4l7zdmYwUpHfJcN5xMKAx1jrQLWWJrbTf6sZXd/xQ9Gz0/kZXorR3ylMvsje0TpCY+crt38wlAA=
-  organization: vpavic
-  space: production
-  on:
-    repo: traintracker/traintracker
+install: skip
+script: ./gradlew check --no-daemon --stacktrace
