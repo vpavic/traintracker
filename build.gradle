@@ -3,7 +3,6 @@ plugins {
     id 'checkstyle'
     id 'com.diffplug.gradle.spotless'
     id 'com.github.ben-manes.versions'
-    id 'com.google.cloud.tools.jib'
     id 'io.traintracker.conventions'
     id 'org.springframework.boot'
 }
@@ -42,11 +41,5 @@ checkstyle {
 spotless {
     kotlin {
         licenseHeaderFile rootProject.file('config/spotless/license.java')
-    }
-}
-
-jib {
-    from {
-        image = 'adoptopenjdk:11.0.4_11-jre-openj9-0.15.1'
     }
 }
