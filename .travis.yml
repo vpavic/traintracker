@@ -13,3 +13,10 @@ cache:
     - $HOME/.gradle/wrapper/
 install: skip
 script: ./gradlew check --no-daemon --stacktrace
+deploy:
+  provider: heroku
+  api_key:
+    secure: GKy8MH4KhbMIeI1n40zJ6loe1bq/juWVUV1SOBTqQUBmM7KzjhLFZH38CUR1aBrWebF05jVav2Rk0QIozHW6BMtTf4BILN5r+4TJLySCc1+ysw25eGMlp3kb+eUUXRkNw4hUt4S5PIvK81/WBsrlx5lEH1veGAATiLuN+WCIr0/5PT/xR4f412wA8pzO4cWsUvokaNRn7KB0JYZUPzeXNoTAUsdnOJXmJwkIepxkYOHVdf9XlGGCi/OFINAMiphuhR44H0vKz46ylChac04KFz8nY07oFv5CYesNHz+LZIjLqIAh/3zFxYls6K1uemfvfZJGpFhN9VBUPQf31q+ozRgGQoykRmjiEVLCUonSaTFO2vxL//WbeTXdh1/9GNOLoWJXZBEeMD1iQCeZOuGKWgPXqIjUGmPtscXPSbGbSrn/Ms7zzO3YLAP1iEZ8R3vlkISVH1OKQvZzHNuArVKEwNs86wPAEFwzPOH8UJ0cTnIh0fDWQaB9IVLSEibUQgBsYk1ADLc0WDaYsgHy7BHzCYhJuiuQVc69pBrThF7WTclxmizGAnwPZ2RoQTeo48i9aFFJUZW2MDlB0x7ER2TIVatvaGKwinA8VWi6GKoXQr2y7i8z8ELcUfjfYLYzVK7EVVr4DeZfBIpbU/uZ+IACVMzWaTmviLr7Mq+usmTLzUw=
+  app: traintracker-io
+  on:
+    repo: traintracker/traintracker
