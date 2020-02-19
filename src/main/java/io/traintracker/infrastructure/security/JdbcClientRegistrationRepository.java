@@ -37,9 +37,6 @@ public class JdbcClientRegistrationRepository implements ClientRegistrationRepos
 
     @Override
     public ClientRegistration findByRegistrationId(String registrationId) {
-        if (!"google".equals(registrationId)) {
-            return null;
-        }
         try {
             return this.jdbcOperations.queryForObject(
                     "SELECT client_id, client_secret FROM client_registration WHERE id = ?",
