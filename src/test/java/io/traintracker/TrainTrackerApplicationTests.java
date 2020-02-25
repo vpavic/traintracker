@@ -22,7 +22,10 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 @RunWith(SpringRunner.class)
@@ -50,6 +53,20 @@ public class TrainTrackerApplicationTests {
             dataSource.setUsername(postgreSqlContainer.getUsername());
             dataSource.setPassword(postgreSqlContainer.getPassword());
             return dataSource;
+        }
+
+        @Bean
+        public GenericContainer redisContainer() {
+            GenericContainer redisContainer = new GenericContainer("redis:5.0.7").withExposedPorts(6379);
+            redisContainer.start();
+            return redisContainer;
+        }
+
+        @Bean
+        public JedisConnectionFactory redisConnectionFactory(GenericContainer<?> redisContainer) {
+            RedisStandaloneConfiguration redisConfiguration = new RedisStandaloneConfiguration(
+                    redisContainer.getContainerIpAddress(), redisContainer.getFirstMappedPort());
+            return new JedisConnectionFactory(redisConfiguration);
         }
 
     }
