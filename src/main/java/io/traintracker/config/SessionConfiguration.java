@@ -19,9 +19,7 @@ package io.traintracker.config;
 import java.time.Duration;
 
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.boot.autoconfigure.session.RedisSessionProperties;
 import org.springframework.boot.autoconfigure.session.SessionProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -32,20 +30,16 @@ import org.springframework.session.config.annotation.web.http.EnableSpringHttpSe
 import org.springframework.session.data.redis.RedisSessionRepository;
 
 @Configuration(proxyBeanMethods = false)
-@EnableConfigurationProperties(RedisSessionProperties.class)
 @EnableSpringHttpSession
 public class SessionConfiguration {
 
     private final SessionProperties sessionProperties;
 
-    private final RedisSessionProperties redisSessionProperties;
-
     private final RedisConnectionFactory redisConnectionFactory;
 
-    public SessionConfiguration(SessionProperties sessionProperties, RedisSessionProperties redisSessionProperties,
+    public SessionConfiguration(SessionProperties sessionProperties,
             ObjectProvider<RedisConnectionFactory> redisConnectionFactory) {
         this.sessionProperties = sessionProperties;
-        this.redisSessionProperties = redisSessionProperties;
         this.redisConnectionFactory = redisConnectionFactory.getObject();
     }
 
@@ -65,9 +59,6 @@ public class SessionConfiguration {
         if (timeout != null) {
             sessionRepository.setDefaultMaxInactiveInterval(timeout);
         }
-        sessionRepository.setKeyNamespace(this.redisSessionProperties.getNamespace());
-        sessionRepository.setFlushMode(this.redisSessionProperties.getFlushMode());
-        sessionRepository.setSaveMode(this.redisSessionProperties.getSaveMode());
         return sessionRepository;
     }
 
