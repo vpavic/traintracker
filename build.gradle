@@ -21,7 +21,6 @@ configurations {
 }
 
 dependencies {
-    implementation 'com.github.ben-manes.caffeine:caffeine'
     implementation 'de.vandermeer:asciitable'
     implementation 'io.dropwizard.metrics:metrics-servlets'
     implementation 'org.apache.httpcomponents:httpclient'
