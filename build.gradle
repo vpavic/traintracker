@@ -25,6 +25,7 @@ dependencies {
     implementation 'io.dropwizard.metrics:metrics-servlets'
     implementation 'org.apache.httpcomponents:httpclient'
     implementation 'org.jsoup:jsoup'
+    implementation 'org.liquibase:liquibase-core'
     implementation 'org.postgresql:postgresql'
     implementation 'org.springframework.boot:spring-boot-starter-cache'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
