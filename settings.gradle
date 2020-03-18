@@ -1,7 +1,9 @@
 pluginManagement {
+    apply from: 'gradle/dependency-versions.gradle'
+
     plugins {
-        id 'com.diffplug.gradle.spotless' version '3.27.1'
-        id 'com.github.ben-manes.versions' version '0.28.0'
+        id 'com.diffplug.gradle.spotless' version spotlessVersion
+        id 'com.github.ben-manes.versions' version versionsVersion
     }
 
     resolutionStrategy {

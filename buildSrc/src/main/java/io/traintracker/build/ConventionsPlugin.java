@@ -26,7 +26,7 @@ public class ConventionsPlugin implements Plugin<Project> {
 
     @Override
     public void apply(Project project) {
-        project.apply(action -> action.from(new File(project.getRootDir(), "/gradle/dependency-management.gradle")));
+        project.apply(action -> action.from(new File(project.getRootDir(), "gradle/dependency-versions.gradle")));
         Configuration developmentOnly = project.getConfigurations().create("developmentOnly");
         if ("development".equals(project.findProperty("profile"))) {
             project.getConfigurations().getByName("runtimeClasspath", configuration ->

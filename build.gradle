@@ -1,3 +1,5 @@
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
+
 plugins {
     id 'java'
     id 'checkstyle'
@@ -14,21 +16,18 @@ repositories {
     maven { url = 'https://repo.spring.io/libs-milestone/' }
 }
 
-configurations {
-    all {
-        exclude group: 'io.lettuce'
-    }
-}
-
 dependencies {
-    implementation 'de.vandermeer:asciitable'
+    implementation platform(SpringBootPlugin.BOM_COORDINATES)
+    implementation "de.vandermeer:asciitable:$asciiTableVersion"
     implementation 'io.dropwizard.metrics:metrics-servlets'
     implementation 'org.apache.httpcomponents:httpclient'
-    implementation 'org.jsoup:jsoup'
+    implementation "org.jsoup:jsoup:$jsoupVersion"
     implementation 'org.liquibase:liquibase-core'
     implementation 'org.postgresql:postgresql'
     implementation 'org.springframework.boot:spring-boot-starter-cache'
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation('org.springframework.boot:spring-boot-starter-data-redis') {
+        exclude module: 'lettuce-core'
+    }
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
@@ -38,13 +37,14 @@ dependencies {
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
+    testImplementation platform("org.testcontainers:testcontainers-bom:$testcontainersVersion")
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.testcontainers:postgresql'
     testImplementation 'org.testcontainers:testcontainers'
 }
 
 checkstyle {
-    toolVersion = '8.29'
+    toolVersion = checkstyleVersion
 }
 
 spotless {
