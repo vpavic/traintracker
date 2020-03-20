@@ -19,7 +19,6 @@ repositories {
 dependencies {
     implementation platform(SpringBootPlugin.BOM_COORDINATES)
     implementation "de.vandermeer:asciitable:$asciiTableVersion"
-    implementation 'io.dropwizard.metrics:metrics-servlets'
     implementation 'org.apache.httpcomponents:httpclient'
     implementation "org.jsoup:jsoup:$jsoupVersion"
     implementation 'org.liquibase:liquibase-core'
