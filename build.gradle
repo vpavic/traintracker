@@ -17,19 +17,18 @@ repositories {
 
 dependencies {
     implementation platform(SpringBootPlugin.BOM_COORDINATES)
+    implementation 'com.github.ben-manes.caffeine:caffeine'
     implementation "de.vandermeer:asciitable:$asciiTableVersion"
     implementation 'org.apache.httpcomponents:httpclient'
     implementation "org.jsoup:jsoup:$jsoupVersion"
     implementation 'org.liquibase:liquibase-core'
     implementation 'org.postgresql:postgresql'
     implementation 'org.springframework.boot:spring-boot-starter-cache'
-    implementation('org.springframework.boot:spring-boot-starter-data-redis') {
-        exclude module: 'lettuce-core'
-    }
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.data:spring-data-redis'
     implementation 'org.springframework.session:spring-session-data-redis'
     implementation 'redis.clients:jedis'
 
