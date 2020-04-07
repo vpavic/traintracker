@@ -11,3 +11,20 @@ jobs:
           java-version: 11
       - run: chmod +x gradlew
       - run: ./gradlew check --stacktrace
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - run: chmod +x gradlew
+      - run: ./gradlew assemble
+      - env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku login
+      - env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku deploy:jar build/libs/traintracker.jar --app traintracker-io
