@@ -24,4 +24,7 @@ jobs:
       - run: ./gradlew assemble
       - env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku plugins:install java
+      - env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku deploy:jar build/libs/traintracker.jar --app traintracker-io
