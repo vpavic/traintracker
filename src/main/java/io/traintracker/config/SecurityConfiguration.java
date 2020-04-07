@@ -21,7 +21,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter.ReferrerPolicy;
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override

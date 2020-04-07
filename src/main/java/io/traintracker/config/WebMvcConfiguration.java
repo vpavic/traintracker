@@ -25,7 +25,7 @@ import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class WebMvcConfiguration implements WebMvcConfigurer {
 
     @Override
