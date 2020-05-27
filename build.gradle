@@ -32,6 +32,7 @@ dependencies {
     implementation 'org.springframework.session:spring-session-data-redis'
     implementation 'redis.clients:jedis'
 
+    developmentOnly platform(SpringBootPlugin.BOM_COORDINATES)
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
     testImplementation platform("org.testcontainers:testcontainers-bom:$testcontainersVersion")
