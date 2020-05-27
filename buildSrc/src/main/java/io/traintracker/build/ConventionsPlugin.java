@@ -40,11 +40,6 @@ public class ConventionsPlugin implements Plugin<Project> {
             dependencyUpdatesTask.rejectVersionIf(candidate -> isNonStable(candidate.getCandidate().getVersion())
                     && !isNonStable(candidate.getCurrentVersion()));
         });
-        Configuration developmentOnly = project.getConfigurations().create("developmentOnly");
-        if ("development".equals(project.findProperty("profile"))) {
-            project.getConfigurations().getByName("runtimeClasspath",
-                    configuration -> configuration.extendsFrom(developmentOnly));
-        }
     }
 
     private static boolean isNonStable(String version) {

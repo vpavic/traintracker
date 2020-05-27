@@ -1,12 +1,12 @@
 ext {
     // plugin versions
-    spotlessVersion = '3.30.0'
+    spotlessVersion = '4.0.1'
     versionsVersion = '0.28.0'
     // tool versions
     checkstyleVersion = '8.30'
     // dependency versions
     asciiTableVersion = '0.3.2'
     jsoupVersion = '1.13.1'
-    springBootVersion = '2.2.7.RELEASE'
-    testcontainersVersion = '1.14.1'
+    springBootVersion = '2.3.0.RELEASE'
+    testcontainersVersion = '1.14.2'
 }
