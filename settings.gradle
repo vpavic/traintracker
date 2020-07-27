@@ -2,7 +2,7 @@ pluginManagement {
     apply from: 'gradle/dependency-versions.gradle'
 
     plugins {
-        id 'com.diffplug.gradle.spotless' version spotlessVersion
+        id 'com.diffplug.spotless' version spotlessVersion
         id 'com.github.ben-manes.versions' version versionsVersion
         id 'com.google.cloud.tools.jib' version jibVersion
     }

@@ -3,7 +3,7 @@ import org.springframework.boot.gradle.plugin.SpringBootPlugin
 plugins {
     id 'java'
     id 'checkstyle'
-    id 'com.diffplug.gradle.spotless'
+    id 'com.diffplug.spotless'
     id 'com.google.cloud.tools.jib'
     id 'io.traintracker.conventions'
     id 'org.springframework.boot'
