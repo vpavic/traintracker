@@ -21,16 +21,15 @@ jobs:
         with:
           java-version: 11
       - run: chmod +x gradlew
-      - run: ./gradlew assemble
       - env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku plugins:install java
+        run: ./gradlew jib -Djib.to.image=registry.heroku.com/traintracker-io/web -Djib.to.auth.username=_ -Djib.to.auth.password=$(heroku auth:token)
       - env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku config:set SPRING_LIQUIBASE_ENABLED=true --app traintracker-io
       - env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku deploy:jar build/libs/traintracker.jar --app traintracker-io
+        run: heroku container:release web --app traintracker-io
       - env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku config:unset SPRING_LIQUIBASE_ENABLED --app traintracker-io
