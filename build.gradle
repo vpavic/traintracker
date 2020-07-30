@@ -60,9 +60,6 @@ jib {
     from {
         image = 'adoptopenjdk/openjdk11@sha256:cbd20379d141de45148f6e2f2be388f8cbb3a5211eaaa389930a3a80b56d95ee'
     }
-    container {
-        args = ['--server.port=${PORT:-8080}']
-    }
     pluginExtensions {
         pluginExtension {
             implementation = 'com.google.cloud.tools.jib.gradle.extension.springboot.JibSpringBootExtension'
