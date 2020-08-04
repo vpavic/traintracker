@@ -30,7 +30,7 @@ public class ConventionsPlugin implements Plugin<Project> {
 
     @Override
     public void apply(Project project) {
-        project.apply(action -> action.from(new File(project.getRootDir(), "gradle/dependency-versions.gradle")));
+        project.apply(action -> action.from(project.file("gradle/dependency-versions.gradle")));
         project.getPluginManager().apply(VersionsPlugin.class);
         TaskContainer tasks = project.getTasks();
         tasks.withType(DependencyUpdatesTask.class, dependencyUpdatesTask -> {
