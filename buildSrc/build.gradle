@@ -18,8 +18,8 @@ dependencies {
 gradlePlugin {
     plugins {
         conventionsPlugin {
-            id = 'io.traintracker.conventions'
-            implementationClass = 'io.traintracker.build.ConventionsPlugin'
+            id = 'io.github.vpavic.traintracker.conventions'
+            implementationClass = 'io.github.vpavic.traintracker.build.ConventionsPlugin'
         }
     }
 }
