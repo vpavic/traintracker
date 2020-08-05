@@ -23,13 +23,13 @@ jobs:
       - run: chmod +x gradlew
       - env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: ./gradlew jib -Djib.to.image=registry.heroku.com/traintracker-io/web -Djib.to.auth.username=_ -Djib.to.auth.password=$(heroku auth:token)
+        run: ./gradlew jib -Djib.to.image=registry.heroku.com/traintrckr/web -Djib.to.auth.username=_ -Djib.to.auth.password=$(heroku auth:token)
       - env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku config:set SPRING_LIQUIBASE_ENABLED=true --app traintracker-io
+        run: heroku config:set SPRING_LIQUIBASE_ENABLED=true --app traintrckr
       - env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:release web --app traintracker-io
+        run: heroku container:release web --app traintrckr
       - env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku config:unset SPRING_LIQUIBASE_ENABLED --app traintracker-io
+        run: heroku config:unset SPRING_LIQUIBASE_ENABLED --app traintrckr
