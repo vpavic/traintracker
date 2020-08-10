@@ -1,0 +1,7 @@
+pluginManagement {
+    apply from: "$rootDir.parentFile/gradle/dependency-versions.gradle"
+
+    plugins {
+        id 'com.github.ben-manes.versions' version pluginVersions.versions
+    }
+}

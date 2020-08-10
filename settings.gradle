@@ -2,15 +2,15 @@ pluginManagement {
     apply from: 'gradle/dependency-versions.gradle'
 
     plugins {
-        id 'com.diffplug.spotless' version spotlessVersion
-        id 'com.github.ben-manes.versions' version versionsVersion
-        id 'com.google.cloud.tools.jib' version jibVersion
+        id 'com.diffplug.spotless' version pluginVersions.spotless
+        id 'com.github.ben-manes.versions' version pluginVersions.versions
+        id 'com.google.cloud.tools.jib' version pluginVersions.jib
     }
 
     resolutionStrategy {
         eachPlugin {
             if (requested.id.id == 'org.springframework.boot') {
-                useModule "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
+                useModule "org.springframework.boot:spring-boot-gradle-plugin:$libraryVersions.springBoot"
             }
         }
     }
