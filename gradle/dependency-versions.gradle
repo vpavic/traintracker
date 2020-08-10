@@ -5,11 +5,11 @@ ext {
     dockerImageVersions = [:]
 }
 
-toolVersions.checkstyle = '8.33'
+toolVersions.checkstyle = '8.35'
 
-pluginVersions.jib = '2.4.0'
-pluginVersions.spotless = '5.1.0'
-pluginVersions.versions = '0.28.0'
+pluginVersions.jib = '2.5.0'
+pluginVersions.spotless = '5.1.1'
+pluginVersions.versions = '0.29.0'
 
 libraryVersions.asciiTable = '0.3.2'
 libraryVersions.jsoup = '1.13.1'
