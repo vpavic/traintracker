@@ -1,24 +1,22 @@
-pluginManagement {
-    apply from: 'gradle/dependency-versions.gradle'
-
-    plugins {
-        id 'com.diffplug.spotless' version pluginVersions.spotless
-        id 'com.github.ben-manes.versions' version pluginVersions.versions
-        id 'com.google.cloud.tools.jib' version pluginVersions.jib
-    }
-
-    resolutionStrategy {
-        eachPlugin {
-            if (requested.id.id == 'org.springframework.boot') {
-                useModule "org.springframework.boot:spring-boot-gradle-plugin:$libraryVersions.springBoot"
-            }
-        }
-    }
+buildscript {
+    apply(from: "gradle/dependency-versions.gradle")
 
     repositories {
         gradlePluginPortal()
-        maven { url = 'https://repo.spring.io/libs-milestone/' }
+        maven { url = "https://repo.spring.io/libs-milestone/" }
+    }
+
+    configurations.classpath {
+        resolutionStrategy.activateDependencyLocking()
+    }
+
+    dependencies {
+        classpath("com.diffplug.spotless:spotless-plugin-gradle:$pluginVersions.spotless")
+        classpath("com.github.ben-manes:gradle-versions-plugin:$pluginVersions.versions")
+        classpath("com.google.cloud.tools:jib-spring-boot-extension-gradle:$pluginVersions.jibSpringBootExtension")
+        classpath("gradle.plugin.com.google.cloud.tools:jib-gradle-plugin:$pluginVersions.jib")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:$libraryVersions.springBoot")
     }
 }
 
-rootProject.name = 'traintracker'
+rootProject.name = "traintracker"

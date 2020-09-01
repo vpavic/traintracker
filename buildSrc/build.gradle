@@ -1,26 +1,35 @@
 plugins {
-    id 'java-gradle-plugin'
-    id 'com.github.ben-manes.versions'
+    id("java")
+    id("com.github.ben-manes.versions")
 }
 
-apply from: "$rootDir.parentFile/gradle/dependency-versions.gradle"
-
-sourceCompatibility = JavaVersion.VERSION_11
+apply(from: "$rootDir.parentFile/gradle/dependency-versions.gradle")
 
 repositories {
     mavenCentral()
-    gradlePluginPortal()
+}
+
+dependencyLocking {
+    lockAllConfigurations()
 }
 
 dependencies {
-    implementation "com.github.ben-manes:gradle-versions-plugin:$pluginVersions.versions"
+    implementation(platform("org.springframework.boot:spring-boot-dependencies:$libraryVersions.springBoot"))
+
+    testImplementation("org.assertj:assertj-core")
+    testImplementation("org.junit.jupiter:junit-jupiter-api")
+
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
-gradlePlugin {
-    plugins {
-        conventionsPlugin {
-            id = 'io.github.vpavic.traintracker.conventions'
-            implementationClass = 'io.github.vpavic.traintracker.build.ConventionsPlugin'
-        }
-    }
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+}
+
+test {
+    useJUnitPlatform()
+}
+
+dependencyUpdates {
+    gradleReleaseChannel = "current"
 }

@@ -2,18 +2,16 @@ ext {
     toolVersions = [:]
     pluginVersions = [:]
     libraryVersions = [:]
-    dockerImageVersions = [:]
 }
 
-toolVersions.checkstyle = '8.35'
+toolVersions.checkstyle = "+"
 
-pluginVersions.jib = '2.5.0'
-pluginVersions.spotless = '5.1.1'
-pluginVersions.versions = '0.29.0'
+pluginVersions.jib = "+"
+pluginVersions.jibSpringBootExtension = "+"
+pluginVersions.spotless = "+"
+pluginVersions.versions = "+"
 
-libraryVersions.asciiTable = '0.3.2'
-libraryVersions.jsoup = '1.13.1'
-libraryVersions.springBoot = '2.3.3.RELEASE'
-libraryVersions.testcontainers = '1.14.3'
-
-dockerImageVersions.base = 'adoptopenjdk/openjdk11@sha256:cbd20379d141de45148f6e2f2be388f8cbb3a5211eaaa389930a3a80b56d95ee'
+libraryVersions.asciiTable = "0.+"
+libraryVersions.jsoup = "1.+"
+libraryVersions.springBoot = "2.3.+"
+libraryVersions.testcontainers = "1.+"

@@ -1,49 +1,52 @@
 import org.springframework.boot.gradle.plugin.SpringBootPlugin
-
-buildscript {
-    dependencies {
-        classpath 'com.google.cloud.tools:jib-spring-boot-extension-gradle:0.1.0'
-    }
-}
+import static io.github.vpavic.traintracker.build.DependencyVersionHelper.isStable
 
 plugins {
-    id 'java'
-    id 'checkstyle'
-    id 'com.diffplug.spotless'
-    id 'com.google.cloud.tools.jib'
-    id 'io.github.vpavic.traintracker.conventions'
-    id 'org.springframework.boot'
+    id("java")
+    id("checkstyle")
+    id("com.diffplug.spotless")
+    id("com.github.ben-manes.versions")
+    id("com.google.cloud.tools.jib")
+    id("org.springframework.boot")
 }
 
-sourceCompatibility = JavaVersion.VERSION_11
+apply(from: "gradle/dependency-versions.gradle")
 
 repositories {
     mavenCentral()
-    maven { url = 'https://repo.spring.io/libs-milestone/' }
+    maven { url = "https://repo.spring.io/libs-milestone/" }
+}
+
+dependencyLocking {
+    lockAllConfigurations()
 }
 
 dependencies {
-    implementation platform(SpringBootPlugin.BOM_COORDINATES)
-    implementation "de.vandermeer:asciitable:$libraryVersions.asciiTable"
-    implementation 'org.apache.httpcomponents:httpclient'
-    implementation "org.jsoup:jsoup:$libraryVersions.jsoup"
-    implementation 'org.liquibase:liquibase-core'
-    implementation 'org.postgresql:postgresql'
-    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.data:spring-data-redis'
-    implementation 'org.springframework.session:spring-session-data-redis'
-    implementation 'redis.clients:jedis'
+    implementation(platform(SpringBootPlugin.BOM_COORDINATES))
+    implementation("de.vandermeer:asciitable:$libraryVersions.asciiTable")
+    implementation("org.apache.httpcomponents:httpclient")
+    implementation("org.jsoup:jsoup:$libraryVersions.jsoup")
+    implementation("org.liquibase:liquibase-core")
+    implementation("org.postgresql:postgresql")
+    implementation("org.springframework.boot:spring-boot-starter-jdbc")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.data:spring-data-redis")
+    implementation("org.springframework.session:spring-session-data-redis")
+    implementation("redis.clients:jedis")
 
-    developmentOnly platform(SpringBootPlugin.BOM_COORDINATES)
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    developmentOnly(platform(SpringBootPlugin.BOM_COORDINATES))
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
 
-    testImplementation platform("org.testcontainers:testcontainers-bom:$libraryVersions.testcontainers")
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.testcontainers:postgresql'
-    testImplementation 'org.testcontainers:testcontainers'
+    testImplementation(platform("org.testcontainers:testcontainers-bom:$libraryVersions.testcontainers"))
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.testcontainers:postgresql")
+    testImplementation("org.testcontainers:testcontainers")
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
 }
 
 checkstyle {
@@ -52,17 +55,25 @@ checkstyle {
 
 spotless {
     java {
-        licenseHeaderFile rootProject.file('config/spotless/license.java')
+        licenseHeaderFile(rootProject.file("config/spotless/license.java"))
+    }
+}
+
+dependencyUpdates {
+    gradleReleaseChannel = "current"
+    rejectVersionIf {
+        isStable(it.currentVersion) && !isStable(it.candidate.version)
     }
 }
 
 jib {
     from {
-        image = dockerImageVersions.base
+        image = "adoptopenjdk/openjdk11@sha256:cbd20379d141de45148f6e2f2be388f8cbb3a5211eaaa389930a3a80b56d95ee"
     }
+
     pluginExtensions {
         pluginExtension {
-            implementation = 'com.google.cloud.tools.jib.gradle.extension.springboot.JibSpringBootExtension'
+            implementation = "com.google.cloud.tools.jib.gradle.extension.springboot.JibSpringBootExtension"
         }
     }
 }

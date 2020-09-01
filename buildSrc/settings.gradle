@@ -1,7 +1,15 @@
-pluginManagement {
-    apply from: "$rootDir.parentFile/gradle/dependency-versions.gradle"
+buildscript {
+    apply(from: "$rootDir.parentFile/gradle/dependency-versions.gradle")
 
-    plugins {
-        id 'com.github.ben-manes.versions' version pluginVersions.versions
+    repositories {
+        gradlePluginPortal()
+    }
+
+    configurations.classpath {
+        resolutionStrategy.activateDependencyLocking()
+    }
+
+    dependencies {
+        classpath("com.github.ben-manes:gradle-versions-plugin:$pluginVersions.versions")
     }
 }
