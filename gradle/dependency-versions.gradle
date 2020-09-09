@@ -7,7 +7,6 @@ ext {
 toolVersions.checkstyle = "+"
 
 pluginVersions.jib = "+"
-pluginVersions.jibSpringBootExtension = "+"
 pluginVersions.spotless = "+"
 pluginVersions.versions = "+"
 
