@@ -25,22 +25,20 @@ import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWrite
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        // @formatter:off
-        http
-            .authorizeRequests(urlRegistry -> urlRegistry.anyRequest().permitAll())
-            .oauth2Login(configurer -> configurer.loginPage("/"))
-            .headers(configurer -> {
-                configurer.httpStrictTransportSecurity();
-                configurer.contentSecurityPolicy("default-src https: 'self'; img-src https: data: 'self'; "
-                        + "script-src https: 'self' 'sha256-CW5fKI3jV5qwoLYOgIrchxDYRW5DcBigpTBsFB6U8i8='");
-                configurer.referrerPolicy(ReferrerPolicy.NO_REFERRER_WHEN_DOWNGRADE);
-                configurer.featurePolicy("accelerometer 'none'; ambient-light-sensor 'none'; camera 'none'; "
-                        + "encrypted-media 'none'; fullscreen 'none'; geolocation 'none'; gyroscope 'none'; "
-                        + "magnetometer 'none'; microphone 'none'; midi 'none'; payment 'none'; speaker 'none'; "
-                        + "sync-xhr 'none'; usb 'none'; vr 'none'");
-            });
-        // @formatter:on
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity //
+                .authorizeRequests(requests -> requests.anyRequest().permitAll()) //
+                .oauth2Login(login -> login.loginPage("/")) //
+                .headers(configurer -> {
+                    configurer.httpStrictTransportSecurity();
+                    configurer.contentSecurityPolicy("default-src https: 'self'; img-src https: data: 'self'; "
+                            + "script-src https: 'self' 'sha256-CW5fKI3jV5qwoLYOgIrchxDYRW5DcBigpTBsFB6U8i8='");
+                    configurer.referrerPolicy(ReferrerPolicy.NO_REFERRER_WHEN_DOWNGRADE);
+                    configurer.featurePolicy("accelerometer 'none'; ambient-light-sensor 'none'; camera 'none'; "
+                            + "encrypted-media 'none'; fullscreen 'none'; geolocation 'none'; gyroscope 'none'; "
+                            + "magnetometer 'none'; microphone 'none'; midi 'none'; payment 'none'; speaker 'none'; "
+                            + "sync-xhr 'none'; usb 'none'; vr 'none'");
+                });
     }
 
 }

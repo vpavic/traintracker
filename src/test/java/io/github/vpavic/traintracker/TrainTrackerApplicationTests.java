@@ -28,6 +28,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.utility.DockerImageName;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -42,14 +43,15 @@ public class TrainTrackerApplicationTests {
     static class Config {
 
         @Bean
-        public PostgreSQLContainer postgreSqlContainer() {
-            PostgreSQLContainer postgreSqlContainer = new PostgreSQLContainer("postgres:11.5");
+        public PostgreSQLContainer<?> postgreSqlContainer() {
+            PostgreSQLContainer<?> postgreSqlContainer = new PostgreSQLContainer<>(
+                    DockerImageName.parse("postgres:11.5"));
             postgreSqlContainer.start();
             return postgreSqlContainer;
         }
 
         @Bean
-        public HikariDataSource dataSource(PostgreSQLContainer postgreSqlContainer) {
+        public HikariDataSource dataSource(PostgreSQLContainer<?> postgreSqlContainer) {
             HikariDataSource dataSource = new HikariDataSource();
             dataSource.setJdbcUrl(postgreSqlContainer.getJdbcUrl());
             dataSource.setUsername(postgreSqlContainer.getUsername());
@@ -58,8 +60,9 @@ public class TrainTrackerApplicationTests {
         }
 
         @Bean
-        public GenericContainer redisContainer() {
-            GenericContainer redisContainer = new GenericContainer("redis:5.0.7").withExposedPorts(6379);
+        public GenericContainer<?> redisContainer() {
+            GenericContainer<?> redisContainer = new GenericContainer<>(DockerImageName.parse("redis:5.0.7"))
+                    .withExposedPorts(6379);
             redisContainer.start();
             return redisContainer;
         }
