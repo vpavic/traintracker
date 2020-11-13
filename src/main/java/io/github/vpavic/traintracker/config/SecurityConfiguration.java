@@ -16,19 +16,20 @@
 
 package io.github.vpavic.traintracker.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter.ReferrerPolicy;
 
 @Configuration(proxyBeanMethods = false)
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration {
 
-    @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity //
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        return httpSecurity //
                 .authorizeRequests(requests -> requests.anyRequest().permitAll()) //
-                .oauth2Login(login -> login.loginPage("/")) //
+                .oauth2Login(configurer -> configurer.loginPage("/")) //
                 .headers(configurer -> {
                     configurer.httpStrictTransportSecurity();
                     configurer.contentSecurityPolicy("default-src https: 'self'; img-src https: data: 'self'; "
@@ -38,7 +39,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                             + "encrypted-media 'none'; fullscreen 'none'; geolocation 'none'; gyroscope 'none'; "
                             + "magnetometer 'none'; microphone 'none'; midi 'none'; payment 'none'; speaker 'none'; "
                             + "sync-xhr 'none'; usb 'none'; vr 'none'");
-                });
+                }) //
+                .build();
     }
 
 }
