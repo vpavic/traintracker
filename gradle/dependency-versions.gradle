@@ -12,5 +12,5 @@ pluginVersions.versions = "+"
 
 libraryVersions.asciiTable = "0.+"
 libraryVersions.jsoup = "1.+"
-libraryVersions.springBoot = "2.3.+"
+libraryVersions.springBoot = "2.4.+"
 libraryVersions.testcontainers = "1.+"
