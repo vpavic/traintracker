@@ -23,16 +23,16 @@ import java.util.Deque;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import io.github.vpavic.traintracker.domain.model.voyage.Station;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class HrDocumentParserTests {
+class HrDocumentParserTests {
 
     @Test
-    public void testPkvlOk() {
+    void testPkvlOk() {
         Document doc = getDocument("/hr-pkvl-ok.html");
         Deque<Station> stations = HrDocumentParser.parseOverview(doc);
         assertThat(stations).hasSize(35);
@@ -45,14 +45,14 @@ public class HrDocumentParserTests {
     }
 
     @Test
-    public void testPkvlNotFound() {
+    void testPkvlNotFound() {
         Document doc = getDocument("/hr-pkvl-not-found.html");
         Deque<Station> stations = HrDocumentParser.parseOverview(doc);
         assertThat(stations).isEmpty();
     }
 
     @Test
-    public void testTpvlOk() {
+    void testTpvlOk() {
         Document doc = getDocument("/hr-tpvl-ok.html");
         Station station = HrDocumentParser.parseCurrentPosition(doc);
         assertThat(station).isNotNull();
@@ -64,7 +64,7 @@ public class HrDocumentParserTests {
     }
 
     @Test
-    public void testTpvlNotFound() {
+    void testTpvlNotFound() {
         Document doc = getDocument("/hr-tpvl-not-found.html");
         Station station = HrDocumentParser.parseCurrentPosition(doc);
         assertThat(station).isNull();

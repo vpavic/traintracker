@@ -16,22 +16,19 @@
 
 package io.github.vpavic.traintracker.interfaces.voyage.cli;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
-import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringRunner.class)
 @WebMvcTest(VoyageCliController.class)
-public class VoyageCliControllerTests {
+class VoyageCliControllerTests {
 
     @Test
-    public void test() {
+    void test() {
         // TODO
     }
 
