@@ -1,6 +1,4 @@
 buildscript {
-    apply(from: "gradle/dependency-versions.gradle")
-
     repositories {
         gradlePluginPortal()
     }
@@ -10,9 +8,9 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.diffplug.spotless:spotless-plugin-gradle:$pluginVersions.spotless")
-        classpath("com.github.ben-manes:gradle-versions-plugin:$pluginVersions.versions")
-        classpath("gradle.plugin.com.google.cloud.tools:jib-gradle-plugin:$pluginVersions.jib")
+        classpath("com.diffplug.spotless:spotless-plugin-gradle:+")
+        classpath("com.github.ben-manes:gradle-versions-plugin:+")
+        classpath("gradle.plugin.com.google.cloud.tools:jib-gradle-plugin:+")
     }
 }
 

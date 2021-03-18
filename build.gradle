@@ -1,5 +1,3 @@
-import static io.github.vpavic.traintracker.build.DependencyVersionHelper.isStable
-
 plugins {
     id("application")
     id("checkstyle")
@@ -7,8 +5,6 @@ plugins {
     id("com.github.ben-manes.versions")
     id("com.google.cloud.tools.jib")
 }
-
-apply(from: "gradle/dependency-versions.gradle")
 
 repositories {
     mavenCentral()
@@ -20,10 +16,10 @@ dependencyLocking {
 }
 
 dependencies {
-    implementation(platform("org.springframework.boot:spring-boot-dependencies:$libraryVersions.springBoot"))
-    implementation("de.vandermeer:asciitable:$libraryVersions.asciiTable")
+    implementation(platform("org.springframework.boot:spring-boot-dependencies:2.4.+"))
+    implementation("de.vandermeer:asciitable:0.+")
     implementation("org.apache.httpcomponents:httpclient")
-    implementation("org.jsoup:jsoup:$libraryVersions.jsoup")
+    implementation("org.jsoup:jsoup:1.+")
     implementation("org.liquibase:liquibase-core")
     implementation("org.postgresql:postgresql")
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
@@ -34,7 +30,7 @@ dependencies {
     implementation("org.springframework.session:spring-session-data-redis")
     implementation("redis.clients:jedis")
 
-    testImplementation(platform("org.testcontainers:testcontainers-bom:$libraryVersions.testcontainers"))
+    testImplementation(platform("org.testcontainers:testcontainers-bom:1.+"))
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.testcontainers:postgresql")
     testImplementation("org.testcontainers:testcontainers")
@@ -49,7 +45,7 @@ application {
 }
 
 checkstyle {
-    toolVersion = toolVersions.checkstyle
+    toolVersion = "+"
 }
 
 spotless {
@@ -59,8 +55,14 @@ spotless {
 }
 
 dependencyUpdates {
+    revision = "release"
     gradleReleaseChannel = "current"
     rejectVersionIf {
+        def isStable = { String version ->
+            def isStableVersion = (version ==~ /^[0-9,.v-]+(-r)?$/)
+            def isStableKeyword = ["RELEASE", "FINAL", "GA"].any({ version.toUpperCase().contains(it) })
+            return isStableVersion || isStableKeyword
+        }
         isStable(it.currentVersion) && !isStable(it.candidate.version)
     }
 }
