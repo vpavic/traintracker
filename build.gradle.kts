@@ -1,3 +1,6 @@
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id("application")
     id("checkstyle")
@@ -9,7 +12,7 @@ plugins {
 
 repositories {
     mavenCentral()
-    maven { url = "https://repo.spring.io/libs-milestone/" }
+    maven(url = "https://repo.spring.io/libs-milestone/")
 }
 
 dependencyLocking {
@@ -34,7 +37,7 @@ dependencies {
     testImplementation(platform("org.testcontainers:testcontainers-bom:1.+"))
     testImplementation("io.mockk:mockk:1.+")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
-        exclude(group: "org.mockito")
+        exclude(group = "org.mockito")
     }
     testImplementation("org.testcontainers:postgresql")
     testImplementation("org.testcontainers:testcontainers")
@@ -45,10 +48,10 @@ java {
 }
 
 application {
-    mainClass = "io.github.vpavic.traintracker.TrainTrackerApplication"
+    mainClass.set("io.github.vpavic.traintracker.TrainTrackerApplication")
 }
 
-test {
+tasks.withType<Test> {
     useJUnitPlatform()
 }
 
@@ -62,16 +65,16 @@ spotless {
     }
 }
 
-dependencyUpdates {
+tasks.named<DependencyUpdatesTask>("dependencyUpdates").configure {
     revision = "release"
     gradleReleaseChannel = "current"
     rejectVersionIf {
-        def isStable = { String version ->
-            def isStableVersion = (version ==~ /^[0-9,.v-]+(-r)?$/)
-            def isStableKeyword = ["RELEASE", "FINAL", "GA"].any({ version.toUpperCase().contains(it) })
+        fun isStable(version: String): Boolean {
+            val isStableVersion = "^[0-9,.v-]+(-r)?$".toRegex().matches(version)
+            val isStableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
             return isStableVersion || isStableKeyword
         }
-        isStable(it.currentVersion) && !isStable(it.candidate.version)
+        isStable(currentVersion) && !isStable(candidate.version)
     }
 }
 
@@ -81,9 +84,9 @@ jib {
     }
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
+tasks.withType<KotlinCompile> {
     kotlinOptions {
-        freeCompilerArgs = ["-Xjsr305=strict"]
+        freeCompilerArgs = listOf("-Xjsr305=strict")
         jvmTarget = JavaVersion.VERSION_11.toString()
         useIR = true
     }
