@@ -4,6 +4,7 @@ plugins {
     id("com.diffplug.spotless")
     id("com.github.ben-manes.versions")
     id("com.google.cloud.tools.jib")
+    id("org.jetbrains.kotlin.jvm")
 }
 
 repositories {
@@ -31,7 +32,10 @@ dependencies {
     implementation("redis.clients:jedis")
 
     testImplementation(platform("org.testcontainers:testcontainers-bom:1.+"))
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("io.mockk:mockk:1.+")
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude(group: "org.mockito")
+    }
     testImplementation("org.testcontainers:postgresql")
     testImplementation("org.testcontainers:testcontainers")
 }
@@ -74,5 +78,13 @@ dependencyUpdates {
 jib {
     from {
         image = "adoptopenjdk/openjdk11@sha256:cbd20379d141de45148f6e2f2be388f8cbb3a5211eaaa389930a3a80b56d95ee"
+    }
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
+    kotlinOptions {
+        freeCompilerArgs = ["-Xjsr305=strict"]
+        jvmTarget = JavaVersion.VERSION_11.toString()
+        useIR = true
     }
 }
