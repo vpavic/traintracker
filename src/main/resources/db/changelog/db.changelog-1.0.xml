@@ -18,4 +18,8 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="2" author="vpavic">
+        <sqlFile path="classpath:org/springframework/session/jdbc/schema-postgresql.sql"/>
+    </changeSet>
+
 </databaseChangeLog>

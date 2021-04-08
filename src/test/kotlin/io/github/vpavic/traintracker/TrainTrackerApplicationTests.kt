@@ -21,12 +21,11 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.TestConfiguration
+import org.springframework.cache.caffeine.CaffeineCacheManager
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
-import org.springframework.data.redis.connection.RedisStandaloneConfiguration
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory
+import org.springframework.session.jdbc.JdbcIndexedSessionRepository
 import org.springframework.test.context.ActiveProfiles
-import org.testcontainers.containers.GenericContainer
 import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.utility.DockerImageName
 
@@ -37,6 +36,8 @@ class TrainTrackerApplicationTests {
     @Test
     fun `Assert that application context loads`(applicationContext: ApplicationContext) {
         assertThat(applicationContext).isNotNull
+        assertThat(applicationContext.getBeanNamesForType(CaffeineCacheManager::class.java)).isNotEmpty;
+        assertThat(applicationContext.getBeanNamesForType(JdbcIndexedSessionRepository::class.java)).isNotEmpty;
     }
 
     @TestConfiguration
@@ -57,21 +58,6 @@ class TrainTrackerApplicationTests {
             dataSource.username = postgreSqlContainer.username
             dataSource.password = postgreSqlContainer.password
             return dataSource
-        }
-
-        @Bean
-        fun redisContainer(): GenericContainer<*> {
-            val redisContainer: GenericContainer<*> =
-                GenericContainer<Nothing>(DockerImageName.parse("redis:5.0.7")).withExposedPorts(6379)
-            redisContainer.start()
-            return redisContainer
-        }
-
-        @Bean
-        fun redisConnectionFactory(redisContainer: GenericContainer<*>): JedisConnectionFactory {
-            val redisConfiguration =
-                RedisStandaloneConfiguration(redisContainer.containerIpAddress, redisContainer.firstMappedPort)
-            return JedisConnectionFactory(redisConfiguration)
         }
     }
 }

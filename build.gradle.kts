@@ -21,18 +21,18 @@ dependencyLocking {
 
 dependencies {
     implementation(platform("org.springframework.boot:spring-boot-dependencies:2.4.+"))
+    implementation("com.github.ben-manes.caffeine:caffeine")
     implementation("de.vandermeer:asciitable:0.+")
     implementation("org.apache.httpcomponents:httpclient")
     implementation("org.jsoup:jsoup:1.+")
     implementation("org.liquibase:liquibase-core")
     implementation("org.postgresql:postgresql")
+    implementation("org.springframework.boot:spring-boot-starter-cache")
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.data:spring-data-redis")
-    implementation("org.springframework.session:spring-session-data-redis")
-    implementation("redis.clients:jedis")
+    implementation("org.springframework.session:spring-session-jdbc")
 
     testImplementation(platform("org.testcontainers:testcontainers-bom:1.+"))
     testImplementation("io.mockk:mockk:1.+")
