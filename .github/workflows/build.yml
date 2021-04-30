@@ -1,0 +1,55 @@
+name: Build & Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    if: github.repository == 'vpavic/traintracker'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - uses: actions/setup-java@v2
+        with:
+          distribution: zulu
+          java-version: 11
+      - run: chmod +x gradlew
+      - run: ./gradlew check --stacktrace
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - uses: actions/setup-java@v2
+        with:
+          distribution: zulu
+          java-version: 11
+      - env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: |
+          chmod +x gradlew
+          ./gradlew jib -Djib.to.image=registry.heroku.com/traintrckr/web -Djib.to.auth.username=_ -Djib.to.auth.password=$(heroku auth:token)
+          heroku config:set SPRING_LIQUIBASE_ENABLED=true --app traintrckr
+          sleep 60
+          heroku container:release web --app traintrckr
+          sleep 60
+          heroku config:unset SPRING_LIQUIBASE_ENABLED --app traintrckr
