@@ -36,8 +36,8 @@ class TrainTrackerApplicationTests {
     @Test
     fun `Assert that application context loads`(applicationContext: ApplicationContext) {
         assertThat(applicationContext).isNotNull
-        assertThat(applicationContext.getBeanNamesForType(CaffeineCacheManager::class.java)).isNotEmpty;
-        assertThat(applicationContext.getBeanNamesForType(JdbcIndexedSessionRepository::class.java)).isNotEmpty;
+        assertThat(applicationContext.getBeanNamesForType(CaffeineCacheManager::class.java)).isNotEmpty
+        assertThat(applicationContext.getBeanNamesForType(JdbcIndexedSessionRepository::class.java)).isNotEmpty
     }
 
     @TestConfiguration

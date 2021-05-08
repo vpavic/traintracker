@@ -7,7 +7,8 @@ plugins {
     id("com.diffplug.spotless")
     id("com.github.ben-manes.versions")
     id("com.google.cloud.tools.jib")
-    id("org.jetbrains.kotlin.jvm")
+    kotlin("jvm")
+    kotlin("plugin.spring")
 }
 
 repositories {

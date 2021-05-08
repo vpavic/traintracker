@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 the original author or authors.
+ * Copyright 2021 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package io.github.vpavic.traintracker.config;
+package io.github.vpavic.traintracker
 
-import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
 
-@Configuration(proxyBeanMethods = false)
-@EnableCaching
-public class CacheConfiguration {
+@SpringBootApplication
+class TrainTrackerApplication
 
+fun main(args: Array<String>) {
+    runApplication<TrainTrackerApplication>(*args)
 }
