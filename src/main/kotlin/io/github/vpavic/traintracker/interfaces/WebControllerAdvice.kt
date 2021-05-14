@@ -18,8 +18,6 @@ package io.github.vpavic.traintracker.interfaces
 
 import io.github.vpavic.traintracker.interfaces.home.HomeWebController
 import io.github.vpavic.traintracker.interfaces.voyage.web.VoyageWebController
-import java.util.stream.Collectors
-import java.util.stream.Stream
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.oauth2.core.user.OAuth2User
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -27,8 +25,6 @@ import org.springframework.web.bind.annotation.ModelAttribute
 
 @ControllerAdvice(assignableTypes = [HomeWebController::class, VoyageWebController::class])
 class WebControllerAdvice {
-
-    private val logins: Map<String, String> = prepareLogins()
 
     @ModelAttribute("countries")
     fun countries(): Set<String> {
@@ -41,7 +37,7 @@ class WebControllerAdvice {
     }
 
     @ModelAttribute("principal")
-    fun authentication(@AuthenticationPrincipal principal: OAuth2User): OAuth2User {
+    fun authentication(@AuthenticationPrincipal principal: OAuth2User?): OAuth2User? {
         return principal
     }
 
@@ -49,10 +45,6 @@ class WebControllerAdvice {
 
         private val COUNTRIES = setOf("hr")
 
-        private fun prepareLogins(): Map<String, String> {
-            return Stream.of("google").collect(
-                Collectors.toMap({ s: String -> s }, { s: String -> "/oauth2/authorization/$s" })
-            )
-        }
+        private val logins = listOf("google").associateBy({ it }, { "/oauth2/authorization/$it" })
     }
 }
