@@ -34,10 +34,7 @@ import org.springframework.web.bind.annotation.RestController
 class VoyageCliController {
 
     @GetMapping
-    fun voyage(@PathVariable("country") fetcher: VoyageFetcher?, @PathVariable train: String): String {
-        if (fetcher == null) {
-            return generateErrorReport("Unsupported country")
-        }
+    fun voyage(@PathVariable("country") fetcher: VoyageFetcher, @PathVariable train: String): String {
         val voyage = fetcher.getVoyage(train) ?: return generateErrorReport("Voyage not found")
         return generateReport(train, voyage)
     }

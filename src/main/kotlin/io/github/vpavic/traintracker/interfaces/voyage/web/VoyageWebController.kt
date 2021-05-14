@@ -18,7 +18,6 @@ package io.github.vpavic.traintracker.interfaces.voyage.web
 
 import io.github.vpavic.traintracker.application.VoyageFetcher
 import io.github.vpavic.traintracker.domain.model.voyage.Station
-import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -26,7 +25,6 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.server.ResponseStatusException
 
 @Controller
 @RequestMapping(path = ["/{country:[a-z]{2}}/{train}"], produces = [MediaType.TEXT_HTML_VALUE])
@@ -34,14 +32,11 @@ class VoyageWebController {
 
     @GetMapping
     fun voyage(
-        @PathVariable("country") fetcher: VoyageFetcher?,
-        @PathVariable train: String?,
+        @PathVariable("country") fetcher: VoyageFetcher,
+        @PathVariable train: String,
         @RequestHeader(name = "X-PJAX", required = false) pjax: Boolean,
         model: Model
     ): String {
-        if (fetcher == null) {
-            throw ResponseStatusException(HttpStatus.NOT_FOUND)
-        }
         model.addAttribute("country", fetcher.country)
         model.addAttribute("train", train)
         val voyage = fetcher.getVoyage(train) ?: return "not-found" + if (pjax) " :: fragment" else ""
@@ -51,15 +46,15 @@ class VoyageWebController {
     }
 
     private fun calculateDelayLevel(station: Station): String {
-        val delay = if (station.departureDelay != null) station.departureDelay else station.arrivalDelay
-        return if (delay == null) {
-            "info"
-        } else if (delay < 5) {
-            "success"
-        } else if (delay < 20) {
-            "warning"
-        } else {
-            "danger"
+        val delay = when {
+            station.departureDelay != null -> station.departureDelay
+            else -> station.arrivalDelay
+        }
+        return when {
+            delay == null -> "info"
+            delay < 5 -> "success"
+            delay < 20 -> "warning"
+            else -> "danger"
         }
     }
 }

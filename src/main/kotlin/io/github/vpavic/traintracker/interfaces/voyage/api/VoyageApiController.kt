@@ -29,10 +29,7 @@ import org.springframework.web.bind.annotation.RestController
 class VoyageApiController {
 
     @GetMapping
-    fun voyage(@PathVariable("country") fetcher: VoyageFetcher?, @PathVariable train: String): Voyage {
-        if (fetcher == null) {
-            throw UnsupportedCountryException()
-        }
+    fun voyage(@PathVariable("country") fetcher: VoyageFetcher, @PathVariable train: String): Voyage {
         return fetcher.getVoyage(train) ?: throw VoyageNotFoundException(train)
     }
 }

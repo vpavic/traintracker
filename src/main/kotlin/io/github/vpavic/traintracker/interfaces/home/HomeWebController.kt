@@ -17,7 +17,6 @@
 package io.github.vpavic.traintracker.interfaces.home
 
 import io.github.vpavic.traintracker.application.VoyageFetcher
-import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.server.ResponseStatusException
 
 @Controller
 @RequestMapping(produces = [MediaType.TEXT_HTML_VALUE])
@@ -33,7 +31,7 @@ class HomeWebController {
 
     @GetMapping(path = ["/"])
     fun home(@ModelAttribute("countries") countries: Set<String>): String {
-        return "redirect:/" + countries.iterator().next() + "/"
+        return "redirect:/${countries.iterator().next()}/"
     }
 
     @GetMapping(path = ["/{country:[a-z]{2}}"])
@@ -42,10 +40,7 @@ class HomeWebController {
     }
 
     @GetMapping(path = ["/{country:[a-z]{2}}/"])
-    fun country(@PathVariable("country") fetcher: VoyageFetcher?, model: Model): String {
-        if (fetcher == null) {
-            throw ResponseStatusException(HttpStatus.NOT_FOUND)
-        }
+    fun country(@PathVariable("country") fetcher: VoyageFetcher, model: Model): String {
         model.addAttribute("country", fetcher.country)
         return "home"
     }
