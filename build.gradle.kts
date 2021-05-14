@@ -16,6 +16,14 @@ repositories {
     maven(url = "https://repo.spring.io/libs-milestone/")
 }
 
+configurations.all {
+    resolutionStrategy.eachDependency {
+        if (requested.group == "org.jetbrains.kotlin") {
+            useVersion(project.properties["kotlinVersion"] as String)
+        }
+    }
+}
+
 dependencyLocking {
     lockAllConfigurations()
 }
@@ -90,6 +98,5 @@ tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
         jvmTarget = JavaVersion.VERSION_11.toString()
-        useIR = true
     }
 }

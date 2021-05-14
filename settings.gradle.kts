@@ -8,7 +8,7 @@ buildscript {
     }
 
     dependencies {
-        val kotlinVersion = "1.5.+"
+        val kotlinVersion: String by settings
         classpath("com.diffplug.spotless:spotless-plugin-gradle:+")
         classpath("com.github.ben-manes:gradle-versions-plugin:+")
         classpath("gradle.plugin.com.google.cloud.tools:jib-gradle-plugin:+")
