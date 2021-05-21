@@ -16,25 +16,14 @@ repositories {
     maven(url = "https://repo.spring.io/libs-milestone/")
 }
 
-configurations.all {
-    resolutionStrategy.eachDependency {
-        if (requested.group == "org.jetbrains.kotlin") {
-            useVersion(project.properties["kotlinVersion"] as String)
-        }
-    }
-}
-
-dependencyLocking {
-    lockAllConfigurations()
-}
-
 dependencies {
-    implementation(platform("org.springframework.boot:spring-boot-dependencies:2.4.+"))
+    implementation(platform("org.springframework.boot:spring-boot-dependencies:2.4.6"))
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:${project.properties["kotlinVersion"]}"))
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("com.github.ben-manes.caffeine:caffeine")
-    implementation("de.vandermeer:asciitable:0.+")
+    implementation("de.vandermeer:asciitable:0.3.2")
     implementation("org.apache.httpcomponents:httpclient")
-    implementation("org.jsoup:jsoup:1.+")
+    implementation("org.jsoup:jsoup:1.13.1")
     implementation("org.liquibase:liquibase-core")
     implementation("org.postgresql:postgresql")
     implementation("org.springframework.boot:spring-boot-starter-cache")
@@ -44,8 +33,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.session:spring-session-jdbc")
 
-    testImplementation(platform("org.testcontainers:testcontainers-bom:1.+"))
-    testImplementation("io.mockk:mockk:1.+")
+    testImplementation(platform("org.testcontainers:testcontainers-bom:1.15.3"))
+    testImplementation("io.mockk:mockk:1.11.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.mockito")
     }
@@ -63,10 +52,6 @@ application {
 
 tasks.withType<Test> {
     useJUnitPlatform()
-}
-
-checkstyle {
-    toolVersion = "+"
 }
 
 spotless {

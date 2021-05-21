@@ -1,19 +1,11 @@
-buildscript {
-    repositories {
-        gradlePluginPortal()
-    }
-
-    configurations.classpath {
-        resolutionStrategy.activateDependencyLocking()
-    }
-
-    dependencies {
+pluginManagement {
+    plugins {
         val kotlinVersion: String by settings
-        classpath("com.diffplug.spotless:spotless-plugin-gradle:+")
-        classpath("com.github.ben-manes:gradle-versions-plugin:+")
-        classpath("gradle.plugin.com.google.cloud.tools:jib-gradle-plugin:+")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
-        classpath("org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion")
+        id("com.diffplug.spotless").version("5.12.5")
+        id("com.github.ben-manes.versions").version("0.38.0")
+        id("com.google.cloud.tools.jib").version("3.0.0")
+        kotlin("jvm").version(kotlinVersion)
+        kotlin("plugin.spring").version(kotlinVersion)
     }
 }
 
