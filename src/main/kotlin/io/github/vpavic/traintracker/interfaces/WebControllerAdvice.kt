@@ -18,8 +18,6 @@ package io.github.vpavic.traintracker.interfaces
 
 import io.github.vpavic.traintracker.interfaces.home.HomeWebController
 import io.github.vpavic.traintracker.interfaces.voyage.web.VoyageWebController
-import org.springframework.security.core.annotation.AuthenticationPrincipal
-import org.springframework.security.oauth2.core.user.OAuth2User
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ModelAttribute
 
@@ -31,20 +29,8 @@ class WebControllerAdvice {
         return COUNTRIES
     }
 
-    @ModelAttribute("logins")
-    fun logins(): Map<String, String> {
-        return logins
-    }
-
-    @ModelAttribute("principal")
-    fun authentication(@AuthenticationPrincipal principal: OAuth2User?): OAuth2User? {
-        return principal
-    }
-
     companion object {
 
         private val COUNTRIES = setOf("hr")
-
-        private val logins = listOf("google").associateBy({ it }, { "/oauth2/authorization/$it" })
     }
 }

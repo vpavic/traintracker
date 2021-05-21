@@ -30,9 +30,6 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter() {
             authorizeRequests {
                 authorize(anyRequest, permitAll)
             }
-            oauth2Login {
-                loginPage = "/"
-            }
             headers {
                 httpStrictTransportSecurity {}
                 contentSecurityPolicy {

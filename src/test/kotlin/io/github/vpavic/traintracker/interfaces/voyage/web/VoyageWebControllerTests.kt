@@ -18,11 +18,6 @@ package io.github.vpavic.traintracker.interfaces.voyage.web
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.boot.test.context.TestConfiguration
-import org.springframework.context.annotation.Bean
-import org.springframework.security.config.oauth2.client.CommonOAuth2Provider
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository
-import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository
 
 @WebMvcTest(VoyageWebController::class)
 class VoyageWebControllerTests {
@@ -30,17 +25,5 @@ class VoyageWebControllerTests {
     @Test
     fun test() {
         // TODO
-    }
-
-    @TestConfiguration
-    internal class Config {
-
-        @Bean
-        fun clientRegistrationRepository(): ClientRegistrationRepository {
-            return InMemoryClientRegistrationRepository(
-                CommonOAuth2Provider.GOOGLE.getBuilder("google").clientId("clientId").clientSecret("clientSecret")
-                    .build()
-            )
-        }
     }
 }
