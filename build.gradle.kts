@@ -78,7 +78,8 @@ tasks.named<DependencyUpdatesTask>("dependencyUpdates").configure {
 
 jib {
     from {
-        image = "adoptopenjdk/openjdk11@sha256:cbd20379d141de45148f6e2f2be388f8cbb3a5211eaaa389930a3a80b56d95ee"
+        // azul/zulu-openjdk-alpine:11.0.10-jre
+        image = "azul/zulu-openjdk-alpine@sha256:4af6f643e17ebb76deb2f79e751c83ba7ea8de7adda55c96ab71816c58907c23"
     }
 }
 
