@@ -3,7 +3,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("application")
-    id("checkstyle")
     id("com.diffplug.spotless")
     id("com.github.ben-manes.versions")
     id("com.google.cloud.tools.jib")
@@ -55,8 +54,12 @@ tasks.withType<Test> {
 }
 
 spotless {
-    java {
-        licenseHeaderFile(rootProject.file("config/spotless/license.java"))
+    kotlin {
+        licenseHeaderFile(rootProject.file("config/spotless/license.kt"))
+        ktlint()
+    }
+    kotlinGradle {
+        ktlint()
     }
 }
 
