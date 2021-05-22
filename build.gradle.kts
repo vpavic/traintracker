@@ -23,7 +23,7 @@ dependencies {
     implementation("de.vandermeer:asciitable:0.3.2")
     implementation("org.apache.httpcomponents:httpclient")
     implementation("org.jsoup:jsoup:1.13.1")
-    implementation("org.liquibase:liquibase-core")
+    implementation("org.flywaydb:flyway-core")
     implementation("org.postgresql:postgresql")
     implementation("org.springframework.boot:spring-boot-starter-cache")
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
