@@ -33,6 +33,7 @@ dependencies {
     implementation("org.springframework.session:spring-session-jdbc")
 
     testImplementation(platform("org.testcontainers:testcontainers-bom:1.15.3"))
+    testImplementation("com.tngtech.archunit:archunit-junit5:0.18.0")
     testImplementation("io.mockk:mockk:1.11.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.mockito")
