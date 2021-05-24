@@ -63,6 +63,6 @@ class HrVoyageFetcherTests {
         every { httpClient.execute(any()) } returns response
         val voyage = voyageFetcher.getVoyage("211")
         assertThat(voyage).isNotNull
-        assertThat(voyage.carrier.id).isEqualTo("hr")
+        assertThat(voyage?.carrier?.id).isEqualTo("hr")
     }
 }

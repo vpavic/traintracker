@@ -34,8 +34,7 @@ class HrDocumentParserTests {
         assertThat(currentStation.arrivalTime).isEqualTo(LocalTime.of(21, 28))
         assertThat(currentStation.arrivalDelay).isEqualTo(21)
         assertThat(currentStation.departureTime).isNull()
-        @Suppress("USELESS_CAST") // KT-21285
-        assertThat(currentStation.departureDelay as Int?).isNull()
+        assertThat(currentStation.departureDelay).isNull()
     }
 
     @Test
@@ -50,8 +49,7 @@ class HrDocumentParserTests {
         assertThat(station).isNotNull
         assertThat(station.name).isEqualTo("NOVA KAPELA BATRINA")
         assertThat(station.arrivalTime).isNull()
-        @Suppress("USELESS_CAST") // KT-21285
-        assertThat(station.arrivalDelay as Int?).isNull()
+        assertThat(station.arrivalDelay).isNull()
         assertThat(station.departureTime).isEqualTo(LocalTime.of(5, 43))
         assertThat(station.departureDelay).isEqualTo(27)
     }

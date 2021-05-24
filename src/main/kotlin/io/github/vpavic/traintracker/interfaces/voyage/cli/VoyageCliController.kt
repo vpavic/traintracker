@@ -70,12 +70,12 @@ class VoyageCliController {
             return formatTimeAndDelay(station.departureTime, station.departureDelay)
         }
 
-        private fun formatTimeAndDelay(time: LocalTime?, delay: Int): String {
+        private fun formatTimeAndDelay(time: LocalTime?, delay: Int?): String {
             if (time == null) {
                 return "-"
             }
             var timeAndDelay = time.toString()
-            if (delay > 0) {
+            if (delay != null && delay > 0) {
                 timeAndDelay += " +$delay"
             }
             return timeAndDelay
