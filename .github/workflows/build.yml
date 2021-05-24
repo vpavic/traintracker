@@ -20,7 +20,6 @@ jobs:
         with:
           distribution: zulu
           java-version: 11
-      - run: chmod +x gradlew
       - run: ./gradlew check --stacktrace
 
   deploy:
@@ -43,9 +42,4 @@ jobs:
           java-version: 11
       - env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: |
-          chmod +x gradlew
-          ./gradlew jib -Djib.to.image=registry.heroku.com/traintrckr/web -Djib.to.auth.username=_ -Djib.to.auth.password=$(heroku auth:token)
-          heroku config:unset SPRING_FLYWAY_ENABLED --app traintrckr && heroku container:release web --app traintrckr
-          sleep 60
-          heroku config:unset SPRING_FLYWAY_ENABLED=false --app traintrckr
+        run: ci/deploy.sh
