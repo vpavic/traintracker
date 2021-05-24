@@ -46,8 +46,6 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew jib -Djib.to.image=registry.heroku.com/traintrckr/web -Djib.to.auth.username=_ -Djib.to.auth.password=$(heroku auth:token)
-          heroku config:set SPRING_LIQUIBASE_ENABLED=true --app traintrckr
+          heroku config:unset SPRING_FLYWAY_ENABLED --app traintrckr && heroku container:release web --app traintrckr
           sleep 60
-          heroku container:release web --app traintrckr
-          sleep 60
-          heroku config:unset SPRING_LIQUIBASE_ENABLED --app traintrckr
+          heroku config:unset SPRING_FLYWAY_ENABLED=false --app traintrckr
