@@ -10,6 +10,12 @@ plugins {
     kotlin("plugin.spring")
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+}
+
 repositories {
     mavenCentral()
     maven(url = "https://repo.spring.io/libs-milestone/")
@@ -39,10 +45,6 @@ dependencies {
     }
     testImplementation("org.testcontainers:postgresql")
     testImplementation("org.testcontainers:testcontainers")
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
 }
 
 application {
