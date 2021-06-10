@@ -3,7 +3,7 @@ pluginManagement {
         val kotlinVersion: String by settings
         id("com.diffplug.spotless").version("5.12.5")
         id("com.github.ben-manes.versions").version("0.39.0")
-        id("com.google.cloud.tools.jib").version("3.0.0")
+        id("com.google.cloud.tools.jib").version("3.1.1")
         kotlin("jvm").version(kotlinVersion)
         kotlin("plugin.spring").version(kotlinVersion)
     }
