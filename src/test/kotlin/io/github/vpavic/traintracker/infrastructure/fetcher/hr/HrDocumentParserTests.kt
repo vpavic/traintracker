@@ -47,11 +47,11 @@ class HrDocumentParserTests {
     fun `Assert that a valid train position document is parsed correctly`() {
         val station = HrDocumentParser.parseCurrentPosition(getDocument("/hr-tpvl-ok.html"))
         assertThat(station).isNotNull
-        assertThat(station.name).isEqualTo("NOVA KAPELA BATRINA")
-        assertThat(station.arrivalTime).isNull()
-        assertThat(station.arrivalDelay).isNull()
-        assertThat(station.departureTime).isEqualTo(LocalTime.of(5, 43))
-        assertThat(station.departureDelay).isEqualTo(27)
+        assertThat(station?.name).isEqualTo("NOVA KAPELA BATRINA")
+        assertThat(station?.arrivalTime).isNull()
+        assertThat(station?.arrivalDelay).isNull()
+        assertThat(station?.departureTime).isEqualTo(LocalTime.of(5, 43))
+        assertThat(station?.departureDelay).isEqualTo(27)
     }
 
     @Test
