@@ -42,12 +42,14 @@ class SecurityConfiguration {
                 headers.referrerPolicy { config ->
                     config.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.NO_REFERRER_WHEN_DOWNGRADE)
                 }
-                headers.featurePolicy(
-                    "accelerometer 'none'; ambient-light-sensor 'none'; camera 'none'; encrypted-media 'none'; " +
-                            "fullscreen 'none'; geolocation 'none'; gyroscope 'none'; magnetometer 'none'; " +
-                            "microphone 'none'; midi 'none'; payment 'none'; speaker 'none'; sync-xhr 'none'; " +
-                            "usb 'none'; vr 'none'"
-                )
+                headers.permissionsPolicy { config ->
+                    config.policy(
+                        "accelerometer=(),autoplay=(),camera=(),display-capture=(),document-domain=()," +
+                                "encrypted-media=(),fullscreen=(),geolocation=(),gyroscope=(),magnetometer=()," +
+                                "microphone=(),midi=(),payment=(),picture-in-picture=(),publickey-credentials-get=()," +
+                                "screen-wake-lock=(),sync-xhr=(self),usb=(),web-share=(),xr-spatial-tracking=()"
+                    )
+                }
             }
             .build()
     }
