@@ -16,36 +16,39 @@
 
 package io.github.vpavic.traintracker.config
 
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import org.springframework.security.config.web.servlet.invoke
+import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter
 
 @Configuration(proxyBeanMethods = false)
-class SecurityConfiguration : WebSecurityConfigurerAdapter() {
+class SecurityConfiguration {
 
-    override fun configure(http: HttpSecurity) {
-        http {
-            authorizeRequests {
-                authorize(anyRequest, permitAll)
+    @Bean
+    fun securityFilterChain(httpSecurity: HttpSecurity): SecurityFilterChain {
+        return httpSecurity
+            .authorizeRequests { requests ->
+                requests.anyRequest().permitAll()
             }
-            headers {
-                httpStrictTransportSecurity {}
-                contentSecurityPolicy {
-                    policyDirectives = "default-src https: 'self'; img-src https: data: 'self'; " +
-                            "script-src https: 'self' 'sha256-CW5fKI3jV5qwoLYOgIrchxDYRW5DcBigpTBsFB6U8i8='"
+            .headers { headers ->
+                headers.httpStrictTransportSecurity { }
+                headers.contentSecurityPolicy { config ->
+                    config.policyDirectives(
+                        "default-src https: 'self'; img-src https: data: 'self'; script-src https: 'self' " +
+                                "'sha256-CW5fKI3jV5qwoLYOgIrchxDYRW5DcBigpTBsFB6U8i8='"
+                    )
                 }
-                referrerPolicy {
-                    policy = ReferrerPolicyHeaderWriter.ReferrerPolicy.NO_REFERRER_WHEN_DOWNGRADE
+                headers.referrerPolicy { config ->
+                    config.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.NO_REFERRER_WHEN_DOWNGRADE)
                 }
-                featurePolicy(
+                headers.featurePolicy(
                     "accelerometer 'none'; ambient-light-sensor 'none'; camera 'none'; encrypted-media 'none'; " +
                             "fullscreen 'none'; geolocation 'none'; gyroscope 'none'; magnetometer 'none'; " +
                             "microphone 'none'; midi 'none'; payment 'none'; speaker 'none'; sync-xhr 'none'; " +
                             "usb 'none'; vr 'none'"
                 )
             }
-        }
+            .build()
     }
 }
