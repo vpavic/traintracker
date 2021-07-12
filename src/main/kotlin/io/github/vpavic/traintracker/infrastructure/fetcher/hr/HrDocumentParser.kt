@@ -29,7 +29,7 @@ internal object HrDocumentParser {
         var station: Station? = null
         val tables = doc.getElementsByTag("tbody")
         if (tables.size == 2) {
-            val rows = tables.last().children()
+            val rows = tables[1].children()
             val nameRaw = rows[1].child(0).child(1).text().trim { it <= ' ' }
             val position = rows[2]
             val direction = position.child(0).child(0).text().trim { it <= ' ' }
@@ -56,7 +56,7 @@ internal object HrDocumentParser {
         val stations: Deque<Station> = ArrayDeque()
         val tables = doc.getElementsByTag("tbody")
         if (tables.size == 3) {
-            val rows = tables.last().children()
+            val rows = tables[2].children()
             rows.removeAt(0)
             for (row in rows) {
                 val name = row.child(0).text().trim { it <= ' ' }
