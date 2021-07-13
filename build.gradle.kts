@@ -23,6 +23,7 @@ repositories {
 
 dependencies {
     implementation(platform("org.springframework.boot:spring-boot-dependencies:2.5.2"))
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:${project.property("kotlinVersion")}"))
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("com.github.ben-manes.caffeine:caffeine")
     implementation("de.vandermeer:asciitable:0.3.2")
