@@ -38,8 +38,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.session:spring-session-jdbc")
 
-    testImplementation(platform("org.testcontainers:testcontainers-bom:1.15.3"))
-    testImplementation("com.tngtech.archunit:archunit-junit5:0.20.0")
+    testImplementation(platform("org.testcontainers:testcontainers-bom:1.16.0"))
+    testImplementation("com.tngtech.archunit:archunit-junit5:0.20.1")
     testImplementation("io.mockk:mockk:1.12.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.mockito")
