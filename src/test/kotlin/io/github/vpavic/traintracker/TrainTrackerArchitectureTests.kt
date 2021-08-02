@@ -18,29 +18,30 @@ package io.github.vpavic.traintracker
 
 import com.tngtech.archunit.junit.AnalyzeClasses
 import com.tngtech.archunit.junit.ArchTest
+import com.tngtech.archunit.lang.ArchRule
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition
 
 @AnalyzeClasses(packagesOf = [TrainTrackerApplication::class])
 class TrainTrackerArchitectureTests {
 
     @ArchTest
-    val domainLayerRule = ArchRuleDefinition.noClasses()
+    val domainLayerRule: ArchRule = ArchRuleDefinition.noClasses()
         .that().resideInAPackage("..domain..")
         .should().accessClassesThat()
         .resideInAnyPackage("..application..", "..config..", "..infrastructure..", "..interfaces..")
 
     @ArchTest
-    val applicationLayerRule = ArchRuleDefinition.noClasses()
+    val applicationLayerRule: ArchRule = ArchRuleDefinition.noClasses()
         .that().resideInAPackage("..application..")
         .should().accessClassesThat().resideInAnyPackage("..config..", "..infrastructure..", "..interfaces..")
 
     @ArchTest
-    val intefacesLayerRule = ArchRuleDefinition.noClasses()
-        .that().resideInAPackage("..intefaces..")
+    val interfacesLayerRule: ArchRule = ArchRuleDefinition.noClasses()
+        .that().resideInAPackage("..interfaces..")
         .should().accessClassesThat().resideInAnyPackage("..config..", "..infrastructure..")
 
     @ArchTest
-    val infrastructureLayerRule = ArchRuleDefinition.noClasses()
+    val infrastructureLayerRule: ArchRule = ArchRuleDefinition.noClasses()
         .that().resideInAPackage("..infrastructure..")
         .should().accessClassesThat().resideInAnyPackage("..config..")
 }
