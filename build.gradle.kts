@@ -16,6 +16,10 @@ java {
     }
 }
 
+application {
+    mainClass.set("io.github.vpavic.traintracker.TrainTrackerApplication")
+}
+
 repositories {
     mavenCentral()
     maven(url = "https://repo.spring.io/libs-milestone/")
@@ -48,22 +52,16 @@ dependencies {
     testImplementation("org.testcontainers:testcontainers")
 }
 
-application {
-    mainClass.set("io.github.vpavic.traintracker.TrainTrackerApplication")
+tasks.withType<KotlinCompile> {
+    kotlinOptions {
+        allWarningsAsErrors = true
+        freeCompilerArgs = listOf("-Xjsr305=strict")
+        jvmTarget = JavaVersion.VERSION_11.toString()
+    }
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
-}
-
-spotless {
-    kotlin {
-        licenseHeaderFile(rootProject.file("config/spotless/license.kt"))
-        ktlint()
-    }
-    kotlinGradle {
-        ktlint()
-    }
 }
 
 tasks.named<DependencyUpdatesTask>("dependencyUpdates").configure {
@@ -79,16 +77,19 @@ tasks.named<DependencyUpdatesTask>("dependencyUpdates").configure {
     }
 }
 
+spotless {
+    kotlin {
+        licenseHeaderFile(rootProject.file("config/spotless/license.kt"))
+        ktlint()
+    }
+    kotlinGradle {
+        ktlint()
+    }
+}
+
 jib {
     from {
         // azul/zulu-openjdk-alpine:11.0.12-jre
         image = "azul/zulu-openjdk-alpine@sha256:677749d13e8efd2ec5145ce2c9424abbf80dc54b05bf4a2240f896fff19476ee"
-    }
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 }
