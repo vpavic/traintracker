@@ -1,4 +1,5 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import com.google.cloud.tools.jib.gradle.JibTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -25,6 +26,8 @@ repositories {
     maven(url = "https://repo.spring.io/libs-milestone/")
 }
 
+val javaAgent by configurations.creating
+
 dependencies {
     implementation(platform("org.springframework.boot:spring-boot-dependencies:2.5.3"))
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:${project.property("kotlinVersion")}"))
@@ -41,6 +44,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.session:spring-session-jdbc")
+
+    javaAgent("com.newrelic.agent.java:newrelic-agent:7.1.1")
 
     testImplementation(platform("org.testcontainers:testcontainers-bom:1.16.0"))
     testImplementation("com.tngtech.archunit:archunit-junit5:0.20.1")
@@ -77,6 +82,16 @@ tasks.named<DependencyUpdatesTask>("dependencyUpdates").configure {
     }
 }
 
+val processJavaAgents by tasks.register<Copy>("processJavaAgents") {
+    from(javaAgent)
+    into(layout.buildDirectory.dir("java-agents"))
+    rename { s -> s.substring(0, s.lastIndexOf("-")) + s.substring(s.lastIndexOf(".")) }
+}
+
+tasks.withType<JibTask> {
+    dependsOn(processJavaAgents)
+}
+
 spotless {
     kotlin {
         licenseHeaderFile(rootProject.file("config/spotless/license.kt"))
@@ -91,5 +106,8 @@ jib {
     from {
         // azul/zulu-openjdk-alpine:11.0.12-jre
         image = "azul/zulu-openjdk-alpine@sha256:677749d13e8efd2ec5145ce2c9424abbf80dc54b05bf4a2240f896fff19476ee"
+    }
+    extraDirectories {
+        setPaths(processJavaAgents.outputs)
     }
 }
