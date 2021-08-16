@@ -35,7 +35,7 @@ dependencies {
     implementation("com.github.ben-manes.caffeine:caffeine")
     implementation("de.vandermeer:asciitable:0.3.2")
     implementation("org.apache.httpcomponents:httpclient")
-    implementation("org.jsoup:jsoup:1.14.1")
+    implementation("org.jsoup:jsoup:1.14.2")
     implementation("org.flywaydb:flyway-core")
     implementation("org.postgresql:postgresql")
     implementation("org.springframework.boot:spring-boot-starter-cache")
