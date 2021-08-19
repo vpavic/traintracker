@@ -26,7 +26,7 @@ repositories {
     maven(url = "https://repo.spring.io/libs-milestone/")
 }
 
-val javaAgent by configurations.creating
+val javaAgent: Configuration by configurations.creating
 
 dependencies {
     implementation(platform("org.springframework.boot:spring-boot-dependencies:2.5.4"))
