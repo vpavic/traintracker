@@ -48,7 +48,7 @@ dependencies {
     javaAgent("com.newrelic.agent.java:newrelic-agent:7.1.1")
 
     testImplementation(platform("org.testcontainers:testcontainers-bom:1.16.0"))
-    testImplementation("com.tngtech.archunit:archunit-junit5:0.20.1")
+    testImplementation("com.tngtech.archunit:archunit-junit5:0.21.0")
     testImplementation("io.mockk:mockk:1.12.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.mockito")
