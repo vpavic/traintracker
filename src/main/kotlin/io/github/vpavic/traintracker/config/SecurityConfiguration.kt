@@ -36,7 +36,7 @@ class SecurityConfiguration {
                 headers.contentSecurityPolicy { config ->
                     config.policyDirectives(
                         "default-src https: 'self'; img-src https: data: 'self'; script-src https: 'self' " +
-                                "'sha256-CW5fKI3jV5qwoLYOgIrchxDYRW5DcBigpTBsFB6U8i8='"
+                            "'sha256-CW5fKI3jV5qwoLYOgIrchxDYRW5DcBigpTBsFB6U8i8='"
                     )
                 }
                 headers.referrerPolicy { config ->
@@ -45,9 +45,9 @@ class SecurityConfiguration {
                 headers.permissionsPolicy { config ->
                     config.policy(
                         "accelerometer=(),autoplay=(),camera=(),display-capture=(),document-domain=()," +
-                                "encrypted-media=(),fullscreen=(),geolocation=(),gyroscope=(),magnetometer=()," +
-                                "microphone=(),midi=(),payment=(),picture-in-picture=(),publickey-credentials-get=()," +
-                                "screen-wake-lock=(),sync-xhr=(self),usb=(),web-share=(),xr-spatial-tracking=()"
+                            "encrypted-media=(),fullscreen=(),geolocation=(),gyroscope=(),magnetometer=()," +
+                            "microphone=(),midi=(),payment=(),picture-in-picture=(),publickey-credentials-get=()," +
+                            "screen-wake-lock=(),sync-xhr=(self),usb=(),web-share=(),xr-spatial-tracking=()"
                     )
                 }
             }

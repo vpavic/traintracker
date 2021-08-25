@@ -17,10 +17,10 @@
 package io.github.vpavic.traintracker.infrastructure.fetcher.hr
 
 import io.github.vpavic.traintracker.domain.model.voyage.Station
+import org.jsoup.nodes.Document
 import java.time.LocalTime
 import java.util.ArrayDeque
 import java.util.Deque
-import org.jsoup.nodes.Document
 
 internal object HrDocumentParser {
 

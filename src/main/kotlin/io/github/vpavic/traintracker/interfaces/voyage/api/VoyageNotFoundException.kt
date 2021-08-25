@@ -16,9 +16,9 @@
 
 package io.github.vpavic.traintracker.interfaces.voyage.api
 
-import java.lang.RuntimeException
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ResponseStatus
+import java.lang.RuntimeException
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
 internal class VoyageNotFoundException(train: String) : RuntimeException("Voyage $train not found")

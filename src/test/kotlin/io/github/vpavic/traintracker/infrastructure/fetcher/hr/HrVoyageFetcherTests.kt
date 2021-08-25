@@ -21,7 +21,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import java.io.File
 import org.apache.http.client.methods.CloseableHttpResponse
 import org.apache.http.entity.FileEntity
 import org.apache.http.entity.StringEntity
@@ -29,6 +28,7 @@ import org.apache.http.impl.client.CloseableHttpClient
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import java.io.File
 
 class HrVoyageFetcherTests {
 

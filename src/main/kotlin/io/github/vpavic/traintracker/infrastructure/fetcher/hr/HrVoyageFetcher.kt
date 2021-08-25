@@ -19,11 +19,6 @@ package io.github.vpavic.traintracker.infrastructure.fetcher.hr
 import io.github.vpavic.traintracker.application.VoyageFetcher
 import io.github.vpavic.traintracker.domain.model.carrier.Carrier
 import io.github.vpavic.traintracker.domain.model.voyage.Voyage
-import java.net.URI
-import java.time.LocalDate
-import java.time.LocalTime
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 import org.apache.http.client.methods.CloseableHttpResponse
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.client.utils.URIBuilder
@@ -33,6 +28,11 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Component
+import java.net.URI
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 @Component
 class HrVoyageFetcher(private val httpClient: CloseableHttpClient) : VoyageFetcher {

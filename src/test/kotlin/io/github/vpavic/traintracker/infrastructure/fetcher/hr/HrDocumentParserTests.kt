@@ -16,12 +16,12 @@
 
 package io.github.vpavic.traintracker.infrastructure.fetcher.hr
 
-import java.io.File
-import java.time.LocalTime
 import org.assertj.core.api.Assertions.assertThat
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.junit.jupiter.api.Test
+import java.io.File
+import java.time.LocalTime
 
 class HrDocumentParserTests {
 
