@@ -45,7 +45,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.session:spring-session-jdbc")
 
-    javaAgent("com.newrelic.agent.java:newrelic-agent:7.1.1")
+    javaAgent("com.newrelic.agent.java:newrelic-agent:7.2.0")
 
     testImplementation(platform("org.testcontainers:testcontainers-bom:1.16.0"))
     testImplementation("com.tngtech.archunit:archunit-junit5:0.21.0")
