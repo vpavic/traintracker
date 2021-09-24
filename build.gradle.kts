@@ -1,14 +1,11 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import com.google.cloud.tools.jib.gradle.JibTask
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("application")
     id("com.diffplug.spotless")
     id("com.github.ben-manes.versions")
     id("com.google.cloud.tools.jib")
-    kotlin("jvm")
-    kotlin("plugin.spring")
 }
 
 java {
@@ -30,8 +27,6 @@ val javaAgent: Configuration by configurations.creating
 
 dependencies {
     implementation(platform("org.springframework.boot:spring-boot-dependencies:2.5.4"))
-    implementation(platform("org.jetbrains.kotlin:kotlin-bom:${project.property("kotlinVersion")}"))
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("com.github.ben-manes.caffeine:caffeine")
     implementation("org.apache.httpcomponents:httpclient")
     implementation("org.jsoup:jsoup:1.14.2")
@@ -48,20 +43,9 @@ dependencies {
 
     testImplementation(platform("org.testcontainers:testcontainers-bom:1.16.0"))
     testImplementation("com.tngtech.archunit:archunit-junit5:0.21.0")
-    testImplementation("io.mockk:mockk:1.12.0")
-    testImplementation("org.springframework.boot:spring-boot-starter-test") {
-        exclude(group = "org.mockito")
-    }
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.testcontainers:postgresql")
     testImplementation("org.testcontainers:testcontainers")
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        allWarningsAsErrors = true
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = JavaVersion.VERSION_11.toString()
-    }
 }
 
 tasks.withType<Test> {
@@ -92,13 +76,6 @@ tasks.withType<JibTask> {
 }
 
 spotless {
-    kotlin {
-        licenseHeaderFile(rootProject.file("config/spotless/license.kt"))
-        ktlint()
-    }
-    kotlinGradle {
-        ktlint()
-    }
 }
 
 jib {
