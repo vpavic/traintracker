@@ -1,32 +1,45 @@
 package io.github.vpavic.traintracker.infrastructure.fetcher.hr;
 
-import java.io.File;
+import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpResponse;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.entity.FileEntity;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import io.github.vpavic.traintracker.domain.model.voyage.Voyage;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.reset;
 
 class HrVoyageFetcherTests {
 
-    private CloseableHttpClient httpClient = mock(CloseableHttpClient.class);
+    private AutoCloseable mocks;
+
+    @Mock
+    private HttpClient httpClient;
+
+    @Mock
+    private HttpResponse<String> httpResponse;
 
     private HrVoyageFetcher voyageFetcher;
 
     @BeforeEach
     void setUp() {
-        reset(this.httpClient);
+        this.mocks = MockitoAnnotations.openMocks(this);
         this.voyageFetcher = new HrVoyageFetcher(this.httpClient);
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        this.mocks.close();
     }
 
     @Test
@@ -36,18 +49,18 @@ class HrVoyageFetcherTests {
 
     @Test
     void getVoyage_VoyageDoesNotExist_ShouldReturnNull() throws Exception {
-        CloseableHttpResponse response = mock(CloseableHttpResponse.class);
-        given(response.getEntity()).willReturn(new StringEntity("<html/>"));
-        given(this.httpClient.execute(any())).willReturn(response);
+        given((this.httpResponse.body())).willReturn("<html/>");
+        given(this.httpClient.<String>send(any(), any())).willReturn(this.httpResponse);
         assertThat(this.voyageFetcher.getVoyage("123")).isNull();
     }
 
     @Test
     void getVoyage_VoyageExists_ShouldReturnVoyage() throws Exception {
-        CloseableHttpResponse response = mock(CloseableHttpResponse.class);
-        File responseHtml = new File(getClass().getResource("/hr-tpvl-ok.html").toURI());
-        given(response.getEntity()).willReturn(new FileEntity(responseHtml));
-        given(this.httpClient.execute(any())).willReturn(response);
+        URL resource = getClass().getClassLoader().getResource("hr-tpvl-ok.html");
+        assertThat(resource).isNotNull();
+        String responseBody = Files.readString(Path.of(resource.toURI()), Charset.forName("Cp1250"));
+        given(this.httpResponse.body()).willReturn(responseBody);
+        given(this.httpClient.<String>send(any(), any())).willReturn(this.httpResponse);
         Voyage voyage = this.voyageFetcher.getVoyage("211");
         assertThat(voyage).isNotNull();
         assertThat(voyage.getCarrier().getId()).isEqualTo("hr");

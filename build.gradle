@@ -29,7 +29,6 @@ configurations {
 dependencies {
     implementation(platform("org.springframework.boot:spring-boot-dependencies:2.5.4"))
     implementation("com.github.ben-manes.caffeine:caffeine")
-    implementation("org.apache.httpcomponents:httpclient")
     implementation("org.jsoup:jsoup:1.14.2")
     implementation("org.flywaydb:flyway-core")
     implementation("org.postgresql:postgresql")
