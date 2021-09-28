@@ -1,5 +1,3 @@
-import com.google.cloud.tools.jib.gradle.JibTask
-
 plugins {
     id("application")
     id("com.diffplug.spotless")
@@ -23,7 +21,11 @@ repositories {
 }
 
 configurations {
-    javaAgent
+    javaAgent {
+        visible = false
+        transitive = false
+        canBeConsumed = false
+    }
 }
 
 dependencies {
@@ -65,16 +67,6 @@ dependencyUpdates {
     }
 }
 
-tasks.register("processJavaAgents", Copy) {
-    from(configurations.javaAgent)
-    into(layout.buildDirectory.dir("java-agents"))
-    rename { s -> s.substring(0, s.lastIndexOf("-")) + s.substring(s.lastIndexOf(".")) }
-}
-
-tasks.withType(JibTask) {
-    dependsOn(processJavaAgents)
-}
-
 spotless {
 }
 
@@ -82,7 +74,10 @@ jib {
     from {
         image = "azul/zulu-openjdk:17.0.0-17.28.13-jre"
     }
+    container {
+        jvmFlags = configurations.javaAgent.collect { "-javaagent:" + it.name }
+    }
     extraDirectories {
-        paths = processJavaAgents.outputs
+        paths = configurations.javaAgent.collect { it.parent }
     }
 }
