@@ -19,7 +19,7 @@ jobs:
       - uses: actions/setup-java@v2
         with:
           distribution: zulu
-          java-version: 17
+          java-version: 11
       - run: ./gradlew check --stacktrace
 
   deploy:
@@ -39,7 +39,7 @@ jobs:
       - uses: actions/setup-java@v2
         with:
           distribution: zulu
-          java-version: 17
+          java-version: 11
       - env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: ci/deploy.sh

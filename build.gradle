@@ -7,7 +7,7 @@ plugins {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(11)
     }
 }
 
@@ -72,7 +72,7 @@ spotless {
 
 jib {
     from {
-        image = "azul/zulu-openjdk:17.0.0-17.28.13-jre"
+        image = "azul/zulu-openjdk:11.0.12-11.50.19"
     }
     container {
         jvmFlags = configurations.javaAgent.collect { "-javaagent:" + it.name }
