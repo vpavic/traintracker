@@ -1,7 +1,6 @@
 package io.github.vpavic.traintracker;
 
 import com.zaxxer.hikari.HikariDataSource;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -12,15 +11,17 @@ import org.springframework.session.jdbc.JdbcIndexedSessionRepository;
 import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.containers.PostgreSQLContainer;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 @SpringBootTest
 @ActiveProfiles("test")
 class TrainTrackerApplicationTests {
 
     @Test
     void contextLoads(ApplicationContext applicationContext) {
-        Assertions.assertThat(applicationContext).isNotNull();
-        Assertions.assertThat(applicationContext.getBeanNamesForType(CaffeineCacheManager.class)).isNotEmpty();
-        Assertions.assertThat(applicationContext.getBeanNamesForType(JdbcIndexedSessionRepository.class)).isNotEmpty();
+        assertThat(applicationContext).isNotNull();
+        assertThat(applicationContext.getBeanNamesForType(CaffeineCacheManager.class)).isNotEmpty();
+        assertThat(applicationContext.getBeanNamesForType(JdbcIndexedSessionRepository.class)).isNotEmpty();
     }
 
     @TestConfiguration
