@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    implementation(platform("org.springframework.boot:spring-boot-dependencies:2.5.6"))
+    implementation(platform("org.springframework.boot:spring-boot-dependencies:2.6.0-RC1"))
     implementation("com.github.ben-manes.caffeine:caffeine")
     implementation("org.jsoup:jsoup:1.14.3")
     implementation("org.flywaydb:flyway-core")
