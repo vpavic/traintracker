@@ -12,7 +12,7 @@ java {
 }
 
 application {
-    mainClass = "io.github.vpavic.traintracker.TrainTrackerApplication"
+    mainClass = "io.vpavic.traintracker.TrainTrackerApplication"
 }
 
 repositories {
