@@ -1,4 +1,4 @@
-package io.github.vpavic.traintracker.interfaces.voyage.web;
+package io.github.vpavic.traintracker.interfaces.voyage;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

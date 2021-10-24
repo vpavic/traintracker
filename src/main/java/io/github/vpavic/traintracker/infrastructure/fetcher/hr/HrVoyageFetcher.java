@@ -9,7 +9,6 @@ import java.nio.charset.Charset;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -22,14 +21,12 @@ import org.springframework.stereotype.Component;
 
 import io.github.vpavic.traintracker.application.VoyageFetcher;
 import io.github.vpavic.traintracker.domain.model.carrier.Carrier;
+import io.github.vpavic.traintracker.domain.model.carrier.Carriers;
 import io.github.vpavic.traintracker.domain.model.voyage.Station;
 import io.github.vpavic.traintracker.domain.model.voyage.Voyage;
 
 @Component
 class HrVoyageFetcher implements VoyageFetcher {
-
-    private static final Carrier carrier = new Carrier("hr", "HŽ Infrastruktura", "http://www.hzinfra.hr/",
-            ZoneId.of("Europe/Zagreb"));
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuMMdd");
 
@@ -51,8 +48,8 @@ class HrVoyageFetcher implements VoyageFetcher {
     }
 
     @Override
-    public String getCountry() {
-        return carrier.getId();
+    public Carrier getCarrier() {
+        return Carriers.hzpp;
     }
 
     @Override
@@ -64,17 +61,17 @@ class HrVoyageFetcher implements VoyageFetcher {
         if (currentStation == null) {
             return null;
         }
-        URI overviewRequestUri = buildOverviewRequestUri(train, LocalDate.now(carrier.getTimezone()));
+        URI overviewRequestUri = buildOverviewRequestUri(train, LocalDate.now(Carriers.hzpp.getTimeZone()));
         Document doc = executeRequest(overviewRequestUri);
         Deque<Station> stations = HrDocumentParser.parseOverview(doc);
-        LocalDate time = LocalDate.now(carrier.getTimezone());
-        LocalTime generatedTime = LocalTime.now(carrier.getTimezone());
+        LocalDate time = LocalDate.now(Carriers.hzpp.getTimeZone());
+        LocalTime generatedTime = LocalTime.now(Carriers.hzpp.getTimeZone());
         ArrayList<URI> sources = new ArrayList<>();
         sources.add(currentPositionRequestUri);
         if (!stations.isEmpty()) {
             sources.add(overviewRequestUri);
         }
-        return new Voyage(carrier, time, currentStation, stations, sources, generatedTime);
+        return new Voyage(Carriers.hzpp, time, currentStation, stations, sources, generatedTime);
     }
 
     private Document executeRequest(URI uri) {

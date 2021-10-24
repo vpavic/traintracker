@@ -1,4 +1,4 @@
-package io.github.vpavic.traintracker.interfaces.voyage.web;
+package io.github.vpavic.traintracker.interfaces.voyage;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,16 +15,16 @@ import io.github.vpavic.traintracker.domain.model.voyage.Station;
 import io.github.vpavic.traintracker.domain.model.voyage.Voyage;
 
 @Controller
-@RequestMapping(path = "/{country:[a-z]{2}}/{train}", produces = MediaType.TEXT_HTML_VALUE)
+@RequestMapping(path = "/{carrierId:[a-z]+}/{train}", produces = MediaType.TEXT_HTML_VALUE)
 class VoyageWebController {
 
     @GetMapping
-    String voyage(@PathVariable("country") VoyageFetcher fetcher, @PathVariable String train,
+    String voyage(@PathVariable("carrierId") VoyageFetcher fetcher, @PathVariable String train,
             @RequestHeader(name = "X-PJAX", required = false) boolean pjax, Model model) {
         if (fetcher == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        model.addAttribute("country", fetcher.getCountry());
+        model.addAttribute("carrier", fetcher.getCarrier());
         model.addAttribute("train", train);
         Voyage voyage = fetcher.getVoyage(train);
         if (voyage == null) {

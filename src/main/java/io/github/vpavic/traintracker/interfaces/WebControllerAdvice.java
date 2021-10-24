@@ -1,19 +1,19 @@
 package io.github.vpavic.traintracker.interfaces;
 
-import java.util.Collections;
-import java.util.Set;
+import java.util.Collection;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import io.github.vpavic.traintracker.domain.model.carrier.Carrier;
+import io.github.vpavic.traintracker.domain.model.carrier.Carriers;
+
 @ControllerAdvice
 class WebControllerAdvice {
 
-    private static final Set<String> COUNTRIES = Collections.singleton("hr");
-
-    @ModelAttribute("countries")
-    Set<String> countries() {
-        return COUNTRIES;
+    @ModelAttribute("carriers")
+    Collection<Carrier> carriers() {
+        return Carriers.getAll().values();
     }
 
 }

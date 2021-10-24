@@ -1,4 +1,4 @@
-var savedTrainsKey = 'saved-trains-' + $(document.body).attr('data-country');
+var savedTrainsKey = 'saved-trains-' + $(document.body).attr('data-carrier');
 var form = $('#search-form');
 var input = $('#train-no-input');
 var button = $('#submit-button');
@@ -17,7 +17,7 @@ Mousetrap.bind('r', function () {
     form.submit();
 });
 Mousetrap.bind('c', function () {
-    $('#country').modal('show');
+    $('#carrier').modal('show');
 });
 Mousetrap.bind('?', function () {
     $('#shortcuts').modal('show');

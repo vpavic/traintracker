@@ -11,14 +11,20 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-flash.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .carrier-logo {
+            height: 30px;
+        }
+    </style>
     <link rel="icon" href="/favicon.ico" data-th-href="@{/favicon.ico}">
 </head>
-<body data-th-fragment="body(report)" data-th-attr="data-country=${country}">
+<body data-th-fragment="body(report)" data-th-attr="data-carrier=${carrier.id}">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="/" data-th-href="@{'/' + ${country} + '/'}" data-th-text="#{navbar.title}">TrainTracker</a>
-        <a class="nav-item navbar-link mr-auto" href="#" data-toggle="modal" data-target="#country"><span
-                class="flag-icon flag-icon-hr" data-th-class="${'flag-icon flag-icon-' + country}"></span></a>
+        <a class="navbar-brand" href="/" data-th-href="@{'/' + ${carrier.id} + '/'}" data-th-text="#{navbar.title}">TrainTracker</a>
+        <a class="nav-item navbar-link mr-auto" href="#" data-toggle="modal" data-target="#carrier">
+            <img src="https://prodaja.hzpp.hr/Content/img/HZPP_logo_color_small.png" class="img-thumbnail carrier-logo" alt="hzpp" data-th-src="${carrier.logo}"/>
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -69,19 +75,19 @@
     <div data-th-replace="${report}"></div>
 </div>
 
-<div class="modal fade" id="country" tabindex="-1" role="dialog" aria-labelledby="header-country">
+<div class="modal fade" id="carrier" tabindex="-1" role="dialog" aria-labelledby="header-carrier">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="header-country" data-th-text="#{country.title}">Country</h5>
+                <h5 class="modal-title" id="header-carrier" data-th-text="#{carrier.title}">Carrier</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <a class="btn btn-outline-primary btn-lg btn-block" href="#" role="button"
-                   data-th-each="country : ${countries}" data-th-href="@{'/' + ${country} + '/'}">
-                    <span class="flag-icon flag-icon-hr" data-th-class="${'flag-icon flag-icon-' + country}"></span>
-                    <span data-th-text="#{'country.' + ${country}}">Croatia</span>
+                   data-th-each="carrier : ${carriers}" data-th-href="@{'/' + ${carrier.id} + '/'}">
+                    <img src="https://prodaja.hzpp.hr/Content/img/HZPP_logo_color_small.png" class="img-thumbnail carrier-logo" alt="hzpp" data-th-src="${carrier.logo}"/>
+                    <span data-th-text="#{'carrier.' + ${carrier.id}}">HZPP</span>
                 </a>
             </div>
         </div>
@@ -111,7 +117,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-2 text-right"><kbd>c</kbd></div>
-                    <div class="col-md-6" data-th-text="#{shortcuts.countrySelector}">Show country selector</div>
+                    <div class="col-md-6" data-th-text="#{shortcuts.carrierSelector}">Show carrier selector</div>
                 </div>
                 <div class="row">
                     <div class="col-md-2 text-right"><kbd>?</kbd></div>

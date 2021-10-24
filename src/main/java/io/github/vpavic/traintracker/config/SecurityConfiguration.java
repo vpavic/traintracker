@@ -8,7 +8,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
 
 @Configuration(proxyBeanMethods = false)
-class SecurityConfiguration {
+public class SecurityConfiguration {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -17,8 +17,9 @@ class SecurityConfiguration {
                 .headers(headers -> {
                     headers.httpStrictTransportSecurity(Customizer.withDefaults());
                     headers.contentSecurityPolicy(config -> config.policyDirectives("default-src https: 'self'; " +
-                            "img-src https: data: 'self'; script-src https: 'self' " +
-                            "'sha256-CW5fKI3jV5qwoLYOgIrchxDYRW5DcBigpTBsFB6U8i8='"));
+                            "img-src https: data: 'self'; " +
+                            "script-src https: 'self' 'sha256-CW5fKI3jV5qwoLYOgIrchxDYRW5DcBigpTBsFB6U8i8='; " +
+                            "style-src https: 'self' 'sha256-kBPRInDlr8DIjKM+EA4HQsgyhSlyO6eAqZ8MkJ5muMc='"));
                     headers.referrerPolicy(config -> config.policy(
                             ReferrerPolicyHeaderWriter.ReferrerPolicy.NO_REFERRER_WHEN_DOWNGRADE));
                     headers.permissionsPolicy(config -> config.policy("accelerometer=(),autoplay=(),camera=()," +

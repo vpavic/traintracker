@@ -7,21 +7,21 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import io.github.vpavic.traintracker.domain.model.voyage.Voyage;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import io.github.vpavic.traintracker.domain.model.carrier.Carriers;
+import io.github.vpavic.traintracker.domain.model.voyage.Voyage;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
+@ExtendWith(MockitoExtension.class)
 class HrVoyageFetcherTests {
-
-    private AutoCloseable mocks;
 
     @Mock
     private HttpClient httpClient;
@@ -33,18 +33,12 @@ class HrVoyageFetcherTests {
 
     @BeforeEach
     void setUp() {
-        this.mocks = MockitoAnnotations.openMocks(this);
         this.voyageFetcher = new HrVoyageFetcher(this.httpClient);
-    }
-
-    @AfterEach
-    void tearDown() throws Exception {
-        this.mocks.close();
     }
 
     @Test
     void getCountry_ShouldReturnHr() {
-        assertThat(this.voyageFetcher.getCountry()).isEqualTo("hr");
+        assertThat(this.voyageFetcher.getCarrier()).isEqualTo(Carriers.hzpp);
     }
 
     @Test
@@ -63,7 +57,7 @@ class HrVoyageFetcherTests {
         given(this.httpClient.<String>send(any(), any())).willReturn(this.httpResponse);
         Voyage voyage = this.voyageFetcher.getVoyage("211");
         assertThat(voyage).isNotNull();
-        assertThat(voyage.getCarrier().getId()).isEqualTo("hr");
+        assertThat(voyage.getCarrier().getId()).isEqualTo(Carriers.hzpp.getId());
     }
 
 }
