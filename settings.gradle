@@ -7,3 +7,5 @@ pluginManagement {
 }
 
 rootProject.name = "traintracker"
+
+enableFeaturePreview("VERSION_CATALOGS")

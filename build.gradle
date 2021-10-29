@@ -1,8 +1,8 @@
 plugins {
     id("application")
-    id("com.diffplug.spotless")
-    id("com.github.ben-manes.versions")
-    id("com.google.cloud.tools.jib")
+    alias(libs.plugins.jib)
+    alias(libs.plugins.spotless)
+    alias(libs.plugins.versionsplg)
 }
 
 java {
@@ -29,9 +29,9 @@ configurations {
 }
 
 dependencies {
-    implementation(platform("org.springframework.boot:spring-boot-dependencies:2.6.0-RC1"))
+    implementation(platform(libs.spring.boot.dependencies))
     implementation("com.github.ben-manes.caffeine:caffeine")
-    implementation("org.jsoup:jsoup:1.14.3")
+    implementation(libs.jsoup)
     implementation("org.flywaydb:flyway-core")
     implementation("org.postgresql:postgresql")
     implementation("org.springframework.boot:spring-boot-starter-cache")
@@ -41,10 +41,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.session:spring-session-jdbc")
 
-    javaAgent("com.newrelic.agent.java:newrelic-agent:7.4.0")
+    javaAgent(libs.newrelic.agent)
 
-    testImplementation(platform("org.testcontainers:testcontainers-bom:1.16.2"))
-    testImplementation("com.tngtech.archunit:archunit-junit5:0.21.0")
+    testImplementation(platform(libs.testcontainers.bom))
+    testImplementation(libs.archunit.junit5)
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.testcontainers:postgresql")
     testImplementation("org.testcontainers:testcontainers")
