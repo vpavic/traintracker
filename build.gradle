@@ -43,7 +43,7 @@ dependencies {
 
     javaAgent("com.newrelic.agent.java:newrelic-agent:7.4.0")
 
-    testImplementation(platform("org.testcontainers:testcontainers-bom:1.16.0"))
+    testImplementation(platform("org.testcontainers:testcontainers-bom:1.16.2"))
     testImplementation("com.tngtech.archunit:archunit-junit5:0.21.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.testcontainers:postgresql")
