@@ -20,6 +20,14 @@ repositories {
     maven { url = "https://repo.spring.io/libs-milestone/" }
 }
 
+configurations {
+    javaAgent {
+        visible = false
+        transitive = false
+        canBeConsumed = false
+    }
+}
+
 dependencies {
     implementation(platform("org.springframework.boot:spring-boot-dependencies:2.6.0-RC1"))
     implementation("com.github.ben-manes.caffeine:caffeine")
@@ -33,7 +41,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.session:spring-session-jdbc")
 
-    testImplementation(platform("org.testcontainers:testcontainers-bom:1.16.1"))
+    javaAgent("com.newrelic.agent.java:newrelic-agent:7.4.0")
+
+    testImplementation(platform("org.testcontainers:testcontainers-bom:1.16.0"))
     testImplementation("com.tngtech.archunit:archunit-junit5:0.21.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.testcontainers:postgresql")
@@ -63,5 +73,11 @@ spotless {
 jib {
     from {
         image = "azul/zulu-openjdk:17.0.0-17.28.13-jre"
+    }
+    container {
+        jvmFlags = configurations.javaAgent.collect { "-javaagent:" + it.name }
+    }
+    extraDirectories {
+        paths = configurations.javaAgent.collect { it.parent }
     }
 }
