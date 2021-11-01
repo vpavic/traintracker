@@ -1,26 +1,22 @@
-package io.vpavic.traintracker.infrastructure.fetcher.hr;
+package io.vpavic.traintracker.infrastructure.fetcher.hzpp;
 
-import java.io.File;
-import java.net.URI;
 import java.time.LocalTime;
-import java.util.Deque;
+import java.util.List;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.junit.jupiter.api.Test;
 
 import io.vpavic.traintracker.domain.model.voyage.Station;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class HrDocumentParserTests {
+class HzppHtmlParserTests {
 
     @Test
     void testPkvlOk() {
-        Document doc = getDocument("/hr-pkvl-ok.html");
-        Deque<Station> stations = HrDocumentParser.parseOverview(doc);
+        String html = HzppHtmlHelper.getHtml("hr-pkvl-ok.html");
+        List<Station> stations = HzppHtmlParser.parseOverview(html);
         assertThat(stations).hasSize(35);
-        Station currentStation = stations.getLast();
+        Station currentStation = stations.get(34);
         assertThat(currentStation.getName()).isEqualTo("VINKOVCI");
         assertThat(currentStation.getArrivalTime()).isEqualTo(LocalTime.of(21, 28));
         assertThat(currentStation.getArrivalDelay()).isEqualTo(21);
@@ -30,15 +26,15 @@ class HrDocumentParserTests {
 
     @Test
     void testPkvlNotFound() {
-        Document doc = getDocument("/hr-pkvl-not-found.html");
-        Deque<Station> stations = HrDocumentParser.parseOverview(doc);
+        String html = HzppHtmlHelper.getHtml("hr-pkvl-not-found.html");
+        List<Station> stations = HzppHtmlParser.parseOverview(html);
         assertThat(stations).isEmpty();
     }
 
     @Test
     void testTpvlOk() {
-        Document doc = getDocument("/hr-tpvl-ok.html");
-        Station station = HrDocumentParser.parseCurrentPosition(doc);
+        String html = HzppHtmlHelper.getHtml("hr-tpvl-ok.html");
+        Station station = HzppHtmlParser.parseCurrentPosition(html);
         assertThat(station).isNotNull();
         assertThat(station.getName()).isEqualTo("NOVA KAPELA BATRINA");
         assertThat(station.getArrivalTime()).isNull();
@@ -49,19 +45,9 @@ class HrDocumentParserTests {
 
     @Test
     void testTpvlNotFound() {
-        Document doc = getDocument("/hr-tpvl-not-found.html");
-        Station station = HrDocumentParser.parseCurrentPosition(doc);
+        String html = HzppHtmlHelper.getHtml("hr-tpvl-not-found.html");
+        Station station = HzppHtmlParser.parseCurrentPosition(html);
         assertThat(station).isNull();
-    }
-
-    private Document getDocument(String path) {
-        try {
-            URI uri = getClass().getResource(path).toURI();
-            return Jsoup.parse(new File(uri), "Cp1250");
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
 }

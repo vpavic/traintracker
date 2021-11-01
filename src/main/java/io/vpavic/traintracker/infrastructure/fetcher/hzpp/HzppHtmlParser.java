@@ -1,22 +1,24 @@
-package io.vpavic.traintracker.infrastructure.fetcher.hr;
+package io.vpavic.traintracker.infrastructure.fetcher.hzpp;
 
 import java.time.LocalTime;
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.LinkedList;
+import java.util.List;
 
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import io.vpavic.traintracker.domain.model.voyage.Station;
 
-final class HrDocumentParser {
+final class HzppHtmlParser {
 
-    private HrDocumentParser() {
+    private HzppHtmlParser() {
     }
 
-    static Station parseCurrentPosition(Document doc) {
+    static Station parseCurrentPosition(String html) {
         Station station = null;
+        Document doc = Jsoup.parse(html);
         Elements tables = doc.getElementsByTag("tbody");
         if (tables.size() == 2) {
             Elements rows = tables.get(1).children();
@@ -43,8 +45,9 @@ final class HrDocumentParser {
         return station;
     }
 
-    static Deque<Station> parseOverview(Document doc) {
-        Deque<Station> stations = new ArrayDeque<>();
+    static List<Station> parseOverview(String html) {
+        LinkedList<Station> stations = new LinkedList<>();
+        Document doc = Jsoup.parse(html);
         Elements tables = doc.getElementsByTag("tbody");
         if (tables.size() == 3) {
             Elements rows = tables.get(2).children();

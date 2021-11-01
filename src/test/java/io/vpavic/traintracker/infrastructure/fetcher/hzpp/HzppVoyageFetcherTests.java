@@ -1,11 +1,7 @@
-package io.vpavic.traintracker.infrastructure.fetcher.hr;
+package io.vpavic.traintracker.infrastructure.fetcher.hzpp;
 
-import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpResponse;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +17,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
-class HrVoyageFetcherTests {
+class HzppVoyageFetcherTests {
 
     @Mock
     private HttpClient httpClient;
@@ -29,15 +25,15 @@ class HrVoyageFetcherTests {
     @Mock
     private HttpResponse<String> httpResponse;
 
-    private HrVoyageFetcher voyageFetcher;
+    private HzppVoyageFetcher voyageFetcher;
 
     @BeforeEach
     void setUp() {
-        this.voyageFetcher = new HrVoyageFetcher(this.httpClient);
+        this.voyageFetcher = new HzppVoyageFetcher(this.httpClient);
     }
 
     @Test
-    void getCountry_ShouldReturnHr() {
+    void getCarrier_ShouldReturnHzpp() {
         assertThat(this.voyageFetcher.getCarrier()).isEqualTo(Carriers.hzpp);
     }
 
@@ -50,10 +46,7 @@ class HrVoyageFetcherTests {
 
     @Test
     void getVoyage_VoyageExists_ShouldReturnVoyage() throws Exception {
-        URL resource = getClass().getClassLoader().getResource("hr-tpvl-ok.html");
-        assertThat(resource).isNotNull();
-        String responseBody = Files.readString(Path.of(resource.toURI()), Charset.forName("Cp1250"));
-        given(this.httpResponse.body()).willReturn(responseBody);
+        given(this.httpResponse.body()).willReturn(HzppHtmlHelper.getHtml("hr-tpvl-ok.html"));
         given(this.httpClient.<String>send(any(), any())).willReturn(this.httpResponse);
         Voyage voyage = this.voyageFetcher.getVoyage("211");
         assertThat(voyage).isNotNull();

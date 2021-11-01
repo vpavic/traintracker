@@ -1,4 +1,4 @@
-package io.vpavic.traintracker.infrastructure.fetcher.hr;
+package io.vpavic.traintracker.infrastructure.fetcher.hzpp;
 
 import java.io.IOException;
 import java.net.URI;
@@ -6,16 +6,15 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.Charset;
+import java.time.Clock;
 import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Deque;
+import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Executors;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
@@ -26,25 +25,35 @@ import io.vpavic.traintracker.domain.model.voyage.Station;
 import io.vpavic.traintracker.domain.model.voyage.Voyage;
 
 @Component
-class HrVoyageFetcher implements VoyageFetcher {
+class HzppVoyageFetcher implements VoyageFetcher {
+
+    private static final Clock clock = Clock.system(Carriers.hzpp.getTimeZone());
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuMMdd");
 
     private final HttpClient httpClient;
 
-    HrVoyageFetcher(HttpClient httpClient) {
+    private boolean fetchOverview = false;
+
+    HzppVoyageFetcher(HttpClient httpClient) {
         Objects.requireNonNull(httpClient, "httpClient must not be null");
         this.httpClient = httpClient;
     }
 
-    HrVoyageFetcher() {
+    HzppVoyageFetcher() {
         this(defaultHttpClient());
     }
 
     private static HttpClient defaultHttpClient() {
         return HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(5L))
+                .executor(Executors.newFixedThreadPool(5))
                 .build();
+    }
+
+    @SuppressWarnings("unused")
+    void setFetchOverview(boolean fetchOverview) {
+        this.fetchOverview = fetchOverview;
     }
 
     @Override
@@ -53,39 +62,45 @@ class HrVoyageFetcher implements VoyageFetcher {
     }
 
     @Override
-    @Cacheable("voyages-hr")
+    @Cacheable(cacheNames = "voyages::hzpp")
     public Voyage getVoyage(String train) {
+        LocalDateTime now = LocalDateTime.now(clock);
         URI currentPositionRequestUri = buildCurrentPositionRequestUri(train);
-        Document currentPositionDocument = executeRequest(currentPositionRequestUri);
-        Station currentStation = HrDocumentParser.parseCurrentPosition(currentPositionDocument);
+        String currentPositionHtml = executeRequest(currentPositionRequestUri);
+        Station currentStation = HzppHtmlParser.parseCurrentPosition(currentPositionHtml);
         if (currentStation == null) {
             return null;
         }
-        URI overviewRequestUri = buildOverviewRequestUri(train, LocalDate.now(Carriers.hzpp.getTimeZone()));
-        Document doc = executeRequest(overviewRequestUri);
-        Deque<Station> stations = HrDocumentParser.parseOverview(doc);
-        LocalDate time = LocalDate.now(Carriers.hzpp.getTimeZone());
-        LocalTime generatedTime = LocalTime.now(Carriers.hzpp.getTimeZone());
-        ArrayList<URI> sources = new ArrayList<>();
-        sources.add(currentPositionRequestUri);
-        if (!stations.isEmpty()) {
-            sources.add(overviewRequestUri);
+        List<Station> stations = List.of();
+        if (this.fetchOverview) {
+            URI overviewRequestUri = buildOverviewRequestUri(train, now.toLocalDate());
+            String overviewHtml = executeRequest(overviewRequestUri);
+            stations = HzppHtmlParser.parseOverview(overviewHtml);
         }
-        return new Voyage(Carriers.hzpp, time, currentStation, stations, sources, generatedTime);
+        return new Voyage(Carriers.hzpp, now.toLocalDate(), currentStation, stations, List.of(), now.toLocalTime());
     }
 
-    private Document executeRequest(URI uri) {
+    private String executeRequest(URI uri) {
         try {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(uri)
                     .build();
             HttpResponse<String> response = this.httpClient.send(request,
                     HttpResponse.BodyHandlers.ofString(Charset.forName("Cp1250")));
-            return Jsoup.parse(response.body());
+            return response.body();
         }
         catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static URI buildCurrentPositionRequestUri(String train) {
+        String currentPositionUriTemplate = "http://vred.hzinfra.hr/hzinfo/Default.asp" +
+                "?vl=%s" +
+                "&category=hzinfo" +
+                "&service=tpvl" +
+                "&screen=2";
+        return URI.create(String.format(currentPositionUriTemplate, train));
     }
 
     private static URI buildOverviewRequestUri(String train, LocalDate date) {
@@ -96,15 +111,6 @@ class HrVoyageFetcher implements VoyageFetcher {
                 "&service=pkvl" +
                 "&screen=2";
         return URI.create(String.format(overviewUriTemplate, train, date.format(formatter)));
-    }
-
-    private static URI buildCurrentPositionRequestUri(String train) {
-        String currentPositionUriTemplate = "http://vred.hzinfra.hr/hzinfo/Default.asp" +
-                "?vl=%s" +
-                "&category=hzinfo" +
-                "&service=tpvl" +
-                "&screen=2";
-        return URI.create(String.format(currentPositionUriTemplate, train));
     }
 
 }
