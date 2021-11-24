@@ -12,9 +12,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 class HzppHtmlParserTests {
 
     @Test
-    void testPkvlOk() {
-        String html = HzppHtmlHelper.getHtml("hr-pkvl-ok.html");
-        List<Station> stations = HzppHtmlParser.parseOverview(html);
+    void parseOverview_OkResponse_ShouldReturnAllStations() {
+        List<Station> stations = HzppHtmlParser.parseOverview(HzppSampleResponses.overviewOk);
         assertThat(stations).hasSize(35);
         Station currentStation = stations.get(34);
         assertThat(currentStation.getName()).isEqualTo("VINKOVCI");
@@ -25,16 +24,14 @@ class HzppHtmlParserTests {
     }
 
     @Test
-    void testPkvlNotFound() {
-        String html = HzppHtmlHelper.getHtml("hr-pkvl-not-found.html");
-        List<Station> stations = HzppHtmlParser.parseOverview(html);
+    void parseOverview_NotFoundResponse_ShouldReturnNoStations() {
+        List<Station> stations = HzppHtmlParser.parseOverview(HzppSampleResponses.overviewNotFound);
         assertThat(stations).isEmpty();
     }
 
     @Test
-    void testTpvlOk() {
-        String html = HzppHtmlHelper.getHtml("hr-tpvl-ok.html");
-        Station station = HzppHtmlParser.parseCurrentPosition(html);
+    void parseCurrentPosition_OkResponse_ShouldReturnStation() {
+        Station station = HzppHtmlParser.parseCurrentPosition(HzppSampleResponses.currentPositionOk);
         assertThat(station).isNotNull();
         assertThat(station.getName()).isEqualTo("NOVA KAPELA BATRINA");
         assertThat(station.getArrivalTime()).isNull();
@@ -44,9 +41,8 @@ class HzppHtmlParserTests {
     }
 
     @Test
-    void testTpvlNotFound() {
-        String html = HzppHtmlHelper.getHtml("hr-tpvl-not-found.html");
-        Station station = HzppHtmlParser.parseCurrentPosition(html);
+    void parseCurrentPosition_NotFoundResponse_ShouldReturnNull() {
+        Station station = HzppHtmlParser.parseCurrentPosition(HzppSampleResponses.currentPositionNotFound);
         assertThat(station).isNull();
     }
 
