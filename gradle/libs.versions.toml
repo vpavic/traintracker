@@ -3,6 +3,7 @@ archunit = "0.22.0"
 jib = "3.1.4"
 jsoup = "1.14.3"
 newrelic-agent = "7.4.0"
+newrelic-logback = "2.3"
 spotless = "6.0.4"
 spring-boot = "2.6.1"
 testcontainers = "1.16.2"
@@ -12,6 +13,7 @@ versionsplg = "0.39.0"
 archunit-junit5 = { module = "com.tngtech.archunit:archunit-junit5", version.ref = "archunit" }
 jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
 newrelic-agent = { module = "com.newrelic.agent.java:newrelic-agent", version.ref = "newrelic-agent" }
+newrelic-logback = { module = "com.newrelic.logging:logback", version.ref = "newrelic-logback" }
 spring-boot-dependencies = { module = "org.springframework.boot:spring-boot-dependencies", version.ref = "spring-boot" }
 testcontainers-bom = { module = "org.testcontainers:testcontainers-bom", version.ref = "testcontainers" }
 

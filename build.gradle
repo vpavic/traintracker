@@ -32,6 +32,7 @@ dependencies {
     implementation(platform(libs.spring.boot.dependencies))
     implementation("com.github.ben-manes.caffeine:caffeine")
     implementation(libs.jsoup)
+    implementation(libs.newrelic.logback)
     implementation("org.flywaydb:flyway-core")
     implementation("org.postgresql:postgresql")
     implementation("org.springframework.boot:spring-boot-starter-cache")
