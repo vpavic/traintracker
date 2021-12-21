@@ -74,7 +74,7 @@ spotless {
 
 jib {
     from {
-        image = "azul/zulu-openjdk:17.0.0-17.28.13-jre"
+        image = "azul/zulu-openjdk:17.0.1-17.30.15-jre@sha256:dae34ff0b369318a3faf79edeebcbadf87e302512a55578d252cfb20cb8bae38"
     }
     container {
         jvmFlags = configurations.javaAgent.collect { "-javaagent:" + it.name }
