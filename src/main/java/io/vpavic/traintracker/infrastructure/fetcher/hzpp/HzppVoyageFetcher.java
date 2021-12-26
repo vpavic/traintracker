@@ -77,7 +77,8 @@ class HzppVoyageFetcher implements VoyageFetcher {
             String overviewHtml = executeRequest(overviewRequestUri);
             stations = HzppHtmlParser.parseOverview(overviewHtml);
         }
-        return new Voyage(Carriers.hzpp, now.toLocalDate(), currentStation, stations, List.of(), now.toLocalTime());
+        return new Voyage(Carriers.hzpp.getId(), now.toLocalDate(), currentStation, stations, List.of(),
+                now.toLocalTime());
     }
 
     private String executeRequest(URI uri) {

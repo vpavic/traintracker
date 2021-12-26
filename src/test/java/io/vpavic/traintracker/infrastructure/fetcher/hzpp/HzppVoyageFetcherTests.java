@@ -50,7 +50,7 @@ class HzppVoyageFetcherTests {
         given(this.httpClient.<String>send(any(), any())).willReturn(this.httpResponse);
         Voyage voyage = this.voyageFetcher.getVoyage("211");
         assertThat(voyage).isNotNull();
-        assertThat(voyage.getCarrier().getId()).isEqualTo(Carriers.hzpp.getId());
+        assertThat(voyage.getCarrierId()).isEqualTo(Carriers.hzpp.getId());
     }
 
 }

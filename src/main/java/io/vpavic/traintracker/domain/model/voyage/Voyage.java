@@ -9,11 +9,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import io.vpavic.traintracker.domain.model.carrier.Carrier;
+import io.vpavic.traintracker.domain.model.carrier.CarrierId;
 
 public class Voyage implements Serializable {
 
-    private final Carrier carrier;
+    private final CarrierId carrierId;
 
     private final LocalDate date;
 
@@ -25,12 +25,12 @@ public class Voyage implements Serializable {
 
     private final LocalTime generatedTime;
 
-    public Voyage(Carrier carrier, LocalDate date, Station currentStation, Collection<Station> stations,
+    public Voyage(CarrierId carrierId, LocalDate date, Station currentStation, Collection<Station> stations,
             List<URI> sources, LocalTime generatedTime) {
-        Objects.requireNonNull(carrier, "Carrier must not be null");
+        Objects.requireNonNull(carrierId, "Carrier id must not be null");
         Objects.requireNonNull(currentStation, "Current station must not be null");
         Objects.requireNonNull(stations, "Stations must not be null");
-        this.carrier = carrier;
+        this.carrierId = carrierId;
         this.date = date;
         this.currentStation = currentStation;
         this.stations = Collections.unmodifiableCollection(stations);
@@ -38,8 +38,8 @@ public class Voyage implements Serializable {
         this.generatedTime = generatedTime;
     }
 
-    public Carrier getCarrier() {
-        return this.carrier;
+    public CarrierId getCarrierId() {
+        return this.carrierId;
     }
 
     public LocalDate getDate() {
