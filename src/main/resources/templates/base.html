@@ -63,10 +63,6 @@
                         data-th-text="#{search.submit}">Search
                 </button>
             </form>
-            <h5 class="card-title" data-th-text="#{saved.title}">Favorite trains</h5>
-            <div>
-                <p id="saved-trains"></p>
-            </div>
         </div>
     </div>
 </div>
@@ -134,13 +130,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.6.5/mousetrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.6.5/plugins/global-bind/mousetrap-global-bind.min.js"></script>
-<script data-th-inline="javascript">
-    var messages = {
-        'saved.add': /*[[#{saved.add}]]*/ 'Add to favorite trains',
-        'saved.empty': /*[[#{saved.empty}]]*/ 'No favorite trains',
-        'saved.remove': /*[[#{saved.remove}]]*/ 'Remove from favorite trains'
-    };
-</script>
 <script src="/app.js"></script>
 </body>
 </html>

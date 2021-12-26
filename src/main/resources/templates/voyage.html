@@ -8,9 +8,6 @@
         <div class="list-group-item" data-th-classappend="'list-group-item-' + ${delayLevel}">
             <span class="fa fa-info-circle"></span>
             <span data-th-text="#{voyage.current.title}" data-th-remove="tag">Current train position</span>
-            <a class="float-right" href="#" id="save" data-th-attr="data-train-no=${train}">
-                <span class="fa" id="star"></span>
-            </a>
         </div>
         <div class="list-group-item flex-column align-items-start" data-th-object="${voyage.currentStation}">
             <div class="d-flex w-100 justify-content-between">
