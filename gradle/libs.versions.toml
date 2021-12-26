@@ -6,7 +6,6 @@ newrelic-agent = "7.4.3"
 newrelic-logback = "2.3.1"
 spotless = "6.0.5"
 spring-boot = "2.6.2"
-testcontainers = "1.16.2"
 versionsplg = "0.39.0"
 
 [libraries]
@@ -15,7 +14,6 @@ jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
 newrelic-agent = { module = "com.newrelic.agent.java:newrelic-agent", version.ref = "newrelic-agent" }
 newrelic-logback = { module = "com.newrelic.logging:logback", version.ref = "newrelic-logback" }
 spring-boot-dependencies = { module = "org.springframework.boot:spring-boot-dependencies", version.ref = "spring-boot" }
-testcontainers-bom = { module = "org.testcontainers:testcontainers-bom", version.ref = "testcontainers" }
 
 [plugins]
 jib = { id = "com.google.cloud.tools.jib", version.ref = "jib" }

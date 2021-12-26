@@ -45,11 +45,8 @@ dependencies {
 
     javaAgent(libs.newrelic.agent)
 
-    testImplementation(platform(libs.testcontainers.bom))
     testImplementation(libs.archunit.junit5)
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.testcontainers:postgresql")
-    testImplementation("org.testcontainers:testcontainers")
 }
 
 tasks.withType(Test) {
