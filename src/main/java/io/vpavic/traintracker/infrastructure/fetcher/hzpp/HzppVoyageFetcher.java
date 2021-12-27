@@ -62,7 +62,7 @@ class HzppVoyageFetcher implements VoyageFetcher {
     }
 
     @Override
-    @Cacheable(cacheNames = "voyages::hzpp")
+    @Cacheable(cacheNames = "voyages", key = "'hzpp:' + #train")
     public Voyage getVoyage(String train) {
         LocalDateTime now = LocalDateTime.now(clock);
         URI currentPositionRequestUri = buildCurrentPositionRequestUri(train);

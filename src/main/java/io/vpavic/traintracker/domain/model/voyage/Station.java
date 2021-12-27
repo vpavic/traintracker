@@ -2,6 +2,7 @@ package io.vpavic.traintracker.domain.model.voyage;
 
 import java.io.Serializable;
 import java.time.LocalTime;
+import java.util.Objects;
 
 public class Station implements Serializable {
 
@@ -15,8 +16,18 @@ public class Station implements Serializable {
 
     private Integer departureDelay;
 
-    public Station(String name) {
+    private Station(String name, LocalTime arrivalTime, Integer arrivalDelay, LocalTime departureTime,
+            Integer departureDelay) {
+        Objects.requireNonNull(name, "name must not be null");
         this.name = name;
+        this.arrivalTime = arrivalTime;
+        this.arrivalDelay = arrivalDelay;
+        this.departureTime = departureTime;
+        this.departureDelay = departureDelay;
+    }
+
+    public Station(String name) {
+        this(name, null, null, null, null);
     }
 
     public String getName() {

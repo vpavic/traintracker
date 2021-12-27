@@ -30,17 +30,20 @@ configurations {
 
 dependencies {
     implementation(platform(libs.spring.boot.dependencies))
-    implementation("com.github.ben-manes.caffeine:caffeine")
     implementation(libs.jsoup)
     implementation(libs.newrelic.logback)
     implementation("org.codehaus.janino:janino")
     implementation("org.flywaydb:flyway-core")
     implementation("org.postgresql:postgresql")
     implementation("org.springframework.boot:spring-boot-starter-cache")
+    implementation("org.springframework.boot:spring-boot-starter-data-redis") {
+        exclude(group: "io.lettuce")
+    }
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.session:spring-session-jdbc")
+    implementation("org.springframework.session:spring-session-data-redis")
+    implementation("redis.clients:jedis")
 
     javaAgent(libs.newrelic.agent)
 
