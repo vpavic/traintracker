@@ -34,8 +34,9 @@ class HerokuEnvironmentPostProcessorTests {
         TestPropertySourceUtils.addInlinedPropertiesToEnvironment(this.context,
                 "DATABASE_URL=postgres://username:password@example.com:5432/test");
         this.environmentPostProcessor.postProcessEnvironment(this.context.getEnvironment(), null);
-        assertThat(getProperty("spring.datasource.url"))
-                .isEqualTo("jdbc:postgresql://username:password@example.com:5432/test");
+        assertThat(getProperty("spring.datasource.url")).isEqualTo("jdbc:postgresql://example.com:5432/test");
+        assertThat(getProperty("spring.datasource.username")).isEqualTo("username");
+        assertThat(getProperty("spring.datasource.password")).isEqualTo("password");
     }
 
     @Test

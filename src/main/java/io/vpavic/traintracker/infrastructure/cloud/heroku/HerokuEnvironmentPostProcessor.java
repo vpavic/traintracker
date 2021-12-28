@@ -1,7 +1,5 @@
 package io.vpavic.traintracker.infrastructure.cloud.heroku;
 
-import java.util.Properties;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.cloud.CloudPlatform;
 import org.springframework.boot.env.EnvironmentPostProcessor;
@@ -11,18 +9,25 @@ import org.springframework.core.env.MutablePropertySources;
 import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.util.StringUtils;
 
+import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * An {@link EnvironmentPostProcessor} that maps Heroku env variables to appropriate Spring Boot configuration
  * properties.
  * <p>
  * Supported env variables and their respective mapped properties are:
  * <ul>
- * <li>{@code PORT} - {@code server.port}</li>
- * <li>{@code DATABASE_URL} - {@code spring.datasource.url}</li>
- * <li>{@code REDIS_URL} - {@code spring.redis.url}</li>
+ * <li>{@code PORT}</li>
+ * <li>{@code DATABASE_URL}</li>
+ * <li>{@code REDIS_URL}</li>
  * </ul>
  */
 public class HerokuEnvironmentPostProcessor implements EnvironmentPostProcessor {
+
+    private static final Pattern databaseUrlPattern = Pattern.compile(
+            "(?<database>\\w+)://(?<username>\\w+):(?<password>\\w+)@(?<url>.+)");
 
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
@@ -53,8 +58,16 @@ public class HerokuEnvironmentPostProcessor implements EnvironmentPostProcessor 
     private static void extractDatabaseUrl(ConfigurableEnvironment environment, Properties properties) {
         String databaseUrl = environment.getProperty("DATABASE_URL");
         if (StringUtils.hasText(databaseUrl)) {
-            if (databaseUrl.startsWith("postgres:")) {
-                properties.setProperty("spring.datasource.url", databaseUrl.replace("postgres:", "jdbc:postgresql:"));
+            Matcher matcher = databaseUrlPattern.matcher(databaseUrl);
+            if (matcher.matches()) {
+                String database = matcher.group("database");
+                String url = matcher.group("url");
+                String jdbcUrl = "jdbc:" + database.replace("postgres", "postgresql") + "://" + url;
+                String username = matcher.group("username");
+                String password = matcher.group("password");
+                properties.setProperty("spring.datasource.url", jdbcUrl);
+                properties.setProperty("spring.datasource.username", username);
+                properties.setProperty("spring.datasource.password", password);
             }
         }
     }
