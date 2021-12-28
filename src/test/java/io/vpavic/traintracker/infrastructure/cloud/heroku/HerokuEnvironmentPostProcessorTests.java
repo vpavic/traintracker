@@ -23,6 +23,13 @@ class HerokuEnvironmentPostProcessorTests {
     }
 
     @Test
+    void postProcessEnvironment_WithPort_ShouldSetServerPort() {
+        TestPropertySourceUtils.addInlinedPropertiesToEnvironment(this.context, "PORT=8080");
+        this.environmentPostProcessor.postProcessEnvironment(this.context.getEnvironment(), null);
+        assertThat(getProperty("server.port")).isEqualTo("8080");
+    }
+
+    @Test
     void postProcessEnvironment_WithDatabaseUrl_ShouldSetSpringDatasourceUrl() {
         TestPropertySourceUtils.addInlinedPropertiesToEnvironment(this.context,
                 "DATABASE_URL=postgres://username:password@example.com:5432/test");

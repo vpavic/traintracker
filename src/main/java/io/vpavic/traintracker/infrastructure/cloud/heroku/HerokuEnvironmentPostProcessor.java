@@ -17,6 +17,7 @@ import org.springframework.util.StringUtils;
  * <p>
  * Supported env variables and their respective mapped properties are:
  * <ul>
+ * <li>{@code PORT} - {@code server.port}</li>
  * <li>{@code DATABASE_URL} - {@code spring.datasource.url}</li>
  * <li>{@code REDIS_URL} - {@code spring.redis.url}</li>
  * </ul>
@@ -27,6 +28,7 @@ public class HerokuEnvironmentPostProcessor implements EnvironmentPostProcessor 
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
         if (CloudPlatform.HEROKU.isActive(environment)) {
             Properties properties = new Properties();
+            extractServerPort(environment, properties);
             extractDatabaseUrl(environment, properties);
             extractRedisUrl(environment, properties);
             PropertiesPropertySource herokuPropertySource = new PropertiesPropertySource("heroku", properties);
@@ -38,6 +40,13 @@ public class HerokuEnvironmentPostProcessor implements EnvironmentPostProcessor 
             else {
                 propertySources.addFirst(herokuPropertySource);
             }
+        }
+    }
+
+    private static void extractServerPort(ConfigurableEnvironment environment, Properties properties) {
+        String port = environment.getProperty("PORT");
+        if (StringUtils.hasText(port)) {
+            properties.setProperty("server.port", port);
         }
     }
 
