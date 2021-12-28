@@ -34,9 +34,9 @@ class HerokuEnvironmentPostProcessorTests {
     @Test
     void postProcessEnvironment_WithRedisUrl_ShouldSetSpringRedisUrl() {
         TestPropertySourceUtils.addInlinedPropertiesToEnvironment(this.context,
-                "REDIS_TLS_URL=rediss://:password@example.com:6379");
+                "REDIS_URL=redis://:password@example.com:6379");
         this.environmentPostProcessor.postProcessEnvironment(this.context.getEnvironment(), null);
-        assertThat(getProperty("spring.redis.url")).isEqualTo("rediss://:password@example.com:6379");
+        assertThat(getProperty("spring.redis.url")).isEqualTo("redis://:password@example.com:6379");
     }
 
     private String getProperty(String key) {

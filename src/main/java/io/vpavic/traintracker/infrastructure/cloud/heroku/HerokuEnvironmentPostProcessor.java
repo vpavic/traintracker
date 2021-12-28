@@ -18,7 +18,7 @@ import org.springframework.util.StringUtils;
  * Supported env variables and their respective mapped properties are:
  * <ul>
  * <li>{@code DATABASE_URL} - {@code spring.datasource.url}</li>
- * <li>{@code REDIS_TLS_URL} - {@code spring.redis.url}</li>
+ * <li>{@code REDIS_URL} - {@code spring.redis.url}</li>
  * </ul>
  */
 public class HerokuEnvironmentPostProcessor implements EnvironmentPostProcessor {
@@ -51,7 +51,7 @@ public class HerokuEnvironmentPostProcessor implements EnvironmentPostProcessor 
     }
 
     private static void extractRedisUrl(ConfigurableEnvironment environment, Properties properties) {
-        String redisUrl = environment.getProperty("REDIS_TLS_URL");
+        String redisUrl = environment.getProperty("REDIS_URL");
         if (StringUtils.hasText(redisUrl)) {
             properties.setProperty("spring.redis.url", redisUrl);
         }
