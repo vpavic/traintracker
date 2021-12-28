@@ -16,3 +16,5 @@ bin/
 .project
 .settings
 .springBeans
+
+src/main/resources/local.properties
