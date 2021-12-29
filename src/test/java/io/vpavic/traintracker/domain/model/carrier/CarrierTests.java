@@ -6,8 +6,9 @@ import java.time.ZoneOffset;
 
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.BDDAssertions.catchThrowableOfType;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.BDDSoftAssertions.thenSoftly;
 
 class CarrierTests {
 
@@ -19,39 +20,51 @@ class CarrierTests {
 
     @Test
     void of_ValidArguments_ShouldCreateCarrier() {
+        // when
         Carrier test = Carrier.of(TEST_CARRIER_ID, TEST_WEBSITE_URL, TEST_LOGO_URL, ZoneOffset.UTC);
-        assertThat(test.getId()).isEqualTo(TEST_CARRIER_ID);
-        assertThat(test.getWebsite()).isEqualTo(TEST_WEBSITE_URL);
-        assertThat(test.getLogo()).isEqualTo(TEST_LOGO_URL);
-        assertThat(test.getTimeZone()).isEqualTo(ZoneOffset.UTC);
+        // then
+        thenSoftly(softly -> {
+            softly.then(test.getId()).as("Carrier id").isEqualTo(TEST_CARRIER_ID);
+            softly.then(test.getWebsite()).as("Carrier website").isEqualTo(TEST_WEBSITE_URL);
+            softly.then(test.getLogo()).as("Carrier logo").isEqualTo(TEST_LOGO_URL);
+            softly.then(test.getTimeZone()).as("Carrier time zone").isEqualTo(ZoneOffset.UTC);
+        });
     }
 
     @Test
     void of_NullId_ShouldThrowException() {
-        assertThatNullPointerException()
-                .isThrownBy(() -> Carrier.of(null, TEST_WEBSITE_URL, TEST_LOGO_URL, ZoneOffset.UTC))
-                .withMessage("id must not be null");
+        // when
+        NullPointerException exception = catchThrowableOfType(
+                () -> Carrier.of(null, TEST_WEBSITE_URL, TEST_LOGO_URL, ZoneOffset.UTC), NullPointerException.class);
+        // then
+        then(exception).as("Exception").hasMessage("id must not be null");
     }
 
     @Test
     void of_NullWebsite_ShouldThrowException() {
-        assertThatNullPointerException()
-                .isThrownBy(() -> Carrier.of(TEST_CARRIER_ID, null, TEST_LOGO_URL, ZoneOffset.UTC))
-                .withMessage("website must not be null");
+        // when
+        NullPointerException exception = catchThrowableOfType(
+                () -> Carrier.of(TEST_CARRIER_ID, null, TEST_LOGO_URL, ZoneOffset.UTC), NullPointerException.class);
+        // then
+        then(exception).as("Exception").hasMessage("website must not be null");
     }
 
     @Test
     void of_NullLogo_ShouldThrowException() {
-        assertThatNullPointerException()
-                .isThrownBy(() -> Carrier.of(TEST_CARRIER_ID, TEST_WEBSITE_URL, null, ZoneOffset.UTC))
-                .withMessage("logo must not be null");
+        // when
+        NullPointerException exception = catchThrowableOfType(
+                () -> Carrier.of(TEST_CARRIER_ID, TEST_WEBSITE_URL, null, ZoneOffset.UTC), NullPointerException.class);
+        // then
+        then(exception).as("Exception").hasMessage("logo must not be null");
     }
 
     @Test
     void of_NullTimeZone_ShouldThrowException() {
-        assertThatNullPointerException()
-                .isThrownBy(() -> Carrier.of(TEST_CARRIER_ID, TEST_WEBSITE_URL, TEST_LOGO_URL, null))
-                .withMessage("timeZone must not be null");
+        // when
+        NullPointerException exception = catchThrowableOfType(
+                () -> Carrier.of(TEST_CARRIER_ID, TEST_WEBSITE_URL, TEST_LOGO_URL, null), NullPointerException.class);
+        // then
+        then(exception).as("Exception").hasMessage("timeZone must not be null");
     }
 
     private static URL url(String spec) {

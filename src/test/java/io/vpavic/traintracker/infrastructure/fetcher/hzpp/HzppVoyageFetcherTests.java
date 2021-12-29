@@ -6,13 +6,15 @@ import java.net.http.HttpResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.BDDMockito;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import io.vpavic.traintracker.domain.model.carrier.Carrier;
 import io.vpavic.traintracker.domain.model.carrier.Carriers;
 import io.vpavic.traintracker.domain.model.voyage.Voyage;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
@@ -34,23 +36,37 @@ class HzppVoyageFetcherTests {
 
     @Test
     void getCarrier_ShouldReturnHzpp() {
-        assertThat(this.voyageFetcher.getCarrier()).isEqualTo(Carriers.hzpp);
+        // when
+        Carrier carrier = this.voyageFetcher.getCarrier();
+        // then
+        then(carrier).as("Carrier").isEqualTo(Carriers.hzpp);
     }
 
     @Test
     void getVoyage_VoyageDoesNotExist_ShouldReturnNull() throws Exception {
+        // given
         given((this.httpResponse.body())).willReturn("<html/>");
         given(this.httpClient.<String>send(any(), any())).willReturn(this.httpResponse);
-        assertThat(this.voyageFetcher.getVoyage("123")).isNull();
+        // when
+        Voyage voyage = this.voyageFetcher.getVoyage("123");
+        // then
+        then(voyage).as("Voyage").isNull();
+        BDDMockito.then(this.httpClient).should().send(any(), any());
+        BDDMockito.then(this.httpClient).shouldHaveNoMoreInteractions();
     }
 
     @Test
     void getVoyage_VoyageExists_ShouldReturnVoyage() throws Exception {
+        // given
         given(this.httpResponse.body()).willReturn(HzppSampleResponses.currentPositionOk);
         given(this.httpClient.<String>send(any(), any())).willReturn(this.httpResponse);
+        // when
         Voyage voyage = this.voyageFetcher.getVoyage("211");
-        assertThat(voyage).isNotNull();
-        assertThat(voyage.getCarrierId()).isEqualTo(Carriers.hzpp.getId());
+        // then
+        then(voyage).as("Voyage").isNotNull();
+        then(voyage.getCarrierId()).as("Voyage carrier id").isEqualTo(Carriers.hzpp.getId());
+        BDDMockito.then(this.httpClient).should().send(any(), any());
+        BDDMockito.then(this.httpClient).shouldHaveNoMoreInteractions();
     }
 
 }

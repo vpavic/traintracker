@@ -6,7 +6,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.test.context.support.TestPropertySourceUtils;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.BDDSoftAssertions.thenSoftly;
 
 /**
  * Tests for {@link HerokuEnvironmentPostProcessor}.
@@ -24,27 +25,41 @@ class HerokuEnvironmentPostProcessorTests {
 
     @Test
     void postProcessEnvironment_WithPort_ShouldSetServerPort() {
+        // given
         TestPropertySourceUtils.addInlinedPropertiesToEnvironment(this.context, "PORT=8080");
+        // when
         this.environmentPostProcessor.postProcessEnvironment(this.context.getEnvironment(), null);
-        assertThat(getProperty("server.port")).isEqualTo("8080");
+        // then
+        then(getProperty("server.port")).as("server.port").isEqualTo("8080");
     }
 
     @Test
     void postProcessEnvironment_WithDatabaseUrl_ShouldSetSpringDatasourceUrl() {
+        // given
         TestPropertySourceUtils.addInlinedPropertiesToEnvironment(this.context,
                 "DATABASE_URL=postgres://username:password@example.com:5432/test");
+        // when
         this.environmentPostProcessor.postProcessEnvironment(this.context.getEnvironment(), null);
-        assertThat(getProperty("spring.datasource.url")).isEqualTo("jdbc:postgresql://example.com:5432/test");
-        assertThat(getProperty("spring.datasource.username")).isEqualTo("username");
-        assertThat(getProperty("spring.datasource.password")).isEqualTo("password");
+        // then
+        thenSoftly(softly -> {
+            softly.then(getProperty("spring.datasource.url")).as("spring.datasource.url")
+                    .isEqualTo("jdbc:postgresql://example.com:5432/test");
+            softly.then(getProperty("spring.datasource.username")).as("spring.datasource.username")
+                    .isEqualTo("username");
+            softly.then(getProperty("spring.datasource.password")).as("spring.datasource.password")
+                    .isEqualTo("password");
+        });
     }
 
     @Test
     void postProcessEnvironment_WithRedisUrl_ShouldSetSpringRedisUrl() {
+        // given
         TestPropertySourceUtils.addInlinedPropertiesToEnvironment(this.context,
                 "REDIS_URL=redis://:password@example.com:6379");
+        // when
         this.environmentPostProcessor.postProcessEnvironment(this.context.getEnvironment(), null);
-        assertThat(getProperty("spring.redis.url")).isEqualTo("redis://:password@example.com:6379");
+        // then
+        then(getProperty("spring.redis.url")).as("spring.redis.url").isEqualTo("redis://:password@example.com:6379");
     }
 
     private String getProperty(String key) {
