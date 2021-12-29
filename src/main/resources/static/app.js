@@ -2,8 +2,6 @@ var form = $('#search-form');
 var input = $('#train-no-input');
 var button = $('#submit-button');
 
-$.pjax.defaults.timeout = 3000;
-
 Mousetrap.bind('/', function () {
     input.focus();
 });
@@ -44,8 +42,4 @@ input.keyup(function () {
         form.removeAttr('action');
         button.attr('disabled', 'disabled');
     }
-});
-
-form.submit(function (event) {
-    $.pjax.submit(event, '#train-data');
 });

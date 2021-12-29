@@ -53,11 +53,13 @@
     <div class="card bg-light mt-4">
         <div class="card-body">
             <h5 class="card-title" data-th-text="#{search.title}">Search by train number</h5>
-            <form class="form-inline" id="search-form">
+            <form class="form-inline" id="search-form" hx-target="#train-data" hx-push-url="true"
+                  data-th-attr="hx-get=@{'/' + ${carrier.id} + '/voyages'}">
                 <div class="form-group mr-sm-2 mb-3">
                     <label class="sr-only" for="train-no-input" data-th-text="#{search.trainNo}">Train number</label>
-                    <input type="text" class="form-control" id="train-no-input" placeholder="Train number" size="10"
-                           autofocus data-th-placeholder="#{search.trainNo}" data-th-value="${train}"/>
+                    <input type="text" name="train-no" class="form-control" id="train-no-input"
+                           placeholder="Train number" size="10" autofocus data-th-placeholder="#{search.trainNo}"
+                           data-th-value="${train}"/>
                 </div>
                 <button type="submit" class="btn btn-primary mb-3" id="submit-button" disabled
                         data-th-text="#{search.submit}">Search
@@ -124,9 +126,9 @@
     </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/htmx/1.6.1/htmx.min.js" integrity="sha512-aUGLiEPPd4KYAKmXba1ZeH3JCtPEo3F8Ay1C7sRpSnOcfsczlP1j14jo3abBaMqJu9QC4pbh8TyKy9ekZ6j7Pw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.pjax/2.0.1/jquery.pjax.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.6.5/mousetrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.6.5/plugins/global-bind/mousetrap-global-bind.min.js"></script>
