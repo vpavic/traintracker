@@ -1,5 +1,9 @@
 package io.vpavic.traintracker.infrastructure.cloud.heroku;
 
+import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.cloud.CloudPlatform;
 import org.springframework.boot.env.EnvironmentPostProcessor;
@@ -8,10 +12,6 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MutablePropertySources;
 import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.util.StringUtils;
-
-import java.util.Properties;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * An {@link EnvironmentPostProcessor} that maps Heroku env variables to appropriate Spring Boot configuration
