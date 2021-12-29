@@ -6,9 +6,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 @WebMvcTest(HomeWebController.class)
 class HomeWebControllerTests {
 
-    @Test
-    void test() {
-        // TODO
-    }
+	@Test
+	void test() {
+		// TODO
+	}
 
 }

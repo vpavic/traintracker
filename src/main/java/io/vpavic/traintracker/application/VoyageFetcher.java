@@ -5,8 +5,8 @@ import io.vpavic.traintracker.domain.model.voyage.Voyage;
 
 public interface VoyageFetcher {
 
-    Carrier getCarrier();
+	Carrier getCarrier();
 
-    Voyage getVoyage(String train);
+	Voyage getVoyage(String train);
 
 }

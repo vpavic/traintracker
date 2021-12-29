@@ -1,87 +1,93 @@
 plugins {
-    id("application")
-    alias(libs.plugins.jib)
-    alias(libs.plugins.spotless)
-    alias(libs.plugins.versionsplg)
+	id("application")
+	alias(libs.plugins.jib)
+	alias(libs.plugins.spotless)
+	alias(libs.plugins.versionsplg)
 }
 
 java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
 }
 
 application {
-    mainClass = "io.vpavic.traintracker.TrainTrackerApplication"
+	mainClass = "io.vpavic.traintracker.TrainTrackerApplication"
 }
 
 repositories {
-    mavenCentral()
-    maven { url = "https://repo.spring.io/libs-milestone/" }
+	mavenCentral()
+	maven { url = "https://repo.spring.io/libs-milestone/" }
 }
 
 configurations {
-    javaAgent {
-        visible = false
-        transitive = false
-        canBeConsumed = false
-    }
+	javaAgent {
+		visible = false
+		transitive = false
+		canBeConsumed = false
+	}
 }
 
 dependencies {
-    implementation(platform(libs.spring.boot.dependencies))
-    implementation(libs.jsoup)
-    implementation(libs.newrelic.logback)
-    implementation("org.codehaus.janino:janino")
-    implementation("org.flywaydb:flyway-core")
-    implementation("org.postgresql:postgresql")
-    implementation("org.springframework.boot:spring-boot-starter-cache")
-    implementation("org.springframework.boot:spring-boot-starter-data-redis") {
-        exclude(group: "io.lettuce")
-    }
-    implementation("org.springframework.boot:spring-boot-starter-jdbc")
-    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.session:spring-session-data-redis")
-    implementation("redis.clients:jedis")
+	implementation(platform(libs.spring.boot.dependencies))
+	implementation(libs.jsoup)
+	implementation(libs.newrelic.logback)
+	implementation("org.codehaus.janino:janino")
+	implementation("org.flywaydb:flyway-core")
+	implementation("org.postgresql:postgresql")
+	implementation("org.springframework.boot:spring-boot-starter-cache")
+	implementation("org.springframework.boot:spring-boot-starter-data-redis") {
+		exclude(group: "io.lettuce")
+	}
+	implementation("org.springframework.boot:spring-boot-starter-jdbc")
+	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.session:spring-session-data-redis")
+	implementation("redis.clients:jedis")
 
-    javaAgent(libs.newrelic.agent)
+	javaAgent(libs.newrelic.agent)
 
-    testImplementation(libs.archunit.junit5)
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation(libs.archunit.junit5)
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 tasks.withType(Test) {
-    useJUnitPlatform()
+	useJUnitPlatform()
 }
 
 dependencyUpdates {
-    revision = "release"
-    gradleReleaseChannel = "current"
-    rejectVersionIf {
-        def isStable = { String version ->
-            def isStableVersion = (version ==~ /^[0-9,.v-]+(-r)?$/)
-            def isStableKeyword = ["RELEASE", "FINAL", "GA"].any({ version.toUpperCase().contains(it) })
-            return isStableVersion || isStableKeyword
-        }
-        isStable(it.currentVersion) && !isStable(it.candidate.version)
-    }
+	revision = "release"
+	gradleReleaseChannel = "current"
+	rejectVersionIf {
+		def isStable = { String version ->
+			def isStableVersion = (version ==~ /^[0-9,.v-]+(-r)?$/)
+			def isStableKeyword = ["RELEASE", "FINAL", "GA"].any({ version.toUpperCase().contains(it) })
+			return isStableVersion || isStableKeyword
+		}
+		isStable(it.currentVersion) && !isStable(it.candidate.version)
+	}
 }
 
 spotless {
-    java {
-        importOrder("java", "javax", "", "io.vpavic", "\\#")
-    }
+	java {
+		indentWithTabs()
+		replaceRegex("class-level javadoc indentation fix", "^\\*", " *")
+		replaceRegex("method-level javadoc indentation fix", "\\t\\*", "\t *")
+		importOrder("java", "javax", "", "io.vpavic", "\\#")
+	}
+	groovyGradle {
+		indentWithTabs()
+	}
 }
 
 jib {
-    from {
-        image = "azul/zulu-openjdk:17.0.1-17.30.15-jre@sha256:dae34ff0b369318a3faf79edeebcbadf87e302512a55578d252cfb20cb8bae38"
-    }
-    container {
-        jvmFlags = configurations.javaAgent.collect { "-javaagent:" + it.name }
-    }
-    extraDirectories {
-        paths = configurations.javaAgent.collect { it.parent }
-    }
+	from {
+		image = "azul/zulu-openjdk:17.0.1-17.30.15-jre@sha256:dae34ff0b369318a3faf79edeebcbadf87e302512a55578d252cfb20cb8bae38"
+	}
+	container {
+		jvmFlags = configurations.javaAgent.collect { "-javaagent:" + it.name }
+	}
+	extraDirectories {
+		paths = configurations.javaAgent.collect { it.parent }
+	}
 }

@@ -26,57 +26,57 @@ import org.springframework.util.StringUtils;
  */
 public class HerokuEnvironmentPostProcessor implements EnvironmentPostProcessor {
 
-    private static final Pattern databaseUrlPattern = Pattern.compile(
-            "(?<database>\\w+)://(?<username>\\w+):(?<password>\\w+)@(?<url>.+)");
+	private static final Pattern databaseUrlPattern = Pattern.compile(
+			"(?<database>\\w+)://(?<username>\\w+):(?<password>\\w+)@(?<url>.+)");
 
-    @Override
-    public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
-        if (CloudPlatform.HEROKU.isActive(environment)) {
-            Properties properties = new Properties();
-            extractServerPort(environment, properties);
-            extractDatabaseUrl(environment, properties);
-            extractRedisUrl(environment, properties);
-            PropertiesPropertySource herokuPropertySource = new PropertiesPropertySource("heroku", properties);
-            MutablePropertySources propertySources = environment.getPropertySources();
-            if (propertySources.contains(CommandLinePropertySource.COMMAND_LINE_PROPERTY_SOURCE_NAME)) {
-                propertySources.addAfter(CommandLinePropertySource.COMMAND_LINE_PROPERTY_SOURCE_NAME,
-                        herokuPropertySource);
-            }
-            else {
-                propertySources.addFirst(herokuPropertySource);
-            }
-        }
-    }
+	@Override
+	public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
+		if (CloudPlatform.HEROKU.isActive(environment)) {
+			Properties properties = new Properties();
+			extractServerPort(environment, properties);
+			extractDatabaseUrl(environment, properties);
+			extractRedisUrl(environment, properties);
+			PropertiesPropertySource herokuPropertySource = new PropertiesPropertySource("heroku", properties);
+			MutablePropertySources propertySources = environment.getPropertySources();
+			if (propertySources.contains(CommandLinePropertySource.COMMAND_LINE_PROPERTY_SOURCE_NAME)) {
+				propertySources.addAfter(CommandLinePropertySource.COMMAND_LINE_PROPERTY_SOURCE_NAME,
+						herokuPropertySource);
+			}
+			else {
+				propertySources.addFirst(herokuPropertySource);
+			}
+		}
+	}
 
-    private static void extractServerPort(ConfigurableEnvironment environment, Properties properties) {
-        String port = environment.getProperty("PORT");
-        if (StringUtils.hasText(port)) {
-            properties.setProperty("server.port", port);
-        }
-    }
+	private static void extractServerPort(ConfigurableEnvironment environment, Properties properties) {
+		String port = environment.getProperty("PORT");
+		if (StringUtils.hasText(port)) {
+			properties.setProperty("server.port", port);
+		}
+	}
 
-    private static void extractDatabaseUrl(ConfigurableEnvironment environment, Properties properties) {
-        String databaseUrl = environment.getProperty("DATABASE_URL");
-        if (StringUtils.hasText(databaseUrl)) {
-            Matcher matcher = databaseUrlPattern.matcher(databaseUrl);
-            if (matcher.matches()) {
-                String database = matcher.group("database");
-                String url = matcher.group("url");
-                String jdbcUrl = "jdbc:" + database.replace("postgres", "postgresql") + "://" + url;
-                String username = matcher.group("username");
-                String password = matcher.group("password");
-                properties.setProperty("spring.datasource.url", jdbcUrl);
-                properties.setProperty("spring.datasource.username", username);
-                properties.setProperty("spring.datasource.password", password);
-            }
-        }
-    }
+	private static void extractDatabaseUrl(ConfigurableEnvironment environment, Properties properties) {
+		String databaseUrl = environment.getProperty("DATABASE_URL");
+		if (StringUtils.hasText(databaseUrl)) {
+			Matcher matcher = databaseUrlPattern.matcher(databaseUrl);
+			if (matcher.matches()) {
+				String database = matcher.group("database");
+				String url = matcher.group("url");
+				String jdbcUrl = "jdbc:" + database.replace("postgres", "postgresql") + "://" + url;
+				String username = matcher.group("username");
+				String password = matcher.group("password");
+				properties.setProperty("spring.datasource.url", jdbcUrl);
+				properties.setProperty("spring.datasource.username", username);
+				properties.setProperty("spring.datasource.password", password);
+			}
+		}
+	}
 
-    private static void extractRedisUrl(ConfigurableEnvironment environment, Properties properties) {
-        String redisUrl = environment.getProperty("REDIS_URL");
-        if (StringUtils.hasText(redisUrl)) {
-            properties.setProperty("spring.redis.url", redisUrl);
-        }
-    }
+	private static void extractRedisUrl(ConfigurableEnvironment environment, Properties properties) {
+		String redisUrl = environment.getProperty("REDIS_URL");
+		if (StringUtils.hasText(redisUrl)) {
+			properties.setProperty("spring.redis.url", redisUrl);
+		}
+	}
 
 }

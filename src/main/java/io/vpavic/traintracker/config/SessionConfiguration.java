@@ -19,34 +19,34 @@ import org.springframework.session.data.redis.RedisSessionRepository;
 @EnableSpringHttpSession
 class SessionConfiguration {
 
-    @Bean
-    RedisSessionRepository sessionRepository(RedisConnectionFactory redisConnectionFactory,
-            SessionProperties sessionProperties) {
-        RedisOperations<String, Object> sessionRedisOperations = sessionRedisOperations(redisConnectionFactory);
-        RedisSessionRepository sessionRepository = new RedisSessionRepository(sessionRedisOperations);
-        sessionRepository.setRedisKeyNamespace("traintracker:sessions");
-        PropertyMapper map = PropertyMapper.get().alwaysApplyingWhenNonNull();
-        map.from(sessionProperties::getTimeout).to(sessionRepository::setDefaultMaxInactiveInterval);
-        return sessionRepository;
-    }
+	@Bean
+	RedisSessionRepository sessionRepository(RedisConnectionFactory redisConnectionFactory,
+			SessionProperties sessionProperties) {
+		RedisOperations<String, Object> sessionRedisOperations = sessionRedisOperations(redisConnectionFactory);
+		RedisSessionRepository sessionRepository = new RedisSessionRepository(sessionRedisOperations);
+		sessionRepository.setRedisKeyNamespace("traintracker:sessions");
+		PropertyMapper map = PropertyMapper.get().alwaysApplyingWhenNonNull();
+		map.from(sessionProperties::getTimeout).to(sessionRepository::setDefaultMaxInactiveInterval);
+		return sessionRepository;
+	}
 
-    private static RedisOperations<String, Object> sessionRedisOperations(
-            RedisConnectionFactory redisConnectionFactory) {
-        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
-        redisTemplate.setConnectionFactory(redisConnectionFactory);
-        redisTemplate.setDefaultSerializer(new GenericJackson2JsonRedisSerializer(objectMapper()));
-        redisTemplate.setKeySerializer(RedisSerializer.string());
-        redisTemplate.setHashKeySerializer(RedisSerializer.string());
-        redisTemplate.afterPropertiesSet();
-        return redisTemplate;
-    }
+	private static RedisOperations<String, Object> sessionRedisOperations(
+			RedisConnectionFactory redisConnectionFactory) {
+		RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+		redisTemplate.setConnectionFactory(redisConnectionFactory);
+		redisTemplate.setDefaultSerializer(new GenericJackson2JsonRedisSerializer(objectMapper()));
+		redisTemplate.setKeySerializer(RedisSerializer.string());
+		redisTemplate.setHashKeySerializer(RedisSerializer.string());
+		redisTemplate.afterPropertiesSet();
+		return redisTemplate;
+	}
 
-    private static ObjectMapper objectMapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        objectMapper.disable(SerializationFeature.WRITE_DURATIONS_AS_TIMESTAMPS);
-        return objectMapper;
-    }
+	private static ObjectMapper objectMapper() {
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.registerModule(new JavaTimeModule());
+		objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+		objectMapper.disable(SerializationFeature.WRITE_DURATIONS_AS_TIMESTAMPS);
+		return objectMapper;
+	}
 
 }

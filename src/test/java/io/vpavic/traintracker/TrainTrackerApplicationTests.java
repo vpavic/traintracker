@@ -10,16 +10,16 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 @SpringBootTest(properties = "spring.flyway.enabled=false")
 class TrainTrackerApplicationTests {
 
-    @MockBean
-    @SuppressWarnings("unused")
-    private DataSource dataSource;
+	@MockBean
+	@SuppressWarnings("unused")
+	private DataSource dataSource;
 
-    @MockBean
-    @SuppressWarnings("unused")
-    private RedisConnectionFactory redisConnectionFactory;
+	@MockBean
+	@SuppressWarnings("unused")
+	private RedisConnectionFactory redisConnectionFactory;
 
-    @Test
-    void contextLoads() {
-    }
+	@Test
+	void contextLoads() {
+	}
 
 }

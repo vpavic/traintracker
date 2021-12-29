@@ -16,33 +16,33 @@ import io.vpavic.traintracker.domain.model.voyage.Voyage;
 
 public class TrainTrackerModule extends SimpleModule {
 
-    public TrainTrackerModule() {
-        super("TrainTracker");
-        addSerializer(CarrierId.class, new ToStringSerializer());
-        setMixInAnnotation(Station.class, StationMixin.class);
-        setMixInAnnotation(Voyage.class, VoyageMixin.class);
-    }
+	public TrainTrackerModule() {
+		super("TrainTracker");
+		addSerializer(CarrierId.class, new ToStringSerializer());
+		setMixInAnnotation(Station.class, StationMixin.class);
+		setMixInAnnotation(Voyage.class, VoyageMixin.class);
+	}
 
-    static abstract class StationMixin {
+	static abstract class StationMixin {
 
-        @SuppressWarnings("unused")
-        StationMixin(@JsonProperty("name") String name, @JsonProperty("arrivalTime") LocalTime arrivalTime,
-                @JsonProperty("arrivalDelay") Integer arrivalDelay,
-                @JsonProperty("departureTime") LocalTime departureTime,
-                @JsonProperty("departureDelay") Integer departureDelay) {
-        }
+		@SuppressWarnings("unused")
+		StationMixin(@JsonProperty("name") String name, @JsonProperty("arrivalTime") LocalTime arrivalTime,
+				@JsonProperty("arrivalDelay") Integer arrivalDelay,
+				@JsonProperty("departureTime") LocalTime departureTime,
+				@JsonProperty("departureDelay") Integer departureDelay) {
+		}
 
-    }
+	}
 
-    static abstract class VoyageMixin {
+	static abstract class VoyageMixin {
 
-        @SuppressWarnings("unused")
-        VoyageMixin(@JsonProperty("carrierId") CarrierId carrierId, @JsonProperty("date") LocalDate date,
-                @JsonProperty("currentStation") Station currentStation,
-                @JsonProperty("stations") Collection<Station> stations, @JsonProperty("sources") List<URI> sources,
-                @JsonProperty("generatedTime") LocalTime generatedTime) {
-        }
+		@SuppressWarnings("unused")
+		VoyageMixin(@JsonProperty("carrierId") CarrierId carrierId, @JsonProperty("date") LocalDate date,
+				@JsonProperty("currentStation") Station currentStation,
+				@JsonProperty("stations") Collection<Station> stations, @JsonProperty("sources") List<URI> sources,
+				@JsonProperty("generatedTime") LocalTime generatedTime) {
+		}
 
-    }
+	}
 
 }

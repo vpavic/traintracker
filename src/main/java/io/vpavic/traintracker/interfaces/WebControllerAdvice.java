@@ -11,9 +11,9 @@ import io.vpavic.traintracker.domain.model.carrier.Carriers;
 @ControllerAdvice
 class WebControllerAdvice {
 
-    @ModelAttribute("carriers")
-    Collection<Carrier> carriers() {
-        return Carriers.getAll().values();
-    }
+	@ModelAttribute("carriers")
+	Collection<Carrier> carriers() {
+		return Carriers.getAll().values();
+	}
 
 }

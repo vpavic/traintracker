@@ -17,17 +17,17 @@ import io.vpavic.traintracker.domain.model.carrier.Carriers;
 @RequestMapping(path = "/{carrierId:[a-z]+}", produces = MediaType.TEXT_HTML_VALUE)
 class CarrierWebController {
 
-    @GetMapping
-    String getCarrier(@PathVariable CarrierId carrierId) {
-        return "redirect:" + carrierId + "/";
-    }
+	@GetMapping
+	String getCarrier(@PathVariable CarrierId carrierId) {
+		return "redirect:" + carrierId + "/";
+	}
 
-    @GetMapping(path = "/")
-    String getCarrier(@PathVariable CarrierId carrierId, Model model) {
-        Carrier carrier = Carriers.getById(carrierId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        model.addAttribute("carrier", carrier);
-        return "home";
-    }
+	@GetMapping(path = "/")
+	String getCarrier(@PathVariable CarrierId carrierId, Model model) {
+		Carrier carrier = Carriers.getById(carrierId)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+		model.addAttribute("carrier", carrier);
+		return "home";
+	}
 
 }

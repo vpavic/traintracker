@@ -23,36 +23,36 @@ import io.vpavic.traintracker.infrastructure.json.jackson.TrainTrackerModule;
 @EnableCaching
 class CacheConfiguration {
 
-    private static final CacheKeyPrefix cacheKeyPrefix = cacheName -> "traintracker:" + cacheName + ":";
+	private static final CacheKeyPrefix cacheKeyPrefix = cacheName -> "traintracker:" + cacheName + ":";
 
-    @Bean
-    RedisCacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
-        return RedisCacheManager.builder(redisConnectionFactory)
-                .withInitialCacheConfigurations(Map.of("voyages", voyageCacheConfiguration()))
-                .disableCreateOnMissingCache()
-                .build();
-    }
+	@Bean
+	RedisCacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
+		return RedisCacheManager.builder(redisConnectionFactory)
+				.withInitialCacheConfigurations(Map.of("voyages", voyageCacheConfiguration()))
+				.disableCreateOnMissingCache()
+				.build();
+	}
 
-    private static RedisCacheConfiguration voyageCacheConfiguration() {
-        return RedisCacheConfiguration.defaultCacheConfig()
-                .serializeValuesWith(SerializationPair.fromSerializer(voyageRedisSerializer()))
-                .entryTtl(Duration.ofMinutes(1L))
-                .computePrefixWith(cacheKeyPrefix);
-    }
+	private static RedisCacheConfiguration voyageCacheConfiguration() {
+		return RedisCacheConfiguration.defaultCacheConfig()
+				.serializeValuesWith(SerializationPair.fromSerializer(voyageRedisSerializer()))
+				.entryTtl(Duration.ofMinutes(1L))
+				.computePrefixWith(cacheKeyPrefix);
+	}
 
-    private static Jackson2JsonRedisSerializer<Voyage> voyageRedisSerializer() {
-        Jackson2JsonRedisSerializer<Voyage> voyageRedisSerializer = new Jackson2JsonRedisSerializer<>(Voyage.class);
-        voyageRedisSerializer.setObjectMapper(objectMapper());
-        return voyageRedisSerializer;
-    }
+	private static Jackson2JsonRedisSerializer<Voyage> voyageRedisSerializer() {
+		Jackson2JsonRedisSerializer<Voyage> voyageRedisSerializer = new Jackson2JsonRedisSerializer<>(Voyage.class);
+		voyageRedisSerializer.setObjectMapper(objectMapper());
+		return voyageRedisSerializer;
+	}
 
-    private static ObjectMapper objectMapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.registerModule(new TrainTrackerModule());
-        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        objectMapper.disable(SerializationFeature.WRITE_DURATIONS_AS_TIMESTAMPS);
-        return objectMapper;
-    }
+	private static ObjectMapper objectMapper() {
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.registerModule(new JavaTimeModule());
+		objectMapper.registerModule(new TrainTrackerModule());
+		objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+		objectMapper.disable(SerializationFeature.WRITE_DURATIONS_AS_TIMESTAMPS);
+		return objectMapper;
+	}
 
 }

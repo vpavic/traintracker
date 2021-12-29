@@ -14,20 +14,20 @@ import io.vpavic.traintracker.domain.model.carrier.CarrierId;
 @Component
 class VoyageFetcherConverter implements Converter<String, VoyageFetcher> {
 
-    private final Map<CarrierId, VoyageFetcher> fetchers;
+	private final Map<CarrierId, VoyageFetcher> fetchers;
 
-    VoyageFetcherConverter(List<VoyageFetcher> fetchers) {
-        this.fetchers = fetchers.stream()
-                .collect(Collectors.toUnmodifiableMap(fetcher -> fetcher.getCarrier().getId(), fetcher -> fetcher));
-    }
+	VoyageFetcherConverter(List<VoyageFetcher> fetchers) {
+		this.fetchers = fetchers.stream()
+				.collect(Collectors.toUnmodifiableMap(fetcher -> fetcher.getCarrier().getId(), fetcher -> fetcher));
+	}
 
-    @Override
-    public VoyageFetcher convert(@NonNull String source) {
-        VoyageFetcher fetcher = this.fetchers.get(CarrierId.of(source));
-        if (fetcher == null) {
-            throw new IllegalArgumentException("Unknown carrier: " + source);
-        }
-        return fetcher;
-    }
+	@Override
+	public VoyageFetcher convert(@NonNull String source) {
+		VoyageFetcher fetcher = this.fetchers.get(CarrierId.of(source));
+		if (fetcher == null) {
+			throw new IllegalArgumentException("Unknown carrier: " + source);
+		}
+		return fetcher;
+	}
 
 }

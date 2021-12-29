@@ -11,9 +11,9 @@ import io.vpavic.traintracker.domain.model.carrier.Carriers;
 @RequestMapping(path = "/", produces = MediaType.TEXT_HTML_VALUE)
 class HomeWebController {
 
-    @GetMapping
-    String home() {
-        return "redirect:/" + Carriers.getAll().keySet().iterator().next() + "/";
-    }
+	@GetMapping
+	String home() {
+		return "redirect:/" + Carriers.getAll().keySet().iterator().next() + "/";
+	}
 
 }
