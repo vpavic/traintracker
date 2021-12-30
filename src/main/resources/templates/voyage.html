@@ -4,77 +4,72 @@
 </head>
 <body data-th-replace="base :: body(~{:: div})">
 <div data-th-fragment="fragment">
-    <div class="list-group mt-4">
-        <div class="list-group-item" data-th-classappend="'list-group-item-' + ${delayLevel}">
-            <span class="fa fa-info-circle"></span>
-            <span data-th-text="#{voyage.current.title}" data-th-remove="tag">Current train position</span>
-        </div>
-        <div class="list-group-item flex-column align-items-start" data-th-object="${voyage.currentStation}">
-            <div class="d-flex w-100 justify-content-between">
-                <h5 class="list-group-item-heading" data-th-text="*{name}">Name</h5>
-            </div>
-            <div class="mb-1">
-                <div class="row" data-th-if="*{arrivalTime}">
-                    <div class="col-4" data-th-text="#{voyage.table.arrival}">Arrival</div>
-                    <div class="col-2" data-th-text="*{arrivalTime}">00:00</div>
-                    <div class="col-2" data-th-if="*{arrivalDelay}" data-th-text="*{'+' + arrivalDelay}"></div>
-                </div>
-                <div class="row" data-th-if="*{departureTime}">
-                    <div class="col-4" data-th-text="#{voyage.table.departure}">Departure</div>
-                    <div class="col-2" data-th-text="*{departureTime}">00:00</div>
-                    <div class="col-2" data-th-if="*{departureDelay}" data-th-text="*{'+' + departureDelay}"></div>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="list-group mt-4">
+		<div class="list-group-item" data-th-classappend="'list-group-item-' + ${delayLevel}">
+			<span class="fa fa-info-circle"></span>
+			<span data-th-text="#{voyage.current.title}" data-th-remove="tag">Current train position</span>
+		</div>
+		<div class="list-group-item flex-column align-items-start" data-th-object="${voyage.currentStation}">
+			<div class="d-flex w-100 justify-content-between">
+				<h5 class="list-group-item-heading" data-th-text="*{name}">Name</h5>
+			</div>
+			<div class="mb-1">
+				<div class="row" data-th-if="*{arrivalTime}">
+					<div class="col-4" data-th-text="#{voyage.table.arrival}">Arrival</div>
+					<div class="col-2" data-th-text="*{arrivalTime}">00:00</div>
+					<div class="col-2" data-th-if="*{arrivalDelay}" data-th-text="*{'+' + arrivalDelay}"></div>
+				</div>
+				<div class="row" data-th-if="*{departureTime}">
+					<div class="col-4" data-th-text="#{voyage.table.departure}">Departure</div>
+					<div class="col-2" data-th-text="*{departureTime}">00:00</div>
+					<div class="col-2" data-th-if="*{departureDelay}" data-th-text="*{'+' + departureDelay}"></div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <div class="list-group mt-4" data-th-if="${not #lists.isEmpty(voyage.stations)}">
-        <div class="list-group-item list-group-item-light">
-            <a role="button" data-toggle="collapse" href="#stations" aria-expanded="false" aria-controls="stations">
-                <span class="fa fa-plus-circle"></span>
-                <span data-th-text="#{voyage.history.title}" data-th-remove="tag">Full voyage history</span>
-            </a>
-        </div>
-        <div id="stations" class="panel-collapse collapse" role="tabpanel" aria-labelledby="stations-heading">
-            <div class="list-group-item flex-column align-items-start" data-th-each="station : ${voyage.stations}">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="list-group-item-heading" data-th-text="${station.name}">Name</h5>
-                </div>
-                <div class="list-group-item-text">
-                    <div class="row" data-th-if="${station.arrivalTime}">
-                        <div class="col-4" data-th-text="#{voyage.table.arrival}">Arrival</div>
-                        <div class="col-2" data-th-text="${station.arrivalTime}">00:00</div>
-                        <div class="col-2" data-th-if="${station.arrivalDelay}"
-                             data-th-text="${'+' + station.arrivalDelay}"></div>
-                    </div>
-                    <div class="row" data-th-if="${station.departureTime}">
-                        <div class="col-4" data-th-text="#{voyage.table.departure}">Departure</div>
-                        <div class="col-2" data-th-text="${station.departureTime}">00:00</div>
-                        <div class="col-2" data-th-if="${station.departureDelay}"
-                             data-th-text="${'+' + station.departureDelay}"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="list-group mt-4" data-th-if="${not #lists.isEmpty(voyage.stations)}">
+		<div class="list-group-item list-group-item-light">
+			<a role="button" data-toggle="collapse" href="#stations" aria-expanded="false" aria-controls="stations">
+				<span class="fa fa-plus-circle"></span>
+				<span data-th-text="#{voyage.history.title}" data-th-remove="tag">Full voyage history</span>
+			</a>
+		</div>
+		<div id="stations" class="panel-collapse collapse" role="tabpanel" aria-labelledby="stations-heading">
+			<div class="list-group-item flex-column align-items-start" data-th-each="station : ${voyage.stations}">
+				<div class="d-flex w-100 justify-content-between">
+					<h5 class="list-group-item-heading" data-th-text="${station.name}">Name</h5>
+				</div>
+				<div class="list-group-item-text">
+					<div class="row" data-th-if="${station.arrivalTime}">
+						<div class="col-4" data-th-text="#{voyage.table.arrival}">Arrival</div>
+						<div class="col-2" data-th-text="${station.arrivalTime}">00:00</div>
+						<div class="col-2" data-th-if="${station.arrivalDelay}" data-th-text="${'+' + station.arrivalDelay}"></div>
+					</div>
+					<div class="row" data-th-if="${station.departureTime}">
+						<div class="col-4" data-th-text="#{voyage.table.departure}">Departure</div>
+						<div class="col-2" data-th-text="${station.departureTime}">00:00</div>
+						<div class="col-2" data-th-if="${station.departureDelay}" data-th-text="${'+' + station.departureDelay}"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <div class="container text-muted mt-4">
-        <div class="d-flex justify-content-center">
-            <small>
-                <span data-th-text="#{voyage.providedBy}"></span>
-                <a href="#" target="_blank" data-th-href="${carrier.website}"
-                   data-th-text="#{carrier. + ${carrier.id}}">Carrier</a>
-            </small>
-        </div>
-        <div class="d-flex justify-content-center">
-            <small data-th-text="#{voyage.generated(${#temporals.format(voyage.generatedTime, 'HH:mm:ss')})}">Generated
-                on 00:00.
-            </small>
-        </div>
-        <div class="d-flex justify-content-center">
-            <small data-th-text="#{voyage.timezone(${carrier.timeZone})}">All times are UTC.</small>
-        </div>
-    </div>
+	<div class="container text-muted mt-4">
+		<div class="d-flex justify-content-center">
+			<small>
+				<span data-th-text="#{voyage.providedBy}"></span>
+				<a href="#" target="_blank" data-th-href="${carrier.website}" data-th-text="#{carrier. + ${carrier.id}}">Carrier</a>
+			</small>
+		</div>
+		<div class="d-flex justify-content-center">
+			<small data-th-text="#{voyage.generated(${#temporals.format(voyage.generatedTime, 'HH:mm:ss')})}">Generated on 00:00.</small>
+		</div>
+		<div class="d-flex justify-content-center">
+			<small data-th-text="#{voyage.timezone(${carrier.timeZone})}">All times are UTC.</small>
+		</div>
+	</div>
 </div>
 </body>
 </html>

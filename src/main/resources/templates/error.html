@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Error</title>
+	<title>Error</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container mt-4">
-    <div>
-        <h1 data-th-text="${status}">Status</h1>
-    </div>
-    <p class="lead">Error: <span data-th-text="${error}">Error</span></p>
-    <small class="text-muted" data-th-text="${timestamp}">Timestamp</small>
+	<div>
+		<h1 data-th-text="${status}">Status</h1>
+	</div>
+	<p class="lead">
+		Error: <span data-th-text="${error}">Error</span>
+	</p>
+	<small class="text-muted" data-th-text="${timestamp}">Timestamp</small>
 </div>
 </body>
 </html>
