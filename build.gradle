@@ -21,6 +21,10 @@ repositories {
 }
 
 configurations {
+	developmentOnly
+	runtimeClasspath {
+		extendsFrom developmentOnly
+	}
 	javaAgent {
 		visible = false
 		transitive = false
@@ -44,6 +48,8 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.session:spring-session-data-redis")
 	implementation("redis.clients:jedis")
+
+	developmentOnly("org.springframework.boot:spring-boot-devtools")
 
 	javaAgent(libs.newrelic.agent)
 
