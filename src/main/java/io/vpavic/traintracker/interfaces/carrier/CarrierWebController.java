@@ -18,11 +18,6 @@ import io.vpavic.traintracker.domain.model.carrier.Carriers;
 class CarrierWebController {
 
 	@GetMapping
-	String getCarrier(@PathVariable CarrierId carrierId) {
-		return "redirect:" + carrierId + "/";
-	}
-
-	@GetMapping(path = "/")
 	String getCarrier(@PathVariable CarrierId carrierId, Model model) {
 		Carrier carrier = Carriers.getById(carrierId)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));

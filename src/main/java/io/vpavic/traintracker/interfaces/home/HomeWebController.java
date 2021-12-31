@@ -13,7 +13,7 @@ class HomeWebController {
 
 	@GetMapping
 	String home() {
-		return "redirect:/" + Carriers.getAll().keySet().iterator().next() + "/";
+		return "redirect:/" + Carriers.getAll().keySet().iterator().next();
 	}
 
 }

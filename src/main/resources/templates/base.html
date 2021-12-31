@@ -20,7 +20,7 @@
 <body data-th-fragment="body(report)" data-th-attr="data-carrier=${carrier.id}">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 	<div class="container">
-		<a class="navbar-brand" href="/" data-th-href="@{'/' + ${carrier.id} + '/'}" data-th-text="#{navbar.title}">TrainTracker</a>
+		<a class="navbar-brand" href="/" data-th-href="@{'/' + ${carrier.id}}" data-th-text="#{navbar.title}">TrainTracker</a>
 		<a class="nav-item navbar-link mr-auto" href="#" data-toggle="modal" data-target="#carrier">
 			<img src="https://prodaja.hzpp.hr/Content/img/HZPP_logo_color_small.png" class="img-thumbnail carrier-logo" alt="hzpp" data-th-src="${carrier.logo}"/>
 		</a>
@@ -74,7 +74,7 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<a class="btn btn-outline-primary btn-lg btn-block" href="#" role="button" data-th-each="carrier : ${carriers}" data-th-href="@{'/' + ${carrier.id} + '/'}">
+				<a class="btn btn-outline-primary btn-lg btn-block" href="#" role="button" data-th-each="carrier : ${carriers}" data-th-href="@{'/' + ${carrier.id}}">
 					<img src="https://prodaja.hzpp.hr/Content/img/HZPP_logo_color_small.png" class="img-thumbnail carrier-logo" alt="hzpp" data-th-src="${carrier.logo}"/>
 					<span data-th-text="#{'carrier.' + ${carrier.id}}">HZPP</span>
 				</a>

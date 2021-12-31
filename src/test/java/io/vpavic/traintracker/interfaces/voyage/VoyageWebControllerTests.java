@@ -43,7 +43,7 @@ class VoyageWebControllerTests {
 		// then
 		result.andExpectAll(
 				status().is3xxRedirection(),
-				header().string(HttpHeaders.LOCATION, endsWith("test/123")));
+				header().string(HttpHeaders.LOCATION, endsWith("/test/123")));
 	}
 
 	@Test
