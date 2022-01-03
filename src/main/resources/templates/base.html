@@ -6,10 +6,9 @@
 
 	<title data-th-text="#{app.title}">TrainTracker</title>
 
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-flash.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" integrity="sha512-GQGU0fMMi238uA+a/bdWJfpUGKUkBdgfFdgBm72SUQ6BeyWjoY/ton0tEjH+OSH9iP4Dfh+7HM0I9f5eR0L/4w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-flash.min.css" integrity="sha512-hPHdudSZUyxoMNAYUu8c/2BDg1ah3tCtdhFwWTUN4qI8Y5emCPVKwyR1tJXhL/uBx7x7MYKGvc1TbdH6mwGS8Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/4.1.5/css/flag-icons.min.css" integrity="sha512-UwbBNAFoECXUPeDhlKR3zzWU3j8ddKIQQsDOsKhXQGdiB5i3IHEXr9kXx82+gaHigbNKbTDp3VY/G6gZqva6ZQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<style>
 		.carrier-logo {
 			height: 30px;
@@ -21,16 +20,16 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 	<div class="container">
 		<a class="navbar-brand" href="/" data-th-href="@{'/' + ${carrier.id}}" data-th-text="#{navbar.title}">TrainTracker</a>
-		<a class="nav-item navbar-link mr-auto" href="#" data-toggle="modal" data-target="#carrier">
+		<a class="nav-item navbar-link me-auto" href="#" data-bs-toggle="modal" data-bs-target="#carrier">
 			<img src="https://prodaja.hzpp.hr/Content/img/HZPP_logo_color_small.png" class="img-thumbnail carrier-logo" alt="hzpp" data-th-src="${carrier.logo}"/>
 		</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav ml-auto">
+			<ul class="navbar-nav ms-auto">
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-th-text="#{navbar.language}">Language</a>
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-th-text="#{navbar.language}">Language</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 						<a class="dropdown-item" href="#" data-th-href="@{${#httpServletRequest.requestURI}(locale=en)}">
 							<span class="flag-icon flag-icon-gb"></span> English
@@ -49,12 +48,12 @@
 	<div class="card bg-light mt-4">
 		<div class="card-body">
 			<h5 class="card-title" data-th-text="#{search.title}">Search by train number</h5>
-			<form class="form-inline" id="search-form" hx-target="#train-data" hx-push-url="true" data-th-attr="hx-get=@{'/' + ${carrier.id} + '/voyages'}">
-				<div class="form-group mr-sm-2 mb-3">
-					<label class="sr-only" for="train-no-input" data-th-text="#{search.trainNo}">Train number</label>
+			<form class="row" id="search-form" hx-target="#train-data" hx-push-url="true" data-th-attr="hx-get=@{'/' + ${carrier.id} + '/voyages'}">
+				<label class="visually-hidden" for="train-no-input" data-th-text="#{search.trainNo}">Train number</label>
+				<div class="input-group mb-3">
 					<input type="text" name="train-no" class="form-control" id="train-no-input" placeholder="Train number" size="10" autofocus data-th-placeholder="#{search.trainNo}" data-th-value="${train}"/>
+					<button type="submit" class="btn btn-primary" id="submit-button" disabled data-th-text="#{search.submit}">Search</button>
 				</div>
-				<button type="submit" class="btn btn-primary mb-3" id="submit-button" disabled data-th-text="#{search.submit}">Search</button>
 			</form>
 		</div>
 	</div>
@@ -69,11 +68,9 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="header-carrier" data-th-text="#{carrier.title}">Carrier</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
-			<div class="modal-body">
+			<div class="modal-body d-grid gap-2">
 				<a class="btn btn-outline-primary btn-lg btn-block" href="#" role="button" data-th-each="carrier : ${carriers}" data-th-href="@{'/' + ${carrier.id}}">
 					<img src="https://prodaja.hzpp.hr/Content/img/HZPP_logo_color_small.png" class="img-thumbnail carrier-logo" alt="hzpp" data-th-src="${carrier.logo}"/>
 					<span data-th-text="#{'carrier.' + ${carrier.id}}">HZPP</span>
@@ -88,29 +85,23 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="header-shortcuts" data-th-text="#{shortcuts.title}">Shortcuts</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
 				<div class="row">
-					<div class="col-md-2 text-right"><kbd>/</kbd></div>
+					<div class="col-md-2 text-end"><kbd>/</kbd></div>
 					<div class="col-md-6" data-th-text="#{shortcuts.focusSearch}">Focus search input</div>
 				</div>
 				<div class="row">
-					<div class="col-md-2 text-right"><kbd>h</kbd></div>
-					<div class="col-md-6" data-th-text="#{shortcuts.toggleHistory}">Show/hide full voyage history</div>
-				</div>
-				<div class="row">
-					<div class="col-md-2 text-right"><kbd>r</kbd></div>
+					<div class="col-md-2 text-end"><kbd>r</kbd></div>
 					<div class="col-md-6" data-th-text="#{shortcuts.refresh}">Refresh current search</div>
 				</div>
 				<div class="row">
-					<div class="col-md-2 text-right"><kbd>c</kbd></div>
+					<div class="col-md-2 text-end"><kbd>c</kbd></div>
 					<div class="col-md-6" data-th-text="#{shortcuts.carrierSelector}">Show carrier selector</div>
 				</div>
 				<div class="row">
-					<div class="col-md-2 text-right"><kbd>?</kbd></div>
+					<div class="col-md-2 text-end"><kbd>?</kbd></div>
 					<div class="col-md-6" data-th-text="#{shortcuts.show}">Show shortcuts</div>
 				</div>
 			</div>
@@ -119,11 +110,10 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/htmx/1.6.1/htmx.min.js" integrity="sha512-aUGLiEPPd4KYAKmXba1ZeH3JCtPEo3F8Ay1C7sRpSnOcfsczlP1j14jo3abBaMqJu9QC4pbh8TyKy9ekZ6j7Pw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.6.5/mousetrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.6.5/plugins/global-bind/mousetrap-global-bind.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.min.js" integrity="sha512-OvBgP9A2JBgiRad/mM36mkzXSXaJE9BEIENnVEmeZdITvwT09xnxLtT4twkCa8m/loMbPHsvPl0T8lRGVBwjlQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha512-2cbsQGdowNDPcKuoBd2bCcsJky87Mv0LEtD/nunJUgk6MOYTgVMGihS/xCEghNf04DPhNiJ4DZw5BxDd1uyOdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.6.5/mousetrap.min.js" integrity="sha512-+Jg3Ynmj9hse704K48H6rBBI3jdNBjReRGBCxUWFfOz3yVurnJFWtAWssDAsGtzWYw89xFWPxShuj2T6E9EOpg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.6.5/plugins/global-bind/mousetrap-global-bind.min.js" integrity="sha512-X8ySaxOQUCQkVxiOp1t87ktlH/Crs9YoNM0ruSctTdWA0Xp83CMzfnR1zvMQgc+OYFzBOakHw9NTkAe2bpAUDg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="/app.js" data-th-src="@{/app.js}"></script>
 </body>
 </html>
