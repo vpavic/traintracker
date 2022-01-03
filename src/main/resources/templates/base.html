@@ -10,6 +10,9 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-flash.min.css" integrity="sha512-hPHdudSZUyxoMNAYUu8c/2BDg1ah3tCtdhFwWTUN4qI8Y5emCPVKwyR1tJXhL/uBx7x7MYKGvc1TbdH6mwGS8Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/4.1.5/css/flag-icons.min.css" integrity="sha512-UwbBNAFoECXUPeDhlKR3zzWU3j8ddKIQQsDOsKhXQGdiB5i3IHEXr9kXx82+gaHigbNKbTDp3VY/G6gZqva6ZQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<style>
+		main > .container {
+			padding: 30px 15px 0;
+		}
 		.carrier-logo {
 			height: 30px;
 		}
@@ -44,20 +47,17 @@
 	</div>
 </nav>
 
-<div class="container">
-	<div class="card bg-light mt-4">
-		<div class="card-body">
-			<h5 class="card-title" data-th-text="#{search.title}">Search by train number</h5>
-			<form class="row" id="search-form" hx-target="#train-data" hx-push-url="true" data-th-attr="hx-get=@{'/' + ${carrier.id} + '/voyages'}">
-				<label class="visually-hidden" for="train-no-input" data-th-text="#{search.trainNo}">Train number</label>
-				<div class="input-group mb-3">
-					<input type="text" name="train-no" class="form-control" id="train-no-input" placeholder="Train number" size="10" autofocus data-th-placeholder="#{search.trainNo}" data-th-value="${train}"/>
-					<button type="submit" class="btn btn-primary" id="submit-button" disabled data-th-text="#{search.submit}">Search</button>
-				</div>
-			</form>
-		</div>
+<main>
+	<div class="container">
+		<form class="row" id="search-form" hx-target="#train-data" hx-push-url="true" data-th-attr="hx-get=@{'/' + ${carrier.id} + '/voyages'}">
+			<label class="visually-hidden" for="train-no-input" data-th-text="#{search.trainNo}">Train number</label>
+			<div class="input-group input-group-lg">
+				<input type="text" name="train-no" class="form-control" id="train-no-input" placeholder="Train number" size="10" autofocus data-th-placeholder="#{search.trainNo}" data-th-value="${train}"/>
+				<button type="submit" class="btn btn-primary" id="submit-button" disabled data-th-text="#{search.submit}">Search</button>
+			</div>
+		</form>
 	</div>
-</div>
+</main>
 
 <div class="container" id="train-data">
 	<div data-th-replace="${report}"></div>
