@@ -1,5 +1,7 @@
 package io.vpavic.traintracker.config;
 
+import org.apache.catalina.filters.RequestDumperFilter;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -20,6 +22,11 @@ class WebMvcConfiguration implements WebMvcConfigurer {
 		CookieLocaleResolver localeResolver = new CookieLocaleResolver();
 		localeResolver.setCookieName("LOCALE");
 		return localeResolver;
+	}
+
+	@Bean
+	FilterRegistrationBean<RequestDumperFilter> requestDumperFilter() {
+		return new FilterRegistrationBean<>(new RequestDumperFilter());
 	}
 
 }
