@@ -30,9 +30,8 @@ class CarrierWebControllerTests {
 		// when
 		ResultActions result = this.mvc.perform(get("/hzpp"));
 		// then
-		result.andExpectAll(
-				status().isOk(),
-				content().contentTypeCompatibleWith(MediaType.TEXT_HTML));
+		result.andExpect(status().isOk());
+		result.andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML));
 	}
 
 }

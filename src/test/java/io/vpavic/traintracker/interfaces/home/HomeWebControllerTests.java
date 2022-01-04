@@ -23,9 +23,8 @@ class HomeWebControllerTests {
 		// when
 		ResultActions result = this.mvc.perform(get("/"));
 		// then
-		result.andExpectAll(
-				status().is3xxRedirection(),
-				header().string(HttpHeaders.LOCATION, endsWith("/hzpp")));
+		result.andExpect(status().is3xxRedirection());
+		result.andExpect(header().string(HttpHeaders.LOCATION, endsWith("/hzpp")));
 	}
 
 }
