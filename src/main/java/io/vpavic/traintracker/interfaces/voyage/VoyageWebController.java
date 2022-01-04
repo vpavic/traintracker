@@ -1,6 +1,6 @@
 package io.vpavic.traintracker.interfaces.voyage;
 
-import java.util.Optional;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
@@ -21,14 +20,19 @@ import io.vpavic.traintracker.domain.model.voyage.Voyage;
 @RequestMapping(path = "/{carrierId:[a-z]+}", produces = MediaType.TEXT_HTML_VALUE)
 class VoyageWebController {
 
-	@GetMapping(path = "/voyages")
-	String findVoyage(@PathVariable String carrierId, @RequestParam("train-no") String train) {
-		return "redirect:/" + carrierId + "/" + train ;
+	@GetMapping(path = "/voyages", headers = "HX-Request=true")
+	String getVoyageFragment(@PathVariable("carrierId") VoyageFetcher fetcher, @RequestParam("train-no") String train,
+			Model model, HttpServletResponse response) {
+		response.setHeader("HX-Push", "/" + fetcher.getCarrier().getId() + "/" + train);
+		return getVoyage(fetcher, train, model, true);
 	}
 
 	@GetMapping(path = "/{train}")
-	String getVoyage(@PathVariable("carrierId") VoyageFetcher fetcher, @PathVariable String train,
-			@RequestHeader("HX-Request") Optional<Boolean> hxRequest, Model model) {
+	String getVoyagePage(@PathVariable("carrierId") VoyageFetcher fetcher, @PathVariable String train, Model model) {
+		return getVoyage(fetcher, train, model, false);
+	}
+
+	private static String getVoyage(VoyageFetcher fetcher, String train, Model model, boolean fragment) {
 		if (fetcher == null) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}
@@ -36,14 +40,14 @@ class VoyageWebController {
 		model.addAttribute("train", train);
 		Voyage voyage = fetcher.getVoyage(train);
 		if (voyage == null) {
-			return "not-found" + (hxRequest.isPresent() ? " :: fragment" : "");
+			return "not-found" + (fragment ? " :: fragment" : "");
 		}
 		model.addAttribute("delayLevel", calculateDelayLevel(voyage.getCurrentStation()));
 		model.addAttribute("voyage", voyage);
-		return "voyage" + (hxRequest.isPresent() ? " :: fragment" : "");
+		return "voyage" + (fragment ? " :: fragment" : "");
 	}
 
-	private String calculateDelayLevel(Station station) {
+	private static String calculateDelayLevel(Station station) {
 		Integer delay = (station.getDepartureDelay() != null) ? station.getDepartureDelay() : station.getArrivalDelay();
 		if (delay == null) {
 			return "info";
