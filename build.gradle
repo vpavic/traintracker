@@ -1,3 +1,5 @@
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+
 plugins {
 	id("application")
 	alias(libs.plugins.jib)
@@ -57,11 +59,11 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
-tasks.withType(Test) {
+tasks.withType(Test).configureEach {
 	useJUnitPlatform()
 }
 
-dependencyUpdates {
+tasks.named("dependencyUpdates", DependencyUpdatesTask).configure {
 	revision = "release"
 	gradleReleaseChannel = "current"
 	rejectVersionIf {
