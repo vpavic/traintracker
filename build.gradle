@@ -32,30 +32,32 @@ configurations {
 		transitive = false
 		canBeConsumed = false
 	}
+	all {
+		exclude(group: "io.lettuce")
+	}
 }
 
 dependencies {
 	implementation(platform(libs.spring.boot.dependencies))
+	implementation(libs.flyway)
+	implementation(libs.jedis)
 	implementation(libs.jsoup)
 	implementation(libs.newrelic.logback)
-	implementation("org.flywaydb:flyway-core")
-	implementation("org.postgresql:postgresql")
-	implementation("org.springframework.boot:spring-boot-starter-cache")
-	implementation("org.springframework.boot:spring-boot-starter-data-redis") {
-		exclude(group: "io.lettuce")
-	}
-	implementation("org.springframework.boot:spring-boot-starter-jdbc")
-	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
-	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("org.springframework.session:spring-session-data-redis")
-	implementation("redis.clients:jedis")
+	implementation(libs.spring.boot.starter.cache)
+	implementation(libs.spring.boot.starter.data.redis)
+	implementation(libs.spring.boot.starter.jdbc)
+	implementation(libs.spring.boot.starter.thymeleaf)
+	implementation(libs.spring.boot.starter.web)
+	implementation(libs.spring.session.data.redis)
 
-	developmentOnly("org.springframework.boot:spring-boot-devtools")
+	runtimeOnly(libs.jdbc.postgresql)
+
+	developmentOnly(libs.spring.boot.devtools)
 
 	javaAgent(libs.newrelic.agent)
 
 	testImplementation(libs.archunit.junit5)
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation(libs.spring.boot.starter.test)
 }
 
 tasks.withType(Test).configureEach {
