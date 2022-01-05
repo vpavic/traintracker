@@ -1,4 +1,4 @@
-package io.vpavic.traintracker.config;
+package io.vpavic.traintracker.infrastructure.cache;
 
 import java.time.Duration;
 import java.util.Map;

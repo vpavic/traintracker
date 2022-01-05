@@ -1,4 +1,4 @@
-package io.vpavic.traintracker.config;
+package io.vpavic.traintracker.infrastructure.session;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;

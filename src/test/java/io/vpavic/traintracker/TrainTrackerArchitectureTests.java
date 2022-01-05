@@ -10,23 +10,20 @@ class TrainTrackerArchitectureTests {
 
 	@ArchTest
 	ArchRule domainLayerRule = ArchRuleDefinition.noClasses()
-		.that().resideInAPackage("..domain..")
+		.that().resideInAPackage("io.vpavic.traintracker.domain..")
 		.should().accessClassesThat()
-		.resideInAnyPackage("..application..", "..config..", "..infrastructure..", "..interfaces..");
+		.resideInAnyPackage("io.vpavic.traintracker.application..", "io.vpavic.traintracker.infrastructure..",
+				"io.vpavic.traintracker.interfaces..");
 
 	@ArchTest
 	ArchRule applicationLayerRule = ArchRuleDefinition.noClasses()
-		.that().resideInAPackage("..application..")
-		.should().accessClassesThat().resideInAnyPackage("..config..", "..infrastructure..", "..interfaces..");
+		.that().resideInAPackage("io.vpavic.traintracker.application..")
+		.should().accessClassesThat().resideInAnyPackage("io.vpavic.traintracker.infrastructure..",
+					"io.vpavic.traintracker.interfaces..");
 
 	@ArchTest
 	ArchRule interfacesLayerRule = ArchRuleDefinition.noClasses()
-		.that().resideInAPackage("..interfaces..")
-		.should().accessClassesThat().resideInAnyPackage("..config..", "..infrastructure..");
-
-	@ArchTest
-	ArchRule infrastructureLayerRule = ArchRuleDefinition.noClasses()
-		.that().resideInAPackage("..infrastructure..")
-		.should().accessClassesThat().resideInAnyPackage("..config..");
+		.that().resideInAPackage("io.vpavic.traintracker.interfaces..")
+		.should().accessClassesThat().resideInAnyPackage("io.vpavic.traintracker.infrastructure..");
 
 }

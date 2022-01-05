@@ -1,4 +1,4 @@
-package io.vpavic.traintracker.config;
+package io.vpavic.traintracker.infrastructure.web;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
