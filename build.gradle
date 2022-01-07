@@ -50,8 +50,10 @@ dependencies {
 	implementation(libs.spring.boot.starter.web)
 	implementation(libs.spring.session.data.redis)
 
+	runtimeOnly(platform(libs.spring.boot.dependencies))
 	runtimeOnly(libs.jdbc.postgresql)
 
+	developmentOnly(platform(libs.spring.boot.dependencies))
 	developmentOnly(libs.spring.boot.devtools)
 
 	javaAgent(libs.newrelic.agent)
