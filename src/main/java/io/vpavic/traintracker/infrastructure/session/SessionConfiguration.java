@@ -1,7 +1,7 @@
 package io.vpavic.traintracker.infrastructure.session;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.boot.autoconfigure.session.SessionProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
@@ -34,19 +34,19 @@ class SessionConfiguration {
 			RedisConnectionFactory redisConnectionFactory) {
 		RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
 		redisTemplate.setConnectionFactory(redisConnectionFactory);
-		redisTemplate.setDefaultSerializer(new GenericJackson2JsonRedisSerializer(objectMapper()));
+		redisTemplate.setDefaultSerializer(jsonRedisSerializer());
 		redisTemplate.setKeySerializer(RedisSerializer.string());
 		redisTemplate.setHashKeySerializer(RedisSerializer.string());
 		redisTemplate.afterPropertiesSet();
 		return redisTemplate;
 	}
 
-	private static ObjectMapper objectMapper() {
-		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.registerModule(new JavaTimeModule());
-		objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-		objectMapper.disable(SerializationFeature.WRITE_DURATIONS_AS_TIMESTAMPS);
-		return objectMapper;
+	private static GenericJackson2JsonRedisSerializer jsonRedisSerializer() {
+		return new GenericJackson2JsonRedisSerializer(JsonMapper.builder()
+				.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+				.disable(SerializationFeature.WRITE_DURATIONS_AS_TIMESTAMPS)
+				.addModule(new JavaTimeModule())
+				.build());
 	}
 
 }
