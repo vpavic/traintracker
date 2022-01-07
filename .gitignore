@@ -1,11 +1,12 @@
 # Gradle
 .gradle/
 build/
-!/**/src/**/build/
 
 # IntelliJ IDEA
-.idea/
-out/
+!.idea/
+.idea/*
+!.idea/codeStyles
+!.idea/inspectionProfiles
 *.iml
 *.ipr
 *.iws
@@ -17,4 +18,5 @@ bin/
 .settings
 .springBeans
 
+# project files
 src/main/resources/local.properties
