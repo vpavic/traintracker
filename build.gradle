@@ -82,8 +82,6 @@ tasks.named("dependencyUpdates", DependencyUpdatesTask).configure {
 spotless {
 	java {
 		indentWithTabs()
-		replaceRegex("class-level javadoc indentation fix", "^\\*", " *")
-		replaceRegex("method-level javadoc indentation fix", "\\t\\*", "\t *")
 		importOrder("java", "javax", "", "io.vpavic", "\\#")
 	}
 	groovyGradle {

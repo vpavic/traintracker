@@ -4,7 +4,7 @@ jib = "3.1.4"
 jsoup = "1.14.3"
 newrelic-agent = "7.4.3"
 newrelic-logback = "2.3.1"
-spotless = "6.1.0"
+spotless = "6.1.2"
 spring-boot = "2.6.2"
 versionsplg = "0.41.0"
 
