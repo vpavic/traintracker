@@ -4,7 +4,7 @@
 </head>
 <body th:replace="base :: body(~{:: div})">
 <th:block th:fragment="fragment">
-	<div class="alert alert-warning mt-4" role="alert" th:text="#{voyage.notFound(${train})}">No voyage information available for train 000.</div>
+	<div class="alert alert-warning mt-4" role="alert" th:text="#{voyage.notFound(${voyageId})}">No voyage information available for train 000.</div>
 </th:block>
 </body>
 </html>

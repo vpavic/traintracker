@@ -1,8 +1,7 @@
 package io.vpavic.traintracker.interfaces.voyage;
 
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Objects;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,47 +15,45 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
-import io.vpavic.traintracker.application.VoyageFetcher;
 import io.vpavic.traintracker.domain.model.carrier.CarrierId;
+import io.vpavic.traintracker.domain.model.carrier.Carriers;
 import io.vpavic.traintracker.domain.model.voyage.Station;
 import io.vpavic.traintracker.domain.model.voyage.Voyage;
+import io.vpavic.traintracker.domain.model.voyage.VoyageRepository;
 
 @Controller
 @RequestMapping(path = "/", produces = MediaType.TEXT_HTML_VALUE)
 class VoyageWebController {
 
-	private final Map<CarrierId, VoyageFetcher> fetchers;
+	private final VoyageRepository voyageRepository;
 
-	VoyageWebController(List<VoyageFetcher> fetchers) {
-		this.fetchers = fetchers.stream()
-				.collect(Collectors.toUnmodifiableMap(fetcher -> fetcher.getCarrier().getId(), fetcher -> fetcher));
+	VoyageWebController(VoyageRepository voyageRepository) {
+		Objects.requireNonNull(voyageRepository, "voyageRepository must not be null");
+		this.voyageRepository = voyageRepository;
 	}
 
 	@GetMapping(path = "/voyages", headers = "HX-Request=true")
-	String getVoyageFragment(@RequestParam("carrier-id") CarrierId carrierId, @RequestParam("train-no") String train,
+	String getVoyageFragment(@RequestParam("carrier-id") CarrierId carrierId, @RequestParam("voyage-id") String voyageId,
 		Model model, HttpServletResponse response) {
-		response.setHeader("HX-Push", "/" + carrierId + "/" + train);
-		return getVoyage(carrierId, train, model, true);
+		response.setHeader("HX-Push", "/" + carrierId + "/" + voyageId);
+		return getVoyage(carrierId, voyageId, model, true);
 	}
 
-	@GetMapping(path = "/{carrierId:[a-z]+}/{train}")
-	String getVoyagePage(@PathVariable("carrierId") CarrierId carrierId, @PathVariable String train, Model model) {
-		return getVoyage(carrierId, train, model, false);
+	@GetMapping(path = "/{carrierId}/{voyageId}")
+	String getVoyagePage(@PathVariable("carrierId") CarrierId carrierId, @PathVariable String voyageId, Model model) {
+		return getVoyage(carrierId, voyageId, model, false);
 	}
 
-	private String getVoyage(CarrierId carrierId, String train, Model model, boolean fragment) {
-		VoyageFetcher fetcher = this.fetchers.get(carrierId);
-		if (fetcher == null) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-		}
-		model.addAttribute("carrier", fetcher.getCarrier());
-		model.addAttribute("train", train);
-		Voyage voyage = fetcher.getVoyage(train);
-		if (voyage == null) {
+	private String getVoyage(CarrierId carrierId, String voyageId, Model model, boolean fragment) {
+		model.addAttribute("carrier", Carriers.getById(carrierId)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
+		model.addAttribute("voyageId", voyageId);
+		Optional<Voyage> voyage = this.voyageRepository.findByCarrierIdAndVoyageId(carrierId, voyageId);
+		if (voyage.isEmpty()) {
 			return "not-found" + (fragment ? " :: fragment" : "");
 		}
-		model.addAttribute("delayLevel", calculateDelayLevel(voyage.getCurrentStation()));
-		model.addAttribute("voyage", voyage);
+		model.addAttribute("voyage", voyage.get());
+		model.addAttribute("delayLevel", calculateDelayLevel(voyage.get().getCurrentStation()));
 		return "voyage" + (fragment ? " :: fragment" : "");
 	}
 

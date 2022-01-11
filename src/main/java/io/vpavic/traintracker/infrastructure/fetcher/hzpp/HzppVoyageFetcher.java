@@ -18,11 +18,11 @@ import java.util.concurrent.Executors;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
-import io.vpavic.traintracker.application.VoyageFetcher;
 import io.vpavic.traintracker.domain.model.carrier.Carrier;
 import io.vpavic.traintracker.domain.model.carrier.Carriers;
 import io.vpavic.traintracker.domain.model.voyage.Station;
 import io.vpavic.traintracker.domain.model.voyage.Voyage;
+import io.vpavic.traintracker.infrastructure.fetcher.VoyageFetcher;
 
 @Component
 class HzppVoyageFetcher implements VoyageFetcher {
