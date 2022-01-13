@@ -2,7 +2,7 @@
 archunit = "0.22.0"
 jib = "3.1.4"
 jsoup = "1.14.3"
-newrelic-agent = "7.4.3"
+newrelic-agent = "7.5.0"
 newrelic-logback = "2.3.1"
 spotless = "6.1.2"
 spring-boot = "2.6.2"
