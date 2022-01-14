@@ -1,5 +1,11 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
+buildscript {
+	dependencies {
+		classpath(libs.jib.ext.layer.filter)
+	}
+}
+
 plugins {
 	id("application")
 	alias(libs.plugins.jib)
@@ -25,7 +31,7 @@ repositories {
 configurations {
 	developmentOnly
 	runtimeClasspath {
-		extendsFrom developmentOnly
+		extendsFrom(developmentOnly)
 	}
 	javaAgent {
 		visible = false
@@ -98,5 +104,17 @@ jib {
 	}
 	extraDirectories {
 		paths = configurations.javaAgent.collect { it.parent }
+	}
+	pluginExtensions {
+		pluginExtension {
+			implementation = "com.google.cloud.tools.jib.gradle.extension.layerfilter.JibLayerFilterExtension"
+			configuration {
+				filters {
+					filter {
+						glob = "**/spring-boot-devtools-*.jar"
+					}
+				}
+			}
+		}
 	}
 }

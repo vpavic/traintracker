@@ -1,6 +1,7 @@
 [versions]
 archunit = "0.22.0"
 jib = "3.1.4"
+jib-ext-layer-filter = "0.1.0"
 jsoup = "1.14.3"
 newrelic-agent = "7.5.0"
 newrelic-logback = "2.3.1"
@@ -13,6 +14,7 @@ archunit-junit5 = { module = "com.tngtech.archunit:archunit-junit5", version.ref
 flyway = { module = "org.flywaydb:flyway-core" }
 jdbc-postgresql = { module = "org.postgresql:postgresql" }
 jedis = { module = "redis.clients:jedis" }
+jib-ext-layer-filter = { module = "com.google.cloud.tools:jib-layer-filter-extension-gradle", version.ref = "jib-ext-layer-filter" }
 jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
 newrelic-agent = { module = "com.newrelic.agent.java:newrelic-agent", version.ref = "newrelic-agent" }
 newrelic-logback = { module = "com.newrelic.logging:logback", version.ref = "newrelic-logback" }
