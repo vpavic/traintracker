@@ -38,8 +38,7 @@ class VoyageWebControllerTests {
 	@Test
 	void getVoyageFragment_UnknownCarrierId_ShouldReturnNotFound() throws Exception {
 		// when
-		ResultActions result = this.mvc.perform(get("/voyages")
-				.param("carrier-id", "test")
+		ResultActions result = this.mvc.perform(get("/test/voyages")
 				.param("voyage-id", "123"));
 		// then
 		result.andExpect(status().isNotFound());
@@ -53,9 +52,8 @@ class VoyageWebControllerTests {
 				.willReturn(Optional.of(new Voyage(Carriers.hzpp.getId(), LocalDate.EPOCH, new Station("Test"),
 						List.of(), List.of(), LocalTime.NOON)));
 		// when
-		ResultActions result = this.mvc.perform(get("/voyages")
+		ResultActions result = this.mvc.perform(get("/hzpp/voyages")
 				.header("HX-Request", "true")
-				.param("carrier-id", Carriers.hzpp.getId().toString())
 				.param("voyage-id", "123"));
 		// then
 		result.andExpect(status().isOk());

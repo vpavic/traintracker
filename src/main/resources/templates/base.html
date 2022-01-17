@@ -49,8 +49,7 @@
 
 <main>
 	<div class="container">
-		<form class="row" id="search-form" hx-target="#train-data" data-th-attr="hx-get=@{/voyages}">
-			<input type="hidden" name="carrier-id" data-th-value="${carrier.id}"/>
+		<form class="row" id="search-form" hx-target="#train-data" data-th-attr="hx-get=@{'/' + ${carrier.id} + '/voyages'}">
 			<label class="visually-hidden" for="train-no-input" data-th-text="#{search.trainNo}">Train number</label>
 			<div class="input-group input-group-lg">
 				<input type="text" name="voyage-id" class="form-control" id="train-no-input" placeholder="Train number" size="10" autofocus data-th-placeholder="#{search.trainNo}" data-th-value="${voyageId}"/>
