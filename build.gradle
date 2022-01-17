@@ -101,6 +101,7 @@ jib {
 	}
 	container {
 		jvmFlags = configurations.javaAgent.collect { "-javaagent:" + it.name }
+		format = "OCI"
 	}
 	extraDirectories {
 		paths = configurations.javaAgent.collect { it.parent }
