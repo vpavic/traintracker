@@ -5,9 +5,9 @@ jib-ext-layer-filter = "0.1.0"
 jsoup = "1.14.3"
 newrelic-agent = "7.5.0"
 newrelic-logback = "2.3.1"
-spotless = "6.2.0"
+spotless = "6.2.1"
 spring-boot = "2.6.3"
-versionsplg = "0.41.0"
+versionsplg = "0.42.0"
 
 [libraries]
 archunit-junit5 = { module = "com.tngtech.archunit:archunit-junit5", version.ref = "archunit" }
