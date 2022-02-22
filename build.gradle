@@ -63,13 +63,18 @@ dependencies {
 	developmentOnly(libs.spring.boot.devtools)
 
 	javaAgent(libs.newrelic.agent)
-
-	testImplementation(libs.archunit.junit5)
-	testImplementation(libs.spring.boot.starter.test)
 }
 
-tasks.withType(Test).configureEach {
-	useJUnitPlatform()
+testing {
+	suites {
+		test {
+			useJUnitJupiter()
+			dependencies {
+				implementation(libs.archunit.junit5)
+				implementation(libs.spring.boot.starter.test)
+			}
+		}
+	}
 }
 
 tasks.named("dependencyUpdates", DependencyUpdatesTask).configure {
