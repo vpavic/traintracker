@@ -5,7 +5,7 @@ jib-ext-layer-filter = "0.1.0"
 jsoup = "1.14.3"
 newrelic-agent = "7.5.0"
 newrelic-logback = "2.3.2"
-spotless = "6.2.1"
+spotless = "6.3.0"
 spring-boot = "2.6.4"
 versionsplg = "0.42.0"
 
