@@ -16,12 +16,6 @@ class TrainTrackerArchitectureTests {
 				"io.vpavic.traintracker.interfaces..");
 
 	@ArchTest
-	ArchRule applicationLayerRule = ArchRuleDefinition.noClasses()
-		.that().resideInAPackage("io.vpavic.traintracker.application..")
-		.should().accessClassesThat().resideInAnyPackage("io.vpavic.traintracker.infrastructure..",
-					"io.vpavic.traintracker.interfaces..");
-
-	@ArchTest
 	ArchRule interfacesLayerRule = ArchRuleDefinition.noClasses()
 		.that().resideInAPackage("io.vpavic.traintracker.interfaces..")
 		.should().accessClassesThat().resideInAnyPackage("io.vpavic.traintracker.infrastructure..");
