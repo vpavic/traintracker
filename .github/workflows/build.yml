@@ -7,12 +7,13 @@ on:
     tags-ignore:
       - '**'
 
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    concurrency:
-      group: build-${{ github.ref }}
-      cancel-in-progress: true
     steps:
       - name: Checkout Project
         uses: actions/checkout@v3
@@ -29,25 +30,3 @@ jobs:
 
       - name: Run Build
         run: ./gradlew check --stacktrace
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment: production
-    concurrency:
-      group: deploy-${{ github.ref }}
-    steps:
-      - name: Checkout Project
-        uses: actions/checkout@v3
-
-      - name: Configure JDK
-        uses: actions/setup-java@v2
-        with:
-          distribution: zulu
-          java-version: 17
-          cache: gradle
-
-      - name: Deploy to Heroku
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: ci/deploy.sh
