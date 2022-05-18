@@ -6,7 +6,7 @@ jsoup = "1.14.3"
 newrelic-agent = "7.5.0"
 newrelic-logback = "2.3.2"
 spotless = "6.3.0"
-spring-boot = "2.6.5"
+spring-boot = "2.6.7"
 versionsplg = "0.42.0"
 
 [libraries]
