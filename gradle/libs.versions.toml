@@ -1,11 +1,11 @@
 [versions]
 archunit = "0.23.1"
-jib = "3.2.0"
-jib-ext-layer-filter = "0.1.0"
+jib = "3.2.1"
+jib-ext-layer-filter = "0.3.0"
 jsoup = "1.15.1"
 newrelic-agent = "7.7.0"
 newrelic-logback = "2.4.0"
-spotless = "6.3.0"
+spotless = "6.6.1"
 spring-boot = "2.6.7"
 versionsplg = "0.42.0"
 
