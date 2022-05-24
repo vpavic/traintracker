@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Executors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
@@ -27,9 +29,14 @@ import io.vpavic.traintracker.infrastructure.fetcher.VoyageFetcher;
 @Component
 class HzppVoyageFetcher implements VoyageFetcher {
 
+	private static final Logger logger = LoggerFactory.getLogger(HzppVoyageFetcher.class);
+
 	private static final Clock clock = Clock.system(Carriers.hzpp.getTimeZone());
 
 	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuMMdd");
+
+	private static final HttpResponse.BodyHandler<String> responseBodyHandler = HttpResponse.BodyHandlers.ofString(
+			Charset.forName("windows-1250"));
 
 	private final HttpClient httpClient;
 
@@ -67,6 +74,9 @@ class HzppVoyageFetcher implements VoyageFetcher {
 		LocalDateTime now = LocalDateTime.now(clock);
 		URI currentPositionRequestUri = buildCurrentPositionRequestUri(train);
 		String currentPositionHtml = executeRequest(currentPositionRequestUri);
+		if (currentPositionHtml == null) {
+			return null;
+		}
 		Station currentStation = HzppHtmlParser.parseCurrentPosition(currentPositionHtml);
 		if (currentStation == null) {
 			return null;
@@ -75,6 +85,9 @@ class HzppVoyageFetcher implements VoyageFetcher {
 		if (this.fetchOverview) {
 			URI overviewRequestUri = buildOverviewRequestUri(train, now.toLocalDate());
 			String overviewHtml = executeRequest(overviewRequestUri);
+			if (overviewHtml == null) {
+				return null;
+			}
 			stations = HzppHtmlParser.parseOverview(overviewHtml);
 		}
 		return new Voyage(Carriers.hzpp.getId(), now.toLocalDate(), currentStation, stations, List.of(),
@@ -82,17 +95,25 @@ class HzppVoyageFetcher implements VoyageFetcher {
 	}
 
 	private String executeRequest(URI uri) {
+		HttpRequest request = HttpRequest.newBuilder()
+				.uri(uri)
+				.build();
+		logger.debug("Executing request: {}", request);
+		HttpResponse<String> response;
 		try {
-			HttpRequest request = HttpRequest.newBuilder()
-					.uri(uri)
-					.build();
-			HttpResponse<String> response = this.httpClient.send(request,
-					HttpResponse.BodyHandlers.ofString(Charset.forName("Cp1250")));
-			return response.body();
+			response = this.httpClient.send(request, responseBodyHandler);
 		}
-		catch (IOException | InterruptedException e) {
-			throw new RuntimeException(e);
+		catch (IOException ex) {
+			logger.warn("Error while executing request: {}", request, ex);
+			return null;
 		}
+		catch (InterruptedException ex) {
+			logger.warn("Error while executing request: {}", request, ex);
+			Thread.currentThread().interrupt();
+			return null;
+		}
+		logger.debug("Received response: {}", response);
+		return response.body();
 	}
 
 	private static URI buildCurrentPositionRequestUri(String train) {
