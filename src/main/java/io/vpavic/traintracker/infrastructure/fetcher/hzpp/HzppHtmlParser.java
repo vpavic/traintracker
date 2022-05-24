@@ -25,9 +25,9 @@ final class HzppHtmlParser {
 		}
 		Elements rows = tables.get(1).children();
 		String nameRaw = rows.get(1).child(0).child(1).text().trim();
-		Element position = rows.get(2);
-		String direction = position.child(0).child(0).text().trim();
-		String timeRaw = position.child(0).child(1).text().trim();
+		Element position = rows.get(2).child(0);
+		String direction = position.child(0).text().trim();
+		String timeRaw = position.child(1).text().trim();
 		String delayRaw = rows.get(3).child(0).child(0).child(0).text().trim();
 		String name = nameRaw.replace('+', ' ');
 		LocalTime time = LocalTime.parse(timeRaw.substring(12, 17));

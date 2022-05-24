@@ -58,7 +58,7 @@ class HzppVoyageFetcherTests {
 	@Test
 	void getVoyage_VoyageExists_ShouldReturnVoyage() throws Exception {
 		// given
-		given(this.httpResponse.body()).willReturn(HzppSampleResponses.currentPositionOk);
+		given(this.httpResponse.body()).willReturn(HzppSampleResponses.currentPositionVoyageInProgress);
 		given(this.httpClient.<String>send(any(), any())).willReturn(this.httpResponse);
 		// when
 		Voyage voyage = this.voyageFetcher.getVoyage("211");

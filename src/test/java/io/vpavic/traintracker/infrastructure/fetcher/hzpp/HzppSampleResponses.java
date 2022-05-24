@@ -2,73 +2,105 @@ package io.vpavic.traintracker.infrastructure.fetcher.hzpp;
 
 class HzppSampleResponses {
 
-	static final String currentPositionOk = """
+	static final String currentPositionVoyageInProgress = """
+			<HTML>
+			<HEAD>
+			<TITLE>Trenutna pozicija vlaka</TITLE>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0" charset=windows-1250">
+			</HEAD>
+			<BODY BACKGROUND=Images/slika.jpg><TABLE align="CENTER"><TR>
+			<TD><FONT COLOR="#333399"><FONT FACE=Verdana,Arial,Helvetica COLOR="#333399">
+			<H3 ALIGN=center>HŽ Infrastruktura<BR>                                  </H3></FONT>
+			</TR></TABLE>
+			<HR>
+			<FORM METHOD="GET" ACTION="http://vred.hzinfra.hr/hzinfo/default.asp?">
+			<P ALIGN=CENTER>
+			<FONT SIZE=6 FACE=Arial,Helvetica COLOR="#333399">
+			<TABLE ALIGN=CENETR WIDTH=110%>
+			<TD BGCOLOR=#bbddff><I>Trenutna pozicija<br>vlak: </I>   544 <br>
+			Relacija:<br>  >  </strong></TD><TR>
+			<TD BGCOLOR=#bbddff><I>Kolodvor: </I><strong>LIPOVLJANI<br> </TD><TR>
+			<TD BGCOLOR=#bbddff><I>Odlazak  </I><cr>
+			19.05.22. u 14:03 sati</TD><TR>
+			<TD><FONT FACE=Arial,Helvetica COLOR=#FF000A>
+			<BLINK>Kasni   24 min.                                   </BLINK><BR>
+			<FONT SIZE=4 FACE=Verdana,Arial,Helvetica COLOR="#333399">
+			Vlak se očekuje<br>u kolodvoru: BANOVA JARUGA     <BR>
+			</TD><TR><TD>
+			</TD></TABLE><HR><FONT SIZE=1 FACE=Arial,Helvetica COLOR=009FFF>
+			Stanje vlaka od 19/05/22   u 14:05   <HR>
+			<INPUT TYPE="HIDDEN" NAME="Category" VALUE="hzinfo">
+			<INPUT TYPE="HIDDEN" NAME="Service" VALUE="Tpvl">
+			<INPUT TYPE="HIDDEN" NAME="SCREEN" VALUE="1">
+			<INPUT TYPE="SUBMIT" VALUE="Povrat">
+			</FORM>
+			</BODY>
+			</HTML>
+			""";
 
-			<!-- saved from url=(0087)http://vred.hzinfra.hr/hzinfo/Default.asp?VL=2010&Category=hzinfo&Service=tpvl&SCREEN=2 -->
-			<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1250">
-			<title>Trenutna pozicija vlaka</title>
-			<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="windows-1250&quot;">
-			</head>
-			<body background="./Trenutna pozicija vlaka_files/slika.jpg"><table align="CENTER"><tbody><tr>
-			<td><font color="#333399"><font face="Verdana,Arial,Helvetica" color="#333399">
-			<h3 align="center">HŽ Infrastruktura<br>                                  </h3></font>
-			</font></td></tr></tbody></table>
-			<hr>
-			<form method="GET" action="http://vred.hzinfra.hr/hzinfo/Default.asp?">
-			<p align="CENTER">
-			<font size="6" face="Arial,Helvetica" color="#333399">
-			<table align="CENETR" width="110%">
-			<tbody><tr><td bgcolor="#bbddff"><i>Trenutna pozicija<br>vlak: </i>  2010 <br>
-			Relacija:<br> VINKOVCI--&gt;ZAGREB-GLA </td></tr><tr>
-			<td bgcolor="#bbddff"><i>Kolodvor: </i><strong>NOVA+KAPELA+BATRINA<br> </strong></td></tr><tr>
-			<td bgcolor="#bbddff"><i>Odlazak  </i><cr>
-			17.09.18. u 05:43 sati</cr></td></tr><tr>
-			<td><font face="Arial,Helvetica" color="#FF000A">
-			<blink>Kasni   27 min.                                   </blink><br>
-			<font size="4" face="Verdana,Arial,Helvetica" color="#333399">
-			Vlak se očekuje<br>u kolodvoru: ZAPOLJE           <br>
-			</font></font></td></tr><tr><td>
-			</td></tr></tbody></table></font></p><hr><font size="6" face="Arial,Helvetica" color="#333399"><font size="1" face="Arial,Helvetica" color="009FFF">
-			Stanje vlaka od 17/09/18   u 05:54   <hr>
-			<input type="HIDDEN" name="Category" value="hzinfo">
-			<input type="HIDDEN" name="Service" value="tpvl">
-			<input type="HIDDEN" name="SCREEN" value="1">
-			<input type="SUBMIT" value="Povrat">
-
-
-
-			</font></font></form></body></html>
+	static final String currentPositionVoyageEnded = """
+			<HTML>
+			<HEAD>
+			<TITLE>Trenutna pozicija vlaka</TITLE>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0" charset=windows-1250">
+			</HEAD>
+			<BODY BACKGROUND=Images/slika.jpg><TABLE align="CENTER"><TR>
+			<TD><FONT COLOR="#333399"><FONT FACE=Verdana,Arial,Helvetica COLOR="#333399">
+			<H3 ALIGN=center>HŽ Infrastruktura<BR>                                  </H3></FONT>
+			</TR></TABLE>
+			<HR>
+			<FORM METHOD="GET" ACTION="http://vred.hzinfra.hr/hzinfo/default.asp?">
+			<P ALIGN=CENTER>
+			<FONT SIZE=6 FACE=Arial,Helvetica COLOR="#333399">
+			<TABLE ALIGN=CENETR WIDTH=110%>
+			<TD BGCOLOR=#bbddff><I>Trenutna pozicija<br>vlak: </I>   540 <br>
+			Relacija:<br>  >  </strong></TD><TR>
+			<TD BGCOLOR=#bbddff><I>Kolodvor: </I><strong>ZAGREB+GL.+KOL.<br> </TD><TR>
+			<TD BGCOLOR=#bbddff><I>Završio vožnju      </I><cr>
+			19.05.22. u 06:54 sati</TD><TR>
+			<TD><FONT FACE=Arial,Helvetica COLOR=#FF000A>
+			<BLINK>Kasni   10 min.                                   </BLINK><BR>
+			<FONT SIZE=4 FACE=Verdana,Arial,Helvetica COLOR="#333399">
+			<BR>
+			</TD><TR><TD>
+			</TD></TABLE><HR><FONT SIZE=1 FACE=Arial,Helvetica COLOR=009FFF>
+			Stanje vlaka od 19/05/22   u 13:39   <HR>
+			<INPUT TYPE="HIDDEN" NAME="Category" VALUE="hzinfo">
+			<INPUT TYPE="HIDDEN" NAME="Service" VALUE="Tpvl">
+			<INPUT TYPE="HIDDEN" NAME="SCREEN" VALUE="1">
+			<INPUT TYPE="SUBMIT" VALUE="Povrat">
+			</FORM>
+			</BODY>
+			</HTML>
 			""";
 
 	static final String currentPositionNotFound = """
-
-			<!-- saved from url=(0086)http://vred.hzinfra.hr/hzinfo/Default.asp?VL=209&Category=hzinfo&Service=tpvl&SCREEN=2 -->
-			<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1250">
-			<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="windows-1250&quot;">
-			<title>Trenutna pozicija putničkog vlaka</title>
-			</head>
-			<body background="./Trenutna pozicija putničkog vlaka_files/slika.jpg"><table align="CENTER"><tbody><tr>
-			<td><font color="#333399"><font face="Verdana,Arial,Helvetica" color="#333399">
-			<h5 align="center">HŽ Infrastruktura<br>Trenutna pozicija putničkog vlaka</h5></font>
-			</font></td></tr></tbody></table>
-			<hr>
-			<form method="GET" action="http://vred.hzinfra.hr/hzinfo/Default.asp?"><p><font face="Arial,Helvetica" color="#333399" align="center">
-			<strong>Broj vlaka: </strong>
-			<input name="VL" type="TEXT" size="5" maxlength="5">
-			</font></p><p><font face="Arial,Helvetica" color="#333399" align="center">
-			</font></p><p><font face="Arial,Helvetica" color="#333399" align="center"><strong>Vlak nije u evidenciji.                                     </strong></font></p><font face="Arial,Helvetica" color="#333399" align="center">
-			<input type="HIDDEN" name="Category" value="hzinfo">
-			<input type="HIDDEN" name="Service" value="tpvl">
-			<input type="HIDDEN" name="SCREEN" value="2">
-			<input type="SUBMIT" value=" OK ">
-
-			<pre><p>
-			<strong></strong></p><p><strong>
-			<strong></strong></strong></p><p><strong><strong>
-			<strong></strong></strong></strong></p><p></p></pre><strong><strong><strong>
-
-
-			</strong></strong></strong></font></form></body></html>
+			<HTML>
+			<HEAD>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0" charset=windows-1250">
+			<TITLE>Trenutna pozicija putničkog vlaka</TITLE>
+			</HEAD>
+			<BODY BACKGROUND=Images/slika.jpg><TABLE align="CENTER"><TR>
+			<TD><FONT COLOR="#333399"><FONT FACE=Verdana,Arial,Helvetica COLOR="#333399">
+			<H5 ALIGN=center>HŽ Infrastruktura<BR>Trenutna pozicija putničkog vlaka</H5></FONT>
+			</TR></TABLE>
+			<HR>
+			<FORM METHOD="GET" ACTION="http://vred.hzinfra.hr/hzinfo/default.asp?"><P><FONT FACE=Arial,Helvetica COLOR="#333399" ALIGN=center  >
+			<STRONG>Broj vlaka: </STRONG>
+			<INPUT NAME="VL" TYPE="TEXT" SIZE="5" MAXLENGTH="5">
+			<P>
+			<P><STRONG>Vlak nije u evidenciji.                                     </STRONG></P>
+			<INPUT TYPE="HIDDEN" NAME="Category" VALUE="hzinfo">
+			<INPUT TYPE="HIDDEN" NAME="Service" VALUE="Tpvl">
+			<INPUT TYPE="HIDDEN" NAME="SCREEN" VALUE="2">
+			<INPUT TYPE="SUBMIT" VALUE=" OK ">
+			</FORM>
+			<PRE><P>
+			<STRONG><P>
+			<STRONG><P>
+			<STRONG><P></PRE>
+			</BODY>
+			</HTML>
 			""";
 
 	static final String overviewOk = """

@@ -38,17 +38,32 @@ class HzppHtmlParserTests {
 	}
 
 	@Test
-	void parseCurrentPosition_OkResponse_ShouldReturnStation() {
+	void parseCurrentPosition_VoyageInProgress_ShouldReturnStation() {
 		// when
-		Station station = HzppHtmlParser.parseCurrentPosition(HzppSampleResponses.currentPositionOk);
+		Station station = HzppHtmlParser.parseCurrentPosition(HzppSampleResponses.currentPositionVoyageInProgress);
 		// then
 		then(station).as("Station").isNotNull();
 		thenSoftly(softly -> {
-			softly.then(station.getName()).isEqualTo("NOVA KAPELA BATRINA");
+			softly.then(station.getName()).isEqualTo("LIPOVLJANI");
 			softly.then(station.getArrivalTime()).isNull();
 			softly.then(station.getArrivalDelay()).isNull();
-			softly.then(station.getDepartureTime()).isEqualTo(LocalTime.of(5, 43));
-			softly.then(station.getDepartureDelay()).isEqualTo(27);
+			softly.then(station.getDepartureTime()).isEqualTo(LocalTime.of(14, 3));
+			softly.then(station.getDepartureDelay()).isEqualTo(24);
+		});
+	}
+
+	@Test
+	void parseCurrentPosition_VoyageEnded_ShouldReturnStation() {
+		// when
+		Station station = HzppHtmlParser.parseCurrentPosition(HzppSampleResponses.currentPositionVoyageEnded);
+		// then
+		then(station).as("Station").isNotNull();
+		thenSoftly(softly -> {
+			softly.then(station.getName()).isEqualTo("ZAGREB GL. KOL.");
+			softly.then(station.getArrivalTime()).isEqualTo(LocalTime.of(6, 54));
+			softly.then(station.getArrivalDelay()).isEqualTo(10);
+			softly.then(station.getDepartureTime()).isNull();
+			softly.then(station.getDepartureDelay()).isNull();
 		});
 	}
 
