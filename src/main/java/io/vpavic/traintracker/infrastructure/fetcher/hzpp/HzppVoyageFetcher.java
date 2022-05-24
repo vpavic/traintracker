@@ -53,7 +53,7 @@ class HzppVoyageFetcher implements VoyageFetcher {
 
 	private static HttpClient defaultHttpClient() {
 		return HttpClient.newBuilder()
-				.connectTimeout(Duration.ofSeconds(10L))
+				.connectTimeout(Duration.ofSeconds(60L))
 				.executor(Executors.newFixedThreadPool(5))
 				.build();
 	}
