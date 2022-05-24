@@ -6,13 +6,11 @@ import java.util.Map;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.springframework.boot.autoconfigure.cache.RedisCacheManagerBuilderCustomizer;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.cache.CacheKeyPrefix;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
-import org.springframework.data.redis.cache.RedisCacheManager;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext.SerializationPair;
 
@@ -23,21 +21,18 @@ import io.vpavic.traintracker.infrastructure.json.jackson.TrainTrackerModule;
 @EnableCaching
 class CacheConfiguration {
 
-	private static final CacheKeyPrefix cacheKeyPrefix = cacheName -> "traintracker:" + cacheName + ":";
-
 	@Bean
-	RedisCacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
-		return RedisCacheManager.builder(redisConnectionFactory)
+	RedisCacheManagerBuilderCustomizer redisCacheManagerBuilderCustomizer() {
+		return builder -> builder
 				.withInitialCacheConfigurations(Map.of("voyages", voyageCacheConfiguration()))
-				.disableCreateOnMissingCache()
-				.build();
+				.disableCreateOnMissingCache();
 	}
 
 	private static RedisCacheConfiguration voyageCacheConfiguration() {
 		return RedisCacheConfiguration.defaultCacheConfig()
 				.serializeValuesWith(SerializationPair.fromSerializer(voyageRedisSerializer()))
 				.entryTtl(Duration.ofMinutes(1L))
-				.computePrefixWith(cacheKeyPrefix);
+				.computePrefixWith(cacheName -> "traintracker:" + cacheName + ":");
 	}
 
 	private static Jackson2JsonRedisSerializer<Voyage> voyageRedisSerializer() {
