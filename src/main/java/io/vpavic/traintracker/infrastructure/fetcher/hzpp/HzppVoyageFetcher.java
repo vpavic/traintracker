@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.Executors;
 
 import org.slf4j.Logger;
@@ -70,28 +71,28 @@ class HzppVoyageFetcher implements VoyageFetcher {
 
 	@Override
 	@Cacheable(cacheNames = "voyages", key = "'hzpp:' + #train")
-	public Voyage getVoyage(String train) {
+	public Optional<Voyage> getVoyage(String train) {
 		LocalDateTime now = LocalDateTime.now(clock);
 		URI currentPositionRequestUri = buildCurrentPositionRequestUri(train);
 		String currentPositionHtml = executeRequest(currentPositionRequestUri);
 		if (currentPositionHtml == null) {
-			return null;
+			return Optional.empty();
 		}
 		Station currentStation = HzppHtmlParser.parseCurrentPosition(currentPositionHtml);
 		if (currentStation == null) {
-			return null;
+			return Optional.empty();
 		}
 		List<Station> stations = List.of();
 		if (this.fetchOverview) {
 			URI overviewRequestUri = buildOverviewRequestUri(train, now.toLocalDate());
 			String overviewHtml = executeRequest(overviewRequestUri);
 			if (overviewHtml == null) {
-				return null;
+				return Optional.empty();
 			}
 			stations = HzppHtmlParser.parseOverview(overviewHtml);
 		}
-		return new Voyage(Carriers.hzpp.getId(), now.toLocalDate(), currentStation, stations, List.of(),
-				now.toLocalTime());
+		return Optional.of(new Voyage(Carriers.hzpp.getId(), now.toLocalDate(), currentStation, stations, List.of(),
+				now.toLocalTime()));
 	}
 
 	private String executeRequest(URI uri) {

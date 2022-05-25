@@ -30,8 +30,7 @@ class DefaultVoyageRepository implements VoyageRepository {
 		if (voyageFetcher == null) {
 			return Optional.empty();
 		}
-		Voyage voyage = voyageFetcher.getVoyage(voyageId);
-		return Optional.ofNullable(voyage);
+		return voyageFetcher.getVoyage(voyageId);
 	}
 
 }

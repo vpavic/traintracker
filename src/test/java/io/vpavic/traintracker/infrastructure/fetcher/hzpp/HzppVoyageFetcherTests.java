@@ -2,6 +2,7 @@ package io.vpavic.traintracker.infrastructure.fetcher.hzpp;
 
 import java.net.http.HttpClient;
 import java.net.http.HttpResponse;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -48,9 +49,9 @@ class HzppVoyageFetcherTests {
 		given((this.httpResponse.body())).willReturn("<html/>");
 		given(this.httpClient.<String>send(any(), any())).willReturn(this.httpResponse);
 		// when
-		Voyage voyage = this.voyageFetcher.getVoyage("123");
+		Optional<Voyage> voyage = this.voyageFetcher.getVoyage("123");
 		// then
-		then(voyage).as("Voyage").isNull();
+		then(voyage).as("Voyage").isEmpty();
 		BDDMockito.then(this.httpClient).should().send(any(), any());
 		BDDMockito.then(this.httpClient).shouldHaveNoMoreInteractions();
 	}
@@ -61,10 +62,10 @@ class HzppVoyageFetcherTests {
 		given(this.httpResponse.body()).willReturn(HzppSampleResponses.currentPositionVoyageInProgress);
 		given(this.httpClient.<String>send(any(), any())).willReturn(this.httpResponse);
 		// when
-		Voyage voyage = this.voyageFetcher.getVoyage("211");
+		Optional<Voyage> voyage = this.voyageFetcher.getVoyage("211");
 		// then
-		then(voyage).as("Voyage").isNotNull();
-		then(voyage.getCarrierId()).as("Voyage carrier id").isEqualTo(Carriers.hzpp.getId());
+		then(voyage).as("Voyage").hasValueSatisfying(v ->
+				then(v.getCarrierId()).as("Voyage carrier id").isEqualTo(Carriers.hzpp.getId()));
 		BDDMockito.then(this.httpClient).should().send(any(), any());
 		BDDMockito.then(this.httpClient).shouldHaveNoMoreInteractions();
 	}

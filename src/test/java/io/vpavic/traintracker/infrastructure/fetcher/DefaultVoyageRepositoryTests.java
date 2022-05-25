@@ -80,8 +80,8 @@ class DefaultVoyageRepositoryTests {
 	void findByCarrierIdAndVoyageId_KnownVoyageId_ShouldReturnVoyage() {
 		// given
 		given(this.voyageFetcher.getCarrier()).willReturn(Carriers.hzpp);
-		given(this.voyageFetcher.getVoyage("123")).willReturn(new Voyage(Carriers.hzpp.getId(), LocalDate.EPOCH,
-				new Station("Test"), List.of(), List.of(), LocalTime.NOON));
+		given(this.voyageFetcher.getVoyage("123")).willReturn(Optional.of(new Voyage(Carriers.hzpp.getId(),
+				LocalDate.EPOCH, new Station("Test"), List.of(), List.of(), LocalTime.NOON)));
 		this.voyageRepository = new DefaultVoyageRepository(List.of(this.voyageFetcher));
 		// when
 		Optional<Voyage> voyage = this.voyageRepository.findByCarrierIdAndVoyageId(Carriers.hzpp.getId(), "123");
