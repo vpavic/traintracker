@@ -55,6 +55,12 @@ dependencies {
 	implementation(libs.spring.boot.starter.thymeleaf)
 	implementation(libs.spring.boot.starter.web)
 	implementation(libs.spring.session.data.redis)
+	implementation(libs.webjars.bootstrap)
+	implementation(libs.webjars.flagiconcss)
+	implementation(libs.webjars.htmx)
+	implementation(libs.webjars.locator)
+	implementation(libs.webjars.mousetrap)
+	implementation(libs.webjars.pace)
 
 	runtimeOnly(platform(libs.spring.boot.dependencies))
 	runtimeOnly(libs.jdbc.postgresql)
