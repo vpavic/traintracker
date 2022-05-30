@@ -6,6 +6,6 @@ import io.vpavic.traintracker.domain.model.carrier.CarrierId;
 
 public interface VoyageRepository {
 
-	Optional<Voyage> findByCarrierIdAndVoyageId(CarrierId carrierId, String voyageId);
+	Optional<Voyage> findByCarrierIdAndVoyageId(CarrierId carrierId, VoyageId voyageId);
 
 }

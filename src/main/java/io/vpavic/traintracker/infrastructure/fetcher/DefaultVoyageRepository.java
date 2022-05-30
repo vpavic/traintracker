@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import io.vpavic.traintracker.domain.model.carrier.CarrierId;
 import io.vpavic.traintracker.domain.model.voyage.Voyage;
+import io.vpavic.traintracker.domain.model.voyage.VoyageId;
 import io.vpavic.traintracker.domain.model.voyage.VoyageRepository;
 
 @Component
@@ -23,7 +24,7 @@ class DefaultVoyageRepository implements VoyageRepository {
 	}
 
 	@Override
-	public Optional<Voyage> findByCarrierIdAndVoyageId(CarrierId carrierId, String voyageId) {
+	public Optional<Voyage> findByCarrierIdAndVoyageId(CarrierId carrierId, VoyageId voyageId) {
 		Objects.requireNonNull(carrierId, "carrierId must not be null");
 		Objects.requireNonNull(voyageId, "voyageId must not be null");
 		VoyageFetcher voyageFetcher = this.voyageFetchers.get(carrierId);

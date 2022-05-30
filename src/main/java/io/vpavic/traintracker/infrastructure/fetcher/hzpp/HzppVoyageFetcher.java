@@ -25,6 +25,7 @@ import io.vpavic.traintracker.domain.model.carrier.Carrier;
 import io.vpavic.traintracker.domain.model.carrier.Carriers;
 import io.vpavic.traintracker.domain.model.voyage.Station;
 import io.vpavic.traintracker.domain.model.voyage.Voyage;
+import io.vpavic.traintracker.domain.model.voyage.VoyageId;
 import io.vpavic.traintracker.infrastructure.fetcher.VoyageFetcher;
 
 @Component
@@ -70,10 +71,10 @@ class HzppVoyageFetcher implements VoyageFetcher {
 	}
 
 	@Override
-	@Cacheable(cacheNames = "voyages", key = "'hzpp:' + #train")
-	public Optional<Voyage> getVoyage(String train) {
+	@Cacheable(cacheNames = "voyages", key = "'hzpp:' + #voyageId")
+	public Optional<Voyage> getVoyage(VoyageId voyageId) {
 		LocalDateTime now = LocalDateTime.now(clock);
-		URI currentPositionRequestUri = buildCurrentPositionRequestUri(train);
+		URI currentPositionRequestUri = buildCurrentPositionRequestUri(voyageId);
 		String currentPositionHtml = executeRequest(currentPositionRequestUri);
 		if (currentPositionHtml == null) {
 			return Optional.empty();
@@ -84,14 +85,14 @@ class HzppVoyageFetcher implements VoyageFetcher {
 		}
 		List<Station> stations = List.of();
 		if (this.fetchOverview) {
-			URI overviewRequestUri = buildOverviewRequestUri(train, now.toLocalDate());
+			URI overviewRequestUri = buildOverviewRequestUri(voyageId, now.toLocalDate());
 			String overviewHtml = executeRequest(overviewRequestUri);
 			if (overviewHtml == null) {
 				return Optional.empty();
 			}
 			stations = HzppHtmlParser.parseOverview(overviewHtml);
 		}
-		return Optional.of(new Voyage(Carriers.hzpp.getId(), now.toLocalDate(), currentStation, stations, List.of(),
+		return Optional.of(new Voyage(voyageId, now.toLocalDate(), currentStation, stations, List.of(),
 				now.toLocalTime()));
 	}
 
@@ -117,23 +118,23 @@ class HzppVoyageFetcher implements VoyageFetcher {
 		return response.body();
 	}
 
-	private static URI buildCurrentPositionRequestUri(String train) {
+	private static URI buildCurrentPositionRequestUri(VoyageId voyageId) {
 		String currentPositionUriTemplate = "http://vred.hzinfra.hr/hzinfo/Default.asp" +
 				"?vl=%s" +
 				"&category=hzinfo" +
 				"&service=tpvl" +
 				"&screen=2";
-		return URI.create(String.format(currentPositionUriTemplate, train));
+		return URI.create(String.format(currentPositionUriTemplate, voyageId));
 	}
 
-	private static URI buildOverviewRequestUri(String train, LocalDate date) {
+	private static URI buildOverviewRequestUri(VoyageId voyageId, LocalDate date) {
 		String overviewUriTemplate = "http://najava.hzinfra.hr/hzinfo/default.asp" +
 				"?vl=%s" +
 				"&d1=%s" +
 				"&category=korisnici" +
 				"&service=pkvl" +
 				"&screen=2";
-		return URI.create(String.format(overviewUriTemplate, train, date.format(formatter)));
+		return URI.create(String.format(overviewUriTemplate, voyageId, date.format(formatter)));
 	}
 
 }

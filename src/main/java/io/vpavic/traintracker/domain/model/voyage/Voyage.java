@@ -9,11 +9,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import io.vpavic.traintracker.domain.model.carrier.CarrierId;
-
 public class Voyage implements Serializable {
 
-	private final CarrierId carrierId;
+	private final VoyageId id;
 
 	private final LocalDate date;
 
@@ -25,12 +23,12 @@ public class Voyage implements Serializable {
 
 	private final LocalTime generatedTime;
 
-	public Voyage(CarrierId carrierId, LocalDate date, Station currentStation, Collection<Station> stations,
+	public Voyage(VoyageId id, LocalDate date, Station currentStation, Collection<Station> stations,
 			List<URI> sources, LocalTime generatedTime) {
-		Objects.requireNonNull(carrierId, "Carrier id must not be null");
-		Objects.requireNonNull(currentStation, "Current station must not be null");
-		Objects.requireNonNull(stations, "Stations must not be null");
-		this.carrierId = carrierId;
+		Objects.requireNonNull(id, "id must not be null");
+		Objects.requireNonNull(currentStation, "currentStation must not be null");
+		Objects.requireNonNull(stations, "stations must not be null");
+		this.id = id;
 		this.date = date;
 		this.currentStation = currentStation;
 		this.stations = Collections.unmodifiableCollection(stations);
@@ -38,8 +36,8 @@ public class Voyage implements Serializable {
 		this.generatedTime = generatedTime;
 	}
 
-	public CarrierId getCarrierId() {
-		return this.carrierId;
+	public VoyageId getId() {
+		return this.id;
 	}
 
 	public LocalDate getDate() {
@@ -60,6 +58,16 @@ public class Voyage implements Serializable {
 
 	public LocalTime getGeneratedTime() {
 		return this.generatedTime;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(this.id);
+	}
+
+	@Override
+	public String toString() {
+		return this.id.toString();
 	}
 
 }

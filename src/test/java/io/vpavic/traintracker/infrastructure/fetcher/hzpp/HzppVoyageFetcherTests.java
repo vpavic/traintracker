@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import io.vpavic.traintracker.domain.model.carrier.Carrier;
 import io.vpavic.traintracker.domain.model.carrier.Carriers;
 import io.vpavic.traintracker.domain.model.voyage.Voyage;
+import io.vpavic.traintracker.domain.model.voyage.VoyageId;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.ArgumentMatchers.any;
@@ -49,7 +50,7 @@ class HzppVoyageFetcherTests {
 		given((this.httpResponse.body())).willReturn("<html/>");
 		given(this.httpClient.<String>send(any(), any())).willReturn(this.httpResponse);
 		// when
-		Optional<Voyage> voyage = this.voyageFetcher.getVoyage("123");
+		Optional<Voyage> voyage = this.voyageFetcher.getVoyage(VoyageId.of("123"));
 		// then
 		then(voyage).as("Voyage").isEmpty();
 		BDDMockito.then(this.httpClient).should().send(any(), any());
@@ -59,13 +60,13 @@ class HzppVoyageFetcherTests {
 	@Test
 	void getVoyage_VoyageExists_ShouldReturnVoyage() throws Exception {
 		// given
+		VoyageId voyageId = VoyageId.of("123");
 		given(this.httpResponse.body()).willReturn(HzppSampleResponses.currentPositionVoyageInProgress);
 		given(this.httpClient.<String>send(any(), any())).willReturn(this.httpResponse);
 		// when
-		Optional<Voyage> voyage = this.voyageFetcher.getVoyage("211");
+		Optional<Voyage> voyage = this.voyageFetcher.getVoyage(voyageId);
 		// then
-		then(voyage).as("Voyage").hasValueSatisfying(v ->
-				then(v.getCarrierId()).as("Voyage carrier id").isEqualTo(Carriers.hzpp.getId()));
+		then(voyage).as("Voyage").hasValueSatisfying(v -> then(v.getId()).as("Voyage id").isEqualTo(voyageId));
 		BDDMockito.then(this.httpClient).should().send(any(), any());
 		BDDMockito.then(this.httpClient).shouldHaveNoMoreInteractions();
 	}

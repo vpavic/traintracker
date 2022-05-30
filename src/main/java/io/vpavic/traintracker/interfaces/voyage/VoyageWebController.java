@@ -19,6 +19,7 @@ import io.vpavic.traintracker.domain.model.carrier.CarrierId;
 import io.vpavic.traintracker.domain.model.carrier.Carriers;
 import io.vpavic.traintracker.domain.model.voyage.Station;
 import io.vpavic.traintracker.domain.model.voyage.Voyage;
+import io.vpavic.traintracker.domain.model.voyage.VoyageId;
 import io.vpavic.traintracker.domain.model.voyage.VoyageRepository;
 
 @Controller
@@ -33,18 +34,18 @@ class VoyageWebController {
 	}
 
 	@GetMapping(path = "/voyages", headers = "HX-Request=true")
-	String getVoyageFragment(@PathVariable("carrierId") CarrierId carrierId, @RequestParam("voyage-id") String voyageId,
-		Model model, HttpServletResponse response) {
+	String getVoyageFragment(@PathVariable CarrierId carrierId, @RequestParam("voyage-id") VoyageId voyageId,
+			Model model, HttpServletResponse response) {
 		response.setHeader("HX-Push", "/" + carrierId + "/" + voyageId);
 		return getVoyage(carrierId, voyageId, model, true);
 	}
 
 	@GetMapping(path = "/{voyageId}")
-	String getVoyagePage(@PathVariable("carrierId") CarrierId carrierId, @PathVariable String voyageId, Model model) {
+	String getVoyagePage(@PathVariable CarrierId carrierId, @PathVariable VoyageId voyageId, Model model) {
 		return getVoyage(carrierId, voyageId, model, false);
 	}
 
-	private String getVoyage(CarrierId carrierId, String voyageId, Model model, boolean fragment) {
+	private String getVoyage(CarrierId carrierId, VoyageId voyageId, Model model, boolean fragment) {
 		model.addAttribute("carrier", Carriers.getById(carrierId)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
 		model.addAttribute("voyageId", voyageId);
