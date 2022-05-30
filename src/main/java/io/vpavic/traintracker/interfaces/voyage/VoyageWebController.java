@@ -3,6 +3,7 @@ package io.vpavic.traintracker.interfaces.voyage;
 import java.util.Objects;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
@@ -35,8 +36,8 @@ class VoyageWebController {
 
 	@GetMapping(path = "/voyages", headers = "HX-Request=true")
 	String getVoyageFragment(@PathVariable CarrierId carrierId, @RequestParam("voyage-id") VoyageId voyageId,
-			Model model, HttpServletResponse response) {
-		response.setHeader("HX-Push", "/" + carrierId + "/" + voyageId);
+			HttpServletRequest request, HttpServletResponse response, Model model) {
+		response.setHeader("HX-Push", request.getContextPath() + "/" + carrierId + "/" + voyageId);
 		return getVoyage(carrierId, voyageId, model, true);
 	}
 
