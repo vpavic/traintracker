@@ -1,5 +1,6 @@
 package io.vpavic.traintracker.infrastructure.fetcher.hzpp;
 
+import java.io.IOException;
 import java.net.http.HttpClient;
 import java.net.http.HttpResponse;
 import java.util.Optional;
@@ -16,6 +17,7 @@ import io.vpavic.traintracker.domain.model.carrier.Carriers;
 import io.vpavic.traintracker.domain.model.voyage.Voyage;
 import io.vpavic.traintracker.domain.model.voyage.VoyageId;
 
+import static org.assertj.core.api.Assertions.catchIllegalStateException;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -67,6 +69,19 @@ class HzppVoyageFetcherTests {
 		Optional<Voyage> voyage = this.voyageFetcher.getVoyage(voyageId);
 		// then
 		then(voyage).as("Voyage").hasValueSatisfying(v -> then(v.getId()).as("Voyage id").isEqualTo(voyageId));
+		BDDMockito.then(this.httpClient).should().send(any(), any());
+		BDDMockito.then(this.httpClient).shouldHaveNoMoreInteractions();
+	}
+
+	@Test
+	void getVoyage_ConnectionError_ShouldThrowException() throws Exception {
+		// given
+		VoyageId voyageId = VoyageId.of("123");
+		given(this.httpClient.send(any(), any())).willThrow(new IOException("test"));
+		// when
+		IllegalStateException exception = catchIllegalStateException(() -> this.voyageFetcher.getVoyage(voyageId));
+		// then
+		then(exception.getMessage()).as("Exception message").isEqualTo("test");
 		BDDMockito.then(this.httpClient).should().send(any(), any());
 		BDDMockito.then(this.httpClient).shouldHaveNoMoreInteractions();
 	}

@@ -107,12 +107,12 @@ class HzppVoyageFetcher implements VoyageFetcher {
 		}
 		catch (IOException ex) {
 			logger.warn("Error while executing request: {}", request, ex);
-			return null;
+			throw new IllegalStateException(ex.getMessage(), ex);
 		}
 		catch (InterruptedException ex) {
 			logger.warn("Error while executing request: {}", request, ex);
 			Thread.currentThread().interrupt();
-			return null;
+			throw new IllegalStateException(ex.getMessage(), ex);
 		}
 		logger.debug("Received response: {}", response);
 		return response.body();

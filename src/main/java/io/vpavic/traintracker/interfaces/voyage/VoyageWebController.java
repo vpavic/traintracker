@@ -50,12 +50,20 @@ class VoyageWebController {
 		model.addAttribute("carrier", Carriers.getById(carrierId)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
 		model.addAttribute("voyageId", voyageId);
-		Optional<Voyage> voyage = this.voyageRepository.findByCarrierIdAndVoyageId(carrierId, voyageId);
-		if (voyage.isEmpty()) {
-			return "not-found" + (fragment ? " :: fragment" : "");
+		Optional<Voyage> result;
+		try {
+			result = this.voyageRepository.findByCarrierIdAndVoyageId(carrierId, voyageId);
 		}
-		model.addAttribute("voyage", voyage.get());
-		model.addAttribute("delayLevel", calculateDelayLevel(voyage.get().getCurrentStation()));
+		catch (IllegalStateException ex) {
+			return "voyage-error" + (fragment ? " :: fragment" : "");
+		}
+		if (result.isEmpty()) {
+			return "voyage-not-found" + (fragment ? " :: fragment" : "");
+		}
+		result.ifPresent(voyage -> {
+			model.addAttribute("voyage", voyage);
+			model.addAttribute("delayLevel", calculateDelayLevel(voyage.getCurrentStation()));
+		});
 		return "voyage" + (fragment ? " :: fragment" : "");
 	}
 

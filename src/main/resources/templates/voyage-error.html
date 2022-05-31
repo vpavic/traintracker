@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
+<head th:replace="base :: header">
+</head>
+<body th:replace="base :: body(~{:: div})">
+<th:block th:fragment="fragment">
+	<div class="alert alert-danger mt-4" role="alert" th:text="#{voyage.error(${voyageId})}">Error retrieving information for voyage 000: Error</div>
+</th:block>
+</body>
+</html>
