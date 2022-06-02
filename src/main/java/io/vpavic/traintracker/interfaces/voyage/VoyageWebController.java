@@ -2,6 +2,7 @@ package io.vpavic.traintracker.interfaces.voyage;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.BiConsumer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,22 +39,19 @@ class VoyageWebController {
 	@GetMapping(path = "/voyages", headers = "HX-Request=true")
 	String getVoyageFragment(@PathVariable CarrierId carrierId, @RequestParam("voyage-id") VoyageId voyageId,
 			HttpServletRequest request, HttpServletResponse response, Model model) {
-		Carrier carrier = resolveCarrier(carrierId);
-		response.setHeader("HX-Push", request.getContextPath() + "/" + carrier.getId() + "/" + voyageId);
-		return getVoyage(carrier, voyageId, model, true);
+		return prepareVoyageTemplate(carrierId, voyageId, model, true, (carrier, voyage) ->
+				response.setHeader("HX-Push", request.getContextPath() + "/" + carrier.getId() + "/" + voyage.getId()));
 	}
 
 	@GetMapping(path = "/{voyageId}")
 	String getVoyagePage(@PathVariable CarrierId carrierId, @PathVariable VoyageId voyageId, Model model) {
-		Carrier carrier = resolveCarrier(carrierId);
-		return getVoyage(carrier, voyageId, model, false);
+		return prepareVoyageTemplate(carrierId, voyageId, model, false, (carrier, voyage) -> {});
 	}
 
-	private static Carrier resolveCarrier(CarrierId carrierId) {
-		return Carriers.getById(carrierId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-	}
-
-	private String getVoyage(Carrier carrier, VoyageId voyageId, Model model, boolean fragment) {
+	private String prepareVoyageTemplate(CarrierId carrierId, VoyageId voyageId, Model model, boolean fragment,
+			BiConsumer<Carrier, Voyage> voyageConsumer) {
+		Carrier carrier = Carriers.getById(carrierId)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 		model.addAttribute("carrier", carrier);
 		model.addAttribute("voyageId", voyageId);
 		Optional<Voyage> result;
@@ -69,6 +67,7 @@ class VoyageWebController {
 		result.ifPresent(voyage -> {
 			model.addAttribute("voyage", voyage);
 			model.addAttribute("delayLevel", calculateDelayLevel(voyage.getCurrentStation()));
+			voyageConsumer.accept(carrier, voyage);
 		});
 		return "voyage" + (fragment ? " :: fragment" : "");
 	}
