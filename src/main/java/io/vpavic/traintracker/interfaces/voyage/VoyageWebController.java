@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
+import io.vpavic.traintracker.domain.model.carrier.Carrier;
 import io.vpavic.traintracker.domain.model.carrier.CarrierId;
 import io.vpavic.traintracker.domain.model.carrier.Carriers;
 import io.vpavic.traintracker.domain.model.voyage.Station;
@@ -37,22 +38,27 @@ class VoyageWebController {
 	@GetMapping(path = "/voyages", headers = "HX-Request=true")
 	String getVoyageFragment(@PathVariable CarrierId carrierId, @RequestParam("voyage-id") VoyageId voyageId,
 			HttpServletRequest request, HttpServletResponse response, Model model) {
-		response.setHeader("HX-Push", request.getContextPath() + "/" + carrierId + "/" + voyageId);
-		return getVoyage(carrierId, voyageId, model, true);
+		Carrier carrier = resolveCarrier(carrierId);
+		response.setHeader("HX-Push", request.getContextPath() + "/" + carrier.getId() + "/" + voyageId);
+		return getVoyage(carrier, voyageId, model, true);
 	}
 
 	@GetMapping(path = "/{voyageId}")
 	String getVoyagePage(@PathVariable CarrierId carrierId, @PathVariable VoyageId voyageId, Model model) {
-		return getVoyage(carrierId, voyageId, model, false);
+		Carrier carrier = resolveCarrier(carrierId);
+		return getVoyage(carrier, voyageId, model, false);
 	}
 
-	private String getVoyage(CarrierId carrierId, VoyageId voyageId, Model model, boolean fragment) {
-		model.addAttribute("carrier", Carriers.getById(carrierId)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
+	private static Carrier resolveCarrier(CarrierId carrierId) {
+		return Carriers.getById(carrierId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+	}
+
+	private String getVoyage(Carrier carrier, VoyageId voyageId, Model model, boolean fragment) {
+		model.addAttribute("carrier", carrier);
 		model.addAttribute("voyageId", voyageId);
 		Optional<Voyage> result;
 		try {
-			result = this.voyageRepository.findByCarrierIdAndVoyageId(carrierId, voyageId);
+			result = this.voyageRepository.findByCarrierIdAndVoyageId(carrier.getId(), voyageId);
 		}
 		catch (IllegalStateException ex) {
 			return "voyage-error" + (fragment ? " :: fragment" : "");
