@@ -16,7 +16,7 @@ import io.vpavic.traintracker.domain.model.voyage.Station;
 import io.vpavic.traintracker.domain.model.voyage.Voyage;
 import io.vpavic.traintracker.domain.model.voyage.VoyageId;
 
-import static org.assertj.core.api.BDDAssertions.catchThrowableOfType;
+import static org.assertj.core.api.BDDAssertions.catchNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDSoftAssertions.thenSoftly;
 import static org.mockito.ArgumentMatchers.eq;
@@ -35,9 +35,8 @@ class DefaultVoyageRepositoryTests {
 		// given
 		this.voyageRepository = new DefaultVoyageRepository(Collections.emptyList());
 		// when
-		NullPointerException exception = catchThrowableOfType(
-				() -> this.voyageRepository.findByCarrierIdAndVoyageId(null, VoyageId.of("123")),
-				NullPointerException.class);
+		NullPointerException exception = catchNullPointerException(
+				() -> this.voyageRepository.findByCarrierIdAndVoyageId(null, VoyageId.of("123")));
 		// then
 		then(exception).as("Exception").hasMessage("carrierId must not be null");
 	}
@@ -47,9 +46,8 @@ class DefaultVoyageRepositoryTests {
 		// given
 		this.voyageRepository = new DefaultVoyageRepository(Collections.emptyList());
 		// when
-		NullPointerException exception = catchThrowableOfType(
-				() -> this.voyageRepository.findByCarrierIdAndVoyageId(Carriers.hzpp.getId(), null),
-				NullPointerException.class);
+		NullPointerException exception = catchNullPointerException(
+				() -> this.voyageRepository.findByCarrierIdAndVoyageId(Carriers.hzpp.getId(), null));
 		// then
 		then(exception).as("Exception").hasMessage("voyageId must not be null");
 	}
@@ -59,10 +57,10 @@ class DefaultVoyageRepositoryTests {
 		// given
 		this.voyageRepository = new DefaultVoyageRepository(Collections.emptyList());
 		// when
-		Optional<Voyage> voyage = this.voyageRepository.findByCarrierIdAndVoyageId(Carriers.hzpp.getId(),
+		Optional<Voyage> result = this.voyageRepository.findByCarrierIdAndVoyageId(Carriers.hzpp.getId(),
 				VoyageId.of("123"));
 		// then
-		then(voyage).as("Voyage").isEmpty();
+		then(result).as("Voyage").isEmpty();
 	}
 
 	@Test
@@ -72,9 +70,9 @@ class DefaultVoyageRepositoryTests {
 		given(this.voyageFetcher.getCarrier()).willReturn(Carriers.hzpp);
 		this.voyageRepository = new DefaultVoyageRepository(List.of(this.voyageFetcher));
 		// when
-		Optional<Voyage> voyage = this.voyageRepository.findByCarrierIdAndVoyageId(Carriers.hzpp.getId(), voyageId);
+		Optional<Voyage> result = this.voyageRepository.findByCarrierIdAndVoyageId(Carriers.hzpp.getId(), voyageId);
 		// then
-		then(voyage).as("Voyage").isEmpty();
+		then(result).as("Voyage").isEmpty();
 		BDDMockito.then(this.voyageFetcher).should().getVoyage(eq(voyageId));
 		BDDMockito.then(this.voyageFetcher).shouldHaveNoMoreInteractions();
 	}
@@ -88,12 +86,11 @@ class DefaultVoyageRepositoryTests {
 				List.of(new Station("Test")), OffsetDateTime.now())));
 		this.voyageRepository = new DefaultVoyageRepository(List.of(this.voyageFetcher));
 		// when
-		Optional<Voyage> voyage = this.voyageRepository.findByCarrierIdAndVoyageId(Carriers.hzpp.getId(), voyageId);
+		Optional<Voyage> result = this.voyageRepository.findByCarrierIdAndVoyageId(Carriers.hzpp.getId(), voyageId);
 		// then
-		then(voyage).as("Voyage").isNotEmpty();
-		then(voyage).hasValueSatisfying(v -> thenSoftly(softly -> {
-			softly.then(v.getId()).as("Voyage id").isEqualTo(voyageId);
-			softly.then(v.getCurrentStation().getName()).as("Voyage current station name").isEqualTo("Test");
+		then(result).hasValueSatisfying(voyage -> thenSoftly(softly -> {
+			softly.then(voyage.getId()).as("Voyage id").isEqualTo(voyageId);
+			softly.then(voyage.getCurrentStation().getName()).as("Voyage current station name").isEqualTo("Test");
 		}));
 		BDDMockito.then(this.voyageFetcher).should().getVoyage(eq(voyageId));
 		BDDMockito.then(this.voyageFetcher).shouldHaveNoMoreInteractions();

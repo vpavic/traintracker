@@ -9,6 +9,7 @@ import com.tngtech.archunit.lang.syntax.ArchRuleDefinition;
 class TrainTrackerArchitectureTests {
 
 	@ArchTest
+	@SuppressWarnings("unused")
 	ArchRule domainLayerRule = ArchRuleDefinition.noClasses()
 		.that().resideInAPackage("io.vpavic.traintracker.domain..")
 		.should().accessClassesThat()
@@ -16,6 +17,7 @@ class TrainTrackerArchitectureTests {
 				"io.vpavic.traintracker.interfaces..");
 
 	@ArchTest
+	@SuppressWarnings("unused")
 	ArchRule interfacesLayerRule = ArchRuleDefinition.noClasses()
 		.that().resideInAPackage("io.vpavic.traintracker.interfaces..")
 		.should().accessClassesThat().resideInAnyPackage("io.vpavic.traintracker.infrastructure..");

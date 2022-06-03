@@ -17,7 +17,7 @@ import io.vpavic.traintracker.domain.model.carrier.Carriers;
 import io.vpavic.traintracker.domain.model.voyage.Voyage;
 import io.vpavic.traintracker.domain.model.voyage.VoyageId;
 
-import static org.assertj.core.api.Assertions.catchIllegalStateException;
+import static org.assertj.core.api.BDDAssertions.catchIllegalStateException;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -47,14 +47,14 @@ class HzppVoyageFetcherTests {
 	}
 
 	@Test
-	void getVoyage_VoyageDoesNotExist_ShouldReturnNull() throws Exception {
+	void getVoyage_VoyageDoesNotExist_ShouldReturnEmpty() throws Exception {
 		// given
 		given((this.httpResponse.body())).willReturn(HzppSampleResponses.currentPositionNotFound);
 		given(this.httpClient.<String>send(any(), any())).willReturn(this.httpResponse);
 		// when
-		Optional<Voyage> voyage = this.voyageFetcher.getVoyage(VoyageId.of("123"));
+		Optional<Voyage> result = this.voyageFetcher.getVoyage(VoyageId.of("123"));
 		// then
-		then(voyage).as("Voyage").isEmpty();
+		then(result).as("Voyage").isEmpty();
 		BDDMockito.then(this.httpClient).should().send(any(), any());
 		BDDMockito.then(this.httpClient).shouldHaveNoMoreInteractions();
 	}
@@ -66,9 +66,10 @@ class HzppVoyageFetcherTests {
 		given(this.httpResponse.body()).willReturn(HzppSampleResponses.currentPositionVoyageInProgress);
 		given(this.httpClient.<String>send(any(), any())).willReturn(this.httpResponse);
 		// when
-		Optional<Voyage> voyage = this.voyageFetcher.getVoyage(voyageId);
+		Optional<Voyage> result = this.voyageFetcher.getVoyage(voyageId);
 		// then
-		then(voyage).as("Voyage").hasValueSatisfying(v -> then(v.getId()).as("Voyage id").isEqualTo(voyageId));
+		then(result).as("Voyage").hasValueSatisfying(voyage ->
+				then(voyage.getId()).as("Voyage id").isEqualTo(voyageId));
 		BDDMockito.then(this.httpClient).should().send(any(), any());
 		BDDMockito.then(this.httpClient).shouldHaveNoMoreInteractions();
 	}
