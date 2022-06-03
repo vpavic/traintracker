@@ -1,15 +1,16 @@
 package io.vpavic.traintracker.infrastructure.fetcher.hzpp;
 
-import java.io.Closeable;
 import java.io.IOException;
 import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.charset.Charset;
+import java.time.Duration;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.Executors;
 
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
@@ -22,15 +23,29 @@ import io.vpavic.traintracker.domain.model.voyage.VoyageId;
 import io.vpavic.traintracker.infrastructure.fetcher.VoyageFetcher;
 
 @Component
-class HzppVoyageFetcher implements VoyageFetcher, Closeable {
+class HzppVoyageFetcher implements VoyageFetcher {
 
 	private static final Logger logger = LoggerFactory.getLogger(HzppVoyageFetcher.class);
 
-	private final CloseableHttpClient httpClient;
+	private static final HttpResponse.BodyHandler<String> responseBodyHandler = HttpResponse.BodyHandlers.ofString(
+			Charset.forName("windows-1250"));
 
-	HzppVoyageFetcher(CloseableHttpClient hzppHttpClient) {
-		Objects.requireNonNull(hzppHttpClient, "hzppHttpClient must not be null");
-		this.httpClient = hzppHttpClient;
+	private final HttpClient httpClient;
+
+	HzppVoyageFetcher(HttpClient httpClient) {
+		Objects.requireNonNull(httpClient, "httpClient must not be null");
+		this.httpClient = httpClient;
+	}
+
+	HzppVoyageFetcher() {
+		this(defaultHttpClient());
+	}
+
+	private static HttpClient defaultHttpClient() {
+		return HttpClient.newBuilder()
+				.connectTimeout(Duration.ofSeconds(10L))
+				.executor(Executors.newFixedThreadPool(5))
+				.build();
 	}
 
 	@Override
@@ -50,16 +65,25 @@ class HzppVoyageFetcher implements VoyageFetcher, Closeable {
 	}
 
 	private String executeRequest(URI uri) {
-		HttpGet request = new HttpGet(uri);
+		HttpRequest request = HttpRequest.newBuilder()
+				.uri(uri)
+				.build();
 		logger.debug("Executing request: {}", request);
-		try (CloseableHttpResponse response = this.httpClient.execute(request)) {
-			logger.debug("Received response: {}", response);
-			return EntityUtils.toString(response.getEntity(), "windows-1250");
+		HttpResponse<String> response;
+		try {
+			response = this.httpClient.send(request, responseBodyHandler);
 		}
 		catch (IOException ex) {
 			logger.warn("Error while executing request: {}", request, ex);
 			throw new IllegalStateException(ex.getMessage(), ex);
 		}
+		catch (InterruptedException ex) {
+			logger.warn("Error while executing request: {}", request, ex);
+			Thread.currentThread().interrupt();
+			throw new IllegalStateException(ex.getMessage(), ex);
+		}
+		logger.debug("Received response: {}", response);
+		return response.body();
 	}
 
 	private static URI buildCurrentPositionRequestUri(VoyageId voyageId) {
@@ -69,11 +93,6 @@ class HzppVoyageFetcher implements VoyageFetcher, Closeable {
 				"&service=tpvl" +
 				"&screen=2";
 		return URI.create(String.format(currentPositionUriTemplate, voyageId));
-	}
-
-	@Override
-	public void close() throws IOException {
-		this.httpClient.close();
 	}
 
 }
