@@ -61,8 +61,7 @@ class HzppVoyageFetcher implements VoyageFetcher {
 		if (currentPositionHtml == null) {
 			return Optional.empty();
 		}
-		Voyage voyage = HzppHtmlParser.parseVoyage(currentPositionHtml);
-		return Optional.ofNullable(voyage);
+		return HzppHtmlParser.parseVoyage(currentPositionHtml);
 	}
 
 	private String executeRequest(URI uri) {

@@ -1,6 +1,7 @@
 package io.vpavic.traintracker.infrastructure.fetcher.hzpp;
 
 import java.time.LocalTime;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
@@ -16,10 +17,9 @@ class HzppHtmlParserTests {
 	@Test
 	void parseVoyage_VoyageInProgress_ShouldReturnVoyage() {
 		// when
-		Voyage voyage = HzppHtmlParser.parseVoyage(HzppSampleResponses.currentPositionVoyageInProgress);
+		Optional<Voyage> result = HzppHtmlParser.parseVoyage(HzppSampleResponses.currentPositionVoyageInProgress);
 		// then
-		then(voyage).as("Voyage").isNotNull();
-		thenSoftly(softly -> {
+		then(result).as("Voyage").hasValueSatisfying(voyage -> thenSoftly(softly -> {
 			softly.then(voyage.getId()).isEqualTo(VoyageId.of("544"));
 			softly.then(voyage.getStations()).hasSize(1);
 			Station currentStation = voyage.getCurrentStation();
@@ -28,16 +28,15 @@ class HzppHtmlParserTests {
 			softly.then(currentStation.getArrivalDelay()).isNull();
 			softly.then(currentStation.getDepartureTime()).isEqualTo(LocalTime.of(14, 3));
 			softly.then(currentStation.getDepartureDelay()).isEqualTo(24);
-		});
+		}));
 	}
 
 	@Test
 	void parseVoyage_VoyageEnded_ShouldReturnVoyage() {
 		// when
-		Voyage voyage = HzppHtmlParser.parseVoyage(HzppSampleResponses.currentPositionVoyageEnded);
+		Optional<Voyage> result = HzppHtmlParser.parseVoyage(HzppSampleResponses.currentPositionVoyageEnded);
 		// then
-		then(voyage).as("Voyage").isNotNull();
-		thenSoftly(softly -> {
+		then(result).as("Voyage").hasValueSatisfying(voyage -> thenSoftly(softly -> {
 			softly.then(voyage.getId()).isEqualTo(VoyageId.of("540"));
 			softly.then(voyage.getStations()).hasSize(1);
 			Station currentStation = voyage.getCurrentStation();
@@ -46,15 +45,15 @@ class HzppHtmlParserTests {
 			softly.then(currentStation.getArrivalDelay()).isEqualTo(10);
 			softly.then(currentStation.getDepartureTime()).isNull();
 			softly.then(currentStation.getDepartureDelay()).isNull();
-		});
+		}));
 	}
 
 	@Test
 	void parseVoyage_NotFoundResponse_ShouldReturnNull() {
 		// when
-		Voyage voyage = HzppHtmlParser.parseVoyage(HzppSampleResponses.currentPositionNotFound);
+		Optional<Voyage> result = HzppHtmlParser.parseVoyage(HzppSampleResponses.currentPositionNotFound);
 		// then
-		then(voyage).as("Voyage").isNull();
+		then(result).as("Voyage").isEmpty();
 	}
 
 }

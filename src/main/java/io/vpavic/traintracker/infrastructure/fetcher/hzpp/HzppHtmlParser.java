@@ -5,6 +5,7 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -23,12 +24,12 @@ final class HzppHtmlParser {
 	private HzppHtmlParser() {
 	}
 
-	static Voyage parseVoyage(String html) {
+	static Optional<Voyage> parseVoyage(String html) {
 		Document doc = Jsoup.parse(html);
 		Element form = doc.child(0).child(1).child(2);
 		Element currentPositionTable = form.child(1).child(0);
 		if (!"tbody".equals(currentPositionTable.tag().getName())) {
-			return null;
+			return Optional.empty();
 		}
 		Elements currentPositionRows = currentPositionTable.children();
 		String voyageId = currentPositionRows.get(0).child(0).textNodes().get(0).text().trim();
@@ -52,12 +53,12 @@ final class HzppHtmlParser {
 			station.setArrivalDelay(delay);
 		}
 		else {
-			return null;
+			throw new IllegalStateException("Unknown direction: " + direction);
 		}
 		String reportTime = form.child(3).child(0).textNodes().get(0).text().trim().substring(16);
 		OffsetDateTime generatedTime = LocalDateTime.parse(reportTime, dateTimeFormatter)
 				.atZone(Carriers.hzpp.getTimeZone()).toOffsetDateTime();
-		return new Voyage(VoyageId.of(voyageId), List.of(station), generatedTime);
+		return Optional.of(new Voyage(VoyageId.of(voyageId), List.of(station), generatedTime));
 	}
 
 }
