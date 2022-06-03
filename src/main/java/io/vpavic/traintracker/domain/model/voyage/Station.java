@@ -1,10 +1,9 @@
 package io.vpavic.traintracker.domain.model.voyage;
 
-import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.Objects;
 
-public class Station implements Serializable {
+public class Station {
 
 	private final String name;
 

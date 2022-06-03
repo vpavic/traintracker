@@ -1,11 +1,10 @@
 package io.vpavic.traintracker.domain.model.carrier;
 
-import java.io.Serializable;
 import java.net.URL;
 import java.time.ZoneId;
 import java.util.Objects;
 
-public class Carrier implements Serializable {
+public class Carrier {
 
 	private final CarrierId id;
 

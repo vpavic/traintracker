@@ -1,13 +1,12 @@
 package io.vpavic.traintracker.domain.model.voyage;
 
-import java.io.Serializable;
 import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class Voyage implements Serializable {
+public class Voyage {
 
 	private final VoyageId id;
 
