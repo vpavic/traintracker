@@ -1,11 +1,12 @@
 package io.vpavic.traintracker.infrastructure.fetcher.hzpp;
 
 import java.time.LocalTime;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
 import io.vpavic.traintracker.domain.model.voyage.Station;
+import io.vpavic.traintracker.domain.model.voyage.Voyage;
+import io.vpavic.traintracker.domain.model.voyage.VoyageId;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDSoftAssertions.thenSoftly;
@@ -13,66 +14,47 @@ import static org.assertj.core.api.BDDSoftAssertions.thenSoftly;
 class HzppHtmlParserTests {
 
 	@Test
-	void parseOverview_OkResponse_ShouldReturnAllStations() {
+	void parseVoyage_VoyageInProgress_ShouldReturnVoyage() {
 		// when
-		List<Station> stations = HzppHtmlParser.parseOverview(HzppSampleResponses.overviewOk);
+		Voyage voyage = HzppHtmlParser.parseVoyage(HzppSampleResponses.currentPositionVoyageInProgress);
 		// then
-		then(stations).as("All stations").hasSize(35);
-		Station currentStation = stations.get(34);
+		then(voyage).as("Voyage").isNotNull();
 		thenSoftly(softly -> {
-			softly.then(currentStation.getName()).as("Current station name").isEqualTo("VINKOVCI");
-			softly.then(currentStation.getArrivalTime()).as("Current station arrival time")
-					.isEqualTo(LocalTime.of(21, 28));
-			softly.then(currentStation.getArrivalDelay()).as("Current station arrival delay").isEqualTo(21);
-			softly.then(currentStation.getDepartureTime()).as("Current station departure time").isNull();
-			softly.then(currentStation.getDepartureDelay()).as("Current station departure delay").isNull();
+			softly.then(voyage.getId()).isEqualTo(VoyageId.of("544"));
+			softly.then(voyage.getStations()).hasSize(1);
+			Station currentStation = voyage.getCurrentStation();
+			softly.then(currentStation.getName()).isEqualTo("LIPOVLJANI");
+			softly.then(currentStation.getArrivalTime()).isNull();
+			softly.then(currentStation.getArrivalDelay()).isNull();
+			softly.then(currentStation.getDepartureTime()).isEqualTo(LocalTime.of(14, 3));
+			softly.then(currentStation.getDepartureDelay()).isEqualTo(24);
 		});
 	}
 
 	@Test
-	void parseOverview_NotFoundResponse_ShouldReturnNoStations() {
+	void parseVoyage_VoyageEnded_ShouldReturnVoyage() {
 		// when
-		List<Station> stations = HzppHtmlParser.parseOverview(HzppSampleResponses.overviewNotFound);
+		Voyage voyage = HzppHtmlParser.parseVoyage(HzppSampleResponses.currentPositionVoyageEnded);
 		// then
-		then(stations).as("All stations").isEmpty();
-	}
-
-	@Test
-	void parseCurrentPosition_VoyageInProgress_ShouldReturnStation() {
-		// when
-		Station station = HzppHtmlParser.parseCurrentPosition(HzppSampleResponses.currentPositionVoyageInProgress);
-		// then
-		then(station).as("Station").isNotNull();
+		then(voyage).as("Voyage").isNotNull();
 		thenSoftly(softly -> {
-			softly.then(station.getName()).isEqualTo("LIPOVLJANI");
-			softly.then(station.getArrivalTime()).isNull();
-			softly.then(station.getArrivalDelay()).isNull();
-			softly.then(station.getDepartureTime()).isEqualTo(LocalTime.of(14, 3));
-			softly.then(station.getDepartureDelay()).isEqualTo(24);
+			softly.then(voyage.getId()).isEqualTo(VoyageId.of("540"));
+			softly.then(voyage.getStations()).hasSize(1);
+			Station currentStation = voyage.getCurrentStation();
+			softly.then(currentStation.getName()).isEqualTo("ZAGREB GL. KOL.");
+			softly.then(currentStation.getArrivalTime()).isEqualTo(LocalTime.of(6, 54));
+			softly.then(currentStation.getArrivalDelay()).isEqualTo(10);
+			softly.then(currentStation.getDepartureTime()).isNull();
+			softly.then(currentStation.getDepartureDelay()).isNull();
 		});
 	}
 
 	@Test
-	void parseCurrentPosition_VoyageEnded_ShouldReturnStation() {
+	void parseVoyage_NotFoundResponse_ShouldReturnNull() {
 		// when
-		Station station = HzppHtmlParser.parseCurrentPosition(HzppSampleResponses.currentPositionVoyageEnded);
+		Voyage voyage = HzppHtmlParser.parseVoyage(HzppSampleResponses.currentPositionNotFound);
 		// then
-		then(station).as("Station").isNotNull();
-		thenSoftly(softly -> {
-			softly.then(station.getName()).isEqualTo("ZAGREB GL. KOL.");
-			softly.then(station.getArrivalTime()).isEqualTo(LocalTime.of(6, 54));
-			softly.then(station.getArrivalDelay()).isEqualTo(10);
-			softly.then(station.getDepartureTime()).isNull();
-			softly.then(station.getDepartureDelay()).isNull();
-		});
-	}
-
-	@Test
-	void parseCurrentPosition_NotFoundResponse_ShouldReturnNull() {
-		// when
-		Station station = HzppHtmlParser.parseCurrentPosition(HzppSampleResponses.currentPositionNotFound);
-		// then
-		then(station).as("Station").isNull();
+		then(voyage).as("Voyage").isNull();
 	}
 
 }

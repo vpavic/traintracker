@@ -1,7 +1,6 @@
 package io.vpavic.traintracker.infrastructure.fetcher;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -86,7 +85,7 @@ class DefaultVoyageRepositoryTests {
 		VoyageId voyageId = VoyageId.of("123");
 		given(this.voyageFetcher.getCarrier()).willReturn(Carriers.hzpp);
 		given(this.voyageFetcher.getVoyage(voyageId)).willReturn(Optional.of(new Voyage(voyageId,
-				LocalDate.EPOCH, new Station("Test"), List.of(), List.of(), LocalTime.NOON)));
+				List.of(new Station("Test")), OffsetDateTime.now())));
 		this.voyageRepository = new DefaultVoyageRepository(List.of(this.voyageFetcher));
 		// when
 		Optional<Voyage> voyage = this.voyageRepository.findByCarrierIdAndVoyageId(Carriers.hzpp.getId(), voyageId);

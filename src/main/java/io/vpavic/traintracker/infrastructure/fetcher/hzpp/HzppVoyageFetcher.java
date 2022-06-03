@@ -8,10 +8,6 @@ import java.net.http.HttpResponse;
 import java.nio.charset.Charset;
 import java.time.Clock;
 import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.Executors;
@@ -23,7 +19,6 @@ import org.springframework.stereotype.Component;
 
 import io.vpavic.traintracker.domain.model.carrier.Carrier;
 import io.vpavic.traintracker.domain.model.carrier.Carriers;
-import io.vpavic.traintracker.domain.model.voyage.Station;
 import io.vpavic.traintracker.domain.model.voyage.Voyage;
 import io.vpavic.traintracker.domain.model.voyage.VoyageId;
 import io.vpavic.traintracker.infrastructure.fetcher.VoyageFetcher;
@@ -35,14 +30,10 @@ class HzppVoyageFetcher implements VoyageFetcher {
 
 	private static final Clock clock = Clock.system(Carriers.hzpp.getTimeZone());
 
-	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuMMdd");
-
 	private static final HttpResponse.BodyHandler<String> responseBodyHandler = HttpResponse.BodyHandlers.ofString(
 			Charset.forName("windows-1250"));
 
 	private final HttpClient httpClient;
-
-	private boolean fetchOverview = false;
 
 	HzppVoyageFetcher(HttpClient httpClient) {
 		Objects.requireNonNull(httpClient, "httpClient must not be null");
@@ -60,11 +51,6 @@ class HzppVoyageFetcher implements VoyageFetcher {
 				.build();
 	}
 
-	@SuppressWarnings("unused")
-	void setFetchOverview(boolean fetchOverview) {
-		this.fetchOverview = fetchOverview;
-	}
-
 	@Override
 	public Carrier getCarrier() {
 		return Carriers.hzpp;
@@ -73,27 +59,13 @@ class HzppVoyageFetcher implements VoyageFetcher {
 	@Override
 	@Cacheable(cacheNames = "voyages", key = "'hzpp:' + #voyageId")
 	public Optional<Voyage> getVoyage(VoyageId voyageId) {
-		LocalDateTime now = LocalDateTime.now(clock);
 		URI currentPositionRequestUri = buildCurrentPositionRequestUri(voyageId);
 		String currentPositionHtml = executeRequest(currentPositionRequestUri);
 		if (currentPositionHtml == null) {
 			return Optional.empty();
 		}
-		Station currentStation = HzppHtmlParser.parseCurrentPosition(currentPositionHtml);
-		if (currentStation == null) {
-			return Optional.empty();
-		}
-		List<Station> stations = List.of();
-		if (this.fetchOverview) {
-			URI overviewRequestUri = buildOverviewRequestUri(voyageId, now.toLocalDate());
-			String overviewHtml = executeRequest(overviewRequestUri);
-			if (overviewHtml == null) {
-				return Optional.empty();
-			}
-			stations = HzppHtmlParser.parseOverview(overviewHtml);
-		}
-		return Optional.of(new Voyage(voyageId, now.toLocalDate(), currentStation, stations, List.of(),
-				now.toLocalTime()));
+		Voyage voyage = HzppHtmlParser.parseVoyage(currentPositionHtml);
+		return Optional.ofNullable(voyage);
 	}
 
 	private String executeRequest(URI uri) {
@@ -125,16 +97,6 @@ class HzppVoyageFetcher implements VoyageFetcher {
 				"&service=tpvl" +
 				"&screen=2";
 		return URI.create(String.format(currentPositionUriTemplate, voyageId));
-	}
-
-	private static URI buildOverviewRequestUri(VoyageId voyageId, LocalDate date) {
-		String overviewUriTemplate = "http://najava.hzinfra.hr/hzinfo/default.asp" +
-				"?vl=%s" +
-				"&d1=%s" +
-				"&category=korisnici" +
-				"&service=pkvl" +
-				"&screen=2";
-		return URI.create(String.format(overviewUriTemplate, voyageId, date.format(formatter)));
 	}
 
 }

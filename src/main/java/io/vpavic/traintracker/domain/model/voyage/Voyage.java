@@ -1,9 +1,7 @@
 package io.vpavic.traintracker.domain.model.voyage;
 
 import java.io.Serializable;
-import java.net.URI;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -13,26 +11,16 @@ public class Voyage implements Serializable {
 
 	private final VoyageId id;
 
-	private final LocalDate date;
+	private final List<Station> stations;
 
-	private final Station currentStation;
+	private final OffsetDateTime generatedTime;
 
-	private final Collection<Station> stations;
-
-	private final List<URI> sources;
-
-	private final LocalTime generatedTime;
-
-	public Voyage(VoyageId id, LocalDate date, Station currentStation, Collection<Station> stations,
-			List<URI> sources, LocalTime generatedTime) {
+	public Voyage(VoyageId id, List<Station> stations, OffsetDateTime generatedTime) {
 		Objects.requireNonNull(id, "id must not be null");
-		Objects.requireNonNull(currentStation, "currentStation must not be null");
 		Objects.requireNonNull(stations, "stations must not be null");
+		Objects.requireNonNull(generatedTime, "generatedTime must not be null");
 		this.id = id;
-		this.date = date;
-		this.currentStation = currentStation;
-		this.stations = Collections.unmodifiableCollection(stations);
-		this.sources = Collections.unmodifiableList(sources);
+		this.stations = Collections.unmodifiableList(stations);
 		this.generatedTime = generatedTime;
 	}
 
@@ -40,24 +28,16 @@ public class Voyage implements Serializable {
 		return this.id;
 	}
 
-	public LocalDate getDate() {
-		return this.date;
-	}
-
-	public Station getCurrentStation() {
-		return this.currentStation;
-	}
-
 	public Collection<Station> getStations() {
 		return this.stations;
 	}
 
-	public List<URI> getSources() {
-		return this.sources;
+	public OffsetDateTime getGeneratedTime() {
+		return this.generatedTime;
 	}
 
-	public LocalTime getGeneratedTime() {
-		return this.generatedTime;
+	public Station getCurrentStation() {
+		return this.stations.get(this.stations.size() - 1);
 	}
 
 	@Override

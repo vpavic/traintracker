@@ -49,7 +49,7 @@ class HzppVoyageFetcherTests {
 	@Test
 	void getVoyage_VoyageDoesNotExist_ShouldReturnNull() throws Exception {
 		// given
-		given((this.httpResponse.body())).willReturn("<html/>");
+		given((this.httpResponse.body())).willReturn(HzppSampleResponses.currentPositionNotFound);
 		given(this.httpClient.<String>send(any(), any())).willReturn(this.httpResponse);
 		// when
 		Optional<Voyage> voyage = this.voyageFetcher.getVoyage(VoyageId.of("123"));
@@ -62,7 +62,7 @@ class HzppVoyageFetcherTests {
 	@Test
 	void getVoyage_VoyageExists_ShouldReturnVoyage() throws Exception {
 		// given
-		VoyageId voyageId = VoyageId.of("123");
+		VoyageId voyageId = VoyageId.of("544");
 		given(this.httpResponse.body()).willReturn(HzppSampleResponses.currentPositionVoyageInProgress);
 		given(this.httpClient.<String>send(any(), any())).willReturn(this.httpResponse);
 		// when

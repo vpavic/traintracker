@@ -1,8 +1,9 @@
 package io.vpavic.traintracker.infrastructure.fetcher.hzpp;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Collections;
-import java.util.LinkedList;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.jsoup.Jsoup;
@@ -10,26 +11,32 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import io.vpavic.traintracker.domain.model.carrier.Carriers;
 import io.vpavic.traintracker.domain.model.voyage.Station;
+import io.vpavic.traintracker.domain.model.voyage.Voyage;
+import io.vpavic.traintracker.domain.model.voyage.VoyageId;
 
 final class HzppHtmlParser {
+
+	private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yy' u 'kk:mm");
 
 	private HzppHtmlParser() {
 	}
 
-	static Station parseCurrentPosition(String html) {
+	static Voyage parseVoyage(String html) {
 		Document doc = Jsoup.parse(html);
-		Elements tables = doc.getElementsByTag("tbody");
-		if (tables.size() != 2) {
+		Element form = doc.child(0).child(1).child(2);
+		Element currentPositionTable = form.child(1).child(0);
+		if (!"tbody".equals(currentPositionTable.tag().getName())) {
 			return null;
 		}
-		Elements rows = tables.get(1).children();
-		String nameRaw = rows.get(1).child(0).child(1).text().trim();
-		Element position = rows.get(2).child(0);
+		Elements currentPositionRows = currentPositionTable.children();
+		String voyageId = currentPositionRows.get(0).child(0).textNodes().get(0).text().trim();
+		String name = currentPositionRows.get(1).child(0).child(1).text().trim().replace('+', ' ');
+		Element position = currentPositionRows.get(2).child(0);
 		String direction = position.child(0).text().trim();
 		String timeRaw = position.child(1).text().trim();
-		String delayRaw = rows.get(3).child(0).child(0).child(0).text().trim();
-		String name = nameRaw.replace('+', ' ');
+		String delayRaw = currentPositionRows.get(3).child(0).child(0).child(0).text().trim();
 		LocalTime time = LocalTime.parse(timeRaw.substring(12, 17));
 		int delay = delayRaw.startsWith("Kasni") ? Integer.parseInt(delayRaw.substring(6, delayRaw.indexOf(' ', 6)))
 				: 0;
@@ -47,42 +54,10 @@ final class HzppHtmlParser {
 		else {
 			return null;
 		}
-		return station;
-	}
-
-	static List<Station> parseOverview(String html) {
-		Document doc = Jsoup.parse(html);
-		Elements tables = doc.getElementsByTag("tbody");
-		if (tables.size() != 3) {
-			return List.of();
-		}
-		Elements rows = tables.get(2).children();
-		rows.remove(0);
-		LinkedList<Station> stations = new LinkedList<>();
-		for (Element row : rows) {
-			String name = row.child(0).text().trim();
-			String direction = row.child(1).text().trim();
-			String time = row.child(3).text().trim();
-			String delay = row.child(4).text().trim();
-			Station station;
-			if (direction.equals("Dolazak")) {
-				station = new Station(name);
-				station.setArrivalTime(LocalTime.parse(time));
-				station.setArrivalDelay(delay.isEmpty() ? 0 : Integer.parseInt(delay));
-			}
-			else {
-				if (!stations.isEmpty() && stations.peekLast().getName().equals(name)) {
-					station = stations.removeLast();
-				}
-				else {
-					station = new Station(name);
-				}
-				station.setDepartureTime(LocalTime.parse(time));
-				station.setDepartureDelay(delay.isEmpty() ? 0 : Integer.parseInt(delay));
-			}
-			stations.add(station);
-		}
-		return Collections.unmodifiableList(stations);
+		String reportTime = form.child(3).child(0).textNodes().get(0).text().trim().substring(16);
+		OffsetDateTime generatedTime = LocalDateTime.parse(reportTime, dateTimeFormatter)
+				.atZone(Carriers.hzpp.getTimeZone()).toOffsetDateTime();
+		return new Voyage(VoyageId.of(voyageId), List.of(station), generatedTime);
 	}
 
 }

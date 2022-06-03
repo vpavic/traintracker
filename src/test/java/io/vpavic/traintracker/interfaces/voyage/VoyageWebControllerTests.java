@@ -1,7 +1,6 @@
 package io.vpavic.traintracker.interfaces.voyage;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,8 +50,7 @@ class VoyageWebControllerTests {
 		// given
 		VoyageId voyageId = VoyageId.of("123");
 		given(this.voyageRepository.findByCarrierIdAndVoyageId(Carriers.hzpp.getId(), voyageId))
-				.willReturn(Optional.of(new Voyage(voyageId, LocalDate.EPOCH, new Station("Test"),
-						List.of(), List.of(), LocalTime.NOON)));
+				.willReturn(Optional.of(new Voyage(voyageId, List.of(new Station("Test")), OffsetDateTime.now())));
 		// when
 		ResultActions result = this.mvc.perform(get("/hzpp/voyages")
 				.header("HX-Request", "true")
@@ -80,8 +78,7 @@ class VoyageWebControllerTests {
 		// given
 		VoyageId voyageId = VoyageId.of("123");
 		given(this.voyageRepository.findByCarrierIdAndVoyageId(Carriers.hzpp.getId(), voyageId))
-				.willReturn(Optional.of(new Voyage(voyageId, LocalDate.EPOCH, new Station("Test"),
-						List.of(), List.of(), LocalTime.NOON)));
+				.willReturn(Optional.of(new Voyage(voyageId, List.of(new Station("Test")), OffsetDateTime.now())));
 		// when
 		ResultActions result = this.mvc.perform(get("/hzpp/123"));
 		// then
