@@ -15,6 +15,7 @@ webjars-mousetrap = "1.6.5"
 webjars-pace = "1.2.4"
 
 [libraries]
+apache-httpclient = { module = "org.apache.httpcomponents:httpclient" }
 archunit-junit5 = { module = "com.tngtech.archunit:archunit-junit5", version.ref = "archunit" }
 flyway = { module = "org.flywaydb:flyway-core" }
 jdbc-postgresql = { module = "org.postgresql:postgresql" }
