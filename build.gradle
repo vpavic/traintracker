@@ -48,6 +48,7 @@ dependencies {
 	implementation(libs.flyway)
 	implementation(libs.jedis)
 	implementation(libs.jsoup)
+	implementation(libs.newrelic.agent.api)
 	implementation(libs.newrelic.logback)
 	implementation(libs.spring.boot.starter.cache)
 	implementation(libs.spring.boot.starter.data.redis)

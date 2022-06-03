@@ -22,6 +22,7 @@ jedis = { module = "redis.clients:jedis" }
 jib-ext-layer-filter = { module = "com.google.cloud.tools:jib-layer-filter-extension-gradle", version.ref = "jib-ext-layer-filter" }
 jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
 newrelic-agent = { module = "com.newrelic.agent.java:newrelic-agent", version.ref = "newrelic-agent" }
+newrelic-agent-api = { module = "com.newrelic.agent.java:newrelic-api", version.ref = "newrelic-agent" }
 newrelic-logback = { module = "com.newrelic.logging:logback", version.ref = "newrelic-logback" }
 spring-boot-dependencies = { module = "org.springframework.boot:spring-boot-dependencies", version.ref = "spring-boot" }
 spring-boot-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
