@@ -6,7 +6,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.Charset;
-import java.time.Clock;
 import java.time.Duration;
 import java.util.Objects;
 import java.util.Optional;
@@ -27,8 +26,6 @@ import io.vpavic.traintracker.infrastructure.fetcher.VoyageFetcher;
 class HzppVoyageFetcher implements VoyageFetcher {
 
 	private static final Logger logger = LoggerFactory.getLogger(HzppVoyageFetcher.class);
-
-	private static final Clock clock = Clock.system(Carriers.hzpp.getTimeZone());
 
 	private static final HttpResponse.BodyHandler<String> responseBodyHandler = HttpResponse.BodyHandlers.ofString(
 			Charset.forName("windows-1250"));
