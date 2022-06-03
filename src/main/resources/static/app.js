@@ -1,14 +1,10 @@
 let trainNoInput = document.getElementById("train-no-input");
-let searchForm = document.getElementById("search-form");
 let carrierModal = new bootstrap.Modal(document.getElementById("carrier"));
 let shortcutsModal = new bootstrap.Modal(document.getElementById("shortcuts"));
 let submitButton = document.getElementById("submit-button");
 
 Mousetrap.bind("/", function () {
 	trainNoInput.focus();
-});
-Mousetrap.bind("r", function () {
-	searchForm.submit();
 });
 Mousetrap.bind("c", function () {
 	carrierModal.show();
