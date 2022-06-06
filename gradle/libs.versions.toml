@@ -31,6 +31,7 @@ spring-boot-starter-jdbc = { module = "org.springframework.boot:spring-boot-star
 spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
 spring-boot-starter-thymeleaf = { module = "org.springframework.boot:spring-boot-starter-thymeleaf" }
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
+spring-framework-context-indexer = { module = "org.springframework:spring-context-indexer" }
 spring-session-data-redis = { module = "org.springframework.session:spring-session-data-redis" }
 webjars-bootstrap = { module = "org.webjars.npm:bootstrap", version.ref = "webjars-bootstrap" }
 webjars-flagiconcss = { module = "org.webjars.npm:flag-icon-css", version.ref = "webjars-flagiconcss" }

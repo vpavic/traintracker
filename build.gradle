@@ -65,6 +65,9 @@ dependencies {
 	runtimeOnly(platform(libs.spring.boot.dependencies))
 	runtimeOnly(libs.jdbc.postgresql)
 
+	annotationProcessor(platform(libs.spring.boot.dependencies))
+	annotationProcessor(libs.spring.framework.context.indexer)
+
 	developmentOnly(platform(libs.spring.boot.dependencies))
 	developmentOnly(libs.spring.boot.devtools)
 
