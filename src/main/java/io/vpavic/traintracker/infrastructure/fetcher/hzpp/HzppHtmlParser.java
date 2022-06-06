@@ -47,7 +47,7 @@ final class HzppHtmlParser {
 			station.setDepartureTime(time);
 			station.setDepartureDelay(delay);
 		}
-		else if (direction.equals("Dolazak") || direction.equals("Završio vožnju")) {
+		else if (direction.equals("Dolazak") || direction.equals("Završio vožnju") || direction.equals("Formiran")) {
 			station = new Station(name);
 			station.setArrivalTime(time);
 			station.setArrivalDelay(delay);

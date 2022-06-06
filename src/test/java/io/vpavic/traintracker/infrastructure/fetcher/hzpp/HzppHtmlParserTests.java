@@ -49,6 +49,23 @@ class HzppHtmlParserTests {
 	}
 
 	@Test
+	void parseVoyage_VoyageCreated_ShouldReturnVoyage() {
+		// when
+		Optional<Voyage> result = HzppHtmlParser.parseVoyage(HzppSampleResponses.currentPositionVoyageCreated);
+		// then
+		then(result).as("Voyage").hasValueSatisfying(voyage -> thenSoftly(softly -> {
+			softly.then(voyage.getId()).isEqualTo(VoyageId.of("545"));
+			softly.then(voyage.getStations()).hasSize(1);
+			Station currentStation = voyage.getCurrentStation();
+			softly.then(currentStation.getName()).isEqualTo("ZAGREB GL. KOL.");
+			softly.then(currentStation.getArrivalTime()).isEqualTo(LocalTime.of(11, 36));
+			softly.then(currentStation.getArrivalDelay()).isEqualTo(0);
+			softly.then(currentStation.getDepartureTime()).isNull();
+			softly.then(currentStation.getDepartureDelay()).isNull();
+		}));
+	}
+
+	@Test
 	void parseVoyage_NotFoundResponse_ShouldReturnNull() {
 		// when
 		Optional<Voyage> result = HzppHtmlParser.parseVoyage(HzppSampleResponses.currentPositionNotFound);
