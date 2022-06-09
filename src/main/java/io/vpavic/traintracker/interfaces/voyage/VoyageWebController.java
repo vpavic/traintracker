@@ -26,7 +26,7 @@ import io.vpavic.traintracker.domain.model.voyage.VoyageId;
 import io.vpavic.traintracker.domain.model.voyage.VoyageRepository;
 
 @Controller
-@RequestMapping(path = "/{carrierId:[a-z]+}", produces = MediaType.TEXT_HTML_VALUE)
+@RequestMapping(path = "/web/{carrierId:[a-z]+}", produces = MediaType.TEXT_HTML_VALUE)
 class VoyageWebController {
 
 	private final VoyageRepository voyageRepository;
@@ -39,8 +39,8 @@ class VoyageWebController {
 	@GetMapping(path = "/voyages", headers = "HX-Request=true")
 	String getVoyageFragment(@PathVariable CarrierId carrierId, @RequestParam("voyage-id") VoyageId voyageId,
 			HttpServletRequest request, HttpServletResponse response, Model model) {
-		return prepareVoyageTemplate(carrierId, voyageId, model, true, (carrier, voyage) ->
-				response.setHeader("HX-Push", request.getContextPath() + "/" + carrier.getId() + "/" + voyage.getId()));
+		return prepareVoyageTemplate(carrierId, voyageId, model, true, (carrier, voyage) -> response.setHeader(
+				"HX-Push", request.getContextPath() + "/web/" + carrier.getId() + "/" + voyage.getId()));
 	}
 
 	@GetMapping(path = "/{voyageId}")

@@ -22,7 +22,7 @@
 <body data-th-fragment="body(report)" data-th-attr="data-carrier=${carrier.id}">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 	<div class="container">
-		<a class="navbar-brand" href="/" data-th-href="@{'/' + ${carrier.id}}" data-th-text="#{navbar.title}">TrainTracker</a>
+		<a class="navbar-brand" href="/" data-th-href="@{'/web/' + ${carrier.id}}" data-th-text="#{navbar.title}">TrainTracker</a>
 		<a class="nav-item navbar-link me-auto" href="#" data-bs-toggle="modal" data-bs-target="#carrier">
 			<img src="https://prodaja.hzpp.hr/Content/img/HZPP_logo_color_small.png" class="img-thumbnail carrier-logo" alt="hzpp" data-th-src="${carrier.logo}"/>
 		</a>
@@ -49,7 +49,7 @@
 
 <main>
 	<div class="container">
-		<form class="row" id="search-form" hx-target="#train-data" data-th-attr="hx-get=@{'/' + ${carrier.id} + '/voyages'}">
+		<form class="row" id="search-form" hx-target="#train-data" data-th-attr="hx-get=@{'/web/' + ${carrier.id} + '/voyages'}">
 			<label class="visually-hidden" for="train-no-input" data-th-text="#{search.trainNo}">Train number</label>
 			<div class="input-group input-group-lg">
 				<input type="text" name="voyage-id" class="form-control" id="train-no-input" placeholder="Train number" size="10" autofocus data-th-placeholder="#{search.trainNo}" data-th-value="${voyageId}"/>
@@ -71,7 +71,7 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body d-grid gap-2">
-				<a class="btn btn-outline-primary btn-lg btn-block" href="#" role="button" data-th-each="carrier : ${carriers}" data-th-href="@{'/' + ${carrier.id}}">
+				<a class="btn btn-outline-primary btn-lg btn-block" href="#" role="button" data-th-each="carrier : ${carriers}" data-th-href="@{'/web/' + ${carrier.id}}">
 					<img src="https://prodaja.hzpp.hr/Content/img/HZPP_logo_color_small.png" class="img-thumbnail carrier-logo" alt="hzpp" data-th-src="${carrier.logo}"/>
 					<span data-th-text="#{'carrier.' + ${carrier.id}}">HZPP</span>
 				</a>

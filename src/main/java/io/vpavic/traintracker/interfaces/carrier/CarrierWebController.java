@@ -14,7 +14,7 @@ import io.vpavic.traintracker.domain.model.carrier.CarrierId;
 import io.vpavic.traintracker.domain.model.carrier.Carriers;
 
 @Controller
-@RequestMapping(path = "/{carrierId:[a-z]+}", produces = MediaType.TEXT_HTML_VALUE)
+@RequestMapping(path = "/web/{carrierId:[a-z]+}", produces = MediaType.TEXT_HTML_VALUE)
 class CarrierWebController {
 
 	@GetMapping
