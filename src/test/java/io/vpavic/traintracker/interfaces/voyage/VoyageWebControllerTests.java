@@ -38,7 +38,7 @@ class VoyageWebControllerTests {
 	@Test
 	void getVoyageFragment_UnknownCarrierId_ShouldReturnNotFound() throws Exception {
 		// when
-		ResultActions result = this.mvc.perform(get("/test/voyages")
+		ResultActions result = this.mvc.perform(get("/web/test/voyages")
 				.param("voyage-id", "123"));
 		// then
 		result.andExpect(status().isNotFound());
@@ -52,13 +52,13 @@ class VoyageWebControllerTests {
 		given(this.voyageRepository.findByCarrierIdAndVoyageId(Carriers.hzpp.getId(), voyageId))
 				.willReturn(Optional.of(new Voyage(voyageId, List.of(new Station("Test")), OffsetDateTime.now())));
 		// when
-		ResultActions result = this.mvc.perform(get("/hzpp/voyages")
+		ResultActions result = this.mvc.perform(get("/web/hzpp/voyages")
 				.header("HX-Request", "true")
 				.param("voyage-id", "123"));
 		// then
 		result.andExpect(status().isOk());
 		result.andExpectAll(
-				header().string("HX-Push", "/hzpp/123"),
+				header().string("HX-Push", "/web/hzpp/123"),
 				content().contentTypeCompatibleWith(MediaType.TEXT_HTML));
 		then(this.voyageRepository).should().findByCarrierIdAndVoyageId(eq(Carriers.hzpp.getId()), eq(voyageId));
 		then(this.voyageRepository).shouldHaveNoMoreInteractions();
@@ -67,7 +67,7 @@ class VoyageWebControllerTests {
 	@Test
 	void getVoyagePage_UnknownCarrierId_ShouldReturnNotFound() throws Exception {
 		// when
-		ResultActions result = this.mvc.perform(get("/test/123"));
+		ResultActions result = this.mvc.perform(get("/web/test/123"));
 		// then
 		result.andExpect(status().isNotFound());
 		then(this.voyageRepository).shouldHaveNoInteractions();
@@ -80,7 +80,7 @@ class VoyageWebControllerTests {
 		given(this.voyageRepository.findByCarrierIdAndVoyageId(Carriers.hzpp.getId(), voyageId))
 				.willReturn(Optional.of(new Voyage(voyageId, List.of(new Station("Test")), OffsetDateTime.now())));
 		// when
-		ResultActions result = this.mvc.perform(get("/hzpp/123"));
+		ResultActions result = this.mvc.perform(get("/web/hzpp/123"));
 		// then
 		result.andExpect(status().isOk());
 		result.andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML));

@@ -21,10 +21,10 @@ class HomeWebControllerTests {
 	@Test
 	void findVoyage_ShouldRedirect() throws Exception {
 		// when
-		ResultActions result = this.mvc.perform(get("/"));
+		ResultActions result = this.mvc.perform(get("/web"));
 		// then
 		result.andExpect(status().is3xxRedirection());
-		result.andExpect(header().string(HttpHeaders.LOCATION, endsWith("/hzpp")));
+		result.andExpect(header().string(HttpHeaders.LOCATION, endsWith("/web/hzpp")));
 	}
 
 }

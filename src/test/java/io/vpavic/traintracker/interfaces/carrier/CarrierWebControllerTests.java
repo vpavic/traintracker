@@ -20,7 +20,7 @@ class CarrierWebControllerTests {
 	@Test
 	void getCarrier_UnknownCarrierId_ShouldReturnNotFound() throws Exception {
 		// when
-		ResultActions result = this.mvc.perform(get("/test"));
+		ResultActions result = this.mvc.perform(get("/web/test"));
 		// then
 		result.andExpect(status().isNotFound());
 	}
@@ -28,7 +28,7 @@ class CarrierWebControllerTests {
 	@Test
 	void getCarrier_ValidCarrierId_ShouldReturnOk() throws Exception {
 		// when
-		ResultActions result = this.mvc.perform(get("/hzpp"));
+		ResultActions result = this.mvc.perform(get("/web/hzpp"));
 		// then
 		result.andExpect(status().isOk());
 		result.andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML));
