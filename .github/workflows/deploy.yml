@@ -2,13 +2,18 @@ name: Deploy
 
 on: workflow_dispatch
 
+permissions:
+  contents: read
+
 concurrency:
   group: deploy-${{ github.ref }}
 
 jobs:
   deploy:
+    name: Deploy
     runs-on: ubuntu-latest
     environment: production
+
     steps:
       - name: Checkout Project
         uses: actions/checkout@v3
