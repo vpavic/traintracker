@@ -6,6 +6,7 @@ import java.util.Map;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.autoconfigure.cache.RedisCacheManagerBuilderCustomizer;
 import org.springframework.cache.annotation.CachingConfigurer;
 import org.springframework.cache.annotation.EnableCaching;
@@ -26,7 +27,7 @@ class CacheConfiguration implements CachingConfigurer {
 
 	@Override
 	public CacheErrorHandler errorHandler() {
-		return new LoggingCacheErrorHandler();
+		return new LoggingCacheErrorHandler(LogFactory.getLog(LoggingCacheErrorHandler.class), true);
 	}
 
 	@Bean
