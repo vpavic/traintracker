@@ -1,11 +1,10 @@
 package io.vpavic.traintracker.infrastructure.json.jackson;
 
-import java.net.URI;
-import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Collection;
+import java.time.OffsetDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -37,11 +36,13 @@ public class TrainTrackerModule extends SimpleModule {
 	static abstract class VoyageMixin {
 
 		@SuppressWarnings("unused")
-		VoyageMixin(@JsonProperty("id") VoyageId id, @JsonProperty("date") LocalDate date,
-				@JsonProperty("currentStation") Station currentStation,
-				@JsonProperty("stations") Collection<Station> stations, @JsonProperty("sources") List<URI> sources,
-				@JsonProperty("generatedTime") LocalTime generatedTime) {
+		VoyageMixin(@JsonProperty("id") VoyageId id, @JsonProperty("stations") List<Station> stations,
+				@JsonProperty("generatedTime") OffsetDateTime generatedTime) {
 		}
+
+		@JsonIgnore
+		@SuppressWarnings("unused")
+		abstract Station getCurrentStation();
 
 	}
 
