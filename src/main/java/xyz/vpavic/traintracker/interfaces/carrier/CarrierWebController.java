@@ -22,7 +22,7 @@ class CarrierWebController {
 		Carrier carrier = Carriers.getById(carrierId)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 		model.addAttribute("carrier", carrier);
-		return "home";
+		return "carrier";
 	}
 
 }
