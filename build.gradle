@@ -20,7 +20,7 @@ java {
 }
 
 application {
-	mainClass = "io.vpavic.traintracker.TrainTrackerApplication"
+	mainClass = "xyz.vpavic.traintracker.TrainTrackerApplication"
 }
 
 repositories {
@@ -101,7 +101,7 @@ tasks.named("dependencyUpdates", DependencyUpdatesTask).configure {
 spotless {
 	java {
 		indentWithTabs()
-		importOrder("java", "javax", "", "io.vpavic", "\\#")
+		importOrder("java", "javax", "", "xyz.vpavic", "\\#")
 	}
 	groovyGradle {
 		indentWithTabs()
