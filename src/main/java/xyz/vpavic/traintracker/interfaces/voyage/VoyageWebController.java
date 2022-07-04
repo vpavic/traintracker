@@ -2,7 +2,6 @@ package xyz.vpavic.traintracker.interfaces.voyage;
 
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.BiConsumer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,17 +38,16 @@ class VoyageWebController {
 	@GetMapping(path = "/voyages", headers = "HX-Request=true")
 	String getVoyageFragment(@PathVariable CarrierId carrierId, @RequestParam("voyage-id") VoyageId voyageId,
 			HttpServletRequest request, HttpServletResponse response, Model model) {
-		return prepareVoyageTemplate(carrierId, voyageId, model, true, (carrier, voyage) -> response.setHeader(
-				"HX-Push", request.getContextPath() + "/web/" + carrier.getId() + "/" + voyage.getId()));
+		response.setHeader("HX-Push", request.getContextPath() + "/web/" + carrierId + "/" + voyageId);
+		return prepareVoyageTemplate(carrierId, voyageId, model, true);
 	}
 
 	@GetMapping(path = "/{voyageId}")
 	String getVoyagePage(@PathVariable CarrierId carrierId, @PathVariable VoyageId voyageId, Model model) {
-		return prepareVoyageTemplate(carrierId, voyageId, model, false, (carrier, voyage) -> {});
+		return prepareVoyageTemplate(carrierId, voyageId, model, false);
 	}
 
-	private String prepareVoyageTemplate(CarrierId carrierId, VoyageId voyageId, Model model, boolean fragment,
-			BiConsumer<Carrier, Voyage> voyageConsumer) {
+	private String prepareVoyageTemplate(CarrierId carrierId, VoyageId voyageId, Model model, boolean fragment) {
 		Carrier carrier = Carriers.getById(carrierId)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 		model.addAttribute("carrier", carrier);
@@ -67,7 +65,6 @@ class VoyageWebController {
 		result.ifPresent(voyage -> {
 			model.addAttribute("voyage", voyage);
 			model.addAttribute("delayLevel", calculateDelayLevel(voyage.getCurrentStation()));
-			voyageConsumer.accept(carrier, voyage);
 		});
 		return "voyage" + (fragment ? " :: fragment" : "");
 	}
