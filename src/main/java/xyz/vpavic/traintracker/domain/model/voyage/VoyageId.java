@@ -16,7 +16,7 @@ public final class VoyageId implements Serializable {
 
 	public static VoyageId of(String value) {
 		if (!StringUtils.isAlphanumeric(value)) {
-			throw new IllegalArgumentException("Invalid carrier id");
+			throw new IllegalArgumentException("Invalid voyage id");
 		}
 		return new VoyageId(value);
 	}
