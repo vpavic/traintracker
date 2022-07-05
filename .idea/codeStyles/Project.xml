@@ -12,7 +12,7 @@
           <emptyLine />
           <package name="" withSubpackages="true" static="false" />
           <emptyLine />
-          <package name="io.vpavic" withSubpackages="true" static="false" />
+          <package name="xyz.vpavic" withSubpackages="true" static="false" />
           <emptyLine />
           <package name="" withSubpackages="true" static="true" />
         </value>
