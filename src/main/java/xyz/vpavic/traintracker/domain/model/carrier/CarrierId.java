@@ -3,6 +3,8 @@ package xyz.vpavic.traintracker.domain.model.carrier;
 import java.io.Serializable;
 import java.util.Objects;
 
+import org.apache.commons.lang3.StringUtils;
+
 public final class CarrierId implements Serializable {
 
 	private final String value;
@@ -13,6 +15,9 @@ public final class CarrierId implements Serializable {
 	}
 
 	public static CarrierId of(String value) {
+		if (!StringUtils.isAllLowerCase(value)) {
+			throw new IllegalArgumentException("Invalid carrier id");
+		}
 		return new CarrierId(value);
 	}
 

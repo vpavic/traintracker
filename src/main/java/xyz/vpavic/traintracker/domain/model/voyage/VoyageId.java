@@ -3,6 +3,8 @@ package xyz.vpavic.traintracker.domain.model.voyage;
 import java.io.Serializable;
 import java.util.Objects;
 
+import org.apache.commons.lang3.StringUtils;
+
 public final class VoyageId implements Serializable {
 
 	private final String value;
@@ -13,6 +15,9 @@ public final class VoyageId implements Serializable {
 	}
 
 	public static VoyageId of(String value) {
+		if (!StringUtils.isAlphanumeric(value)) {
+			throw new IllegalArgumentException("Invalid carrier id");
+		}
 		return new VoyageId(value);
 	}
 

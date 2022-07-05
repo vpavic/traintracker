@@ -16,6 +16,7 @@ webjars-mousetrap = "1.6.5"
 
 [libraries]
 archunit-junit5 = { module = "com.tngtech.archunit:archunit-junit5", version.ref = "archunit" }
+commons-lang = { module = "org.apache.commons:commons-lang3" }
 flyway = { module = "org.flywaydb:flyway-core" }
 jdbc-postgresql = { module = "org.postgresql:postgresql" }
 jedis = { module = "redis.clients:jedis" }
