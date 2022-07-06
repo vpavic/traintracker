@@ -1,6 +1,7 @@
 package xyz.vpavic.traintracker.infrastructure.cloud.heroku;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -12,6 +13,7 @@ import static org.assertj.core.api.BDDSoftAssertions.thenSoftly;
 /**
  * Tests for {@link HerokuEnvironmentPostProcessor}.
  */
+@DisplayName("Heroku environment post-processor")
 class HerokuEnvironmentPostProcessorTests {
 
 	private final HerokuEnvironmentPostProcessor environmentPostProcessor = new HerokuEnvironmentPostProcessor();
@@ -24,7 +26,8 @@ class HerokuEnvironmentPostProcessorTests {
 	}
 
 	@Test
-	void postProcessEnvironment_WithPort_ShouldSetServerPort() {
+	@DisplayName("given PORT env variable then sets server.port property")
+	void givenPortEnvVarThenSetsServerPortProperty() {
 		// given
 		TestPropertySourceUtils.addInlinedPropertiesToEnvironment(this.context, "PORT=8080");
 		// when
@@ -34,7 +37,8 @@ class HerokuEnvironmentPostProcessorTests {
 	}
 
 	@Test
-	void postProcessEnvironment_WithDatabaseUrl_ShouldSetSpringDatasourceUrl() {
+	@DisplayName("given DATABASE_URL env variable then sets spring.datasource.url property")
+	void givenDatabaseUrlEnvVarThenSetsSpringDatasourceUrlProperty() {
 		// given
 		TestPropertySourceUtils.addInlinedPropertiesToEnvironment(this.context,
 				"DATABASE_URL=postgres://username:password@example.com:5432/test");
@@ -52,7 +56,8 @@ class HerokuEnvironmentPostProcessorTests {
 	}
 
 	@Test
-	void postProcessEnvironment_WithRedisUrl_ShouldSetSpringRedisUrl() {
+	@DisplayName("given REDIS_URL env variable then sets spring.redis.url property")
+	void givenRedisUrlEnvVarThenSetsSpringRedisUrlProperty() {
 		// given
 		TestPropertySourceUtils.addInlinedPropertiesToEnvironment(this.context,
 				"REDIS_URL=redis://:password@example.com:6379");
