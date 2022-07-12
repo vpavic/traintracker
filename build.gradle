@@ -59,7 +59,6 @@ dependencies {
 	implementation(libs.webjars.bootstrap)
 	implementation(libs.webjars.flagiconcss)
 	implementation(libs.webjars.htmx)
-	implementation(libs.webjars.locator)
 	implementation(libs.webjars.mousetrap)
 
 	runtimeOnly(platform(libs.spring.boot.dependencies))
