@@ -1,5 +1,8 @@
 package xyz.vpavic.traintracker.infrastructure.web;
 
+import java.time.Duration;
+
+import org.springframework.boot.autoconfigure.web.WebProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -15,6 +18,12 @@ import xyz.vpavic.traintracker.infrastructure.webjars.WebJarsVersionResourceReso
 @Configuration(proxyBeanMethods = false)
 class WebMvcConfiguration implements WebMvcConfigurer {
 
+	private final WebProperties.Resources.Cache resourcesCacheProperties;
+
+	WebMvcConfiguration(WebProperties webProperties) {
+		this.resourcesCacheProperties = webProperties.getResources().getCache();
+	}
+
 	@Override
 	public void configurePathMatch(PathMatchConfigurer configurer) {
 		configurer.setUseTrailingSlashMatch(false);
@@ -27,8 +36,13 @@ class WebMvcConfiguration implements WebMvcConfigurer {
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:META-INF/resources/webjars/")
-				.resourceChain(true).addResolver(new WebJarsVersionResourceResolver());
+		registry.addResourceHandler("/assets/**")
+				.addResourceLocations("classpath:META-INF/resources/webjars/")
+				.setCachePeriod(getSeconds(this.resourcesCacheProperties.getPeriod()))
+				.setCacheControl(this.resourcesCacheProperties.getCachecontrol().toHttpCacheControl())
+				.setUseLastModified(this.resourcesCacheProperties.isUseLastModified())
+				.resourceChain(true)
+				.addResolver(new WebJarsVersionResourceResolver());
 	}
 
 	@Override
@@ -41,6 +55,10 @@ class WebMvcConfiguration implements WebMvcConfigurer {
 		CookieLocaleResolver localeResolver = new CookieLocaleResolver();
 		localeResolver.setCookieName("locale");
 		return localeResolver;
+	}
+
+	private static Integer getSeconds(Duration cachePeriod) {
+		return (cachePeriod != null) ? (int) cachePeriod.getSeconds() : null;
 	}
 
 }
