@@ -8,10 +8,11 @@ newrelic-logback = "2.5.0"
 spotless = "6.8.0"
 spring-boot = "2.7.2"
 versionsplg = "0.42.0"
-webjars-bootstrap = "5.1.3"
+webjars-bootstrap = "5.2.0"
 webjars-flagiconcss = "4.1.7"
-webjars-htmx = "1.7.0"
+webjars-htmx = "1.8.0"
 webjars-mousetrap = "1.6.5"
+webjars-popperjs = "2.11.5"
 
 [libraries]
 archunit-junit5 = { module = "com.tngtech.archunit:archunit-junit5", version.ref = "archunit" }
@@ -37,6 +38,7 @@ webjars-bootstrap = { module = "org.webjars.npm:bootstrap", version.ref = "webja
 webjars-flagiconcss = { module = "org.webjars.npm:flag-icon-css", version.ref = "webjars-flagiconcss" }
 webjars-htmx = { module = "org.webjars.npm:htmx.org", version.ref = "webjars-htmx" }
 webjars-mousetrap = { module = "org.webjars.npm:mousetrap", version.ref = "webjars-mousetrap" }
+webjars-popperjs = { module = "org.webjars.npm:popperjs__core", version.ref = "webjars-popperjs" }
 
 [plugins]
 jib = { id = "com.google.cloud.tools.jib", version.ref = "jib" }
