@@ -45,14 +45,13 @@ class CacheConfiguration implements CachingConfigurer {
 	}
 
 	private static Jackson2JsonRedisSerializer<Voyage> voyageRedisSerializer() {
-		Jackson2JsonRedisSerializer<Voyage> voyageRedisSerializer = new Jackson2JsonRedisSerializer<>(Voyage.class);
-		voyageRedisSerializer.setObjectMapper(JsonMapper.builder()
+		JsonMapper jsonMapper = JsonMapper.builder()
 				.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
 				.disable(SerializationFeature.WRITE_DURATIONS_AS_TIMESTAMPS)
 				.addModule(new JavaTimeModule())
 				.addModule(new TrainTrackerModule())
-				.build());
-		return voyageRedisSerializer;
+				.build();
+		return new Jackson2JsonRedisSerializer<>(jsonMapper, Voyage.class);
 	}
 
 }

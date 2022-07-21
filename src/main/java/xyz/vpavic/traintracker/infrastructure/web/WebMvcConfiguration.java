@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.web.WebProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -22,11 +21,6 @@ class WebMvcConfiguration implements WebMvcConfigurer {
 
 	WebMvcConfiguration(WebProperties webProperties) {
 		this.resourcesCacheProperties = webProperties.getResources().getCache();
-	}
-
-	@Override
-	public void configurePathMatch(PathMatchConfigurer configurer) {
-		configurer.setUseTrailingSlashMatch(false);
 	}
 
 	@Override
