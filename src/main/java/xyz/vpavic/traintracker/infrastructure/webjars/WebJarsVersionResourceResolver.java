@@ -53,28 +53,28 @@ public class WebJarsVersionResourceResolver extends AbstractResourceResolver {
 	}
 
 	protected String findWebJarResourcePath(String path) {
-		String webjar = webjar(path);
-		if (webjar.length() > 0) {
-			String version = version(webjar);
+		int startOffset = (path.startsWith("/") ? 1 : 0);
+		int endOffset = path.indexOf('/', 1);
+		if (endOffset != -1) {
+			String webjar = path.substring(startOffset, endOffset);
+			String partialPath = path.substring(endOffset + 1);
+			String version = resolveWebJarVersion(webjar);
 			if (version != null) {
-				String partialPath = path(webjar, path);
 				return webjar + File.separator + version + File.separator + partialPath;
 			}
 		}
 		return null;
 	}
 
-	private String webjar(String path) {
-		int startOffset = path.startsWith("/") ? 1 : 0;
-		int endOffset = path.indexOf('/', 1);
-		return (endOffset != -1) ? path.substring(startOffset, endOffset) : path;
-	}
-
-	private String version(String webjar) {
+	private String resolveWebJarVersion(String webjar) {
+		if (webjar.length() < 1) {
+			return null;
+		}
 		Resource resource = new ClassPathResource(PROPERTIES_ROOT + NPM + webjar + POM_PROPERTIES);
 		if (!resource.isReadable()) {
 			resource = new ClassPathResource(PROPERTIES_ROOT + PLAIN + webjar + POM_PROPERTIES);
 		}
+		// TODO consider supporting Bower variant
 		if (resource.isReadable()) {
 			try {
 				Properties properties = PropertiesLoaderUtils.loadProperties(resource);
@@ -84,13 +84,6 @@ public class WebJarsVersionResourceResolver extends AbstractResourceResolver {
 			}
 		}
 		return null;
-	}
-
-	private String path(String webjar, String path) {
-		if (path.startsWith(webjar)) {
-			path = path.substring(webjar.length() + 1);
-		}
-		return path;
 	}
 
 }
