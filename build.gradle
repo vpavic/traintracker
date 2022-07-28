@@ -60,7 +60,6 @@ dependencies {
 	implementation(libs.webjars.flagiconcss)
 	implementation(libs.webjars.htmx)
 	implementation(libs.webjars.mousetrap)
-	implementation(libs.webjars.popperjs)
 
 	runtimeOnly(platform(libs.spring.boot.dependencies))
 	runtimeOnly(libs.jdbc.postgresql)
