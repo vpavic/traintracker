@@ -7,7 +7,7 @@
 	<title data-th-text="#{app.title}">TrainTracker</title>
 
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/webjars/org.webjars.npm/bootstrap/5.2.0/dist/css/bootstrap.min.css" data-th-href="@{/assets/bootstrap/dist/css/bootstrap.min.css}"/>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/webjars/org.webjars.npm/flag-icon-css/4.1.7/css/flag-icons.min.css" data-th-href="@{/assets/flag-icon-css/css/flag-icons.min.css}"/>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/webjars/org.webjars.npm/flag-icons/6.3.0/css/flag-icons.min.css" data-th-href="@{/assets/flag-icons/css/flag-icons.min.css}"/>
 	<style>
 		main > .container {
 			padding: 30px 15px 0;
@@ -34,10 +34,10 @@
 					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-th-text="#{navbar.language}">Language</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 						<a class="dropdown-item" href="#" data-th-href="@{''(locale=en)}">
-							<span class="flag-icon flag-icon-gb"></span> English
+							<span class="fi fi-gb"></span> English
 						</a>
 						<a class="dropdown-item" href="#" data-th-href="@{''(locale=hr)}">
-							<span class="flag-icon flag-icon-hr"></span> Hrvatski
+							<span class="fi fi-hr"></span> Hrvatski
 						</a>
 					</div>
 				</li>

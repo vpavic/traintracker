@@ -59,7 +59,7 @@ dependencies {
 	implementation(libs.spring.boot.starter.web)
 	implementation(libs.spring.session.data.redis)
 	implementation(libs.webjars.bootstrap)
-	implementation(libs.webjars.flagiconcss)
+	implementation(libs.webjars.flagicons)
 	implementation(libs.webjars.htmx)
 	implementation(libs.webjars.mousetrap)
 
