@@ -8,6 +8,7 @@ buildscript {
 
 plugins {
 	id("application")
+	alias(libs.plugins.dependencycheck)
 	alias(libs.plugins.jib)
 	alias(libs.plugins.spotless)
 	alias(libs.plugins.versionsplg)

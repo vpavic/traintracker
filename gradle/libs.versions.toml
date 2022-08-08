@@ -1,5 +1,6 @@
 [versions]
 archunit = "1.0.0-rc1"
+dependencycheck = "7.1.1"
 jib = "3.2.1"
 jib-ext-layer-filter = "0.3.0"
 jsoup = "1.15.2"
@@ -40,6 +41,7 @@ webjars-htmx = { module = "org.webjars.npm:htmx.org", version.ref = "webjars-htm
 webjars-mousetrap = { module = "org.webjars.npm:mousetrap", version.ref = "webjars-mousetrap" }
 
 [plugins]
+dependencycheck = { id = "org.owasp.dependencycheck", version.ref = "dependencycheck" }
 jib = { id = "com.google.cloud.tools.jib", version.ref = "jib" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 versionsplg = { id = "com.github.ben-manes.versions", version.ref = "versionsplg" }
