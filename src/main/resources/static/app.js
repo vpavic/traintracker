@@ -1,20 +1,5 @@
 let trainNoInput = document.getElementById("train-no-input");
-let carrierModal = new bootstrap.Modal(document.getElementById("carrier"));
-let shortcutsModal = new bootstrap.Modal(document.getElementById("shortcuts"));
 let submitButton = document.getElementById("submit-button");
-
-Mousetrap.bind("/", function () {
-	trainNoInput.focus();
-});
-Mousetrap.bind("c", function () {
-	carrierModal.show();
-});
-Mousetrap.bind("?", function () {
-	shortcutsModal.show();
-});
-Mousetrap.bindGlobal("esc", function () {
-	trainNoInput.blur();
-});
 
 document.onreadystatechange = function () {
 	if (trainNoInput.value) {

@@ -62,7 +62,6 @@ dependencies {
 	implementation(libs.webjars.bootstrap)
 	implementation(libs.webjars.flagicons)
 	implementation(libs.webjars.htmx)
-	implementation(libs.webjars.mousetrap)
 
 	runtimeOnly(platform(libs.spring.boot.dependencies))
 	runtimeOnly(libs.jdbc.postgresql)
