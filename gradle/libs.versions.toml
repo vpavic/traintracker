@@ -9,7 +9,7 @@ spotless = "6.9.0"
 spring-boot = "3.0.0-M4"
 versionsplg = "0.42.0"
 webjars-bootstrap = "5.2.0"
-webjars-flagicons = "6.3.0"
+webjars-flagicons = "6.6.4"
 webjars-htmx = "1.8.0"
 webjars-mousetrap = "1.6.5"
 
