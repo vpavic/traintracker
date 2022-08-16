@@ -1,24 +1,22 @@
-package xyz.vpavic.traintracker.domain.model.carrier;
+package xyz.vpavic.traintracker.domain.model.agency;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 
-public final class CarrierId implements Serializable {
+public final class AgencyId {
 
 	private final String value;
 
-	private CarrierId(String value) {
-		Objects.requireNonNull(value, "value must not be null");
+	private AgencyId(String value) {
 		this.value = value;
 	}
 
-	public static CarrierId of(String value) {
-		if (!StringUtils.isAllLowerCase(value)) {
-			throw new IllegalArgumentException("Invalid carrier id");
+	public static AgencyId of(String value) {
+		if (!StringUtils.isAlphanumeric(value)) {
+			throw new IllegalArgumentException("Invalid agency id");
 		}
-		return new CarrierId(value);
+		return new AgencyId(value);
 	}
 
 	@Override
@@ -29,7 +27,7 @@ public final class CarrierId implements Serializable {
 		if ((obj == null) || (getClass() != obj.getClass())) {
 			return false;
 		}
-		CarrierId that = (CarrierId) obj;
+		AgencyId that = (AgencyId) obj;
 		return this.value.equals(that.value);
 	}
 

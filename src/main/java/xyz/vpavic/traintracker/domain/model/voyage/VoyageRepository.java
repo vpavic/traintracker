@@ -2,10 +2,10 @@ package xyz.vpavic.traintracker.domain.model.voyage;
 
 import java.util.Optional;
 
-import xyz.vpavic.traintracker.domain.model.carrier.CarrierId;
+import xyz.vpavic.traintracker.domain.model.agency.AgencyId;
 
 public interface VoyageRepository {
 
-	Optional<Voyage> findByCarrierIdAndVoyageId(CarrierId carrierId, VoyageId voyageId);
+	Optional<Voyage> findByAgencyIdAndVoyageId(AgencyId agencyId, VoyageId voyageId);
 
 }

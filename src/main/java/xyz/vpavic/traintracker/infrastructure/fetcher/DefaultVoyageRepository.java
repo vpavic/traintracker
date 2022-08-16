@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import xyz.vpavic.traintracker.domain.model.carrier.CarrierId;
+import xyz.vpavic.traintracker.domain.model.agency.AgencyId;
 import xyz.vpavic.traintracker.domain.model.voyage.Voyage;
 import xyz.vpavic.traintracker.domain.model.voyage.VoyageId;
 import xyz.vpavic.traintracker.domain.model.voyage.VoyageRepository;
@@ -16,18 +16,18 @@ import xyz.vpavic.traintracker.domain.model.voyage.VoyageRepository;
 @Component
 class DefaultVoyageRepository implements VoyageRepository {
 
-	private final Map<CarrierId, VoyageFetcher> voyageFetchers;
+	private final Map<AgencyId, VoyageFetcher> voyageFetchers;
 
 	DefaultVoyageRepository(List<VoyageFetcher> voyageFetchers) {
 		this.voyageFetchers = voyageFetchers.stream()
-				.collect(Collectors.toUnmodifiableMap(fetcher -> fetcher.getCarrier().getId(), fetcher -> fetcher));
+				.collect(Collectors.toUnmodifiableMap(fetcher -> fetcher.getAgency().getId(), fetcher -> fetcher));
 	}
 
 	@Override
-	public Optional<Voyage> findByCarrierIdAndVoyageId(CarrierId carrierId, VoyageId voyageId) {
-		Objects.requireNonNull(carrierId, "carrierId must not be null");
+	public Optional<Voyage> findByAgencyIdAndVoyageId(AgencyId agencyId, VoyageId voyageId) {
+		Objects.requireNonNull(agencyId, "agencyId must not be null");
 		Objects.requireNonNull(voyageId, "voyageId must not be null");
-		VoyageFetcher voyageFetcher = this.voyageFetchers.get(carrierId);
+		VoyageFetcher voyageFetcher = this.voyageFetchers.get(agencyId);
 		if (voyageFetcher == null) {
 			return Optional.empty();
 		}

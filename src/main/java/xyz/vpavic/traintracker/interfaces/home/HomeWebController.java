@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import xyz.vpavic.traintracker.domain.model.carrier.Carriers;
+import xyz.vpavic.traintracker.domain.model.agency.Agencies;
 
 @Controller
 @RequestMapping(path = "/web", produces = MediaType.TEXT_HTML_VALUE)
@@ -13,7 +13,7 @@ class HomeWebController {
 
 	@GetMapping
 	String home() {
-		return "redirect:/web/" + Carriers.hzpp.getId();
+		return "redirect:/web/" + Agencies.getAll().keySet().iterator().next();
 	}
 
 }

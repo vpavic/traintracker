@@ -1,4 +1,4 @@
-package xyz.vpavic.traintracker.interfaces.carrier;
+package xyz.vpavic.traintracker.interfaces.agency;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -14,11 +14,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Tests for {@link CarrierWebController}.
+ * Tests for {@link AgencyWebController}.
  */
-@DisplayName("CarrierWebController")
-@WebMvcTest(CarrierWebController.class)
-class CarrierWebControllerTests {
+@DisplayName("AgencyWebController")
+@WebMvcTest(AgencyWebController.class)
+class AgencyWebControllerTests {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -28,12 +28,12 @@ class CarrierWebControllerTests {
 	}
 
 	@Nested
-	@DisplayName("when GET /web/{carrierId}")
-	class WhenGetCarrier {
+	@DisplayName("when GET /web/{agencyId}")
+	class WhenGetAgency {
 
 		@Test
-		@DisplayName("given unknown carrier id then returns not found")
-		void givenUnknownCarrierIdThenReturnsNotFound() throws Exception {
+		@DisplayName("given unknown agency id then returns not found")
+		void givenUnknownAgencyIdThenReturnsNotFound() throws Exception {
 			// when
 			ResultActions result = mockMvc().perform(get("/web/test"));
 			// then
@@ -41,10 +41,10 @@ class CarrierWebControllerTests {
 		}
 
 		@Test
-		@DisplayName("given valid carrier id then returns OK")
-		void givenValidCarrierIdThenReturnsOk() throws Exception {
+		@DisplayName("given valid agency id then returns OK")
+		void givenValidAgencyIdThenReturnsOk() throws Exception {
 			// when
-			ResultActions result = mockMvc().perform(get("/web/hzpp"));
+			ResultActions result = mockMvc().perform(get("/web/hz"));
 			// then
 			result.andExpect(status().isOk());
 			result.andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML));

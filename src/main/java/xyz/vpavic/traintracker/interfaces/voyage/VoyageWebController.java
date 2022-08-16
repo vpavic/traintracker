@@ -15,16 +15,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
-import xyz.vpavic.traintracker.domain.model.carrier.Carrier;
-import xyz.vpavic.traintracker.domain.model.carrier.CarrierId;
-import xyz.vpavic.traintracker.domain.model.carrier.Carriers;
+import xyz.vpavic.traintracker.domain.model.agency.Agencies;
+import xyz.vpavic.traintracker.domain.model.agency.Agency;
+import xyz.vpavic.traintracker.domain.model.agency.AgencyId;
 import xyz.vpavic.traintracker.domain.model.voyage.Station;
 import xyz.vpavic.traintracker.domain.model.voyage.Voyage;
 import xyz.vpavic.traintracker.domain.model.voyage.VoyageId;
 import xyz.vpavic.traintracker.domain.model.voyage.VoyageRepository;
 
 @Controller
-@RequestMapping(path = "/web/{carrierId:[a-z]+}", produces = MediaType.TEXT_HTML_VALUE)
+@RequestMapping(path = "/web/{agencyId}", produces = MediaType.TEXT_HTML_VALUE)
 class VoyageWebController {
 
 	private final VoyageRepository voyageRepository;
@@ -35,25 +35,24 @@ class VoyageWebController {
 	}
 
 	@GetMapping(path = "/voyages", headers = "HX-Request=true")
-	String getVoyageFragment(@PathVariable CarrierId carrierId, @RequestParam("voyage-id") VoyageId voyageId,
+	String getVoyageFragment(@PathVariable AgencyId agencyId, @RequestParam("voyage-id") VoyageId voyageId,
 			HttpServletRequest request, HttpServletResponse response, Model model) {
-		response.setHeader("HX-Push", request.getContextPath() + "/web/" + carrierId + "/" + voyageId);
-		return prepareVoyageTemplate(carrierId, voyageId, model, true);
+		response.setHeader("HX-Push", request.getContextPath() + "/web/" + agencyId + "/" + voyageId);
+		return prepareVoyageTemplate(agencyId, voyageId, model, true);
 	}
 
 	@GetMapping(path = "/{voyageId}")
-	String getVoyagePage(@PathVariable CarrierId carrierId, @PathVariable VoyageId voyageId, Model model) {
-		return prepareVoyageTemplate(carrierId, voyageId, model, false);
+	String getVoyagePage(@PathVariable AgencyId agencyId, @PathVariable VoyageId voyageId, Model model) {
+		return prepareVoyageTemplate(agencyId, voyageId, model, false);
 	}
 
-	private String prepareVoyageTemplate(CarrierId carrierId, VoyageId voyageId, Model model, boolean fragment) {
-		Carrier carrier = Carriers.getById(carrierId)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-		model.addAttribute("carrier", carrier);
+	private String prepareVoyageTemplate(AgencyId agencyId, VoyageId voyageId, Model model, boolean fragment) {
+		Agency agency = Agencies.getById(agencyId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+		model.addAttribute("agency", agency);
 		model.addAttribute("voyageId", voyageId);
 		Optional<Voyage> result;
 		try {
-			result = this.voyageRepository.findByCarrierIdAndVoyageId(carrier.getId(), voyageId);
+			result = this.voyageRepository.findByAgencyIdAndVoyageId(agency.getId(), voyageId);
 		}
 		catch (IllegalStateException ex) {
 			return "voyage-error" + (fragment ? " :: fragment" : "");

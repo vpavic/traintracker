@@ -13,7 +13,7 @@ import org.mockito.BDDMockito;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import xyz.vpavic.traintracker.domain.model.carrier.Carriers;
+import xyz.vpavic.traintracker.domain.model.agency.Agencies;
 import xyz.vpavic.traintracker.domain.model.voyage.Station;
 import xyz.vpavic.traintracker.domain.model.voyage.Voyage;
 import xyz.vpavic.traintracker.domain.model.voyage.VoyageId;
@@ -32,8 +32,8 @@ import static org.mockito.BDDMockito.given;
 class DefaultVoyageRepositoryTests {
 
 	@Nested
-	@DisplayName("when #findByCarrierIdAndVoyageId")
-	class WhenFindByCarrierIdAndVoyageId {
+	@DisplayName("when #findByAgencyIdAndVoyageId")
+	class WhenFindByAgencyIdAndVoyageId {
 
 		@Mock
 		private VoyageFetcher voyageFetcher;
@@ -41,15 +41,15 @@ class DefaultVoyageRepositoryTests {
 		private DefaultVoyageRepository voyageRepository;
 
 		@Test
-		@DisplayName("given null CarrierId then throws exception")
-		void givenNullCarrierIdThenThrowsException() {
+		@DisplayName("given null AgencyId then throws exception")
+		void givenNullAgencyIdThenThrowsException() {
 			// given
 			this.voyageRepository = new DefaultVoyageRepository(Collections.emptyList());
 			// when
 			NullPointerException exception = catchNullPointerException(
-					() -> this.voyageRepository.findByCarrierIdAndVoyageId(null, VoyageId.of("123")));
+					() -> this.voyageRepository.findByAgencyIdAndVoyageId(null, VoyageId.of("123")));
 			// then
-			then(exception).as("Exception").hasMessage("carrierId must not be null");
+			then(exception).as("Exception").hasMessage("agencyId must not be null");
 		}
 
 		@Test
@@ -59,18 +59,18 @@ class DefaultVoyageRepositoryTests {
 			this.voyageRepository = new DefaultVoyageRepository(Collections.emptyList());
 			// when
 			NullPointerException exception = catchNullPointerException(
-					() -> this.voyageRepository.findByCarrierIdAndVoyageId(Carriers.hzpp.getId(), null));
+					() -> this.voyageRepository.findByAgencyIdAndVoyageId(Agencies.hz.getId(), null));
 			// then
 			then(exception).as("Exception").hasMessage("voyageId must not be null");
 		}
 
 		@Test
-		@DisplayName("given unknown CarrierId then returns empty")
-		void givenUnknownCarrierIdThenReturnsEmpty() {
+		@DisplayName("given unknown AgencyId then returns empty")
+		void givenUnknownAgencyIdThenReturnsEmpty() {
 			// given
 			this.voyageRepository = new DefaultVoyageRepository(Collections.emptyList());
 			// when
-			Optional<Voyage> result = this.voyageRepository.findByCarrierIdAndVoyageId(Carriers.hzpp.getId(),
+			Optional<Voyage> result = this.voyageRepository.findByAgencyIdAndVoyageId(Agencies.hz.getId(),
 					VoyageId.of("123"));
 			// then
 			then(result).as("Voyage").isEmpty();
@@ -81,10 +81,10 @@ class DefaultVoyageRepositoryTests {
 		void givenUnknownVoyageIdThenReturnsEmpty() {
 			// given
 			VoyageId voyageId = VoyageId.of("123");
-			given(this.voyageFetcher.getCarrier()).willReturn(Carriers.hzpp);
+			given(this.voyageFetcher.getAgency()).willReturn(Agencies.hz);
 			this.voyageRepository = new DefaultVoyageRepository(List.of(this.voyageFetcher));
 			// when
-			Optional<Voyage> result = this.voyageRepository.findByCarrierIdAndVoyageId(Carriers.hzpp.getId(), voyageId);
+			Optional<Voyage> result = this.voyageRepository.findByAgencyIdAndVoyageId(Agencies.hz.getId(), voyageId);
 			// then
 			then(result).as("Voyage").isEmpty();
 			BDDMockito.then(this.voyageFetcher).should().getVoyage(eq(voyageId));
@@ -96,12 +96,12 @@ class DefaultVoyageRepositoryTests {
 		void givenKnownVoyageIdThenReturnsVoyage() {
 			// given
 			VoyageId voyageId = VoyageId.of("123");
-			given(this.voyageFetcher.getCarrier()).willReturn(Carriers.hzpp);
+			given(this.voyageFetcher.getAgency()).willReturn(Agencies.hz);
 			given(this.voyageFetcher.getVoyage(voyageId)).willReturn(Optional.of(new Voyage(voyageId,
 					List.of(new Station("Test")), OffsetDateTime.now())));
 			this.voyageRepository = new DefaultVoyageRepository(List.of(this.voyageFetcher));
 			// when
-			Optional<Voyage> result = this.voyageRepository.findByCarrierIdAndVoyageId(Carriers.hzpp.getId(), voyageId);
+			Optional<Voyage> result = this.voyageRepository.findByAgencyIdAndVoyageId(Agencies.hz.getId(), voyageId);
 			// then
 			then(result).hasValueSatisfying(voyage -> thenSoftly(softly -> {
 				softly.then(voyage.getId()).as("Voyage id").isEqualTo(voyageId);

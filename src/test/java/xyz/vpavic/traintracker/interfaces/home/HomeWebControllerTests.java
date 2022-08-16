@@ -31,13 +31,13 @@ class HomeWebControllerTests {
 	class WhenGetHomePage {
 
 		@Test
-		@DisplayName("then redirects to /web/hzpp")
-		void thenRedirectsToHzpp() throws Exception {
+		@DisplayName("then redirects to /web/hz")
+		void thenRedirectsToHz() throws Exception {
 			// when
 			ResultActions result = mockMvc().perform(get("/web"));
 			// then
 			result.andExpect(status().isFound());
-			result.andExpect(redirectedUrl("/web/hzpp"));
+			result.andExpect(redirectedUrl("/web/hz"));
 		}
 
 	}

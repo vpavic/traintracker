@@ -12,7 +12,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import xyz.vpavic.traintracker.domain.model.carrier.Carriers;
+import xyz.vpavic.traintracker.domain.model.agency.Agencies;
 import xyz.vpavic.traintracker.domain.model.voyage.Station;
 import xyz.vpavic.traintracker.domain.model.voyage.Voyage;
 import xyz.vpavic.traintracker.domain.model.voyage.VoyageId;
@@ -57,7 +57,7 @@ final class HzppHtmlParser {
 		}
 		String reportTime = form.child(3).child(0).textNodes().get(0).text().trim().substring(16);
 		OffsetDateTime generatedTime = LocalDateTime.parse(reportTime, dateTimeFormatter)
-				.atZone(Carriers.hzpp.getTimeZone()).toOffsetDateTime();
+				.atZone(Agencies.hz.getTimezone()).toOffsetDateTime();
 		return Optional.of(new Voyage(VoyageId.of(voyageId), List.of(station), generatedTime));
 	}
 

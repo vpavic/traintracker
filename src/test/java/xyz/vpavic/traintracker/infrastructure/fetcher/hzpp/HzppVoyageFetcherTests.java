@@ -14,8 +14,8 @@ import org.mockito.BDDMockito;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import xyz.vpavic.traintracker.domain.model.carrier.Carrier;
-import xyz.vpavic.traintracker.domain.model.carrier.Carriers;
+import xyz.vpavic.traintracker.domain.model.agency.Agencies;
+import xyz.vpavic.traintracker.domain.model.agency.Agency;
 import xyz.vpavic.traintracker.domain.model.voyage.Voyage;
 import xyz.vpavic.traintracker.domain.model.voyage.VoyageId;
 
@@ -32,17 +32,17 @@ import static org.mockito.BDDMockito.given;
 class HzppVoyageFetcherTests {
 
 	@Nested
-	@DisplayName("when #getCarrier")
-	class WhenGetCarrier {
+	@DisplayName("when #getAgency")
+	class WhenGetAgency {
 
 		@Test
-		void thenReturnsHzpp() {
+		void thenReturnsHz() {
 			// given
 			HzppVoyageFetcher voyageFetcher = new HzppVoyageFetcher();
 			// when
-			Carrier carrier = voyageFetcher.getCarrier();
+			Agency agency = voyageFetcher.getAgency();
 			// then
-			then(carrier).as("Carrier").isEqualTo(Carriers.hzpp);
+			then(agency).as("Agency").isEqualTo(Agencies.hz);
 		}
 
 	}

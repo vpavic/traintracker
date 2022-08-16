@@ -16,8 +16,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
-import xyz.vpavic.traintracker.domain.model.carrier.Carrier;
-import xyz.vpavic.traintracker.domain.model.carrier.Carriers;
+import xyz.vpavic.traintracker.domain.model.agency.Agencies;
+import xyz.vpavic.traintracker.domain.model.agency.Agency;
 import xyz.vpavic.traintracker.domain.model.voyage.Voyage;
 import xyz.vpavic.traintracker.domain.model.voyage.VoyageId;
 import xyz.vpavic.traintracker.infrastructure.fetcher.VoyageFetcher;
@@ -49,8 +49,8 @@ class HzppVoyageFetcher implements VoyageFetcher {
 	}
 
 	@Override
-	public Carrier getCarrier() {
-		return Carriers.hzpp;
+	public Agency getAgency() {
+		return Agencies.hz;
 	}
 
 	@Override

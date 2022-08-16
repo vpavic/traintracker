@@ -14,7 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import xyz.vpavic.traintracker.domain.model.carrier.Carriers;
+import xyz.vpavic.traintracker.domain.model.agency.Agencies;
 import xyz.vpavic.traintracker.domain.model.voyage.Station;
 import xyz.vpavic.traintracker.domain.model.voyage.Voyage;
 import xyz.vpavic.traintracker.domain.model.voyage.VoyageId;
@@ -50,12 +50,12 @@ class VoyageWebControllerTests {
 	}
 
 	@Nested
-	@DisplayName("when GET /web/{carrierId}/voyages")
+	@DisplayName("when GET /web/{agencyId}/voyages")
 	class WhenGetVoyageFragment {
 
 		@Test
-		@DisplayName("given unknown carrier id then returns not found")
-		void givenUnknownCarrierIdThenReturnsNotFound() throws Exception {
+		@DisplayName("given unknown agency id then returns not found")
+		void givenUnknownAgencyIdThenReturnsNotFound() throws Exception {
 			// when
 			ResultActions result = mockMvc().perform(get("/web/test/voyages").param("voyage-id", "123"));
 			// then
@@ -64,34 +64,34 @@ class VoyageWebControllerTests {
 		}
 
 		@Test
-		@DisplayName("given valid carrier id then returns OK")
-		void givenValidCarrierIdThenReturnsOk() throws Exception {
+		@DisplayName("given valid agency id then returns OK")
+		void givenValidAgencyIdThenReturnsOk() throws Exception {
 			// given
 			VoyageId voyageId = VoyageId.of("123");
-			given(voyageRepository().findByCarrierIdAndVoyageId(Carriers.hzpp.getId(), voyageId))
+			given(voyageRepository().findByAgencyIdAndVoyageId(Agencies.hz.getId(), voyageId))
 					.willReturn(Optional.of(new Voyage(voyageId, List.of(new Station("Test")), OffsetDateTime.now())));
 			// when
-			ResultActions result = mockMvc().perform(get("/web/hzpp/voyages")
+			ResultActions result = mockMvc().perform(get("/web/hz/voyages")
 					.header("HX-Request", "true")
 					.param("voyage-id", "123"));
 			// then
 			result.andExpect(status().isOk());
 			result.andExpectAll(
-					header().string("HX-Push", "/web/hzpp/123"),
+					header().string("HX-Push", "/web/hz/123"),
 					content().contentTypeCompatibleWith(MediaType.TEXT_HTML));
-			then(voyageRepository()).should().findByCarrierIdAndVoyageId(eq(Carriers.hzpp.getId()), eq(voyageId));
+			then(voyageRepository()).should().findByAgencyIdAndVoyageId(eq(Agencies.hz.getId()), eq(voyageId));
 			then(voyageRepository()).shouldHaveNoMoreInteractions();
 		}
 
 	}
 
 	@Nested
-	@DisplayName("when GET /web/{carrierId}/{voyageId}")
+	@DisplayName("when GET /web/{agencyId}/{voyageId}")
 	class WhenGetVoyagePage {
 
 		@Test
-		@DisplayName("given unknown carrier id then returns not found")
-		void givenUnknownCarrierIdThenReturnsNotFound() throws Exception {
+		@DisplayName("given unknown agency id then returns not found")
+		void givenUnknownAgencyIdThenReturnsNotFound() throws Exception {
 			// when
 			ResultActions result = mockMvc().perform(get("/web/test/123"));
 			// then
@@ -100,18 +100,18 @@ class VoyageWebControllerTests {
 		}
 
 		@Test
-		@DisplayName("given valid carrier id then returns OK")
-		void givenValidCarrierIdThenReturnsOk() throws Exception {
+		@DisplayName("given valid agency id then returns OK")
+		void givenValidAgencyIdThenReturnsOk() throws Exception {
 			// given
 			VoyageId voyageId = VoyageId.of("123");
-			given(voyageRepository().findByCarrierIdAndVoyageId(Carriers.hzpp.getId(), voyageId))
+			given(voyageRepository().findByAgencyIdAndVoyageId(Agencies.hz.getId(), voyageId))
 					.willReturn(Optional.of(new Voyage(voyageId, List.of(new Station("Test")), OffsetDateTime.now())));
 			// when
-			ResultActions result = mockMvc().perform(get("/web/hzpp/123"));
+			ResultActions result = mockMvc().perform(get("/web/hz/123"));
 			// then
 			result.andExpect(status().isOk());
 			result.andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML));
-			then(voyageRepository()).should().findByCarrierIdAndVoyageId(eq(Carriers.hzpp.getId()), eq(voyageId));
+			then(voyageRepository()).should().findByAgencyIdAndVoyageId(eq(Agencies.hz.getId()), eq(voyageId));
 			then(voyageRepository()).shouldHaveNoMoreInteractions();
 		}
 
