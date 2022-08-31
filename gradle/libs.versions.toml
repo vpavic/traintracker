@@ -1,7 +1,7 @@
 [versions]
 archunit = "1.0.0-rc1"
 dependencycheck = "7.1.2"
-jib = "3.2.1"
+jib = "3.3.0"
 jib-ext-layer-filter = "0.3.0"
 jsoup = "1.15.3"
 newrelic-agent = "7.9.0"
