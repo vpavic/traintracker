@@ -12,6 +12,7 @@ versionsplg = "0.42.0"
 webjars-bootstrap = "5.2.1"
 webjars-flagicons = "6.6.4"
 webjars-htmx = "1.8.0"
+webjars-livereload = "3.2.2"
 
 [libraries]
 archunit-junit5 = { module = "com.tngtech.archunit:archunit-junit5", version.ref = "archunit" }
@@ -37,6 +38,7 @@ spring-session-data-redis = { module = "org.springframework.session:spring-sessi
 webjars-bootstrap = { module = "org.webjars.npm:bootstrap", version.ref = "webjars-bootstrap" }
 webjars-flagicons = { module = "org.webjars.npm:flag-icons", version.ref = "webjars-flagicons" }
 webjars-htmx = { module = "org.webjars.npm:htmx.org", version.ref = "webjars-htmx" }
+webjars-livereload = { module = "org.webjars.npm:livereload-js", version.ref = "webjars-livereload" }
 
 [plugins]
 dependencycheck = { id = "org.owasp.dependencycheck", version.ref = "dependencycheck" }

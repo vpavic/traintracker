@@ -63,6 +63,8 @@ dependencies {
 	implementation(libs.webjars.flagicons)
 	implementation(libs.webjars.htmx)
 
+	compileOnly(libs.spring.boot.devtools)
+
 	runtimeOnly(platform(libs.spring.boot.dependencies))
 	runtimeOnly(libs.jdbc.postgresql)
 
@@ -71,6 +73,7 @@ dependencies {
 
 	developmentOnly(platform(libs.spring.boot.dependencies))
 	developmentOnly(libs.spring.boot.devtools)
+	developmentOnly(libs.webjars.livereload)
 
 	javaAgent(libs.newrelic.agent)
 }
@@ -82,6 +85,7 @@ testing {
 			dependencies {
 				implementation(libs.archunit.junit5)
 				implementation(libs.spring.boot.starter.test)
+				implementation(libs.spring.boot.devtools)
 			}
 		}
 	}
