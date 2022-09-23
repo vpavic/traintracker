@@ -12,7 +12,7 @@ versionsplg = "0.42.0"
 webjars-bootstrap = "5.2.1"
 webjars-flagicons = "6.6.4"
 webjars-htmx = "1.8.0"
-webjars-livereload = "3.2.2"
+webjars-livereload = "3.4.1"
 
 [libraries]
 archunit-junit5 = { module = "com.tngtech.archunit:archunit-junit5", version.ref = "archunit" }
