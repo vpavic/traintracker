@@ -1,5 +1,5 @@
 [versions]
-archunit = "1.0.0-rc1"
+archunit = "1.0.0"
 dependencycheck = "7.2.1"
 jib = "3.3.0"
 jib-ext-layer-filter = "0.3.0"
