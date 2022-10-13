@@ -1,14 +1,12 @@
 [versions]
 archunit = "1.0.0"
-dependencycheck = "7.2.1"
 jib = "3.3.0"
-jib-ext-layer-filter = "0.3.0"
+jib-layer-filter = "0.3.0"
 jsoup = "1.15.3"
 newrelic-agent = "7.10.0"
 newrelic-logback = "2.5.0"
 spotless = "6.11.0"
 spring-boot = "3.0.0-M5"
-versionsplg = "0.42.0"
 webjars-bootstrap = "5.2.2"
 webjars-flagicons = "6.6.4"
 webjars-htmx = "1.8.2"
@@ -20,7 +18,7 @@ commons-lang = { module = "org.apache.commons:commons-lang3" }
 flyway = { module = "org.flywaydb:flyway-core" }
 jdbc-postgresql = { module = "org.postgresql:postgresql" }
 jedis = { module = "redis.clients:jedis" }
-jib-ext-layer-filter = { module = "com.google.cloud.tools:jib-layer-filter-extension-gradle", version.ref = "jib-ext-layer-filter" }
+jib-layer-filter = { module = "com.google.cloud.tools:jib-layer-filter-extension-gradle", version.ref = "jib-layer-filter" }
 jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
 newrelic-agent = { module = "com.newrelic.agent.java:newrelic-agent", version.ref = "newrelic-agent" }
 newrelic-logback = { module = "com.newrelic.logging:logback", version.ref = "newrelic-logback" }
@@ -41,7 +39,5 @@ webjars-htmx = { module = "org.webjars.npm:htmx.org", version.ref = "webjars-htm
 webjars-livereload = { module = "org.webjars.npm:livereload-js", version.ref = "webjars-livereload" }
 
 [plugins]
-dependencycheck = { id = "org.owasp.dependencycheck", version.ref = "dependencycheck" }
 jib = { id = "com.google.cloud.tools.jib", version.ref = "jib" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
-versionsplg = { id = "com.github.ben-manes.versions", version.ref = "versionsplg" }

@@ -1,17 +1,13 @@
-import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
-
 buildscript {
 	dependencies {
-		classpath(libs.jib.ext.layer.filter)
+		classpath(libs.jib.layer.filter)
 	}
 }
 
 plugins {
 	id("application")
-	alias(libs.plugins.dependencycheck)
 	alias(libs.plugins.jib)
 	alias(libs.plugins.spotless)
-	alias(libs.plugins.versionsplg)
 }
 
 java {
@@ -88,19 +84,6 @@ testing {
 				implementation(libs.spring.boot.devtools)
 			}
 		}
-	}
-}
-
-tasks.named("dependencyUpdates", DependencyUpdatesTask).configure {
-	revision = "release"
-	gradleReleaseChannel = "current"
-	rejectVersionIf {
-		def isStable = { String version ->
-			def isStableVersion = (version ==~ /^[0-9,.v-]+(-r)?$/)
-			def isStableKeyword = ["RELEASE", "FINAL", "GA"].any({ version.toUpperCase().contains(it) })
-			return isStableVersion || isStableKeyword
-		}
-		isStable(it.currentVersion) && !isStable(it.candidate.version)
 	}
 }
 
