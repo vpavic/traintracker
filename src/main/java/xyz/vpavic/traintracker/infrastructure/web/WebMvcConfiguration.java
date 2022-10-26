@@ -46,9 +46,7 @@ class WebMvcConfiguration implements WebMvcConfigurer {
 
 	@Bean
 	CookieLocaleResolver localeResolver() {
-		CookieLocaleResolver localeResolver = new CookieLocaleResolver();
-		localeResolver.setCookieName("locale");
-		return localeResolver;
+		return new CookieLocaleResolver("locale");
 	}
 
 	private static Integer getSeconds(Duration cachePeriod) {
