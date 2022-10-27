@@ -1,6 +1,6 @@
 [versions]
 archunit = "1.0.0"
-jib = "3.3.0"
+jib = "3.3.1"
 jib-layer-filter = "0.3.0"
 jsoup = "1.15.3"
 newrelic-agent = "7.11.0"
