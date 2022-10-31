@@ -35,13 +35,18 @@ configurations {
 		transitive = false
 		canBeConsumed = false
 	}
-	all {
-		exclude(group: "io.lettuce")
-		exclude(module: "spring-boot-starter-tomcat")
-	}
 }
 
 dependencies {
+	modules {
+		module("org.springframework.boot:spring-boot-starter-tomcat") {
+			replacedBy("org.springframework.boot:spring-boot-starter-jetty")
+		}
+		module("io.lettuce:lettuce-core") {
+			replacedBy("redis.clients:jedis")
+		}
+	}
+
 	implementation(platform(libs.spring.boot.dependencies))
 	implementation(libs.commons.lang)
 	implementation(libs.flyway)
