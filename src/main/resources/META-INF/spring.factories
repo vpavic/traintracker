@@ -1,2 +1,0 @@
-org.springframework.boot.env.EnvironmentPostProcessor=\
-  xyz.vpavic.traintracker.infrastructure.cloud.heroku.HerokuEnvironmentPostProcessor
