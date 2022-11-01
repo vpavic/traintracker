@@ -1,4 +1,4 @@
 = TrainTracker
 
 TrainTracker offers voyage tracking information for http://www.hzpp.hr/en[Croatian Railways].
-The service is available at https://traintracker.vpavic.xyz.
+The service is available at https://traintracker.vpavic.net.

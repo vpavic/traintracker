@@ -17,7 +17,7 @@ java {
 }
 
 application {
-	mainClass = "xyz.vpavic.traintracker.TrainTrackerApplication"
+	mainClass = "net.vpavic.traintracker.TrainTrackerApplication"
 }
 
 repositories {
@@ -95,7 +95,7 @@ testing {
 spotless {
 	java {
 		indentWithTabs()
-		importOrder("java", "javax", "", "xyz.vpavic", "\\#")
+		importOrder("java", "javax", "", "net.vpavic", "\\#")
 	}
 	groovyGradle {
 		indentWithTabs()
