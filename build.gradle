@@ -39,18 +39,20 @@ configurations {
 
 dependencies {
 	modules {
-		module("org.springframework.boot:spring-boot-starter-tomcat") {
-			replacedBy("org.springframework.boot:spring-boot-starter-jetty")
-		}
 		module("io.lettuce:lettuce-core") {
 			replacedBy("redis.clients:jedis")
+		}
+		module("org.json:json") {
+			replacedBy("com.vaadin.external.google:android-json")
+		}
+		module("org.springframework.boot:spring-boot-starter-tomcat") {
+			replacedBy("org.springframework.boot:spring-boot-starter-jetty")
 		}
 	}
 
 	implementation(platform(libs.spring.boot.dependencies))
 	implementation(libs.commons.lang)
 	implementation(libs.flyway)
-	implementation(libs.jedis)
 	implementation(libs.jsoup)
 	implementation(libs.newrelic.logback)
 	implementation(libs.spring.boot.starter.cache)
@@ -68,6 +70,7 @@ dependencies {
 
 	runtimeOnly(platform(libs.spring.boot.dependencies))
 	runtimeOnly(libs.jdbc.postgresql)
+	runtimeOnly(libs.jedis)
 
 	annotationProcessor(platform(libs.spring.boot.dependencies))
 	annotationProcessor(libs.spring.framework.context.indexer)
