@@ -1,5 +1,5 @@
 [versions]
-archunit = "1.0.0"
+archunit = "1.0.1"
 jib = "3.3.1"
 jib-layer-filter = "0.3.0"
 jsoup = "1.15.3"
