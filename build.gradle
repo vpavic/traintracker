@@ -45,9 +45,6 @@ dependencies {
 		module("org.json:json") {
 			replacedBy("com.vaadin.external.google:android-json")
 		}
-		module("org.springframework.boot:spring-boot-starter-tomcat") {
-			replacedBy("org.springframework.boot:spring-boot-starter-jetty")
-		}
 	}
 
 	implementation(platform(libs.spring.boot.dependencies))
@@ -59,7 +56,6 @@ dependencies {
 	implementation(libs.spring.boot.starter.cache)
 	implementation(libs.spring.boot.starter.data.redis)
 	implementation(libs.spring.boot.starter.jdbc)
-	implementation(libs.spring.boot.starter.jetty)
 	implementation(libs.spring.boot.starter.thymeleaf)
 	implementation(libs.spring.boot.starter.web)
 	implementation(libs.spring.session.data.redis)

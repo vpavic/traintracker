@@ -4,10 +4,11 @@ import javax.sql.DataSource;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 
-@SpringBootTest(properties = "spring.flyway.enabled=false")
+@SpringBootTest(properties = "spring.flyway.enabled=false", webEnvironment = WebEnvironment.RANDOM_PORT)
 class TrainTrackerApplicationTests {
 
 	@MockBean
