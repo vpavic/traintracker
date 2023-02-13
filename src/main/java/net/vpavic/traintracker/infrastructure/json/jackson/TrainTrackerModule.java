@@ -17,7 +17,7 @@ public class TrainTrackerModule extends SimpleModule {
 
 	public TrainTrackerModule() {
 		super("TrainTracker");
-		addSerializer(VoyageId.class, new ToStringSerializer());
+		addSerializer(VoyageId.class, ToStringSerializer.instance);
 		setMixInAnnotation(Station.class, StationMixin.class);
 		setMixInAnnotation(Voyage.class, VoyageMixin.class);
 	}
