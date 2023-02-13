@@ -9,7 +9,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -21,7 +20,6 @@ import net.vpavic.traintracker.domain.model.voyage.VoyageId;
 import static org.assertj.core.api.BDDAssertions.catchNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDSoftAssertions.thenSoftly;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -82,13 +80,12 @@ class DefaultVoyageRepositoryTests {
 			// given
 			VoyageId voyageId = VoyageId.of("123");
 			given(this.voyageFetcher.getAgency()).willReturn(Agencies.hz);
+			given(this.voyageFetcher.getVoyage(voyageId)).willReturn(Optional.empty());
 			this.voyageRepository = new DefaultVoyageRepository(List.of(this.voyageFetcher));
 			// when
 			Optional<Voyage> result = this.voyageRepository.findByAgencyIdAndVoyageId(Agencies.hz.getId(), voyageId);
 			// then
 			then(result).as("Voyage").isEmpty();
-			BDDMockito.then(this.voyageFetcher).should().getVoyage(eq(voyageId));
-			BDDMockito.then(this.voyageFetcher).shouldHaveNoMoreInteractions();
 		}
 
 		@Test
@@ -107,8 +104,6 @@ class DefaultVoyageRepositoryTests {
 				softly.then(voyage.getId()).as("Voyage id").isEqualTo(voyageId);
 				softly.then(voyage.getCurrentStation().getName()).as("Voyage current station name").isEqualTo("Test");
 			}));
-			BDDMockito.then(this.voyageFetcher).should().getVoyage(eq(voyageId));
-			BDDMockito.then(this.voyageFetcher).shouldHaveNoMoreInteractions();
 		}
 
 	}

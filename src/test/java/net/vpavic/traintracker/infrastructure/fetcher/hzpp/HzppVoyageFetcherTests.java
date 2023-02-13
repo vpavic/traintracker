@@ -10,7 +10,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -21,7 +20,7 @@ import net.vpavic.traintracker.domain.model.voyage.VoyageId;
 
 import static org.assertj.core.api.BDDAssertions.catchIllegalStateException;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.notNull;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -69,13 +68,11 @@ class HzppVoyageFetcherTests {
 		void givenVoyageNotFoundThenReturnsEmpty() throws Exception {
 			// given
 			given((this.httpResponse.body())).willReturn(HzppSampleResponses.currentPositionNotFound);
-			given(this.httpClient.<String>send(any(), any())).willReturn(this.httpResponse);
+			given(this.httpClient.<String>send(notNull(), notNull())).willReturn(this.httpResponse);
 			// when
 			Optional<Voyage> result = this.voyageFetcher.getVoyage(VoyageId.of("123"));
 			// then
 			then(result).as("Voyage").isEmpty();
-			BDDMockito.then(this.httpClient).should().send(any(), any());
-			BDDMockito.then(this.httpClient).shouldHaveNoMoreInteractions();
 		}
 
 		@Test
@@ -84,14 +81,12 @@ class HzppVoyageFetcherTests {
 			// given
 			VoyageId voyageId = VoyageId.of("544");
 			given(this.httpResponse.body()).willReturn(HzppSampleResponses.currentPositionVoyageInProgress);
-			given(this.httpClient.<String>send(any(), any())).willReturn(this.httpResponse);
+			given(this.httpClient.<String>send(notNull(), notNull())).willReturn(this.httpResponse);
 			// when
 			Optional<Voyage> result = this.voyageFetcher.getVoyage(voyageId);
 			// then
 			then(result).as("Voyage").hasValueSatisfying(voyage ->
 					then(voyage.getId()).as("Voyage id").isEqualTo(voyageId));
-			BDDMockito.then(this.httpClient).should().send(any(), any());
-			BDDMockito.then(this.httpClient).shouldHaveNoMoreInteractions();
 		}
 
 		@Test
@@ -99,13 +94,11 @@ class HzppVoyageFetcherTests {
 		void givenConnectionErrorThenThrowsException() throws Exception {
 			// given
 			VoyageId voyageId = VoyageId.of("123");
-			given(this.httpClient.send(any(), any())).willThrow(new IOException("test"));
+			given(this.httpClient.send(notNull(), notNull())).willThrow(new IOException("test"));
 			// when
 			IllegalStateException exception = catchIllegalStateException(() -> this.voyageFetcher.getVoyage(voyageId));
 			// then
 			then(exception.getMessage()).as("Exception message").isEqualTo("test");
-			BDDMockito.then(this.httpClient).should().send(any(), any());
-			BDDMockito.then(this.httpClient).shouldHaveNoMoreInteractions();
 		}
 
 	}

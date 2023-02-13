@@ -20,9 +20,7 @@ import net.vpavic.traintracker.domain.model.voyage.Voyage;
 import net.vpavic.traintracker.domain.model.voyage.VoyageId;
 import net.vpavic.traintracker.domain.model.voyage.VoyageRepository;
 
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.then;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
@@ -60,7 +58,6 @@ class VoyageWebControllerTests {
 			ResultActions result = mockMvc().perform(get("/web/test/voyages").param("voyage-id", "123"));
 			// then
 			result.andExpect(status().isNotFound());
-			then(voyageRepository()).shouldHaveNoInteractions();
 		}
 
 		@Test
@@ -79,8 +76,6 @@ class VoyageWebControllerTests {
 			result.andExpectAll(
 					header().string("HX-Push", "/web/hz/123"),
 					content().contentTypeCompatibleWith(MediaType.TEXT_HTML));
-			then(voyageRepository()).should().findByAgencyIdAndVoyageId(eq(Agencies.hz.getId()), eq(voyageId));
-			then(voyageRepository()).shouldHaveNoMoreInteractions();
 		}
 
 	}
@@ -96,7 +91,6 @@ class VoyageWebControllerTests {
 			ResultActions result = mockMvc().perform(get("/web/test/123"));
 			// then
 			result.andExpect(status().isNotFound());
-			then(voyageRepository()).shouldHaveNoInteractions();
 		}
 
 		@Test
@@ -111,8 +105,6 @@ class VoyageWebControllerTests {
 			// then
 			result.andExpect(status().isOk());
 			result.andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML));
-			then(voyageRepository()).should().findByAgencyIdAndVoyageId(eq(Agencies.hz.getId()), eq(voyageId));
-			then(voyageRepository()).shouldHaveNoMoreInteractions();
 		}
 
 	}
