@@ -3,8 +3,6 @@ archunit = "1.0.1"
 jib = "3.3.1"
 jib-layer-filter = "0.3.0"
 jsoup = "1.15.4"
-newrelic-agent = "8.0.1"
-newrelic-logback = "2.6.0"
 spotless = "6.16.0"
 spring-boot = "3.0.4"
 webjars-bootstrap = "5.2.3"
@@ -20,8 +18,6 @@ jdbc-postgresql = { module = "org.postgresql:postgresql" }
 jedis = { module = "redis.clients:jedis" }
 jib-layer-filter = { module = "com.google.cloud.tools:jib-layer-filter-extension-gradle", version.ref = "jib-layer-filter" }
 jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
-newrelic-agent = { module = "com.newrelic.agent.java:newrelic-agent", version.ref = "newrelic-agent" }
-newrelic-logback = { module = "com.newrelic.logging:logback", version.ref = "newrelic-logback" }
 spring-boot-dependencies = { module = "org.springframework.boot:spring-boot-dependencies", version.ref = "spring-boot" }
 spring-boot-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
 spring-boot-starter-cache = { module = "org.springframework.boot:spring-boot-starter-cache" }

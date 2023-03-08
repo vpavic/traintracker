@@ -30,11 +30,6 @@ configurations {
 	runtimeClasspath {
 		extendsFrom(developmentOnly)
 	}
-	javaAgent {
-		visible = false
-		transitive = false
-		canBeConsumed = false
-	}
 }
 
 dependencies {
@@ -52,7 +47,6 @@ dependencies {
 	implementation(libs.flyway)
 	implementation(libs.jedis)
 	implementation(libs.jsoup)
-	implementation(libs.newrelic.logback)
 	implementation(libs.spring.boot.starter.cache)
 	implementation(libs.spring.boot.starter.data.redis)
 	implementation(libs.spring.boot.starter.jdbc)
@@ -74,8 +68,6 @@ dependencies {
 	developmentOnly(platform(libs.spring.boot.dependencies))
 	developmentOnly(libs.spring.boot.devtools)
 	developmentOnly(libs.webjars.livereload)
-
-	javaAgent(libs.newrelic.agent)
 }
 
 testing {
@@ -104,12 +96,6 @@ spotless {
 jib {
 	from {
 		image = "azul/zulu-openjdk:17.0.5-jre@sha256:dd49fb4772f0ff4ec40e24013926bb623a1d296ae4a7fc05a9f6ff10bec9b8f5"
-	}
-	container {
-		jvmFlags = configurations.javaAgent.collect { "-javaagent:" + it.name }
-	}
-	extraDirectories {
-		paths = configurations.javaAgent.collect { it.parent }
 	}
 	pluginExtensions {
 		pluginExtension {
