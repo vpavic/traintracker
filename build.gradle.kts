@@ -5,28 +5,31 @@ buildscript {
 }
 
 plugins {
-	id("application")
+	application
 	alias(libs.plugins.jib)
 	alias(libs.plugins.spotless)
 }
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
+		languageVersion.set(JavaLanguageVersion.of(17))
 	}
 }
 
 application {
-	mainClass = "net.vpavic.traintracker.TrainTrackerApplication"
+	mainClass.set("net.vpavic.traintracker.TrainTrackerApplication")
 }
 
 repositories {
 	mavenCentral()
-	maven { url = "https://repo.spring.io/milestone/" }
+	maven {
+		url = uri("https://repo.spring.io/milestone/")
+	}
 }
 
+val developmentOnly by configurations.creating
+
 configurations {
-	developmentOnly
 	runtimeClasspath {
 		extendsFrom(developmentOnly)
 	}
@@ -72,7 +75,7 @@ dependencies {
 
 testing {
 	suites {
-		test {
+		val test by getting(JvmTestSuite::class) {
 			useJUnitJupiter()
 			dependencies {
 				implementation(libs.archunit.junit5)
@@ -100,13 +103,13 @@ jib {
 	pluginExtensions {
 		pluginExtension {
 			implementation = "com.google.cloud.tools.jib.gradle.extension.layerfilter.JibLayerFilterExtension"
-			configuration {
+			configuration(Action<com.google.cloud.tools.jib.gradle.extension.layerfilter.Configuration> {
 				filters {
 					filter {
 						glob = "**/spring-boot-devtools-*.jar"
 					}
 				}
-			}
+			})
 		}
 	}
 }
