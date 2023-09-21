@@ -1,6 +1,6 @@
 [versions]
 archunit = "1.1.0"
-jib = "3.3.2"
+jib = "3.4.0"
 jib-layer-filter = "0.3.0"
 jsoup = "1.16.1"
 spotless = "6.21.0"
