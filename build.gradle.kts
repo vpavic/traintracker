@@ -98,7 +98,7 @@ spotless {
 
 jib {
 	from {
-		image = "azul/zulu-openjdk:17.0.5-jre@sha256:dd49fb4772f0ff4ec40e24013926bb623a1d296ae4a7fc05a9f6ff10bec9b8f5"
+		image = "azul/zulu-openjdk:17.0.9-jre@sha256:d7b1f13177b1fee8c283fff31579941aa0a9bc727fe1600e418c137c4ade8deb"
 	}
 	pluginExtensions {
 		pluginExtension {
