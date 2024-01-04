@@ -16,6 +16,10 @@ java {
 	}
 }
 
+tasks.withType<JavaCompile>().configureEach {
+	options.compilerArgs.add("-parameters")
+}
+
 application {
 	mainClass.set("net.vpavic.traintracker.TrainTrackerApplication")
 }
