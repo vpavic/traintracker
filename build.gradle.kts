@@ -45,7 +45,6 @@ dependencies {
 
 	compileOnly(libs.spring.boot.devtools)
 
-	runtimeOnly(platform(libs.spring.boot.dependencies))
 	runtimeOnly(libs.jdbc.postgresql)
 
 	annotationProcessor(platform(libs.spring.boot.dependencies))
@@ -58,6 +57,7 @@ dependencies {
 }
 
 testing {
+	@Suppress("UnstableApiUsage")
 	suites {
 		val test by getting(JvmTestSuite::class) {
 			useJUnitJupiter()
@@ -75,7 +75,7 @@ spotless {
 		indentWithTabs()
 		importOrder("java", "javax", "", "net.vpavic", "\\#")
 	}
-	groovyGradle {
+	kotlinGradle {
 		indentWithTabs()
 	}
 }
