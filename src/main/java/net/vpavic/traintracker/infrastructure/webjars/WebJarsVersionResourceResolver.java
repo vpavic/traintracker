@@ -22,8 +22,6 @@ public class WebJarsVersionResourceResolver extends AbstractResourceResolver {
 
 	private static final String NPM = "org.webjars.npm/";
 
-	private static final String PLAIN = "org.webjars/";
-
 	private static final String POM_PROPERTIES = "/pom.properties";
 
 	@Override
@@ -67,14 +65,10 @@ public class WebJarsVersionResourceResolver extends AbstractResourceResolver {
 	}
 
 	private String resolveWebJarVersion(String webjar) {
-		if (webjar.length() < 1) {
+		if (webjar.isEmpty()) {
 			return null;
 		}
 		Resource resource = new ClassPathResource(PROPERTIES_ROOT + NPM + webjar + POM_PROPERTIES);
-		if (!resource.isReadable()) {
-			resource = new ClassPathResource(PROPERTIES_ROOT + PLAIN + webjar + POM_PROPERTIES);
-		}
-		// TODO consider supporting Bower variant
 		if (resource.isReadable()) {
 			try {
 				Properties properties = PropertiesLoaderUtils.loadProperties(resource);
