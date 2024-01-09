@@ -1,11 +1,6 @@
-buildscript {
-	dependencies {
-		classpath(libs.jib.layer.filter)
-	}
-}
-
 plugins {
-	application
+	java
+	alias(libs.plugins.spring.boot)
 	alias(libs.plugins.jib)
 	alias(libs.plugins.spotless)
 }
@@ -16,26 +11,10 @@ java {
 	}
 }
 
-tasks.withType<JavaCompile>().configureEach {
-	options.compilerArgs.add("-parameters")
-}
-
-application {
-	mainClass.set("net.vpavic.traintracker.TrainTrackerApplication")
-}
-
 repositories {
 	mavenCentral()
 	maven {
 		url = uri("https://repo.spring.io/milestone/")
-	}
-}
-
-val developmentOnly by configurations.creating
-
-configurations {
-	runtimeClasspath {
-		extendsFrom(developmentOnly)
 	}
 }
 
@@ -103,17 +82,5 @@ spotless {
 jib {
 	from {
 		image = "azul/zulu-openjdk:17.0.9-jre@sha256:d7b1f13177b1fee8c283fff31579941aa0a9bc727fe1600e418c137c4ade8deb"
-	}
-	pluginExtensions {
-		pluginExtension {
-			implementation = "com.google.cloud.tools.jib.gradle.extension.layerfilter.JibLayerFilterExtension"
-			configuration(Action<com.google.cloud.tools.jib.gradle.extension.layerfilter.Configuration> {
-				filters {
-					filter {
-						glob = "**/spring-boot-devtools-*.jar"
-					}
-				}
-			})
-		}
 	}
 }

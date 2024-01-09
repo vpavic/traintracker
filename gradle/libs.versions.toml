@@ -1,7 +1,6 @@
 [versions]
 archunit = "1.2.1"
 jib = "3.4.0"
-jib-layer-filter = "0.3.0"
 jsoup = "1.17.2"
 spotless = "6.23.3"
 spring-boot = "3.2.1"
@@ -16,7 +15,6 @@ commons-lang = { module = "org.apache.commons:commons-lang3" }
 flyway = { module = "org.flywaydb:flyway-core" }
 jdbc-postgresql = { module = "org.postgresql:postgresql" }
 jedis = { module = "redis.clients:jedis" }
-jib-layer-filter = { module = "com.google.cloud.tools:jib-layer-filter-extension-gradle", version.ref = "jib-layer-filter" }
 jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
 spring-boot-dependencies = { module = "org.springframework.boot:spring-boot-dependencies", version.ref = "spring-boot" }
 spring-boot-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
@@ -36,3 +34,4 @@ webjars-livereload = { module = "org.webjars.npm:livereload-js", version.ref = "
 [plugins]
 jib = { id = "com.google.cloud.tools.jib", version.ref = "jib" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
