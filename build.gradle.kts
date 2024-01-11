@@ -7,7 +7,7 @@ plugins {
 
 java {
 	toolchain {
-		languageVersion.set(JavaLanguageVersion.of(17))
+		languageVersion.set(JavaLanguageVersion.of(21))
 	}
 }
 
@@ -84,6 +84,6 @@ spotless {
 
 jib {
 	from {
-		image = "azul/zulu-openjdk:17.0.9-jre@sha256:d7b1f13177b1fee8c283fff31579941aa0a9bc727fe1600e418c137c4ade8deb"
+		image = "azul/zulu-openjdk:21.0.1-jre@sha256:ca66e0191e0c470cba789dc7db0bb849f32d4285be2e034091d59452de4be058"
 	}
 }
