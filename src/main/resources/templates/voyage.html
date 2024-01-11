@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" data-th-lang="${#locale.language}">
-<head data-th-replace="base :: header">
+<head data-th-replace="~{base :: header}">
 	<title>TrainTracker</title>
 </head>
-<body data-th-replace="base :: body(~{:: div})">
+<body data-th-replace="~{base :: body(~{:: div})}">
 <div data-th-fragment="fragment">
 	<div class="list-group mt-4">
 		<div class="list-group-item" data-th-classappend="'list-group-item-' + ${delayLevel}">

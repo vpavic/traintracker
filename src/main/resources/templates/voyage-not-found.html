@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" data-th-lang="${#locale.language}">
-<head data-th-replace="base :: header">
+<head data-th-replace="~{base :: header}">
 	<title>TrainTracker</title>
 </head>
-<body data-th-replace="base :: body(~{:: div})">
+<body data-th-replace="~{base :: body(~{:: div})}">
 <th-block data-th-fragment="fragment">
 	<div class="alert alert-warning mt-4" role="alert" data-th-text="#{voyage.notFound(${voyageId})}">No information available for voyage 000.</div>
 </th-block>
