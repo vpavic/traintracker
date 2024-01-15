@@ -2,7 +2,7 @@
 archunit = "1.2.1"
 jib = "3.4.0"
 jsoup = "1.17.2"
-spotless = "6.23.3"
+spotless = "6.24.0"
 spring-boot = "3.2.1"
 webjars-bootstrap = "5.3.2"
 webjars-flagicons = "7.1.0"
