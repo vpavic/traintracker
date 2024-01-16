@@ -66,7 +66,22 @@ testing {
 			dependencies {
 				implementation(libs.archunit.junit5)
 				implementation(libs.spring.boot.starter.test)
-				implementation(libs.spring.boot.devtools)
+			}
+		}
+		register<JvmTestSuite>("integrationTest") {
+			dependencies {
+				implementation(project())
+				implementation(project.configurations["compileClasspath"])
+				implementation(platform(libs.spring.boot.dependencies))
+				implementation(libs.spring.boot.starter.test)
+				implementation(libs.testcontainers.junit.jupiter)
+			}
+			targets {
+				all {
+					testTask.configure {
+						shouldRunAfter(test)
+					}
+				}
 			}
 		}
 	}
