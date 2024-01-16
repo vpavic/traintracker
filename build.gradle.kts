@@ -11,6 +11,16 @@ java {
 	}
 }
 
+tasks.withType<JavaCompile>().configureEach {
+	options.compilerArgs.addAll(listOf(
+			"-Werror",
+			"-Xlint:deprecation",
+			"-Xlint:rawtypes",
+			"-Xlint:unchecked",
+			"-Xlint:varargs"
+	))
+}
+
 repositories {
 	mavenCentral()
 	maven {
