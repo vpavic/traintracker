@@ -1,7 +1,6 @@
 package net.vpavic.traintracker.domain.model.agency;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
 import java.time.ZoneOffset;
 import java.util.Locale;
 
@@ -23,22 +22,13 @@ class AgencyTests {
 
 	private static final String TEST_AGENCY_NAME = "Test";
 
-	private static final URL TEST_AGENCY_URL = url("https://example.com/agency_url");
+	private static final URI TEST_AGENCY_URL = URI.create("https://example.com/agency_url");
 
-	private static final URL TEST_AGENCY_FARE_URL = url("https://example.com/agency_fare_url");
+	private static final URI TEST_AGENCY_FARE_URL = URI.create("https://example.com/agency_fare_url");
 
 	private static final String TEST_AGENCY_PHONE = "+1000000000";
 
 	private static final String TEST_AGENCY_EMAIL = "agency@example.com";
-
-	private static URL url(String spec) {
-		try {
-			return new URL(spec);
-		}
-		catch (MalformedURLException ex) {
-			throw new RuntimeException(ex);
-		}
-	}
 
 	@Nested
 	@DisplayName("when builder")

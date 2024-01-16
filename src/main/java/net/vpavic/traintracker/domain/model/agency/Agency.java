@@ -1,6 +1,6 @@
 package net.vpavic.traintracker.domain.model.agency;
 
-import java.net.URL;
+import java.net.URI;
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.Objects;
@@ -11,7 +11,7 @@ public class Agency {
 
 	private final String name;
 
-	private final URL url;
+	private final URI url;
 
 	private final ZoneId timezone;
 
@@ -19,7 +19,7 @@ public class Agency {
 
 	private final String phone;
 
-	private final URL fareUrl;
+	private final URI fareUrl;
 
 	private final String email;
 
@@ -46,7 +46,7 @@ public class Agency {
 		return this.name;
 	}
 
-	public URL getUrl() {
+	public URI getUrl() {
 		return this.url;
 	}
 
@@ -62,7 +62,7 @@ public class Agency {
 		return this.phone;
 	}
 
-	public URL getFareUrl() {
+	public URI getFareUrl() {
 		return this.fareUrl;
 	}
 
@@ -92,7 +92,7 @@ public class Agency {
 		return this.id.toString();
 	}
 
-	public static Agency.Builder builder(AgencyId id, String name, URL website, ZoneId timezone) {
+	public static Agency.Builder builder(AgencyId id, String name, URI website, ZoneId timezone) {
 		return new Builder(id, name, website, timezone);
 	}
 
@@ -102,7 +102,7 @@ public class Agency {
 
 		private final String name;
 
-		private final URL url;
+		private final URI url;
 
 		private final ZoneId timezone;
 
@@ -110,11 +110,11 @@ public class Agency {
 
 		private String phone;
 
-		private URL fareUrl;
+		private URI fareUrl;
 
 		private String email;
 
-		private Builder(AgencyId id, String name, URL url, ZoneId timezone) {
+		private Builder(AgencyId id, String name, URI url, ZoneId timezone) {
 			this.id = id;
 			this.name = name;
 			this.url = url;
@@ -131,7 +131,7 @@ public class Agency {
 			return this;
 		}
 
-		public Builder fareUrl(URL fareUrl) {
+		public Builder fareUrl(URI fareUrl) {
 			this.fareUrl = fareUrl;
 			return this;
 		}
