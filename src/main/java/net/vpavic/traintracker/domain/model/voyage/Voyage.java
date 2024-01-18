@@ -36,7 +36,7 @@ public class Voyage {
 	}
 
 	public Station getCurrentStation() {
-		return this.stations.get(this.stations.size() - 1);
+		return this.stations.getLast();
 	}
 
 	@Override

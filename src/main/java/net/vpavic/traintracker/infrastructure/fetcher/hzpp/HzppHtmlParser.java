@@ -32,7 +32,7 @@ final class HzppHtmlParser {
 			return Optional.empty();
 		}
 		Elements currentPositionRows = currentPositionTable.children();
-		String voyageId = currentPositionRows.get(0).child(0).textNodes().get(0).text().trim();
+		String voyageId = currentPositionRows.get(0).child(0).textNodes().getFirst().text().trim();
 		String name = currentPositionRows.get(1).child(0).child(1).text().trim().replace('+', ' ');
 		Element position = currentPositionRows.get(2).child(0);
 		String direction = position.child(0).text().trim();
@@ -55,7 +55,7 @@ final class HzppHtmlParser {
 		else {
 			throw new IllegalStateException("Unknown direction: " + direction);
 		}
-		String reportTime = form.child(3).child(0).textNodes().get(0).text().trim().substring(16);
+		String reportTime = form.child(3).child(0).textNodes().getFirst().text().trim().substring(16);
 		OffsetDateTime generatedTime = LocalDateTime.parse(reportTime, dateTimeFormatter)
 				.atZone(Agencies.hz.getTimezone()).toOffsetDateTime();
 		return Optional.of(new Voyage(VoyageId.of(voyageId), List.of(station), generatedTime));
