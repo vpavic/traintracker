@@ -1,7 +1,7 @@
 name: traintracker
 services:
   postgresql:
-    image: postgres:15.2-alpine
+    image: postgres:16.2-alpine
     environment:
       POSTGRES_USER: traintracker
       POSTGRES_PASSWORD: traintracker
@@ -9,11 +9,11 @@ services:
     ports:
       - ${TRAINTRACKER_POSTGRESQL_PORT:-5432}:5432
   redis:
-    image: redis:6.2.6-alpine
+    image: redis:7.2.4-alpine
     ports:
       - ${TRAINTRACKER_REDIS_PORT:-6379}:6379
   jaeger:
-    image: jaegertracing/all-in-one:1.53.0
+    image: jaegertracing/all-in-one:1.55.0
     ports:
       - ${TRAINTRACKER_JAEGER_OTLP:-4318}:4318
       - ${TRAINTRACKER_JAEGER_WEB:-16686}:16686
