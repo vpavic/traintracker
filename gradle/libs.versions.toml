@@ -1,6 +1,6 @@
 [versions]
 archunit = "1.2.1"
-jib = "3.4.0"
+jib = "3.4.1"
 jsoup = "1.17.2"
 spotless = "6.25.0"
 spring-boot = "3.2.3"
