@@ -8,6 +8,7 @@ webjars-bootstrap = "5.3.3"
 webjars-flagicons = "7.2.0"
 webjars-htmx = "1.9.10"
 webjars-livereload = "3.4.1"
+webjars-locator-lite = "0.0.1"
 
 [libraries]
 archunit-junit5 = { module = "com.tngtech.archunit:archunit-junit5", version.ref = "archunit" }
@@ -34,6 +35,7 @@ webjars-bootstrap = { module = "org.webjars.npm:bootstrap", version.ref = "webja
 webjars-flagicons = { module = "org.webjars.npm:flag-icons", version.ref = "webjars-flagicons" }
 webjars-htmx = { module = "org.webjars.npm:htmx.org", version.ref = "webjars-htmx" }
 webjars-livereload = { module = "org.webjars.npm:livereload-js", version.ref = "webjars-livereload" }
+webjars-locator-lite = { module = "org.webjars:webjars-locator-lite", version.ref = "webjars-locator-lite" }
 
 [plugins]
 jib = { id = "com.google.cloud.tools.jib", version.ref = "jib" }

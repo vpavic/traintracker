@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
-import net.vpavic.traintracker.infrastructure.webjars.WebJarsVersionResourceResolver;
+import net.vpavic.traintracker.infrastructure.webjars.WebJarsResourceResolver;
 
 @Configuration(proxyBeanMethods = false)
 class WebMvcConfiguration implements WebMvcConfigurer {
@@ -36,7 +36,7 @@ class WebMvcConfiguration implements WebMvcConfigurer {
 				.setCacheControl(this.resourcesCacheProperties.getCachecontrol().toHttpCacheControl())
 				.setUseLastModified(this.resourcesCacheProperties.isUseLastModified())
 				.resourceChain(true)
-				.addResolver(new WebJarsVersionResourceResolver());
+				.addResolver(new WebJarsResourceResolver());
 	}
 
 	@Override

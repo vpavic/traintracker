@@ -1,28 +1,19 @@
 package net.vpavic.traintracker.infrastructure.webjars;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
-import java.util.Properties;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.lang.NonNull;
 import org.springframework.web.servlet.resource.AbstractResourceResolver;
 import org.springframework.web.servlet.resource.ResourceResolverChain;
+import org.webjars.WebJarVersionLocator;
 
-/**
- * See <a href="https://github.com/spring-projects/spring-framework/issues/27619">spring-projects/spring-framework#27619</a>.
- */
-public class WebJarsVersionResourceResolver extends AbstractResourceResolver {
+public class WebJarsResourceResolver extends AbstractResourceResolver {
 
-	private static final String PROPERTIES_ROOT = "META-INF/maven/";
+	private static final String WEBJARS_LOCATION = "META-INF/resources/webjars/";
 
-	private static final String NPM = "org.webjars.npm/";
-
-	private static final String POM_PROPERTIES = "/pom.properties";
+	private static final int WEBJARS_LOCATION_LENGTH = WEBJARS_LOCATION.length();
 
 	@Override
 	protected Resource resolveResourceInternal(HttpServletRequest request, @NonNull String requestPath,
@@ -50,31 +41,15 @@ public class WebJarsVersionResourceResolver extends AbstractResourceResolver {
 		return path;
 	}
 
-	protected String findWebJarResourcePath(String path) {
+	private static String findWebJarResourcePath(String path) {
 		int startOffset = (path.startsWith("/") ? 1 : 0);
 		int endOffset = path.indexOf('/', 1);
 		if (endOffset != -1) {
 			String webjar = path.substring(startOffset, endOffset);
 			String partialPath = path.substring(endOffset + 1);
-			String version = resolveWebJarVersion(webjar);
-			if (version != null) {
-				return webjar + File.separator + version + File.separator + partialPath;
-			}
-		}
-		return null;
-	}
-
-	private String resolveWebJarVersion(String webjar) {
-		if (webjar.isEmpty()) {
-			return null;
-		}
-		Resource resource = new ClassPathResource(PROPERTIES_ROOT + NPM + webjar + POM_PROPERTIES);
-		if (resource.isReadable()) {
-			try {
-				Properties properties = PropertiesLoaderUtils.loadProperties(resource);
-				return properties.getProperty("version");
-			}
-			catch (IOException ignored) {
+			String webJarPath = WebJarVersionLocator.fullPath(webjar, partialPath);
+			if (webJarPath != null) {
+				return webJarPath.substring(WEBJARS_LOCATION_LENGTH);
 			}
 		}
 		return null;

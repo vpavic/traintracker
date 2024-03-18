@@ -55,6 +55,7 @@ dependencies {
 	implementation(libs.webjars.bootstrap)
 	implementation(libs.webjars.flagicons)
 	implementation(libs.webjars.htmx)
+	implementation(libs.webjars.locator.lite)
 
 	compileOnly(libs.spring.boot.devtools)
 
