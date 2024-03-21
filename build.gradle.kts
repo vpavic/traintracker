@@ -22,18 +22,12 @@ tasks.withType<JavaCompile>().configureEach {
 
 repositories {
 	mavenCentral()
-	maven {
-		url = uri("https://repo.spring.io/milestone/")
-	}
 }
 
 dependencies {
 	modules {
 		module("io.lettuce:lettuce-core") {
 			replacedBy("redis.clients:jedis")
-		}
-		module("org.json:json") {
-			replacedBy("com.vaadin.external.google:android-json")
 		}
 	}
 
