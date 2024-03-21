@@ -1,6 +1,5 @@
 [versions]
 archunit = "1.2.1"
-jib = "3.4.0"
 jsoup = "1.17.2"
 spotless = "6.25.0"
 spring-boot = "3.2.3"
@@ -38,6 +37,5 @@ webjars-livereload = { module = "org.webjars.npm:livereload-js", version.ref = "
 webjars-locator-lite = { module = "org.webjars:webjars-locator-lite", version.ref = "webjars-locator-lite" }
 
 [plugins]
-jib = { id = "com.google.cloud.tools.jib", version.ref = "jib" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }

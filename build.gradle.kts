@@ -1,7 +1,6 @@
 plugins {
 	java
 	alias(libs.plugins.spring.boot)
-	alias(libs.plugins.jib)
 	alias(libs.plugins.spotless)
 }
 
@@ -105,11 +104,5 @@ spotless {
 	}
 	kotlinGradle {
 		indentWithTabs()
-	}
-}
-
-jib {
-	from {
-		image = "azul/zulu-openjdk:21.0.1-jre@sha256:ca66e0191e0c470cba789dc7db0bb849f32d4285be2e034091d59452de4be058"
 	}
 }
