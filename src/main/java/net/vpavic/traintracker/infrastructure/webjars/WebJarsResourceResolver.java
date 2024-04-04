@@ -15,6 +15,8 @@ public class WebJarsResourceResolver extends AbstractResourceResolver {
 
 	private static final int WEBJARS_LOCATION_LENGTH = WEBJARS_LOCATION.length();
 
+	private final WebJarVersionLocator webJarVersionLocator = new WebJarVersionLocator();
+
 	@Override
 	protected Resource resolveResourceInternal(HttpServletRequest request, @NonNull String requestPath,
 			@NonNull List<? extends Resource> locations, ResourceResolverChain chain) {
@@ -41,13 +43,13 @@ public class WebJarsResourceResolver extends AbstractResourceResolver {
 		return path;
 	}
 
-	private static String findWebJarResourcePath(String path) {
+	private String findWebJarResourcePath(String path) {
 		int startOffset = (path.startsWith("/") ? 1 : 0);
 		int endOffset = path.indexOf('/', 1);
 		if (endOffset != -1) {
 			String webjar = path.substring(startOffset, endOffset);
 			String partialPath = path.substring(endOffset + 1);
-			String webJarPath = WebJarVersionLocator.fullPath(webjar, partialPath);
+			String webJarPath = this.webJarVersionLocator.fullPath(webjar, partialPath);
 			if (webJarPath != null) {
 				return webJarPath.substring(WEBJARS_LOCATION_LENGTH);
 			}
