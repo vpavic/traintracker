@@ -5,7 +5,7 @@ spotless = "6.25.0"
 spring-boot = "3.2.4"
 webjars-bootstrap = "5.3.3"
 webjars-flagicons = "7.2.1"
-webjars-htmx = "1.9.11"
+webjars-htmx = "1.9.12"
 webjars-livereload = "3.4.1"
 webjars-locator-lite = "0.0.4"
 
